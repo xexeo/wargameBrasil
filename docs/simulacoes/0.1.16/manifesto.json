@@ -34,6 +34,57 @@
         "tabela-aprendida.json",
         "analise.md"
       ]
+    },
+    "matriz-ias": {
+      "sourceCommit": "3f558b7356decd9624da1cb1b18efd49487eddfd",
+      "seeds": [
+        200001,
+        200010
+      ],
+      "count": 640,
+      "files": [
+        "dados-brutos.json",
+        "analise.md"
+      ]
+    },
+    "estudo-regras-batalhoes": {
+      "count": 1000,
+      "seeds": [
+        300001,
+        300250
+      ],
+      "candidates": true,
+      "files": [
+        "analise.md",
+        "dados-brutos.json",
+        "resultados.json"
+      ]
+    },
+    "validacao-batalhoes": {
+      "seeds": [
+        10001,
+        10500
+      ],
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "count": 500,
+      "files": [
+        "resultados.json",
+        "dados-brutos.json",
+        "analise.md"
+      ]
+    },
+    "avaliacao-veterana": {
+      "count": 300,
+      "seeds": [
+        90001,
+        90300
+      ],
+      "files": [
+        "resultados.json",
+        "dados-brutos.json",
+        "analise.md"
+      ]
     }
   }
 }

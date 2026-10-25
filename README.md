@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.16 · 25/10/2026, 15:16:44 (Brasília)**
+**Versão 0.1.17 · 25/10/2026, 15:21:46 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -75,6 +75,14 @@ O diretório [docs/simulacoes](docs/simulacoes/README.md) contém os experimento
 
 
 
+
+<!-- simulation:0.1.16/matriz-ias:start -->
+[**Matriz atual:10 jogos por dupla**](docs/simulacoes/0.1.16/matriz-ias/analise.md), com640 partidas e dados individuais. Melhor defensora no painel:Estado-maior agressivo (32/80 vitórias alemãs). Melhores atacantes:Caçador defensivo e Veterana (76/80 cada). As políticas têm forças distintas; a Veterana continua precisando melhorar como defensora. Não há dominância global comprovada.
+<!-- simulation:0.1.16/matriz-ias:end -->
+
+<!-- simulation:0.1.16/estudo-regras-batalhoes:start -->
+[Comparação e decisão de regras](docs/simulacoes/0.1.16/estudo-regras-batalhoes/analise.md): quatro configurações de250 partidas. A combinação adotada deu49,6% FEB na referência; a [validação separada](docs/simulacoes/0.1.16/validacao-batalhoes/analise.md),500 jogos, deu**54% FEB/46% DE**, média**6,33 rodadas**. São resultados da mesma IA tática/agressiva nos dois lados, não de qualquer jogador ou política. Retirada e conquista custosa no fechamento final estão ativas para novas partidas; iniciar Nova partida aplica as novas regras sem apagar experiência local.
+<!-- simulation:0.1.16/estudo-regras-batalhoes:end -->
 
 O prazo é o fechamento da rodada10 (18h do cenário). Cume mais8 pontos antecipa a vitória; o cume assegurado no fechamento final basta para vitória custosa quando faltam pontos. Só o cume rende2 por rodada: ocupá-lo da rodada7 à10 alcança a meta de8. A meta de 5–10 minutos humanos ainda não foi medida com jogadores.
 
