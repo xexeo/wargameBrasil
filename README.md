@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.12 · 25/10/2026, 12:13:07 (Brasília)**
+**Versão 0.1.13 · 25/10/2026, 14:54:43 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -17,6 +17,14 @@ Publicação pelo GitHub Pages, a partir da `main`, pelo workflow `.github/workf
 Abra **[jogo.html](jogo.html)** em um navegador moderno. Esse arquivo já contém todo o HTML, CSS e JavaScript compilado: não precisa de instalação, backend, login, conexão externa ou servidor de jogo. Baixe o arquivo antes de abri-lo; a visualização de código do GitHub não executa HTML.
 
 O código-fonte é **TypeScript**. O JavaScript compilado é o que roda no navegador. A página principal `index.html` contém a mesma versão autocontida. O fonte HTML e a entrada modular de desenvolvimento ficam em `template.html`.
+
+## Revisão atual da escala de batalhão
+
+A main conserva as dez peças. A missão mostra pontos faltantes, ritmo pela ocupação atual, prazo e estimativa otimista de chegada ao cume. Destinos sujeitos a reação no percurso recebem borda laranja; apoio que suprime o defensor remove esse risco. A estimativa de chegada ignora ocupação e fogo futuro.
+
+A IA tática distingue ataque e defesa: a FEB considera custo do caminho, prazo e preservação; a Alemanha combina interceptação e proteção dos objetivos. Todos os modos avançam ao cume quando não restam inimigos, e a infantaria brasileira que o ocupa mantém posição. O fim distingue chegada tardia, falta do cume e perda da infantaria.
+
+[Plano, experimentos e decisões](docs/REVISAO_BATALHOES.md). Retirada por perdas e vitória apenas pelo cume no prazo são candidatos headless, **desligados no padrão**; os testes de regras não substituem os fatos históricos. Os relatórios incompatíveis foram removidos. Consulte os [resultados válidos por versão](docs/simulacoes/README.md) para os novos números, sem reutilizar os 51,1% da revisão anterior.
 
 ## Estudo de escala das peças
 
@@ -44,7 +52,7 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 - Regras com exemplo de peça e legenda de bolinhas, símbolos militares, A/D/M, dano e marca de ação; contexto histórico, fontes e diário de combate na interface.
 - Popup **Autoria & licença**, incluindo logo oficial do LUDES, copyright e texto integral da CC BY-NC-SA 4.0 para consulta offline. O logo foi obtido no [endereço oficial informado pelo autor](https://ludes.cos.ufrj.br/wp-content/uploads/2016/07/ludes_azul.png).
 - IA de maior ataque, IA de menor defesa e IA tática que avalia cobertura, ameaças, apoio e objetivos; posturas agressiva e defensiva.
-- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 30.743 atualizações e 125 situações aprendidas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Experimentos válidos por versão](docs/simulacoes/README.md).
+- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 17.345 atualizações e 94 situações aprendidas, alternando autojogo e adversários das seis políticas fixas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Experimentos válidos por versão](docs/simulacoes/README.md).
 - IA aprendiz: Q-learning simples sobre seis combinações de estratégia/postura, exploração de 20% e experiência mantida em `localStorage` entre partidas. Não treina uma rede neural nem aprende movimentos individuais.
 - Vitória brasileira exige **8 pontos acumulados e ocupação do cume no fechamento do turno alemão**. Os objetivos dão no máximo **4 por rodada**: 2 + 1 + 1; duas rodadas de ocupação completa dão 8. Apoio não captura. Defesa vence por prazo de 10 rodadas ou perda de toda a infantaria de manobra brasileira. Tempo e perdas determinam o grau da vitória.
 - Reconstrução meteorológica ERA5 incorporada offline, com temperatura e nuvens aproximadas por hora, tabela e distinção entre modelo e relatos históricos.
@@ -64,15 +72,7 @@ O [registro de mapas oficiais](docs/MAPAS_OFICIAIS.md) distingue fontes efetivam
 
 O diretório [docs/simulacoes](docs/simulacoes/README.md) contém os experimentos ainda compatíveis com o programa. Cada versão tem seu manifesto de hashes; cada execução reúne análise e dados. Mudanças nos fontes de regras, terreno, IA ou protocolo removem automaticamente as pastas incompatíveis ao compilar/commitar. Atualizar só a versão, CSS ou documentação preserva os resultados. O histórico do Git guarda os registros excluídos.
 
-<!-- simulation:0.1.9/matriz-ias:start -->
-[**Matriz completa de chances de vitória**](docs/simulacoes/0.1.9/matriz-ias/analise.md): 10 partidas por dupla, 8 × 8 perfis = 640 partidas. [Dados brutos das 640 partidas](docs/simulacoes/0.1.9/matriz-ias/dados-brutos.json). Média de **7,55 rodadas**, 434 vitórias FEB e 206 alemãs. A Veterana venceu 77/80 como atacante; Caçador agressivo venceu 52/80 como defensor. Não houve perfil globalmente dominante; amostra pequena não estabelece probabilidades garantidas.
 
-Em 104 derrotas brasileiras por prazo, todas as peças alemãs já tinham sido eliminadas. Planejamento de prazo/cume e a relação entre atrito e vitória merecem revisão.
-<!-- simulation:0.1.9/matriz-ias:end -->
-
-<!-- simulation:0.1.9/balanceamento:start -->
-[Balanceamento EA × EA](docs/simulacoes/0.1.9/balanceamento/analise.md): 1.000 partidas, **511 FEB / 489 alemãs**. Esse equilíbrio não se generaliza para todas as políticas. Registros anteriores a estas regras foram removidos; consulte o Git para o histórico.
-<!-- simulation:0.1.9/balanceamento:end -->
 
 O prazo é o fechamento da rodada 10 (18h do relógio do cenário), com 8 pontos e cume assegurado. Apenas o cume rende 2 por rodada: ocupá-lo da rodada 7 à 10 permite alcançar 8. Pontos secundários já acumulados permitem tomá-lo depois. A meta de 5–10 minutos humanos ainda não foi medida com jogadores.
 
@@ -133,7 +133,7 @@ Para servir o jogo localmente, execute `npm start`; a entrada modular alternativ
 
 ## Validação
 
-Na implementação atual, passaram 31 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 24 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
+Na implementação atual, passaram 41 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 28 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
 
 Os testes de motor exercitam partidas completas com as combinações de IA e postura, movimento legal, combate, pontuação, altitude e linha de visão. Clima histórico e fidelidade topográfica não são validados por esses testes.
 

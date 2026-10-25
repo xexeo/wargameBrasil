@@ -27,7 +27,7 @@ export interface MatchResult {
   winner: Side;
   round: number;
   score: number;
-  reason: "elimination" | "points" | "time" | "maneuver";
+  reason: "elimination" | "points" | "time" | "maneuver" | "late-summit";
   summitOccupied: boolean;
   attacks: number;
   uphillAttacks: number;
@@ -73,7 +73,7 @@ export function simulate(options: SimulationOptions): MatchResult {
     winner: game.winner,
     round: game.finishedRound??Math.min(game.round, 10),
     score: game.score,
-    reason:game.winner==='br'?'points':!game.units.some(u=>u.side==='br'&&canCaptureObjective(u))?'maneuver':eliminated?'elimination':'time',
+    reason:game.winner==='br'?(game.score>=(game.rules?.targetScore??8)?'points':'late-summit'):!game.units.some(u=>u.side==='br'&&canCaptureObjective(u))?'maneuver':eliminated?'elimination':'time',
     summitOccupied: game.units.some(
       (u) =>
         u.side === "br" && canCaptureObjective(u) && u.q === objectives[0].q && u.r === objectives[0].r,
@@ -117,6 +117,7 @@ export function tournament(
       points: results.filter((r) => r.reason === "points").length,
       time: results.filter((r) => r.reason === "time").length,
       maneuver:results.filter(r=>r.reason==='maneuver').length,
+      lateSummit:results.filter(r=>r.reason==='late-summit').length,
     },
     brSummitAtEnd: results.filter((r) => r.summitOccupied).length,
   };

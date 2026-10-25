@@ -23,3 +23,8 @@ test('mudança de regras remove análise e dados incompatíveis e referências n
 test('arquivamento rejeita caminhos fora do diretório de resultados',async t=>{
  const root=await project(t);await assert.rejects(saveRun('../outside',{'analise.md':'x'},{project:root}),/Nome/);await assert.rejects(saveRun('matriz',{}, {project:root,version:'../../outside'}),/Versão/);
 });
+
+test('não arquiva resultados se o programa mudar durante a execução',async t=>{
+ const{fingerprint}=await import('../scripts/simulation-store.mjs');const root=await project(t),initial=await fingerprint(root);await writeFile(join(root,'ai.ts'),'changed during run');
+ await assert.rejects(saveRun('mixed-revision',{'analise.md':'stale','dados-brutos.json':[{seed:1}]},{project:root,expectedSources:initial}),/mudou durante/);await assert.rejects(access(join(root,'docs/simulacoes/0.1.9/mixed-revision')));
+});

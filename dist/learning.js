@@ -49,10 +49,10 @@ export function finishLearningEpisode(t, context, g) {
     }
     t.episodes++;
 }
-export function trainEpisode(t, seed, epsilon = .2) {
+export function trainEpisode(t, seed, epsilon = .2, opponent) {
     const g = createGame(), rng = seededRandom(seed), context = {};
     while (!g.winner) {
-        const side = g.turn, policy = beginLearningTurn(t, context, g, side, rng, epsilon);
+        const side = g.turn, policy = opponent?.side === side ? opponent : beginLearningTurn(t, context, g, side, rng, epsilon);
         for (const id of activationOrder(g, side)) {
             takeAIAction(g, id, policy.strategy, policy.stance, rng);
             if (g.winner)

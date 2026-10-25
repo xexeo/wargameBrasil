@@ -255,13 +255,11 @@ Na comparação da base geográfica, os atributos originais ficaram mais próxim
 
 Perfis e escala em [docs/TROPAS.md](docs/TROPAS.md); fontes militares em [docs/MAPAS_OFICIAIS.md](docs/MAPAS_OFICIAIS.md). Tabuleiro alongado para 81 hexágonos com amostras DEM reais. Sem nomes fictícios nos secundários. Nova vitória exige cume, tempo e perdas graduam o resultado. Relatórios antigos de equilíbrio não avaliam estas regras; consultar os novos relatórios summit no README.
 
-<!-- simulation:0.1.9/matriz-ias:start -->
-## Avaliação cruzada das IAs (relatório 0.1.10)
-
-Executadas 10 partidas por dupla ordenada de 8 perfis, total 640, mantendo regras 0.1.9. [Simulações válidas por versão](docs/simulacoes/README.md). Sem alteração de atributos ou de regras nesta avaliação. O equilíbrio EA × EA não se generaliza para todas as IAs. Aprendiz e Veterana usam memória independente reinicializada por partida, com atualização interna; não representam a memória pessoal do navegador.
-
-<!-- simulation:0.1.9/matriz-ias:end -->
 
 ## Persistência dos experimentos
 
 Guardar análises e dados por versão em docs/simulacoes/<versão>/<execução>. Manifesto contém hashes de regras, geografia, IA e protocolo. Build e commit removem diretórios incompatíveis e referências numéricas marcadas no README. Versionamento/CSS/documentação não invalidam; app.ts é incluído conservadoramente porque contém a Aprendiz. Nunca rotular um resumo agregado como dados individuais. Novas execuções guardam uma linha por partida, sementes, parâmetros e resumo; os experimentos antigos declaram quando esses dados não existiam.
+
+## Revisão atual dos batalhões
+
+Implementadas projeção de missão, risco no percurso e orientação da IA por papel/objetivo. Ver [REVISAO_BATALHOES.md](docs/REVISAO_BATALHOES.md). Explicar motivo do resultado mesmo quando a defesa foi eliminada; não afirmar que manteve o cume se a FEB o ocupa. Retirada e cume suficiente no prazo são parâmetros experimentais opcionais, desativados no padrão. Treino distribuído alterna os lados aprendizes contra seis políticas fixas, com autojogo a cada sétima partida; isso não é avaliação independente. Novas simulações são rejeitadas se o programa mudar durante sua execução.

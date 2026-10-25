@@ -280,3 +280,13 @@ test('meta de partida salva aparece igual no placar, missão, narrativa e regras
  await page.goto('/');await page.locator('#begin').click();await expect(page.locator('#score')).toHaveText('0 / 6');await expect(page.locator('#missionDetail')).toContainText('Acumule 6 pontos');
  await page.locator('#briefing').click();await expect(page.locator('#modalBody')).toContainText('6 pontos');await page.locator('#close').click();await page.locator('#rules').click();await expect(page.locator('#modalBody')).toContainText('Acumule 6 pontos');
 });
+
+test('projeção da missão mostra pontos, ritmo e prazo sem mover a peça',async({page})=>{
+ await page.goto('/');await page.locator('#begin').click();await expect(page.locator('#missionForecast')).toContainText('Faltam 8 pontos');await expect(page.locator('#missionForecast')).toContainText('+0/rodada');await expect(page.locator('#missionForecast')).toContainText('10 fechamento');await expect(page.locator('#missionForecast')).toContainText('rodada 7');await expect(page.locator('#missionForecast')).toContainText('ignorando bloqueios e fogo');
+});
+
+test('percurso exposto é laranja e supressão remove aviso de reação',async({page})=>{
+ const{createGame}=await import('../../dist/engine.js');const game=createGame();game.units=game.units.filter(u=>['b1','g1'].includes(u.id));Object.assign(game.units[0],{q:5,r:3});Object.assign(game.units[1],{q:5,r:2});
+ await page.addInitScript(g=>{if(!localStorage.getItem('monte-castelo-session-v1'))localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'}));},game);await page.goto('/');await page.locator('#begin').click();await page.locator('[data-id="b1"]').click();await expect(page.locator('polygon[data-q="4"][data-r="3"]')).toHaveClass(/exposed-reach/);await expect(page.locator('#actionHint')).toContainText('borda laranja');
+ game.units[1].suppressed=true;await page.evaluate(g=>localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'})),game);await page.reload();await page.locator('#begin').click();await page.locator('[data-id="b1"]').click();await expect(page.locator('polygon.exposed-reach')).toHaveCount(0);
+});

@@ -45,9 +45,9 @@ export function finishLearningEpisode(t:LearningTable,context:LearningContext,g:
  for(const side of ['br','de'] as const){const pending=context[side];if(pending)update(t,pending,g,side,true);delete context[side];}
  t.episodes++;
 }
-export function trainEpisode(t:LearningTable,seed:number,epsilon=.2):Game {
+export function trainEpisode(t:LearningTable,seed:number,epsilon=.2,opponent?:{side:Side;strategy:string;stance:string}):Game {
  const g=createGame(),rng=seededRandom(seed),context:LearningContext={};
- while(!g.winner){const side=g.turn,policy=beginLearningTurn(t,context,g,side,rng,epsilon);
+ while(!g.winner){const side=g.turn,policy=opponent?.side===side?opponent:beginLearningTurn(t,context,g,side,rng,epsilon);
   for(const id of activationOrder(g,side)){takeAIAction(g,id,policy.strategy,policy.stance,rng);if(g.winner)break;}
   if(!g.winner)endTurn(g);
  }

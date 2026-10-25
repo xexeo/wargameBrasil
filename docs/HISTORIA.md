@@ -35,6 +35,10 @@ Foi acrescentada uma série horária regional ECMWF ERA5 via Open-Meteo para 21/
 
 - **Clima instrumental do ataque final:** a série ERA5 incorporada é uma reconstrução regional; continua faltando um boletim diário instrumental local de 21/02. Os valores no jogo são identificados como modelados. Nuvens não são tratadas como nevoeiro e ausência de precipitação não é tratada como ausência de neve no solo.
 - **Cartografia de 1945:** a base atual já usa coordenadas reais do cume, Copernicus DEM e feições modernas OSM, com escala aproximada. Não é uma restituição de 1945. Posições militares e objetivos secundários continuam abstrações. Ver [GEOGRAFIA.md](GEOGRAFIA.md).
-- As páginas do U.S. Army Center of Military History e o espelho HyperWar retornaram HTTP 403. Fotografias de mapas no Wikimedia Commons também não puderam ser baixadas. Não foram usadas como evidência consultada.
+- Na pesquisa inicial alguns acessos retornaram403. Posteriormente foram consultados o capítuloXXIV e o mapa10 de Fisher em reprodução HyperWar; a cópia oficial americana está incorporada no jogo. Ver [MAPAS_OFICIAIS.md](MAPAS_OFICIAIS.md). Fisher p.431 relata retirada alemã e pequena retaguarda, sem quantificar companhias. Isso não autoriza atribuir um turno de retirada automática nem uma guarnição de tamanho exato.
 
 Próximo passo histórico: confrontar diário de operações da FEB, cartografia militar e observações meteorológicas locais antes de tornar o cenário uma reconstrução topográfica ou meteorológica.
+
+## Organização confirmada em fonte institucional
+
+O [Museu Virtual da FEB](https://museuvirtualdafeb.eb.mil.br/estrutura-organizacional-da-forca-expedicionaria-brasileira/) confirma três batalhões por regimento, três companhias de fuzileiros por batalhão e apoios de petrechos. É síntese institucional de2025, não mapa de efetivos de21/02/1945. O jogo principal conserva batalhões; a composição local da defesa continua não confirmada. Retirada por baixa coesão é apenas experimento simétrico, sem alegação de reproduzir a ordem narrada por Fisher.
