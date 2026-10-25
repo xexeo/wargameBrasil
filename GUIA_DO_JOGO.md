@@ -254,3 +254,7 @@ Na comparação da base geográfica, os atributos originais ficaram mais próxim
 ## Revisão 0.1.9
 
 Perfis e escala em [docs/TROPAS.md](docs/TROPAS.md); fontes militares em [docs/MAPAS_OFICIAIS.md](docs/MAPAS_OFICIAIS.md). Tabuleiro alongado para 81 hexágonos com amostras DEM reais. Sem nomes fictícios nos secundários. Nova vitória exige cume, tempo e perdas graduam o resultado. Relatórios antigos de equilíbrio não avaliam estas regras; consultar os novos relatórios summit no README.
+
+## Avaliação cruzada das IAs (relatório 0.1.10)
+
+Executadas 10 partidas por dupla ordenada de 8 perfis, total 640, mantendo regras 0.1.9. [Matriz, perdas, método e dominância](docs/MATRIZ_IAS.md). Sem alteração de atributos ou de regras nesta avaliação. O equilíbrio EA × EA não se generaliza para todas as IAs. Aprendiz e Veterana usam memória independente reinicializada por partida, com atualização interna; não representam a memória pessoal do navegador.

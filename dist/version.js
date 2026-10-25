@@ -1,8 +1,8 @@
 // Atualizado automaticamente a cada commit.
 export const release = {
-    "version": "0.1.9",
-    "builtAt": "2026-10-25T14:34:12.030Z",
+    "version": "0.1.10",
+    "builtAt": "2026-10-25T14:53:40.696Z",
     "timezone": "America/Sao_Paulo",
-    "displayDate": "25/10/2026, 11:34:12"
+    "displayDate": "25/10/2026, 11:53:40"
 };
 //# sourceMappingURL=version.js.map

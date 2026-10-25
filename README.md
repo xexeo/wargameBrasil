@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.9 · 25/10/2026, 11:34:12 (Brasília)**
+**Versão 0.1.10 · 25/10/2026, 11:53:40 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -55,6 +55,12 @@ A escala principal é batalhão para a FEB e grupo de fogos para artilharia; apo
 A altura permite tiro defensivo antes do avanço/assalto, com limite de 1 dano e consumo da próxima ação. Apoio indireto suprime a reação. Vantagem de 90 m amplia o tiro direto em um hexágono; defesa elevada usa limiar de 30 m. A IA usa apoio antes de manobrar. Essas regras são simétricas.
 
 O [registro de mapas oficiais](docs/MAPAS_OFICIAIS.md) distingue fontes efetivamente lidas e catálogos. Fisher, p. 431, relata retirada alemã e pequena retaguarda final. O jogo ainda abstrai essa retirada; não afirma que quatro batalhões completos defenderam o cume. Os mapas integrais da memória de Mascarenhas permanecem pendentes de consulta.
+
+## Matriz de IAs: 10 partidas por dupla
+
+[**Matriz completa e avaliação de estratégias dominantes**](docs/MATRIZ_IAS.md): 8 perfis × 8 perfis, 640 partidas nas regras 0.1.9. Linhas FEB, colunas alemães. A Veterana venceu 77/80 como atacante; o Caçador agressivo venceu 52/80 como defensor. Nenhum perfil dominou todos os outros contra qualquer adversário. São frequências de amostra pequena, não chances garantidas.
+
+O estudo também encontrou 104 derrotas brasileiras por prazo após eliminar todas as peças alemãs. Isso orienta a revisão de planejamento/objetivos e da experiência de fim de jogo. O relatório não altera regras para mudar os resultados. [Dados individuais e método](docs/tournaments/all-ai-10.json).
 
 ## Balanceamento das regras atuais (0.1.9)
 
