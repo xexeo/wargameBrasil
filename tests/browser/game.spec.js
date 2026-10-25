@@ -36,6 +36,12 @@ test("narrativa, mapa, movimento, combate, zoom e turno do computador", async ({
   await expect(page.locator("#modalBody")).toContainText("Bolinhas douradas");
   await expect(page.locator("#modalBody")).toContainText("Retângulo com X");
   await page.locator("#close").click();
+  await page.locator("#weatherInfo").click();
+  await expect(page.locator("#modalBody")).toContainText(
+    "reconstrução regional ERA5",
+  );
+  await expect(page.locator("#modalBody")).toContainText("25 km");
+  await page.locator("#close").click();
   await page.locator("#briefing").click();
   await expect(page.locator("#modalBody")).toContainText("Sua missão");
   await expect(page.locator("#round")).toHaveText("2 / 10");

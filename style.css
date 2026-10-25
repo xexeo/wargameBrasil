@@ -1063,3 +1063,30 @@ h1 .title-version {
     padding: 11px 9px;
   }
 }
+
+.weather-chip {
+  background: #fff;
+  border: 1px solid #dacdab;
+  color: #5f542f;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 7px 10px;
+  margin-top: 5px;
+}
+.weather-table {
+  overflow: auto;
+}
+.weather-table table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+.weather-table td,
+.weather-table th {
+  border-bottom: 1px solid #e3e5d6;
+  text-align: left;
+  padding: 9px 7px;
+}
+.weather-table th {
+  color: #5b6d45;
+}

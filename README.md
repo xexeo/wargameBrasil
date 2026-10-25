@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.5 · 25/10/2026, 03:21:41 (Brasília)**
+**Versão 0.1.6 · 25/10/2026, 03:29:57 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -42,6 +42,7 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 - IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 18.262 atualizações e 108 situações aprendidas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Relatório de treino](docs/training-report.json) e [avaliação independente](docs/trained-evaluation.json).
 - IA aprendiz: Q-learning simples sobre seis combinações de estratégia/postura, exploração de 20% e experiência mantida em `localStorage` entre partidas. Não treina uma rede neural nem aprende movimentos individuais.
 - Vitória brasileira por 8 pontos de ocupação ou eliminação da defesa; vitória alemã por impedir o objetivo em 10 rodadas ou eliminar a FEB.
+- Reconstrução meteorológica ERA5 incorporada offline, com temperatura e nuvens aproximadas por hora, tabela e distinção entre modelo e relatos históricos.
 - Relógio de cenário das 06:00 às 18:00; concentração de artilharia brasileira na rodada 10, inspirada no fogo histórico de 16:00–17:00.
 
 O tempo de 5–10 minutos é uma meta de projeto, ainda sem validação com jogadores. A IA calcula localmente; sua sequência visual normalmente leva cerca de 1–2 segundos.
@@ -73,7 +74,7 @@ Na versão offline, exporte o arquivo do turno e envie-o como documento; o desti
 
 ## Limites e pendências
 
-- **Clima de 21/02/1945:** falta uma fonte meteorológica diária. Boa visibilidade e movimento normal são hipóteses explícitas, não condições medidas. Não transportamos automaticamente a chuva e lama de novembro/dezembro para fevereiro.
+- **Clima de 21/02/1945:** agora há uma reconstrução regional ERA5, com botão de tempo e popup de fontes no jogo. Ela sugere madrugada muito fria/nublada e abertura ao longo da manhã, sem precipitação modelada no dia. É reanálise de escala ~25 km, não medição local. Profundidade da neve está sem dados. Ainda falta boletim instrumental contemporâneo. [Pesquisa e limites](docs/TEMPO_21_FEVEREIRO_1945.md).
 - Mapa esquemático, sem escala ou georreferenciamento; níveis de altitude relativos e objetivos secundários de jogo. Ainda não é uma reconstrução cartográfica.
 - Consulte [docs/HISTORIA.md](docs/HISTORIA.md) para distinguir fatos consultados, abstrações e pontos não confirmados.
 - A IA Veterana ainda não atinge equilíbrio: na avaliação separada de 300 partidas após a revisão de artilharia, foram **43,3% FEB / 56,7% defesa alemã** com o mesmo algoritmo nos dois lados. Não confundir esse resultado com os 47,3% / 52,7% agregados da IA tática. Balanceamento da Veterana continua como decisão revisável.
@@ -106,7 +107,7 @@ Para servir a versão modular localmente, execute `npm start`. Para os testes em
 
 ## Validação
 
-Na implementação atual, passaram 13 testes do motor/simulador/aprendizado/troca de turnos e 16 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
+Na implementação atual, passaram 14 testes do motor/simulador/aprendizado/troca de turnos/clima e 16 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
 
 Os testes de motor exercitam partidas completas com as combinações de IA e postura, movimento legal, combate, pontuação, altitude e linha de visão. Clima histórico e fidelidade topográfica não são validados por esses testes.
 

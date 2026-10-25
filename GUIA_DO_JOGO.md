@@ -28,7 +28,7 @@ As fontes secundárias consultadas situam o ataque principal às 06:00 ou ao ama
 
 O caso dos observatórios na crista de Riva pertence à operação aliada no setor de Belvedere: os americanos escalaram as escarpas de surpresa na noite de 18–19/02, tomaram os postos e resistiram aos contra-ataques. Não transformar Riva em um objetivo brasileiro de Monte Castelo nem confundir os dois locais. A cronologia de Torraccia requer cuidado devido a divergências nas sínteses consultadas.
 
-**Clima diário e topografia precisa ainda pendentes.** Não afirmar precipitação, neve, temperatura ou condições do solo em 21/02 sem fonte. Não copiar automaticamente o tempo ruim dos ataques de novembro/dezembro para fevereiro. Detalhes e fontes em [docs/HISTORIA.md](docs/HISTORIA.md).
+**Boletim instrumental e topografia precisa ainda pendentes.** A reconstrução regional ERA5 foi adicionada com fontes e limites em docs/TEMPO_21_FEVEREIRO_1945.md. Não apresentar valores modelados como medições no cume. Não copiar automaticamente o tempo ruim dos ataques de novembro/dezembro para fevereiro. Detalhes e fontes em [docs/HISTORIA.md](docs/HISTORIA.md).
 
 ## 4. Mapa
 
@@ -139,7 +139,7 @@ Essas regras são simétricas quanto a eliminação, mas o objetivo e o relógio
 
 Dez rodadas de 72 minutos, com início às 06:00 e término às 18:00. O horário mostrado no turno é seu início; a décima rodada começa às 16:48. O apoio de artilharia dessa rodada é inspirado na concentração histórica das 16:00–17:00, com duração e efeito simplificados.
 
-Estado atual: boa visibilidade e movimento normal são hipóteses de cenário, identificadas como tal. Não há penalidade mecânica de frio, chuva, neve ou lama. A hora não altera automaticamente a visibilidade. Introduzir clima histórico somente após localizar e registrar fonte apropriada; definir e testar seus efeitos antes de alterar as regras.
+Estado atual: a série ERA5 regional de 21/02 está incorporada em weather.ts, com estimativas horárias, popup de método e fonte arquivada. É reanálise de resolução ~25 km, não observação no cume. O jogo seleciona a hora inteira anterior ao início da rodada e identifica o dado como ERA5 regional. Não há penalidade mecânica automática de frio, chuva, neve ou lama. Nuvens não equivalem a nevoeiro; a hora não altera automaticamente a visibilidade. Dados de profundidade da neve são nulos e não devem ser interpretados como zero. Mudanças futuras de regra climática exigem decisão explícita e novos testes.
 
 ## 12. Inteligências artificiais
 

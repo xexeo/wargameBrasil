@@ -27,9 +27,13 @@ As sínteses de Monte Castelo e de Encore apresentam cronologias diferentes para
 - Subir níveis de altitude custa movimento; defender em terreno mais alto dá bônus; elevações intermediárias e mata podem impedir a observação e o tiro.
 - Os nomes Franklin, Uzeda e Sizeno contextualizam as peças. Valores de combate e quantidade de peças não representam efetivos históricos.
 
+## Pesquisa meteorológica ampliada
+
+Foi acrescentada uma série horária regional ECMWF ERA5 via Open-Meteo para 21/02/1945. Ela sugere frio intenso e muitas nuvens de madrugada, abertura pela manhã e céu aberto à tarde, sem precipitação modelada no dia. Não é medição no campo de batalha. Profundidade da neve retornou sem dados. Consulte [TEMPO_21_FEVEREIRO_1945.md](TEMPO_21_FEVEREIRO_1945.md) para método, dados preservados, comparação com relatos e divergências de horários.
+
 ## O que ainda não foi confirmado
 
-- **Clima diário do ataque final:** as fontes descrevem chuva, lama e limitações de apoio nos ataques de novembro/dezembro. Não há, nesta pesquisa, um boletim diário verificado para 21/02. O cenário usa visibilidade boa e movimento normal como hipótese explícita; não apresenta temperatura, precipitação ou neve inventadas como fatos.
+- **Clima instrumental do ataque final:** a série ERA5 incorporada é uma reconstrução regional; continua faltando um boletim diário instrumental local de 21/02. Os valores no jogo são identificados como modelados. Nuvens não são tratadas como nevoeiro e ausência de precipitação não é tratada como ausência de neve no solo.
 - **Cartografia:** mapa axial inteiramente esquemático, sem escala e sem georreferenciamento. Estradas, matas e os objetivos “Esporão ocidental” e “Crista oriental” são abstrações. Níveis ↑1–↑4 são relativos; não são cotas em metros.
 - As páginas do U.S. Army Center of Military History e o espelho HyperWar retornaram HTTP 403. Fotografias de mapas no Wikimedia Commons também não puderam ser baixadas. Não foram usadas como evidência consultada.
 
