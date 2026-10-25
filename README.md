@@ -1,8 +1,16 @@
-# Monte Castelo Vibed
+# Monte Castelo Vibed — experimento de companhias
 
 <!-- release:start -->
-**Versão 0.1.12 · 25/10/2026, 12:13:07 (Brasília)**
+**Versão 0.1.13 · 25/10/2026, 14:20:40 (Brasília)**
 <!-- release:end -->
+
+**Branch experimental: `experimento/escala-companhia`.** Este primeiro passo contém um quadro de companhias e estado inicial sem interface em [experiments/company/scenario.ts](experiments/company/scenario.ts). O HTML ainda executa o jogo base de batalhões; a alternativa ainda não tem movimento, combate ou simulação de partidas.
+
+[Guia e plano da alternativa](experiments/company/GUIA.md): nove companhias brasileiras (seis ativas/três reservas), quatro destacamentos alemães de cenário e apoios fora do mapa. A distribuição é hipótese de desenho. As próximas etapas são orçamento de ativações, entrada de reservas, missões de fogo, motor completo, interface e matriz de 10 jogos por dupla com dados por versão.
+
+Desenvolvimento/testes desta branch usam porta **8001** para manter o servidor da base separado. O link online abaixo continua apontando à versão publicada da `main`, que não contém este experimento.
+
+**Resultados herdados de autojogo, incluindo a matriz e os 51,1%, avaliam apenas o modelo de batalhões. Não há resultados de equilíbrio da alternativa de companhias.**
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
 
