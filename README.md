@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.10 · 25/10/2026, 11:53:40 (Brasília)**
+**Versão 0.1.11 · 25/10/2026, 12:03:49 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -40,7 +40,7 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 - Regras com exemplo de peça e legenda de bolinhas, símbolos militares, A/D/M, dano e marca de ação; contexto histórico, fontes e diário de combate na interface.
 - Popup **Autoria & licença**, incluindo logo oficial do LUDES, copyright e texto integral da CC BY-NC-SA 4.0 para consulta offline. O logo foi obtido no [endereço oficial informado pelo autor](https://ludes.cos.ufrj.br/wp-content/uploads/2016/07/ludes_azul.png).
 - IA de maior ataque, IA de menor defesa e IA tática que avalia cobertura, ameaças, apoio e objetivos; posturas agressiva e defensiva.
-- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 30.743 atualizações e 125 situações aprendidas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Relatório de treino](docs/training-report.json) e [avaliação independente](docs/trained-evaluation.json).
+- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 30.743 atualizações e 125 situações aprendidas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Experimentos válidos por versão](docs/simulacoes/README.md).
 - IA aprendiz: Q-learning simples sobre seis combinações de estratégia/postura, exploração de 20% e experiência mantida em `localStorage` entre partidas. Não treina uma rede neural nem aprende movimentos individuais.
 - Vitória brasileira exige **8 pontos acumulados e ocupação do cume no fechamento do turno alemão**. Os objetivos dão no máximo **4 por rodada**: 2 + 1 + 1; duas rodadas de ocupação completa dão 8. Apoio não captura. Defesa vence por prazo de 10 rodadas ou perda de toda a infantaria de manobra brasileira. Tempo e perdas determinam o grau da vitória.
 - Reconstrução meteorológica ERA5 incorporada offline, com temperatura e nuvens aproximadas por hora, tabela e distinção entre modelo e relatos históricos.
@@ -56,44 +56,37 @@ A altura permite tiro defensivo antes do avanço/assalto, com limite de 1 dano e
 
 O [registro de mapas oficiais](docs/MAPAS_OFICIAIS.md) distingue fontes efetivamente lidas e catálogos. Fisher, p. 431, relata retirada alemã e pequena retaguarda final. O jogo ainda abstrai essa retirada; não afirma que quatro batalhões completos defenderam o cume. Os mapas integrais da memória de Mascarenhas permanecem pendentes de consulta.
 
-## Matriz de IAs: 10 partidas por dupla
+## Simulações e análises por versão
 
-[**Matriz completa e avaliação de estratégias dominantes**](docs/MATRIZ_IAS.md): 8 perfis × 8 perfis, 640 partidas nas regras 0.1.9. Linhas FEB, colunas alemães. A Veterana venceu 77/80 como atacante; o Caçador agressivo venceu 52/80 como defensor. Nenhum perfil dominou todos os outros contra qualquer adversário. São frequências de amostra pequena, não chances garantidas.
+O diretório [docs/simulacoes](docs/simulacoes/README.md) contém os experimentos ainda compatíveis com o programa. Cada versão tem seu manifesto de hashes; cada execução reúne análise e dados. Mudanças nos fontes de regras, terreno, IA ou protocolo removem automaticamente as pastas incompatíveis ao compilar/commitar. Atualizar só a versão, CSS ou documentação preserva os resultados. O histórico do Git guarda os registros excluídos.
 
-O estudo também encontrou 104 derrotas brasileiras por prazo após eliminar todas as peças alemãs. Isso orienta a revisão de planejamento/objetivos e da experiência de fim de jogo. O relatório não altera regras para mudar os resultados. [Dados individuais e método](docs/tournaments/all-ai-10.json).
+<!-- simulation:0.1.9/matriz-ias:start -->
+[**Matriz completa de chances de vitória**](docs/simulacoes/0.1.9/matriz-ias/analise.md): 10 partidas por dupla, 8 × 8 perfis = 640 partidas. [Dados brutos das 640 partidas](docs/simulacoes/0.1.9/matriz-ias/dados-brutos.json). Média de **7,55 rodadas**, 434 vitórias FEB e 206 alemãs. A Veterana venceu 77/80 como atacante; Caçador agressivo venceu 52/80 como defensor. Não houve perfil globalmente dominante; amostra pequena não estabelece probabilidades garantidas.
 
-## Balanceamento das regras atuais (0.1.9)
+Em 104 derrotas brasileiras por prazo, todas as peças alemãs já tinham sido eliminadas. Planejamento de prazo/cume e a relação entre atrito e vitória merecem revisão.
+<!-- simulation:0.1.9/matriz-ias:end -->
 
-Mesma IA tática/agressiva em ambos os lados, Mulberry32, 1.000 partidas: **511 vitórias FEB (51,1%) / 489 alemãs (48,9%)**. Referência, sementes 1–500: 269/500 FEB; validação separada, 10001–10500: 242/500. Todas as vitórias FEB exigiram pontos e cume. Os resultados medem essa IA, sem garantir 50% contra humanos. [Referência](docs/balance-summit.json) · [Validação](docs/balance-summit-validation.json).
+<!-- simulation:0.1.9/balanceamento:start -->
+[Balanceamento EA × EA](docs/simulacoes/0.1.9/balanceamento/analise.md): 1.000 partidas, **511 FEB / 489 alemãs**. Esse equilíbrio não se generaliza para todas as políticas. Registros anteriores a estas regras foram removidos; consulte o Git para o histórico.
+<!-- simulation:0.1.9/balanceamento:end -->
 
-A calibração conservou DEM, formações e cronologia. O alcance abstrato dos grupos de ambos os lados passou a 5, permitindo apoiar a aproximação, e a reação ficou limitada a 1 dano. [Método e tentativas](docs/BALANCEAMENTO_0_1_9.md). A meta permanece 8 pontos acumulados; 4 por rodada é o máximo dos objetivos, não o total disponível na partida. A IA especial, que seleciona outras políticas e aprende durante a partida, deu 273/300 FEB (91%); isso revela desequilíbrio dessa política e não deve ser confundido com os 51,1% da IA tática fixa.
-
-## Registros de balanceamento da versão anterior (0.1.8)
-
-Com o mesmo algoritmo tático e postura agressiva nos dois lados, gerador reproduzível **Mulberry32**, foram jogadas 1.000 partidas: **466 vitórias FEB (46,6%) e 534 alemãs (53,4%)**. Amostra de referência: 237/500; amostra separada de validação: 229/500. A meta é ficar próximo de 50%, sem forçar resultados. [Referência](docs/balance-geographic.json) · [Validação](docs/balance-geographic-validation.json).
-
-Foram comparados ajustes pequenos de atributos na amostra de referência; mantivemos os atributos originais porque já eram os mais próximos da meta entre as opções testadas. [Comparação](docs/balance-geographic-calibration.json). A base geográfica passou a permitir mais vitórias por ocupação e presença brasileira no cume; ainda predominam saídas de combate por esgotamento de resistência. Remover uma peça representa sua perda de capacidade de combate/retirada, não uma contagem literal de soldados mortos.
-
-A revisão também corrigiu correlação nos primeiros dados de sementes consecutivas do gerador LCG inicial. Os relatórios antigos abaixo são históricos e não devem ser combinados com a avaliação atual. O simulador agora tem um teste específico de distribuição inicial, além dos testes de partidas completas.
-
-## Revisão de jogabilidade e registros anteriores
-
-A artilharia passou de tiro direto com alcance 2 para **tiro indireto com alcance 3**. O teste específico confirma que ela pode bombardear a posição fortificada atrás da dobra do terreno, conservando o bônus defensivo do alvo. O treino inicial foi refeito após a mudança.
-
-No autojogo do tabuleiro anterior à base geográfica, a mesma IA tática/agressiva comandando ambos os lados venceu pela FEB em 289/500 partidas de referência e 258/500 de validação: **54,7% FEB / 45,3% defesa alemã no total**. [Referência](docs/balance-current.json) · [Validação](docs/balance-current-validation.json). Ainda predomina a vitória por eliminação; a fidelidade ao objetivo histórico de ocupar o cume é limitada e permanece registrada para revisão. Uma partida completa pela interface também foi jogada automaticamente em computador e celular, chegando à vitória brasileira na rodada 3, por eliminação, com 1 ponto de ocupação.
-
-As estatísticas abaixo do protótipo anterior ficam como registro, não como avaliação das regras atuais.
+O prazo é o fechamento da rodada 10 (18h do relógio do cenário), com 8 pontos e cume assegurado. Apenas o cume rende 2 por rodada: ocupá-lo da rodada 7 à 10 permite alcançar 8. Pontos secundários já acumulados permitem tomá-lo depois. A meta de 5–10 minutos humanos ainda não foi medida com jogadores.
 
 ## Autojogo sem interface
 
 A arquitetura separa `geography.ts`/`geography-data.ts` (terreno e fontes geográficas), `engine.ts` (regras e estado), `ai.ts` (estratégias), `simulator.ts` (partidas e torneios sem DOM), `app.ts` (interface) e `scripts/autoplay.mjs` (CLI). O mesmo motor executa jogo visual e simulações. `learning.ts` treina e atualiza a IA sem DOM ou armazenamento; `persistence.ts` adapta armazenamento do navegador; `pretrained.ts` incorpora o treinamento inicial.
 
 ```sh
-npm run simulate -- --games 500 --seed 1 --output docs/balance-baseline.json
+npm run simulate -- --games 500 --seed 1 --name referencia
 node scripts/autoplay.mjs --games 1 --seed 42 --replay /tmp/partida.json
 ```
 
-Avaliação inicial com a mesma IA tática/agressiva nos dois lados, sementes 1–500: **257 vitórias brasileiras (51,4%) e 243 alemãs (48,6%)**. [Relatório reproduzível](docs/balance-baseline.json). Uma segunda amostra, sementes 10001–10500, resultou em 216 vitórias FEB (43,2%) e 284 alemãs (56,8%). Agregado de 1.000 partidas: **47,3% FEB / 52,7% alemãs**. Os resultados por amostra variam; isso mede a configuração dessa IA, não equilíbrio garantido contra humanos. Foram 467 finais por eliminação, 26 por pontos e 7 por tempo; apenas 4 partidas terminaram com ocupação brasileira do cume. A frequência de eliminação mostra uma diferença importante em relação ao objetivo histórico de conquista das posições e orienta a próxima revisão de tática/objetivos.
+Todas as novas execuções salvam os resultados individuais e o resumo em `docs/simulacoes/<versão>/<execução>/`. Os experimentos antigos que guardaram apenas agregados estão identificados como tal; dados individuais ausentes não foram inventados.
+
+```sh
+npm run simulate:matrix
+npm run simulations:check
+```
 
 ## Humano × humano e WhatsApp
 
@@ -136,7 +129,7 @@ Para servir o jogo localmente, execute `npm start`; a entrada modular alternativ
 
 ## Validação
 
-Na implementação atual, passaram 28 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 24 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
+Na implementação atual, passaram 31 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 24 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
 
 Os testes de motor exercitam partidas completas com as combinações de IA e postura, movimento legal, combate, pontuação, altitude e linha de visão. Clima histórico e fidelidade topográfica não são validados por esses testes.
 

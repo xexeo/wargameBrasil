@@ -117,4 +117,4 @@ node scripts/round-robin.mjs 10 200001
 node scripts/report-round-robin.mjs
 ```
 
-[Dados completos, sementes, hashes dos fontes e resultados individuais](tournaments/all-ai-10.json). O torneio usa as regras da versão 0.1.9; o commit de publicação do relatório pode ter um número de versão posterior, sem mudar essas regras.
+[Dados completos, sementes, hashes dos fontes e resultados individuais](dados-brutos.json). O torneio usa as regras da versão 0.1.9; o commit de publicação do relatório pode ter um número de versão posterior, sem mudar essas regras.

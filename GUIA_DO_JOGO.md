@@ -220,7 +220,7 @@ O núcleo `engine.ts` não depende de navegador; `ai.ts` decide usando esse núc
 
 Buscar aproximadamente 50% de vitórias para cada lado usando a mesma IA, postura e regras em ambos. Reportar quantidade de partidas, sementes, taxa e incerteza. Não ajustar resultados durante uma partida, não impor alternância de vitórias e não afirmar equilíbrio contra humanos com base apenas em autojogo. Decisões de balanceamento podem ser revistas pelo autor.
 
-A amostra inicial legada de 500 partidas resultou em 51,4% FEB e 48,6% defesa alemã, mas usava o gerador LCG anterior. Na base geográfica com Mulberry32, 1.000 partidas deram 46,6% FEB / 53,4% defesa alemã; não combinar esses conjuntos. A grande maioria terminou por eliminação; essa semelhança limitada com a tomada histórica do cume deve permanecer explícita.
+Os resultados compatíveis e seus dados ficam em [docs/simulacoes](docs/simulacoes/README.md). Resultados de regras anteriores foram removidos da árvore atual; consultar o histórico do Git para recuperar decisões.
 
 ## 17. Revisão de jogabilidade — tiro indireto
 
@@ -255,6 +255,13 @@ Na comparação da base geográfica, os atributos originais ficaram mais próxim
 
 Perfis e escala em [docs/TROPAS.md](docs/TROPAS.md); fontes militares em [docs/MAPAS_OFICIAIS.md](docs/MAPAS_OFICIAIS.md). Tabuleiro alongado para 81 hexágonos com amostras DEM reais. Sem nomes fictícios nos secundários. Nova vitória exige cume, tempo e perdas graduam o resultado. Relatórios antigos de equilíbrio não avaliam estas regras; consultar os novos relatórios summit no README.
 
+<!-- simulation:0.1.9/matriz-ias:start -->
 ## Avaliação cruzada das IAs (relatório 0.1.10)
 
-Executadas 10 partidas por dupla ordenada de 8 perfis, total 640, mantendo regras 0.1.9. [Matriz, perdas, método e dominância](docs/MATRIZ_IAS.md). Sem alteração de atributos ou de regras nesta avaliação. O equilíbrio EA × EA não se generaliza para todas as IAs. Aprendiz e Veterana usam memória independente reinicializada por partida, com atualização interna; não representam a memória pessoal do navegador.
+Executadas 10 partidas por dupla ordenada de 8 perfis, total 640, mantendo regras 0.1.9. [Simulações válidas por versão](docs/simulacoes/README.md). Sem alteração de atributos ou de regras nesta avaliação. O equilíbrio EA × EA não se generaliza para todas as IAs. Aprendiz e Veterana usam memória independente reinicializada por partida, com atualização interna; não representam a memória pessoal do navegador.
+
+<!-- simulation:0.1.9/matriz-ias:end -->
+
+## Persistência dos experimentos
+
+Guardar análises e dados por versão em docs/simulacoes/<versão>/<execução>. Manifesto contém hashes de regras, geografia, IA e protocolo. Build e commit removem diretórios incompatíveis e referências numéricas marcadas no README. Versionamento/CSS/documentação não invalidam; app.ts é incluído conservadoramente porque contém a Aprendiz. Nunca rotular um resumo agregado como dados individuais. Novas execuções guardam uma linha por partida, sementes, parâmetros e resumo; os experimentos antigos declaram quando esses dados não existiam.

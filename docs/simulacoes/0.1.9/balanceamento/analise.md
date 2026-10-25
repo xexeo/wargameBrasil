@@ -14,16 +14,14 @@ Objetivo: aproximadamente 50% com a mesma IA nos dois lados, sem alterar relevo,
 
 ## Experimentos
 
-`balance-troops-reference.json`: etapa intermediária, antes de exigir cume e introduzir reação; **não avalia as regras finais**.
+Tentativas intermediárias incompatíveis foram removidas. O histórico do Git preserva as decisões.
 
-`rules-candidates.json`: etapa intermediária com reação de até 2 danos e grupos de alcance 3, variando limiar de alcance e meta de pontos. **Não corresponde às regras finais.**
-
-`range-calibration.json`: comparação com reação limitada a 1 dano, meta 8 e cume obrigatório; 250 sementes de referência por opção, mesmos perfis, variando alcance de ambos os grupos e do apoio. Reproduzir com `npm run build && node scripts/calibrate-artillery.mjs`. Alcance 5 e apoio 2 produziram 53,2% FEB na amostra de seleção. Alcance 8/12 favoreceu excessivamente a FEB. Esses alcances representam apoio alocado no jogo, não alcance balístico real.
+`calibracao-resumo.json`: comparação com reação limitada a 1 dano, meta 8 e cume obrigatório; 250 sementes de referência por opção, mesmos perfis, variando alcance de ambos os grupos e do apoio. Reproduzir com `npm run build && node scripts/calibrate-artillery.mjs`. Alcance 5 e apoio 2 produziram 53,2% FEB na amostra de seleção. Alcance 8/12 favoreceu excessivamente a FEB. Esses alcances representam apoio alocado no jogo, não alcance balístico real.
 
 ## Validação final
 
-- `node scripts/autoplay.mjs --games 500 --seed 1 --output docs/balance-summit.json`: 269 FEB / 231 DE.
-- `node scripts/autoplay.mjs --games 500 --seed 10001 --output docs/balance-summit-validation.json`: 242 FEB / 258 DE.
+- `node scripts/autoplay.mjs --games 500 --seed 1 --name referencia`: 269 FEB / 231 DE.
+- `node scripts/autoplay.mjs --games 500 --seed 10001 --name validacao`: 242 FEB / 258 DE.
 - Total: **511/1000 FEB (51,1%)**, 489/1000 DE (48,9%). A média de duração foi 6,36 rodadas; tempo humano de 5–10 minutos ainda precisa de jogadores reais.
 - Todas as 511 vitórias brasileiras cumpriram ocupação do cume e meta. Nenhuma vitória brasileira por simples eliminação. Predomina a derrota FEB pela perda de infantaria de manobra.
 
@@ -32,3 +30,5 @@ As sementes de validação não foram usadas para escolher parâmetros. Interval
 ## Limites de fidelidade
 
 O cume agora é indispensável, ao contrário dos protótipos vencidos por eliminação. Isso aproxima o objetivo do fato histórico, mas não reconstrói a retirada alemã descrita por Fisher p. 431. A presença e permanência de todos os destacamentos de cenário continuam abstrações. Não há equivalência entre PV perdidos e mortes reais.
+
+Os experimentos anteriores guardaram apenas agregados. Eles estão nesta pasta como resumos; não equivalem a dados individuais por partida. Novas execuções passam a salvar ambos automaticamente.

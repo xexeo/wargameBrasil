@@ -1,3 +1,4 @@
+import {saveRun} from './simulation-store.mjs';
 import { emptyLearning, trainEpisode } from "../dist/learning.js";
 import { writeFile } from "node:fs/promises";
 const count = Number(process.argv[2] ?? 2000);
@@ -5,10 +6,11 @@ if (!Number.isInteger(count) || count < 1 || count > 100000)
   throw new Error("Quantidade de treino inválida.");
 const table = emptyLearning(),
   wins = { br: 0, de: 0 };
-const start = performance.now();
+const start = performance.now(), games=[];
 for (let i = 1; i <= count; i++) {
   const g = trainEpisode(table, 50000 + i, 0.3 - (0.2 * i) / count);
   wins[g.winner]++;
+  games.push({seed:50000+i,winner:g.winner,round:g.finishedRound??g.round,score:g.score,remainingUnits:g.units.map(u=>({id:u.id,hp:u.hp,q:u.q,r:u.r}))});
   if (i % 500 === 0) console.log(`Treino: ${i}/${count} partidas`);
 }
 await writeFile(
@@ -25,8 +27,5 @@ const report = {
   seconds: (performance.now() - start) / 1000,
   note: "Resultados durante exploração; não equivalem a avaliação independente.",
 };
-await writeFile(
-  "docs/training-report.json",
-  JSON.stringify(report, null, 2) + "\n",
-);
+await saveRun('treinamento',{'resultados.json':report,'dados-brutos.json':games,'tabela-aprendida.json':table,'analise.md':`# Treinamento da IA\n\n${report.episodes} partidas de treino, ${report.updates} atualizações. Não é avaliação independente. Resultados individuais e tabela aprendida estão nesta pasta.\n`},{provenance:{count,seeds:report.seeds,training:true}});
 console.log(report);

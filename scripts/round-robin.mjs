@@ -1,3 +1,4 @@
+import {saveRun} from './simulation-store.mjs';
 // Browser policies, mirrored to let either side be evaluated; never modifies gameplay.
 import { createGame, endTurn, canCaptureObjective, summitOccupied, victoryAssessment } from '../dist/engine.js';
 import { activationOrder, takeAIAction } from '../dist/ai.js';
@@ -55,5 +56,6 @@ const cells=[];for(const br of profiles)for(const de of profiles){const games=Ar
 }
 const hashes={};for(const f of['engine.ts','ai.ts','learning.ts','app.ts','troops.ts','scenario.ts','pretrained.ts','geography-data.ts'])hashes[f]=createHash('sha256').update(await readFile(f)).digest('hex');
 const report={createdAt:new Date().toISOString(),gameVersion:JSON.parse(await readFile('version.json','utf8')).version,sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),sourceHashes:hashes,generator:'Mulberry32',countPerPair:count,totalGames:cells.length*count,seeds:[firstSeed,firstSeed+count-1],policyRandomness:'Separate deterministic stream per controller and side; combat RNG shared stream per match.',memory:'Independent per side, reset before each match. AP starts empty, VE starts from distributed pretrained table, epsilon 0.08. Both update within match. No training is carried across cells or matches; browser user memory unavailable.',profiles,cells};
-await writeFile('docs/tournaments/all-ai-10.json',JSON.stringify(report,null,2)+'\n');
+const folder=await saveRun('matriz-ias',{'dados-brutos.json':report,'analise.md':`# Matriz de IAs\n\n${report.totalGames} partidas, ${count} por dupla. Execute node scripts/report-round-robin.mjs para a análise detalhada.\n`},{provenance:{sourceCommit:report.sourceCommit,seeds:report.seeds,count:report.totalGames}});
+console.log(`Resultados salvos em ${folder}`);
 console.log(`Concluído: ${report.totalGames} partidas; invariantes do simulador verificadas para os seis perfis fixos.`);

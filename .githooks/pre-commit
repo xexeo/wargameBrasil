@@ -8,4 +8,6 @@ fi
 node scripts/version.mjs
 npm test
 npm run test:browser
+git add -u -- docs README.md GUIA_DO_JOGO.md
+git add docs/simulacoes
 git add version.json version.ts package.json package-lock.json README.md dist jogo.html index.html
