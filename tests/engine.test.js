@@ -12,9 +12,9 @@ import {
   lineOfSight,
 } from "../dist/engine.js";
 test("subida custa movimento e a altura protege o defensor", () => {
-  assert.equal(movementCost({ q: 3, r: 5 }, { q: 3, r: 4 }), 2);
-  assert.equal(movementCost({ q: 3, r: 4 }, { q: 3, r: 5 }), 1);
-  assert.equal(defenseBonus({ q: 5, r: 2 }, { q: 5, r: 1 }), 2);
+  assert.equal(movementCost({ q: 2, r: 5 }, { q: 3, r: 4 }), 3);
+  assert.equal(movementCost({ q: 3, r: 4 }, { q: 2, r: 5 }), 1);
+  assert.equal(defenseBonus({ q: 5, r: 3 }, { q: 5, r: 1 }), 2);
 });
 test("movimento respeita alcance, ocupação e pontos restantes", () => {
   const s = createGame(),
@@ -40,7 +40,7 @@ test("combate, contra-ataque e limite de um ataque", () => {
 });
 test("mata bloqueia a linha de visão", () => {
   assert.equal(lineOfSight({ q: 1, r: 2 }, { q: 3, r: 2 }), false);
-  assert.equal(lineOfSight({ q: 3, r: 5 }, { q: 5, r: 5 }), true);
+  assert.equal(lineOfSight({ q: 6, r: 7 }, { q: 8, r: 7 }), true);
 });
 test("pontuação apenas depois do turno inimigo e vitória com 8 pontos", () => {
   const s = createGame();
@@ -79,7 +79,7 @@ test("artilharia faz tiro indireto contra fortificação sem perder seu bônus d
   const s = createGame(),
     gun = s.units.find((u) => u.id === "b5"),
     fort = s.units.find((u) => u.id === "g2");
-  gun.q = 3;
+  gun.q = 2;
   gun.r = 5;
   assert.equal(lineOfSight(gun, fort), false);
   assert.equal(canAttack(gun, fort), true);

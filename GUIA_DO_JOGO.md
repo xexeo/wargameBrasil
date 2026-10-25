@@ -36,9 +36,9 @@ Implementado:
 
 - Grade axial de 9 × 8 hexágonos, com seis vizinhos por hexágono.
 - Peças quadradas, cada uma ocupando um hexágono.
-- Mapa inteiramente esquemático, sem escala ou georreferenciamento; não é um mapa militar histórico.
+- Base geográfica atual ancorada no cume OSM de Monte Castello (44,2206238°N / 10,9537700°E), aproximadamente 180 m entre centros de hexágonos. DEM Copernicus GLO-90 em cada centro; feições OSM atuais. Ainda não é um mapa militar restituído de 1945.
 - Campo aberto, mata, estrada e objetivos elevados.
-- Quatro níveis relativos de altitude N1–N4, com faixas de cor e curvas de nível esquemáticas nos limites entre patamares. Legendas no mapa e acima do tabuleiro explicam vale, encosta, crista e cume. Não correspondem a cotas em metros.
+- Quatro faixas de altitude DEM: N1 <780 m, N2 780–849 m, N3 850–919 m, N4 ≥920 m. Curvas a cada 50 m interpoladas entre amostras, não curvas de levantamento de precisão. Os níveis continuam simplificando o custo e a defesa.
 - Monte Castelo vale 2 pontos por rodada de ocupação brasileira; “Esporão ocidental” e “Crista oriental” valem 1 cada. Os nomes e posições dos objetivos secundários são abstrações do jogo.
 
 Nenhuma peça atravessa ou termina movimento num hexágono ocupado, inclusive por aliado. Não há empilhamento, zonas de controle, suprimentos, reforços ou retirada obrigatória nesta versão.
@@ -216,13 +216,23 @@ O núcleo `engine.ts` não depende de navegador; `ai.ts` decide usando esse núc
 
 Buscar aproximadamente 50% de vitórias para cada lado usando a mesma IA, postura e regras em ambos. Reportar quantidade de partidas, sementes, taxa e incerteza. Não ajustar resultados durante uma partida, não impor alternância de vitórias e não afirmar equilíbrio contra humanos com base apenas em autojogo. Decisões de balanceamento podem ser revistas pelo autor.
 
-A amostra inicial de 500 partidas resultou em 51,4% FEB e 48,6% defesa alemã. A grande maioria terminou por eliminação; essa semelhança limitada com a tomada histórica do cume deve permanecer explícita.
+A amostra inicial legada de 500 partidas resultou em 51,4% FEB e 48,6% defesa alemã, mas usava o gerador LCG anterior. Na base geográfica com Mulberry32, 1.000 partidas deram 46,6% FEB / 53,4% defesa alemã; não combinar esses conjuntos. A grande maioria terminou por eliminação; essa semelhança limitada com a tomada histórica do cume deve permanecer explícita.
 
 ## 17. Revisão de jogabilidade — tiro indireto
 
 A versão inicial exigia linha de visão direta para artilharia. O autojogo e a observação do autor mostraram que a dobra do terreno bloqueava o tiro contra posições que a artilharia deveria apoiar. Decisão revisável: alcance 3 e tiro indireto contra alvos conhecidos; manter cobertura/fortificação. Reexecutar treino, testes e torneios após essa mudança, sem misturar taxas de vitória com as do modelo anterior.
 
-## 18. Registro de decisões
+## 18. Revisão geográfica
+
+Base moderna Copernicus DEM/OSM incorporada para tornar o relevo, os caminhos e as localidades menos inventados. Fontes arquivadas, método e limites em docs/GEOGRAFIA.md. A imagem histórica de Casini fica no popup Mapa & fontes. Não confundir feições modernas com 1945, nem pontos de cenário com posições militares verificadas. Reexecutar treino e balanceamento depois da mudança de terreno. Dados OSM mantêm ODbL separadamente do código CC BY-NC-SA.
+
+## 19. Revisão do gerador reproduzível
+
+O LCG inicial correlacionava o primeiro dado entre sementes consecutivas. Substituído por Mulberry32 e adicionado teste de distribuição das primeiras faces entre sementes. Resultados antigos são registros legados, não validação da versão atual. A regra de combate real do navegador continua usando seu gerador uniforme; não há alteração de dados para favorecer qualquer lado.
+
+Na comparação da base geográfica, os atributos originais ficaram mais próximos de 50% que os três ajustes candidatos. Mantidos os atributos originais; escolha revisável pelo autor. Documentar amostras de referência e validação separadamente.
+
+## 20. Registro de decisões
 
 | Data | Decisão | Estado |
 | --- | --- | --- |

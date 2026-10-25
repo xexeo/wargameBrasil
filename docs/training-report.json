@@ -1,15 +1,16 @@
 {
+  "generator": "Mulberry32",
   "episodes": 2000,
-  "updates": 18262,
-  "states": 108,
+  "updates": 20205,
+  "states": 124,
   "seeds": [
     50001,
     52000
   ],
   "trainingWins": {
-    "br": 819,
-    "de": 1181
+    "br": 814,
+    "de": 1186
   },
-  "seconds": 4.970668294,
+  "seconds": 3.6275374389999997,
   "note": "Resultados durante exploração; não equivalem a avaliação independente."
 }

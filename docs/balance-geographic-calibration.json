@@ -1,0 +1,105 @@
+{
+  "generator": "Mulberry32",
+  "sameAlgorithmBothSides": true,
+  "referenceOnly": true,
+  "results": [
+    {
+      "name": "original",
+      "count": 500,
+      "firstSeed": 1,
+      "lastSeed": 500,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 237,
+        "de": 263
+      },
+      "brRate": 0.474,
+      "interval95": [
+        0.430597326218342,
+        0.5177991539452649
+      ],
+      "meanRound": 5.672,
+      "reasons": {
+        "elimination": 443,
+        "points": 54,
+        "time": 3
+      },
+      "brSummitAtEnd": 62
+    },
+    {
+      "name": "franklin4",
+      "count": 500,
+      "firstSeed": 1,
+      "lastSeed": 500,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 270,
+        "de": 230
+      },
+      "brRate": 0.54,
+      "interval95": [
+        0.4961743505261478,
+        0.5832156799913801
+      ],
+      "meanRound": 5.782,
+      "reasons": {
+        "elimination": 445,
+        "points": 50,
+        "time": 5
+      },
+      "brSummitAtEnd": 58
+    },
+    {
+      "name": "sizeno4",
+      "count": 500,
+      "firstSeed": 1,
+      "lastSeed": 500,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 289,
+        "de": 211
+      },
+      "brRate": 0.578,
+      "interval95": [
+        0.534276169564903,
+        0.6205343899442761
+      ],
+      "meanRound": 5.816,
+      "reasons": {
+        "elimination": 444,
+        "points": 52,
+        "time": 4
+      },
+      "brSummitAtEnd": 60
+    },
+    {
+      "name": "artilharia5",
+      "count": 500,
+      "firstSeed": 1,
+      "lastSeed": 500,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 278,
+        "de": 222
+      },
+      "brRate": 0.556,
+      "interval95": [
+        0.5121860862346299,
+        0.5989599564899091
+      ],
+      "meanRound": 5.568,
+      "reasons": {
+        "elimination": 452,
+        "points": 46,
+        "time": 2
+      },
+      "brSummitAtEnd": 54
+    }
+  ],
+  "selected": "original",
+  "reason": "Atributos originais j\u00e1 mais pr\u00f3ximos da meta na amostra de refer\u00eancia; n\u00e3o mudar terreno real nem for\u00e7ar resultados. Valida\u00e7\u00e3o separada em balance-geographic-validation.json."
+}

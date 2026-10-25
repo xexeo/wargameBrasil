@@ -15,8 +15,8 @@ test("narrativa, mapa, movimento, combate, zoom e turno do computador", async ({
   await page.locator('[data-id="b1"]').click();
   await page.locator('[data-q="1"][data-r="5"]').click();
   await expect(page.locator("#unitInfo")).toContainText("Movimento 2");
-  await page.locator('[data-id="b2"]').click();
-  await page.locator('[data-q="3"][data-r="4"]').click();
+  await page.locator('[data-id="b5"]').click();
+  await page.locator('[data-q="2"][data-r="6"]').click();
   await page.locator("#actionAttack").click();
   await page.locator('[data-id="g2"]').click();
   await expect(page.locator("#log")).toContainText("dado");

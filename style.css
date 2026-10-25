@@ -1090,3 +1090,23 @@ h1 .title-version {
 .weather-table th {
   color: #5b6d45;
 }
+
+.place-label {
+  font:
+    600 13px "Barlow Condensed",
+    Arial,
+    sans-serif;
+  fill: #554936;
+  paint-order: stroke;
+  stroke: #f5f0df;
+  stroke-width: 3px;
+}
+.historic-map {
+  width: 100%;
+  height: auto;
+  border: 1px solid #d2c4a6;
+  border-radius: 5px;
+}
+#mapSources {
+  color: #226ba4;
+}

@@ -1,3 +1,4 @@
+import { geographicTerrain, terrainLevel, altitude } from "./geography.js";
 // Prepared positions are scenario abstractions, not surveyed bunker locations.
 export const fortifications = [
     { q: 5, r: 1, level: 1 },
@@ -26,25 +27,10 @@ export const objectives = [
     { q: 3, r: 3, name: "Esporão ocidental", points: 1 },
     { q: 6, r: 3, name: "Crista oriental", points: 1 },
 ];
-export function terrain(q, r) {
-    if (objectives.some((o) => o.q === q && o.r === r))
-        return "hill";
-    if (["2,2", "3,1", "4,2", "6,2", "7,1", "5,4", "1,4", "7,4"].includes(key(q, r)))
-        return "forest";
-    if (["2,5", "3,5", "4,5", "5,5", "6,5"].includes(key(q, r)))
-        return "road";
-    return "plain";
-}
-// Relative terrain levels: a tactical abstraction, not surveyed heights.
-export function elevation(q, r) {
-    if (q === 5 && r === 1)
-        return 4;
-    if (r <= 2)
-        return 3;
-    if (r <= 4)
-        return 2;
-    return 1;
-}
+// Geometry is sampled from Copernicus DEM; land cover/roads from a dated OSM snapshot.
+export const terrain = (q, r) => geographicTerrain(q, r);
+export const elevation = (q, r) => terrainLevel(q, r);
+export { altitude };
 export const clock = (round) => {
     const minutes = 360 + (Math.min(round, 11) - 1) * 72;
     return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;

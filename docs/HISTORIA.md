@@ -34,7 +34,7 @@ Foi acrescentada uma série horária regional ECMWF ERA5 via Open-Meteo para 21/
 ## O que ainda não foi confirmado
 
 - **Clima instrumental do ataque final:** a série ERA5 incorporada é uma reconstrução regional; continua faltando um boletim diário instrumental local de 21/02. Os valores no jogo são identificados como modelados. Nuvens não são tratadas como nevoeiro e ausência de precipitação não é tratada como ausência de neve no solo.
-- **Cartografia:** mapa axial inteiramente esquemático, sem escala e sem georreferenciamento. Estradas, matas e os objetivos “Esporão ocidental” e “Crista oriental” são abstrações. Níveis ↑1–↑4 são relativos; não são cotas em metros.
+- **Cartografia de 1945:** a base atual já usa coordenadas reais do cume, Copernicus DEM e feições modernas OSM, com escala aproximada. Não é uma restituição de 1945. Posições militares e objetivos secundários continuam abstrações. Ver [GEOGRAFIA.md](GEOGRAFIA.md).
 - As páginas do U.S. Army Center of Military History e o espelho HyperWar retornaram HTTP 403. Fotografias de mapas no Wikimedia Commons também não puderam ser baixadas. Não foram usadas como evidência consultada.
 
 Próximo passo histórico: confrontar diário de operações da FEB, cartografia militar e observações meteorológicas locais antes de tornar o cenário uma reconstrução topográfica ou meteorológica.
