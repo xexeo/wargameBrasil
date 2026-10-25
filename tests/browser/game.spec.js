@@ -111,3 +111,14 @@ test("arquivo standalone funciona com todos os recursos embutidos", async ({
   expect(errors).toEqual([]);
   expect(blocked).toEqual([]);
 });
+
+test('IA especial vem treinada, persiste e permite exportar experiência',async({page})=>{
+ await page.goto('/');await page.locator('#begin').click();await page.locator('#ai').selectOption('trained');
+ await page.locator('#end').click();await expect(page.locator('#round')).toHaveText('2 / 10');
+ const initialUpdates=JSON.parse(await page.evaluate(()=>localStorage.getItem('monte-castelo-trained-v1'))).updates;
+ await page.locator('#end').click();await expect(page.locator('#round')).toHaveText('3 / 10');
+ const saved=JSON.parse(await page.evaluate(()=>localStorage.getItem('monte-castelo-trained-v1')));
+ expect(saved.episodes).toBeGreaterThanOrEqual(2000);expect(saved.updates).toBeGreaterThan(initialUpdates);
+ await page.locator('#memory').click();const download=page.waitForEvent('download');await page.locator('#exportMemory').click();expect((await download).suggestedFilename()).toContain('experiencia');
+ await page.reload();expect(JSON.parse(await page.evaluate(()=>localStorage.getItem('monte-castelo-trained-v1')))).toEqual(saved);
+});

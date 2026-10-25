@@ -8,12 +8,13 @@
     "start": "python3 -m http.server 8000 --bind 0.0.0.0",
     "test": "npm run build && node --test tests/*.test.js",
     "test:browser": "playwright test",
-    "simulate": "npm run build && node scripts/autoplay.mjs"
+    "simulate": "npm run build && node scripts/autoplay.mjs",
+    "train": "npm run build && node scripts/train.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
     "esbuild": "^0.28.2",
     "typescript": "^7.0.2"
   },
-  "version": "0.1.2"
+  "version": "0.1.3"
 }

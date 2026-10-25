@@ -167,6 +167,12 @@ O cálculo enumera destinos alcançáveis dentro dos PM, compara sua utilidade e
 - Não aprende cada movimento individual, não usa rede neural nem depende de serviço remoto. Não há garantia de evolução monotônica ou de vencer o jogador.
 - A partida atual não é restaurada após recarregamento; a experiência é mantida quando o navegador permite armazenamento. Limpar seus dados apaga o aprendizado.
 
+### IA especial Veterana
+
+Implementada em `learning.ts`, independente da interface. Q-learning tabular sobre seis políticas; o estado distingue lado, fase, vantagem em PV, faixa de pontos, objetivos ocupados e presença no cume. Taxa 0,18, desconto 0,9, exploração de 8% no navegador. Recompensa usa diferença de forças, pontos e controle, com +12/−12 ao final. Treinamento inicial: 2.000 partidas, sementes 50001–52000, exploração decrescendo de 30% a 10%. Tabela incorporada em `pretrained.ts`; aprendizado local salvo com esquema versionado, exportável/importável. `persistence.ts` é o adaptador substituível por armazenamento de app. Esse recurso amplia o Aprendiz simples, que continua disponível separadamente.
+
+A avaliação deve usar sementes distintas e registrar quando a experiência online está ativa. Treinamento não garante taxa específica de vitória ou melhora em toda partida.
+
 ## 13. Controles e comunicação
 
 - Popup de narrativa no começo de cada operação.

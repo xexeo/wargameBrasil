@@ -1,3 +1,6 @@
+import { pretrained } from "./pretrained.js";
+import { beginLearningTurn, finishLearningEpisode, validLearning, type LearningContext, type LearningTable } from "./learning.js";
+import { browserStore } from "./persistence.js";
 import { aiAction } from "./ai.js";
 import { release } from "./version.js";
 import { ludesLogo, gameLogo } from "./assets-data.js";
@@ -28,6 +31,9 @@ let game = createGame(),
   generation = 0,
   lastTap: { id: string | null; time: number } = { id: null, time: 0 },
   rewarded = false;
+let trained:LearningTable=structuredClone(pretrained),trainedContext:LearningContext={},trainedUsed=false;
+try{const saved=JSON.parse(browserStore.read('monte-castelo-trained-v1')||'null');if(validLearning(saved))trained=saved;}catch{}
+function saveTrained(){const ok=browserStore.write('monte-castelo-trained-v1',JSON.stringify(trained));$('storageStatus').textContent=ok?'Experiência salva neste navegador.':'Armazenamento indisponível: exporte a experiência antes de sair.';}
 const policyKeys = [
   "strong/aggressive",
   "strong/defensive",
@@ -43,7 +49,7 @@ let memory: {
 } = { games: 0, q: {}, visits: {} };
 try {
   const stored = JSON.parse(
-    localStorage.getItem("monte-castelo-learning-v1") || "null",
+    browserStore.read("monte-castelo-learning-v1") || "null",
   );
   if (stored && Number.isFinite(stored.games) && stored.q && stored.visits)
     memory = stored;
@@ -60,7 +66,7 @@ const esc = (s) =>
   );
 function persist() {
   try {
-    localStorage.setItem("monte-castelo-learning-v1", JSON.stringify(memory));
+    browserStore.write("monte-castelo-learning-v1", JSON.stringify(memory));
     return true;
   } catch {
     return false;
@@ -157,9 +163,10 @@ function render() {
     ? `<p>${u.side === "br" ? "Força Expedicionária Brasileira" : "Defesa alemã"} · ${{ infantry: "Infantaria", armor: "Apoio blindado", artillery: "Artilharia" }[u.type]}</p><div class="statrow"><span>Ataque ${u.atk}</span><span>Defesa ${u.def}</span><span>PV ${u.hp}/3</span><span>Movimento ${u.mp}</span><span>Altitude ↑${elevation(u.q, u.r)}</span><span>Alcance ${u.type === "artillery" ? 2 : 1}</span><span>Cobertura ${["hill", "forest"].includes(terrain(u.q, u.r)) ? "+1" : "0"}</span></div><p>${u.fired ? "Ação concluída · já atacou neste turno." : u.mp === 0 ? "Sem movimento · ainda pode atacar um inimigo ao alcance." : "Pronta para agir · pode mover e depois atacar."} Dano acumulado: ${3 - u.hp}. Potência atual: ${u.atk - (3 - u.hp) * 0.5}. Defender acima do atacante dá +1 adicional.</p>`
     : "<p>Toque numa peça verde, depois num hexágono iluminado para mover ou num inimigo marcado para atacar.</p><p>A = ataque · D = defesa · M = movimento restante. Pontos dourados = resistência. Selo vermelho = dano acumulado. Toque duas vezes para ampliar.</p>";
   $("learningStatus").textContent =
-    `Aprendiz: ${memory.games} partidas concluídas · experiência local${policy ? " · " + policy.replace("/", " / ") : ""}.`;
+    `IA especial: ${trained.episodes} partidas de experiência · ${Object.keys(trained.q).length} situações. Aprendiz simples: ${memory.games} partidas concluídas · experiência local${policy ? " · " + policy.replace("/", " / ") : ""}.`;
   if (game.winner && !rewarded) {
     rewarded = true;
+    if(trainedUsed){finishLearningEpisode(trained,trainedContext,game);saveTrained();}
     if (episode.length || policy) {
       learn(game.winner === "de" ? 8 : -8, true);
       memory.games++;
@@ -237,9 +244,10 @@ $("end").onclick = async () => {
   const mode = $("ai").value;
   if (mode === "learning") policy = choosePolicy();
   else policy = null;
-  const [chosen, stance] = policy
+  let [chosen, stance] = policy
     ? policy.split("/")
     : [mode, $("stance").value];
+  if(mode==='trained'){trainedUsed=true;const learned=beginLearningTurn(trained,trainedContext,game,'de');chosen=learned.strategy;stance=learned.stance;saveTrained();}
   const before =
       game.units.filter((u) => u.side === "br").reduce((n, u) => n + u.hp, 0) -
       game.units.filter((u) => u.side === "de").reduce((n, u) => n + u.hp, 0),
@@ -259,6 +267,7 @@ $("end").onclick = async () => {
   if (mode === "learning" && !rewarded)
     learn(before - after - (game.score - oldScore));
   busy = false;
+  if(mode==='trained')saveTrained();
   render();
 };
 $("new").onclick = () => {
@@ -276,6 +285,7 @@ $("new").onclick = () => {
   rewarded = false;
   episode = [];
   policy = null;
+  trainedContext={};trainedUsed=false;
   render();
   narrative();
 };
@@ -384,3 +394,5 @@ $("credits").onclick = () =>
   show(
     `<span class="eyebrow">AUTORIA & LICENÇA</span><img class="narrative-logo" src="${gameLogo}" alt="Emblema original do jogo inspirado na FEB"><h2>Monte Castelo Vibed</h2><div class="ludes-credit"><img src="${ludesLogo}" alt="Logo oficial do LUDES" width="300" height="76"><a href="https://ludes.cos.ufrj.br/" target="_blank" rel="noopener">LUDES · UFRJ</a></div><p><b>Autoria e concepção:</b> Geraldo Xexéo (xexeo).<br><b>Desenvolvimento:</b> realizado com assistência de IA, a partir das orientações do autor.</p><p>Copyright © 2026 Geraldo Xexéo (xexeo).</p><p class="muted">Versão ${release.version} · ${release.displayDate} · Brasília</p><h3>CC BY-NC-SA 4.0</h3><p>Creative Commons Atribuição–NãoComercial–CompartilhaIgual 4.0 Internacional. Você pode compartilhar e adaptar este trabalho com atribuição, para fins não comerciais e distribuindo adaptações sob a mesma licença.</p><p><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt-br" target="_blank" rel="noopener">Resumo oficial da licença</a> · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt" target="_blank" rel="noopener">Termos oficiais em português</a></p><details><summary>Texto integral da licença (disponível offline)</summary><pre class="license-text">${esc(licenseText)}</pre></details><p class="muted">O emblema do jogo é uma criação com assistência de IA inspirada na cobra fumando da FEB; não é um distintivo oficial. O logo LUDES é a imagem institucional fornecida pelo autor. A licença do jogo não concede direitos sobre marcas e logotipos institucionais.</p>`,
   );
+
+$('memory').onclick=()=>{show(`<span class="eyebrow">EXPERIÊNCIA DO COMANDANTE</span><h2>Uma IA que leva suas lições adiante</h2><p>${trained.episodes} partidas de experiência · ${trained.updates} atualizações · ${Object.keys(trained.q).length} situações aprendidas.</p><p>A IA especial já vem treinada em ${pretrained.episodes} partidas de autojogo. Aprende a escolher estratégia e postura conforme fase, forças, pontos e ocupação. Continua aprendendo aqui; a experiência fica neste navegador. Não há sincronização automática entre aparelhos.</p><button id="exportMemory">Exportar experiência</button><p><label for="importMemory">Importar experiência salva</label><input id="importMemory" type="file" accept="application/json,.json"></p><p id="importResult" aria-live="polite"></p>`);$('exportMemory').onclick=()=>{const blob=new Blob([JSON.stringify(trained,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='monte-castelo-vibed-experiencia.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};$('importMemory').onchange=async e=>{try{const file=e.target.files[0];if(!file||file.size>2000000)throw new Error('Arquivo ausente ou muito grande.');const data=JSON.parse(await file.text());if(!validLearning(data))throw new Error('Arquivo de experiência incompatível.');trained=data;trainedContext={};saveTrained();$('importResult').textContent='Experiência importada. Será usada no próximo turno.';}catch(err){$('importResult').textContent=err instanceof Error?err.message:'Não foi possível importar.';}};};

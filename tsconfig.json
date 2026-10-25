@@ -9,5 +9,5 @@
     "noImplicitAny": false,
     "sourceMap": true
   },
-  "include": ["engine.ts", "ai.ts", "simulator.ts", "app.ts"]
+  "include": ["engine.ts", "ai.ts", "simulator.ts", "learning.ts", "persistence.ts", "app.ts"]
 }
