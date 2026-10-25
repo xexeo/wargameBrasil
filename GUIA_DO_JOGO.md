@@ -195,7 +195,15 @@ A partir da solicitação do autor, todo novo commit deve avançar `0.1.X` e exi
 
 Continuar autonomamente por etapas concretas e verificáveis. Registrar decisões alteráveis pelo autor e limitações; não tratar hipótese histórica como fato ou prometer trabalho indefinido após o encerramento da tarefa.
 
-## 16. Registro de decisões
+## 16. Autojogo obrigatório e arquitetura
+
+O núcleo `engine.ts` não depende de navegador; `ai.ts` decide usando esse núcleo; `simulator.ts` executa partidas completas com sementes reproduzíveis. A interface `app.ts` usa o mesmo motor. Antes de considerar uma versão pronta, rodar autojogo e comparar os resultados com o problema histórico, sem inventar equivalência entre estatísticas do jogo e a batalha real.
+
+Buscar aproximadamente 50% de vitórias para cada lado usando a mesma IA, postura e regras em ambos. Reportar quantidade de partidas, sementes, taxa e incerteza. Não ajustar resultados durante uma partida, não impor alternância de vitórias e não afirmar equilíbrio contra humanos com base apenas em autojogo. Decisões de balanceamento podem ser revistas pelo autor.
+
+A amostra inicial de 500 partidas resultou em 51,4% FEB e 48,6% defesa alemã. A grande maioria terminou por eliminação; essa semelhança limitada com a tomada histórica do cume deve permanecer explícita.
+
+## 17. Registro de decisões
 
 | Data | Decisão | Estado |
 | --- | --- | --- |

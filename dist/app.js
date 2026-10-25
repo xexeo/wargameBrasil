@@ -1,7 +1,8 @@
+import { aiAction } from "./ai.js";
 import { release } from "./version.js";
 import { ludesLogo, gameLogo } from "./assets-data.js";
 import { licenseText } from "./license-text.js";
-import { COLS, ROWS, LIMIT, key, objectives, terrain, elevation, clock, createGame, reachable, canAttack, move, attack, endTurn, aiAction, } from "./engine.js";
+import { COLS, ROWS, LIMIT, key, objectives, terrain, elevation, clock, createGame, reachable, canAttack, move, attack, endTurn, } from "./engine.js";
 const $ = (id) => document.getElementById(id);
 $("gameLogo").src = gameLogo;
 $("buildVersion").textContent = `v${release.version} · ${release.displayDate} · Brasília`;

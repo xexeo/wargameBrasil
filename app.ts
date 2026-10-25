@@ -1,3 +1,4 @@
+import { aiAction } from "./ai.js";
 import { release } from "./version.js";
 import { ludesLogo, gameLogo } from "./assets-data.js";
 import { licenseText } from "./license-text.js";
@@ -16,7 +17,6 @@ import {
   move,
   attack,
   endTurn,
-  aiAction,
 } from "./engine.js";
 const $ = (id: string): any => document.getElementById(id);
 $("gameLogo").src = gameLogo;

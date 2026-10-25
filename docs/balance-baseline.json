@@ -1,0 +1,23 @@
+{
+  "count": 500,
+  "firstSeed": 1,
+  "lastSeed": 500,
+  "strategy": "tactical",
+  "stance": "aggressive",
+  "wins": {
+    "br": 257,
+    "de": 243
+  },
+  "brRate": 0.514,
+  "interval95": [
+    0.47025071185469686,
+    0.5575357988264379
+  ],
+  "meanRound": 5.444,
+  "reasons": {
+    "elimination": 467,
+    "points": 26,
+    "time": 7
+  },
+  "brSummitAtEnd": 4
+}

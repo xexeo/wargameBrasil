@@ -1,3 +1,4 @@
+import { aiAction } from "../dist/ai.js";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -6,7 +7,6 @@ import {
   move,
   attack,
   endTurn,
-  aiAction,
   movementCost,
   defenseBonus,
   lineOfSight,

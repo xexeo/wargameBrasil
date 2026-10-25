@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.1 · 25/10/2026, 02:54:53 (Brasília)**
+**Versão 0.1.2 · 25/10/2026, 02:58:00 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -34,6 +34,17 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 
 O tempo de 5–10 minutos é uma meta de projeto, ainda sem validação com jogadores. A IA calcula localmente; sua sequência visual normalmente leva cerca de 1–2 segundos.
 
+## Autojogo sem interface
+
+A arquitetura separa `engine.ts` (regras e estado), `ai.ts` (estratégias), `simulator.ts` (partidas e torneios sem DOM), `app.ts` (interface) e `scripts/autoplay.mjs` (CLI). O mesmo motor executa jogo visual e simulações.
+
+```sh
+npm run simulate -- --games 500 --seed 1 --output docs/balance-baseline.json
+node scripts/autoplay.mjs --games 1 --seed 42 --replay /tmp/partida.json
+```
+
+Avaliação inicial com a mesma IA tática/agressiva nos dois lados, sementes 1–500: **257 vitórias brasileiras (51,4%) e 243 alemãs (48,6%)**. [Relatório reproduzível](docs/balance-baseline.json). Isso mede a configuração dessa IA, não equilíbrio garantido contra humanos. Foram 467 finais por eliminação, 26 por pontos e 7 por tempo; apenas 4 partidas terminaram com ocupação brasileira do cume. A frequência de eliminação mostra uma diferença importante em relação ao objetivo histórico de conquista das posições e orienta a próxima revisão de tática/objetivos.
+
 ## Limites e pendências
 
 - **Clima de 21/02/1945:** falta uma fonte meteorológica diária. Boa visibilidade e movimento normal são hipóteses explícitas, não condições medidas. Não transportamos automaticamente a chuva e lama de novembro/dezembro para fevereiro.
@@ -65,7 +76,7 @@ Para servir a versão modular localmente, execute `npm start`. Para os testes em
 
 ## Validação
 
-Na implementação atual, passaram 6 testes das regras e 8 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
+Na implementação atual, passaram 8 testes do motor/simulador e 8 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
 
 Os testes de motor exercitam partidas completas com as combinações de IA e postura, movimento legal, combate, pontuação, altitude e linha de visão. Clima histórico e fidelidade topográfica não são validados por esses testes.
 

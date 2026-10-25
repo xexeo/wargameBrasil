@@ -1,0 +1,11 @@
+import { tournament, simulate } from "../dist/simulator.js";
+import { writeFile } from "node:fs/promises";
+const args=process.argv.slice(2);
+const value=(key,fallback)=>{const i=args.indexOf(key);return i<0?fallback:args[i+1];};
+const count=Number(value('--games','500')),seed=Number(value('--seed','1'));
+const strategy=value('--strategy','tactical'),stance=value('--stance','aggressive');
+if(!['strong','weak','tactical'].includes(strategy)||!['aggressive','defensive'].includes(stance)||!Number.isInteger(seed))throw new Error('Opções de simulação inválidas.');
+const report=tournament(count,seed,{strategy,stance});
+console.log(JSON.stringify(report,null,2));
+const output=value('--output',null);if(output)await writeFile(output,JSON.stringify(report,null,2)+'\n');
+const replay=value('--replay',null);if(replay)await writeFile(replay,JSON.stringify(simulate({seed,strategy,stance,record:true}),null,2)+'\n');

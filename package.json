@@ -7,12 +7,13 @@
     "typecheck": "tsc --noEmit",
     "start": "python3 -m http.server 8000 --bind 0.0.0.0",
     "test": "npm run build && node --test tests/*.test.js",
-    "test:browser": "playwright test"
+    "test:browser": "playwright test",
+    "simulate": "npm run build && node scripts/autoplay.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
     "esbuild": "^0.28.2",
     "typescript": "^7.0.2"
   },
-  "version": "0.1.1"
+  "version": "0.1.2"
 }
