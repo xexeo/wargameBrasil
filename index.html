@@ -21,14 +21,14 @@
         </div>
       </div>
       <div class="header-actions">
-        <button id="credits">Autoria & licença</button
+        <button id="briefing">Missão</button><button id="credits">Autoria & licença</button
         ><button id="rules">Regras & história</button>
       </div>
     </header>
     <main>
       <section class="command">
         <div>
-          <span class="eyebrow">VOCÊ COMANDA A FEB</span>
+          <span class="eyebrow" id="yourSide">VOCÊ COMANDA A FEB</span>
           <h2 id="phase">Sua vez de avançar</h2>
           <p id="brief">Selecione uma unidade brasileira para começar.</p>
         </div>
@@ -39,7 +39,7 @@
           <button id="end">Encerrar turno →</button>
         </div>
       </section>
-      <div class="layout">
+      <section class="mission"><strong>⚑ MISSÃO: OCUPE AS POSIÇÕES MARCADAS E ACUMULE 8 PONTOS</strong><p>Fique sobre um hexágono com bandeira até o fim do turno alemão. Monte Castelo rende 2 pontos; cada posição secundária, 1. Prazo: 10 rodadas. Eliminar todo o inimigo também vence.</p><div id="goals" class="goals"></div></section><div class="layout">
         <section class="battlefield">
           <div class="maptop">
             <span>SETOR DOS APENINOS · ITÁLIA</span>
@@ -59,7 +59,7 @@
               ><button id="in" aria-label="Aumentar zoom">+</button>
             </div>
           </div>
-          <div id="viewport">
+          <div class="actionbar"><p id="actionHint" aria-live="polite"></p><button id="actionMove" disabled>Mover</button><button id="actionAttack" disabled>Atacar</button></div><div id="viewport">
             <svg
               id="map"
               viewBox="0 0 960 690"
@@ -70,8 +70,8 @@
           <div class="legend">
             <span>▧ Mata · movimento 2</span
             ><span>↑ Altitude · subida +PM · defesa +1</span
-            ><span>━ Estrada · movimento 1</span><span class="br">■ FEB</span
-            ><span class="de">■ Defesa alemã</span>
+            ><span>━ Estrada · movimento 1</span><span class="br">■ FEB · azul</span
+            ><span class="de">■ Alemães · carvão</span>
           </div>
         </section>
         <aside>
@@ -87,7 +87,7 @@
             </div>
           </section>
           <section class="card">
-            <label for="ai">COMANDANTE INIMIGO</label
+            <label for="gameMode">MODO DE JOGO</label><select id="gameMode"><option value="computer">Humano × computador</option><option value="remote">Humano × humano · à distância</option></select><button id="shareTurn" class="secondary" disabled>Enviar turno · WhatsApp</button><label class="file-label" for="loadTurn">Abrir arquivo de turno<input id="loadTurn" type="file" accept="application/json,.json"></label><label for="ai">COMANDANTE INIMIGO</label
             ><select id="ai">
               <option value="tactical">Estado-maior · tática avançada</option>
               <option value="strong">Caçador · maior ataque</option>

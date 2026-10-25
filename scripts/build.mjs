@@ -8,7 +8,9 @@ const bundled = await build({
   target: "es2022",
   minify: true,
 });
-const css = await readFile("style.css", "utf8");
+const font = await readFile("assets/fonts/barlow-condensed-latin-600-normal.woff2");
+const fontLicense = await readFile("assets/fonts/OFL.txt", "utf8");
+const css = `/* Barlow Condensed — included font license:\n${fontLicense}\n*/\n` + (await readFile("style.css", "utf8")).replace('url("assets/fonts/barlow-condensed-latin-600-normal.woff2")', () => `url("data:font/woff2;base64,${font.toString("base64")}")`);
 const html = (await readFile("index.html", "utf8"))
   .replace(
     /<link\s+rel="stylesheet"\s+href="style\.css"\s*\/?>/,

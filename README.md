@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.3 · 25/10/2026, 03:01:49 (Brasília)**
+**Versão 0.1.4 · 25/10/2026, 03:14:10 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -10,7 +10,7 @@ Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro 
 
 **[▶ Jogar Monte Castelo Vibed](https://xexeo.github.io/wargameBrasil/)**
 
-Publicação pelo GitHub Pages, a partir da `main`, pelo workflow `.github/workflows/pages.yml`. O link só fica disponível após a conclusão da primeira publicação.
+Publicação pelo GitHub Pages, a partir da `main`, pelo workflow `.github/workflows/pages.yml`. Primeira publicação verificada: a página respondeu com o título do jogo após a ativação do Pages. O repositório também aceita a publicação nativa configurada na `main`/raiz.
 
 ## Jogar só no navegador
 
@@ -24,11 +24,13 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 
 ## Estado atual
 
-- Interface clara, com fundo branco, responsiva para celular e computador.
-- Narrativa histórica em popup ao iniciar cada operação. Logo original do jogo inspirado na cobra fumando da FEB, criado com assistência de IA; não é um distintivo oficial.
+- Interface clara, com fundo branco, responsiva para celular e computador. FEB em azul, defesa alemã em carvão; terreno em papel e terra. Títulos sem serifa Barlow Condensed, fonte embutida offline sob licença OFL.
+- Narrativa histórica em popup ao iniciar cada operação e reaberta pelo botão **Missão**, sem reiniciar. Logo original do jogo inspirado na cobra fumando da FEB, criado com assistência de IA; não é um distintivo oficial.
 - Tabuleiro de 9 × 8 hexágonos; peças quadradas com símbolos de infantaria e artilharia.
-- Seleção e movimento por toque/clique, com desconto dos pontos de movimento; ataque selecionando a peça e depois o inimigo.
+- Ações explícitas **Mover** e **Atacar** acima do mapa. Primeiro selecione a peça, escolha a ação e toque no hexágono azul ou no alvo vermelho. Movimento desconta pontos; tocar em inimigo no modo Mover não ataca.
 - Duplo toque/clique amplia a peça e mostra seus atributos. Cada peça mostra movimento restante (M), ataque (A), defesa (D), resistência atual e selo de dano acumulado, atualizados após cada ação.
+- Florestinhas desenhadas em SVG, fortificações e trincheiras esquemáticas em Monte Castelo e no esporão; bônus de proteção não acumula com cobertura natural.
+- Faixa de missão, bandeiras e botões para localizar os três objetivos, com controle e pontuação visíveis.
 - Terreno afeta movimento, defesa e linha de visão. Subidas gastam mais movimento; defensores acima do atacante recebem proteção adicional.
 - Zoom contínuo por slider, pinça e Ctrl/Command + roda do mouse; atalhos **Mapa inteiro** e **Visão tática**.
 - Regras, contexto histórico, fontes e diário de combate na interface.
@@ -52,13 +54,20 @@ node scripts/autoplay.mjs --games 1 --seed 42 --replay /tmp/partida.json
 
 Avaliação inicial com a mesma IA tática/agressiva nos dois lados, sementes 1–500: **257 vitórias brasileiras (51,4%) e 243 alemãs (48,6%)**. [Relatório reproduzível](docs/balance-baseline.json). Uma segunda amostra, sementes 10001–10500, resultou em 216 vitórias FEB (43,2%) e 284 alemãs (56,8%). Agregado de 1.000 partidas: **47,3% FEB / 52,7% alemãs**. Os resultados por amostra variam; isso mede a configuração dessa IA, não equilíbrio garantido contra humanos. Foram 467 finais por eliminação, 26 por pontos e 7 por tempo; apenas 4 partidas terminaram com ocupação brasileira do cume. A frequência de eliminação mostra uma diferença importante em relação ao objetivo histórico de conquista das posições e orienta a próxima revisão de tática/objetivos.
 
+## Humano × humano e WhatsApp
+
+Selecione **Humano × humano · à distância**. O primeiro jogador comanda a FEB. Ao encerrar o turno, use **Enviar pelo WhatsApp**; quem abre o link assume o lado do próximo turno e envia outro link ao terminar. O link contém uma fotografia validada da partida, sem backend e sem envio automático de mensagens. Não há sala em tempo real ou verificação de identidade; continuem sempre do último estado recebido.
+
+Na versão offline, exporte o arquivo do turno e envie-o como documento; o destinatário usa **Abrir arquivo de turno**. Links com endereços locais não são oferecidos para compartilhamento.
+
 ## Limites e pendências
 
 - **Clima de 21/02/1945:** falta uma fonte meteorológica diária. Boa visibilidade e movimento normal são hipóteses explícitas, não condições medidas. Não transportamos automaticamente a chuva e lama de novembro/dezembro para fevereiro.
 - Mapa esquemático, sem escala ou georreferenciamento; níveis de altitude relativos e objetivos secundários de jogo. Ainda não é uma reconstrução cartográfica.
 - Consulte [docs/HISTORIA.md](docs/HISTORIA.md) para distinguir fatos consultados, abstrações e pontos não confirmados.
+- A IA Veterana ainda não atinge equilíbrio: na avaliação separada de 300 partidas, foram **34% FEB / 66% defesa alemã** com o mesmo algoritmo nos dois lados. Não confundir esse resultado com os 47,3% / 52,7% agregados da IA tática. Balanceamento da Veterana continua como decisão revisável.
 - A experiência da IA depende do armazenamento permitido pelo navegador. Limpar seus dados apaga o aprendizado; abrir arquivos locais pode ter comportamento de armazenamento diferente entre navegadores.
-- A partida em andamento ainda não é salva ao recarregar a página; a experiência das IAs é mantida.
+- Partida e preferências são salvas localmente; ao reabrir, o jogo oferece retomada. Se a página for fechada durante o turno da IA, retoma o último ponto de controle completo, anterior ao processamento daquele turno.
 
 ## Versões e commits
 
@@ -86,7 +95,7 @@ Para servir a versão modular localmente, execute `npm start`. Para os testes em
 
 ## Validação
 
-Na implementação atual, passaram 10 testes do motor/simulador/aprendizado e 10 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
+Na implementação atual, passaram 12 testes do motor/simulador/aprendizado/troca de turnos e 14 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
 
 Os testes de motor exercitam partidas completas com as combinações de IA e postura, movimento legal, combate, pontuação, altitude e linha de visão. Clima histórico e fidelidade topográfica não são validados por esses testes.
 

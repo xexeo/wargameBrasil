@@ -57,7 +57,7 @@ Cada lado começa com cinco peças; valores e quantidade são abstrações, não
 | Símbolo de retângulo com X | Infantaria |
 | Símbolo de ponto no retângulo | Artilharia |
 
-As peças brasileiras são verdes; as alemãs, cinza. Os nomes Franklin, Uzeda e Sizeno contextualizam a infantaria brasileira; não equivalem a uma ordem de batalha exata.
+As peças brasileiras são azuis; as alemãs, carvão, ambas com identificação textual. O mapa usa papel e terra para separar terreno e contadores. Títulos usam Barlow Condensed sem serifa, e números dos contadores usam Arial/sans em negrito. Os nomes Franklin, Uzeda e Sizeno contextualizam a infantaria brasileira; não equivalem a uma ordem de batalha exata.
 
 No painel de seleção: ataque, defesa, movimento, resistência, altitude, cobertura, alcance, potência atual e estado de ação. No duplo toque/clique: peça ampliada e seus atributos atuais.
 
@@ -106,7 +106,7 @@ potência = A + d6 − D − cobertura − vantagem de altura − penalidade por
 ```
 
 - `d6`: sorteio uniforme de 1 a 6.
-- Cobertura: +1 à defesa em mata ou objetivo elevado; não acumular duas coberturas.
+- Cobertura: +1 à defesa em mata, objetivo elevado ou fortificação; usar o maior bônus, sem acumular coberturas. Monte Castelo e o esporão recebem abrigos/trincheiras esquemáticos de nível 1, não localizações verificadas de bunkers.
 - Vantagem de altura: mais +1 à defesa quando o defensor está num nível acima do atacante, independentemente da diferença total de níveis.
 - Penalidade por dano: 0,5 por PV perdido pelo atacante.
 - Barragem: +1 somente para artilharia brasileira na rodada 10.
@@ -165,7 +165,7 @@ O cálculo enumera destinos alcançáveis dentro dos PM, compara sua utilidade e
 - Recompensa favorece danos brasileiros e penaliza perdas alemãs e pontos brasileiros; vitória alemã rende +8, derrota −8.
 - A experiência é persistida em `localStorage`, chave `monte-castelo-learning-v1`, sem reinicialização automática entre partidas.
 - Não aprende cada movimento individual, não usa rede neural nem depende de serviço remoto. Não há garantia de evolução monotônica ou de vencer o jogador.
-- A partida atual não é restaurada após recarregamento; a experiência é mantida quando o navegador permite armazenamento. Limpar seus dados apaga o aprendizado.
+- A partida atual é restaurada por ponto de controle completo; a experiência é mantida quando o navegador permite armazenamento. Limpar seus dados apaga o aprendizado.
 
 ### IA especial Veterana
 
@@ -175,8 +175,8 @@ A avaliação deve usar sementes distintas e registrar quando a experiência onl
 
 ## 13. Controles e comunicação
 
-- Popup de narrativa no começo de cada operação.
-- Um toque/clique seleciona; outro num destino move ou num inimigo válido ataca.
+- Popup de narrativa no começo de cada operação; botão Missão reabre a narrativa sem reiniciar.
+- Um toque/clique seleciona. Escolher Mover ou Atacar na barra fixa acima do mapa. No modo Mover, tocar num destino azul move; no modo Atacar, tocar num inimigo vermelho ataca. Um clique num inimigo no modo Mover apenas orienta a troca de modo.
 - Destaque de hexágonos alcançáveis e inimigos ao alcance.
 - Duplo toque/clique amplia peça; seleção por Enter/Espaço também é aceita nas peças.
 - Zoom contínuo por slider, pinça e Ctrl/Command + roda do mouse; botões +/− são atalhos adicionais.
@@ -184,6 +184,12 @@ A avaliação deve usar sementes distintas e registrar quando a experiência onl
 - **Visão tática:** aproximar para leitura das peças, permitindo rolagem do mapa.
 - Popup de regras e história disponível durante a partida; popup separado de autoria e licença.
 - Diário comunica combate, rodada, pontuação e barragem. Tela de fim explica o resultado e permite reiniciar.
+
+### Partidas remotas e retomada
+
+Humano × humano funciona por fotografias de turnos compartilhadas por link no WhatsApp, quando hospedado, ou arquivo JSON offline. Quem recebe assume o lado que deve jogar. Quem enviou fica impedido de agir pelo lado oposto enquanto aguarda. Não há backend, salas ao vivo, identidade verificada ou sincronização automática; o estado mais recente deve ser trocado pelos jogadores. Importar um estado valida esquema, posições e limites de atributos.
+
+A sessão local guarda modo, lado, peças, pontos, rodada, preferências e contexto de aprendizado. Não salvar um turno parcialmente processado da IA. Ao recarregar, oferecer retomada do último ponto completo.
 
 ## 14. Critérios de aceitação
 

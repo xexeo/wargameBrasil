@@ -25,6 +25,9 @@ export interface Cell {
   q: number;
   r: number;
 }
+// Prepared positions are scenario abstractions, not surveyed bunker locations.
+export const fortifications = [{q:5,r:1,level:1},{q:3,r:3,level:1}];
+export function fortification(q:number,r:number):number{return fortifications.find(f=>f.q===q&&f.r===r)?.level??0;}
 export const COLS = 9,
   ROWS = 8,
   LIMIT = 10;
@@ -102,7 +105,7 @@ export function lineOfSight(a: Cell, b: Cell): boolean {
 }
 export function defenseBonus(a: Cell, b: Cell): number {
   return (
-    (["hill", "forest"].includes(terrain(b.q, b.r)) ? 1 : 0) +
+    Math.max(["hill", "forest"].includes(terrain(b.q, b.r)) ? 1 : 0,fortification(b.q,b.r)) +
     (elevation(b.q, b.r) > elevation(a.q, a.r) ? 1 : 0)
   );
 }

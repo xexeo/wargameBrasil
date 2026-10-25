@@ -17,6 +17,7 @@ test("narrativa, mapa, movimento, combate, zoom e turno do computador", async ({
   await expect(page.locator("#unitInfo")).toContainText("Movimento 2");
   await page.locator('[data-id="b2"]').click();
   await page.locator('[data-q="3"][data-r="4"]').click();
+  await page.locator("#actionAttack").click();
   await page.locator('[data-id="g2"]').click();
   await expect(page.locator("#log")).toContainText("dado");
   await page.locator("#ideal").click();
@@ -122,3 +123,7 @@ test('IA especial vem treinada, persiste e permite exportar experiência',async(
  await page.locator('#memory').click();const download=page.waitForEvent('download');await page.locator('#exportMemory').click();expect((await download).suggestedFilename()).toContain('experiencia');
  await page.reload();expect(JSON.parse(await page.evaluate(()=>localStorage.getItem('monte-castelo-trained-v1')))).toEqual(saved);
 });
+
+test('partida retoma movimento salvo após fechar a página',async({page})=>{await page.goto('/');await page.locator('#begin').click();await page.locator('[data-id="b1"]').click();await page.locator('[data-q="1"][data-r="5"]').click();await page.reload();await expect(page.locator('#modalBody')).toContainText('OPERAÇÃO SALVA');await page.locator('#begin').click();await page.locator('[data-id="b1"]').click();await expect(page.locator('#unitInfo')).toContainText('Movimento 2');});
+
+test('humano x humano recebe turno alemão e permite mover e atacar',async({page})=>{const {createGame,endTurn}=await import('../../dist/engine.js');const{encodeTurn}=await import('../../dist/exchange.js');const state=createGame();endTurn(state);await page.goto('/#turn='+encodeTurn(state));await page.locator('#begin').click();await expect(page.locator('#yourSide')).toContainText('DEFESA ALEMÃ');await page.locator('[data-id="g2"]').click();await page.locator('[data-q="3"][data-r="5"]').click();await page.locator('#actionAttack').click();await page.locator('[data-id="b2"]').click();await expect(page.locator('#log')).toContainText('dado');await page.locator('#end').click();await expect(page.locator('#modalBody')).toContainText('Passe o comando');await page.locator('#close').click();await expect(page.locator('#end')).toBeDisabled();await expect(page.locator('#shareTurn')).toBeEnabled();});

@@ -8,6 +8,12 @@ Estado da pesquisa: 25/10/2026. Textos autorais resumidos a partir das fontes ab
 - [Battle of Monte Castello — Wikipédia em inglês](https://en.wikipedia.org/wiki/Battle_of_Monte_Castello): registra o ataque principal às 06:00, chegada ao cume às 17:30 e o papel da artilharia. Fonte secundária, não diário de operações.
 - [Operation Encore — Wikipédia em inglês](https://en.wikipedia.org/wiki/Operation_Encore): observatórios alemães na crista de Riva, tomada por escalada noturna em 18–19/02 pelo 86º Regimento de Infantaria de Montanha, e ofensiva no complexo Belvedere–Gorgolesco–Torraccia.
 
+## Exército regular e Waffen-SS
+
+A [232nd Infantry Division (Wehrmacht)](https://en.wikipedia.org/wiki/232nd_Infantry_Division_(Wehrmacht)), também consultada, identifica a divisão como unidade do **Heer**, o Exército regular. As fontes da batalha não identificam uma unidade Waffen-SS na defesa específica de Monte Castelo; portanto o cenário não inclui SS. A presença da expressão Waffen-SS no título de uma obra bibliográfica citada não transforma a divisão em unidade SS.
+
+Fortificações e abrigos representam as posições preparadas descritas nas sínteses, sem afirmar uma localização cartográfica exata. O bônus de jogo não se acumula com cobertura natural.
+
 ## Posto de observação no monte vizinho
 
 A descrição corresponde especialmente à crista de Riva, que dominava visualmente as aproximações à encosta sul de Monte Belvedere. Não se deve confundir Riva, Belvedere e Monte Castelo como se fossem um único objetivo. A escalada noturna de surpresa neutralizou postos de observação alemães, e os americanos resistiram a contra-ataques. A ação integrou a operação aliada mais ampla. Monte Castelo foi conquistado pela FEB em 21/02.

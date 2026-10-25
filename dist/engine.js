@@ -1,3 +1,6 @@
+// Prepared positions are scenario abstractions, not surveyed bunker locations.
+export const fortifications = [{ q: 5, r: 1, level: 1 }, { q: 3, r: 3, level: 1 }];
+export function fortification(q, r) { return fortifications.find(f => f.q === q && f.r === r)?.level ?? 0; }
 export const COLS = 9, ROWS = 8, LIMIT = 10;
 export const key = (q, r) => `${q},${r}`;
 export const inside = (q, r) => q >= 0 && r >= 0 && q < COLS && r < ROWS;
@@ -67,7 +70,7 @@ export function lineOfSight(a, b) {
     return true;
 }
 export function defenseBonus(a, b) {
-    return ((["hill", "forest"].includes(terrain(b.q, b.r)) ? 1 : 0) +
+    return (Math.max(["hill", "forest"].includes(terrain(b.q, b.r)) ? 1 : 0, fortification(b.q, b.r)) +
         (elevation(b.q, b.r) > elevation(a.q, a.r) ? 1 : 0));
 }
 const make = (id, side, q, r, name, type, atk, def) => ({
