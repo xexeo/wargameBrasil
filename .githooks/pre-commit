@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+if ! git diff --quiet -- app.ts engine.ts index.html style.css scripts package.json package-lock.json README.md; then
+  echo "Inclua as alterações coerentes no staging antes de fazer o commit."
+  exit 1
+fi
+node scripts/version.mjs
+npm test
+npm run test:browser
+git add version.json version.ts package.json package-lock.json README.md dist jogo.html

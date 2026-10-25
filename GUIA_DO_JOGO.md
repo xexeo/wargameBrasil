@@ -189,7 +189,13 @@ O cálculo enumera destinos alcançáveis dentro dos PM, compara sua utilidade e
 - Confirmar imagens e licença no arquivo standalone, sem requisições externas para jogar.
 - Conferir o README e este guia antes de cada entrega. Distinguir claramente testes aprovados de fidelidade histórica ainda não verificada.
 
-## 15. Registro de decisões
+## 15. Versionamento e continuidade
+
+A partir da solicitação do autor, todo novo commit deve avançar `0.1.X` e exibir versão, data e hora de Brasília no jogo e no README. O hook `.githooks/pre-commit` automatiza isso; não ignorá-lo. Commits anteriores à solicitação não são reescritos. Manter apenas a branch `main`.
+
+Continuar autonomamente por etapas concretas e verificáveis. Registrar decisões alteráveis pelo autor e limitações; não tratar hipótese histórica como fato ou prometer trabalho indefinido após o encerramento da tarefa.
+
+## 16. Registro de decisões
 
 | Data | Decisão | Estado |
 | --- | --- | --- |

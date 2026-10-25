@@ -1,5 +1,9 @@
 # Monte Castelo Vibed
 
+<!-- release:start -->
+**Versão 0.1.1 · 25/10/2026, 02:54:53 (Brasília)**
+<!-- release:end -->
+
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
 
 ## Jogar só no navegador
@@ -38,6 +42,10 @@ O tempo de 5–10 minutos é uma meta de projeto, ainda sem validação com joga
 - A experiência da IA depende do armazenamento permitido pelo navegador. Limpar seus dados apaga o aprendizado; abrir arquivos locais pode ter comportamento de armazenamento diferente entre navegadores.
 - A partida em andamento não é salva ao recarregar a página.
 
+## Versões e commits
+
+Cada novo commit incrementa a versão `0.1.X`. O hook versionado em `.githooks/pre-commit` atualiza `version.json`, o código compilado, a data/hora de Brasília, os pacotes e este README, além de executar os testes. Ative-o em um checkout novo com `git config core.hooksPath .githooks`. O jogo exibe a mesma versão no rodapé e nos créditos. Builds sem commit preservam a versão atual.
+
 ## Desenvolvimento
 
 Use o checkout existente, na branch **`main`**. Por orientação do autor, não criar branches adicionais ou worktrees. Atualizar este README a cada mudança relevante de estado.
@@ -57,7 +65,7 @@ Para servir a versão modular localmente, execute `npm start`. Para os testes em
 
 ## Validação
 
-Na implementação atual, passaram 6 testes das regras e 6 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça e persistência do aprendizado. A suíte é executada novamente antes da entrega das mudanças.
+Na implementação atual, passaram 6 testes das regras e 8 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
 
 Os testes de motor exercitam partidas completas com as combinações de IA e postura, movimento legal, combate, pontuação, altitude e linha de visão. Clima histórico e fidelidade topográfica não são validados por esses testes.
 
