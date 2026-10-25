@@ -1,16 +1,16 @@
 {
   "schema": 1,
-  "version": "0.1.13",
+  "version": "0.1.14",
   "sources": {
     "engine.ts": "7760ca44eafab0bcc3549a0d27c13288b4fc886f681b1a91166f3a3672767bd4",
-    "ai.ts": "3549a7dff2fe3eff2137fb1c861387f5e34dc1a6e5d5d353c09ac1d12b4261a8",
+    "ai.ts": "2ff8fae1fe857e29244810f047f1372488c71dacafbadcb14aaeb94c9fbbdcba",
     "simulator.ts": "0127e5b9f9819d5f5e606fd7f1c29bb9a4f9879b06bc25fbefc32c171905afc4",
     "learning.ts": "8fe126a09065c7634e0a931b20637409c629c7752ad35f275c4df447fa391c8d",
     "geography.ts": "570ac8e2c6448062afb834469a2c895d8cf86859d83beb0243c0add48476078f",
     "geography-data.ts": "b385433cfb4f54b22b19c06b339458214e971218b6be858f0cdb7b599fbfc7c4",
     "troops.ts": "406648c43e5ad3d62e700367e95963c1fe31fb9ce072c29ef6a852160597d6c8",
     "scenario.ts": "3226cb272139725a64830fe8f9a665e118f6165cff898f98ce7c5840370f43e8",
-    "pretrained.ts": "c93d17e59f8b79037e41809a4daf7489e9c2d925f5fe7ae620c8e935d3a32fe5",
+    "pretrained.ts": "afd64b283040de8dedfb443b284499d7612a499c93df2a413f32d8e68c2a5e58",
     "app.ts": "a4d08dc28c7903618f4efbf1d35a8d67c19e0bdd0ae5cc76583514b9d2e2500a",
     "scripts/round-robin.mjs": "e52cece794004f9571741a6476f258781ece94a29c42df0562ea6c334b33ba21",
     "scripts/autoplay.mjs": "7d66732fee2e7e04de71695276501d99b440f8bd9f9f64e8ea24337538555775",
@@ -21,54 +21,17 @@
     "scripts/study-battalion-rules.mjs": "122bdd63976c8828219ebb48094fb5fd5da87692ba3d90b31ecc0c033d4d530f"
   },
   "runs": {
-    "matriz-ias": {
-      "sourceCommit": "f83e3b6cf0db608721a67228b6c9f316b88ca55e",
+    "treinamento": {
+      "count": 2000,
       "seeds": [
-        200001,
-        200010
+        50001,
+        52000
       ],
-      "count": 640,
-      "files": [
-        "dados-brutos.json",
-        "analise.md"
-      ]
-    },
-    "estudo-regras-batalhoes": {
-      "count": 1000,
-      "seeds": [
-        300001,
-        300250
-      ],
-      "candidates": true,
-      "files": [
-        "analise.md",
-        "dados-brutos.json",
-        "resultados.json"
-      ]
-    },
-    "validacao-batalhoes": {
-      "seeds": [
-        10001,
-        10500
-      ],
-      "strategy": "tactical",
-      "stance": "aggressive",
-      "count": 500,
+      "training": true,
       "files": [
         "resultados.json",
         "dados-brutos.json",
-        "analise.md"
-      ]
-    },
-    "avaliacao-veterana": {
-      "count": 300,
-      "seeds": [
-        90001,
-        90300
-      ],
-      "files": [
-        "resultados.json",
-        "dados-brutos.json",
+        "tabela-aprendida.json",
         "analise.md"
       ]
     }

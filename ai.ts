@@ -3,7 +3,12 @@ import {type Game,type Unit,distance,objectives,terrain,reachable,canAttack,atta
 export function chooseTarget(s:Game,u:Unit,mode:string){
  return s.units.filter(v=>v.side!==u.side).sort((a,b)=>{
   const da=distance(u,a),db=distance(u,b);
-  if(mode==='tactical'&&u.side==='de'){const urgent=(v:Unit)=>canCaptureObjective(v)&&distance(v,objectives[0])<=2?1:0;return urgent(b)-urgent(a)||b.atk-a.atk||da-db;}
+  if(mode==='tactical'&&u.side==='de'){
+   // Infantry denies the maneuver that can take the summit; artillery performs
+   // counterbattery fire unless an assault is already threatening the summit.
+   if(u.type!=='artillery'){const priority=(v:Unit)=>(canCaptureObjective(v)?-6:0)+distance(v,objectives[0])*1.4+v.hp*.7+distance(u,v)*.6-v.atk*.4;return priority(a)-priority(b);}
+   const urgent=(v:Unit)=>canCaptureObjective(v)&&distance(v,objectives[0])<=2?1:0;return urgent(b)-urgent(a)||b.atk-a.atk||da-db;
+  }
   if(mode==='strong')return b.atk-a.atk||da-db;
   if(mode==='weak')return a.def-b.def||da-db;
   return (a.hp+a.def*.3+da*.7-a.atk*.4)-(b.hp+b.def*.3+db*.7-b.atk*.4);

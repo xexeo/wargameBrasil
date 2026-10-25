@@ -3,6 +3,12 @@ export function chooseTarget(s, u, mode) {
     return s.units.filter(v => v.side !== u.side).sort((a, b) => {
         const da = distance(u, a), db = distance(u, b);
         if (mode === 'tactical' && u.side === 'de') {
+            // Infantry denies the maneuver that can take the summit; artillery performs
+            // counterbattery fire unless an assault is already threatening the summit.
+            if (u.type !== 'artillery') {
+                const priority = (v) => (canCaptureObjective(v) ? -6 : 0) + distance(v, objectives[0]) * 1.4 + v.hp * .7 + distance(u, v) * .6 - v.atk * .4;
+                return priority(a) - priority(b);
+            }
             const urgent = (v) => canCaptureObjective(v) && distance(v, objectives[0]) <= 2 ? 1 : 0;
             return urgent(b) - urgent(a) || b.atk - a.atk || da - db;
         }

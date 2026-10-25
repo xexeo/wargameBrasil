@@ -25,3 +25,7 @@ História oficial Fisher p.431 descreve retirada alemã e pequena retaguarda; is
 ## Decisão após medir
 
 As regras candidatas foram implementadas e testadas, mas permanecem desligadas no padrão: a retirada trouxe efeitos indesejados sobre o prazo e aceitar cume sem pontos favoreceu ainda mais o atacante. Os números e a decisão detalhada ficam apenas nos relatórios versionados, para serem removidos quando incompatíveis. A nova IA conclui melhor a missão, mas a defesa ainda precisa de calibração; não declarar50% de equilíbrio sem medição válida.
+
+## Refinamento da defesa por função
+
+A primeira versão da IA de missão favoreceu excessivamente a FEB. Foram comparados em cópias isoladas alvos de manobra para todos os alemães, somente artilharia e somente infantaria. Adotou-se a divisão funcional: infantaria tática intercepta unidades que podem conquistar o cume, considerando proximidade/coesão; artilharia tática prioriza contrabateria até haver ameaça imediata ao cume. Caçador e Oportunista preservam suas prioridades originais. A decisão altera escolhas da IA, não atributos, identidade de tropas, DEM ou cronologia. Revalidar com sementes separadas e refazer treino/matriz; números de candidatos incompatíveis são removidos da árvore atual e preservados no Git quando já commitados.

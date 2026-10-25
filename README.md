@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.14 · 25/10/2026, 15:00:02 (Brasília)**
+**Versão 0.1.15 · 25/10/2026, 15:05:28 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -52,7 +52,7 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 - Regras com exemplo de peça e legenda de bolinhas, símbolos militares, A/D/M, dano e marca de ação; contexto histórico, fontes e diário de combate na interface.
 - Popup **Autoria & licença**, incluindo logo oficial do LUDES, copyright e texto integral da CC BY-NC-SA 4.0 para consulta offline. O logo foi obtido no [endereço oficial informado pelo autor](https://ludes.cos.ufrj.br/wp-content/uploads/2016/07/ludes_azul.png).
 - IA de maior ataque, IA de menor defesa e IA tática que avalia cobertura, ameaças, apoio e objetivos; posturas agressiva e defensiva.
-- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 17.345 atualizações e 94 situações aprendidas, alternando autojogo e adversários das seis políticas fixas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Experimentos válidos por versão](docs/simulacoes/README.md).
+- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 16.877 atualizações e 108 situações aprendidas, alternando autojogo e adversários das seis políticas fixas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Experimentos válidos por versão](docs/simulacoes/README.md).
 - IA aprendiz: Q-learning simples sobre seis combinações de estratégia/postura, exploração de 20% e experiência mantida em `localStorage` entre partidas. Não treina uma rede neural nem aprende movimentos individuais.
 - Vitória brasileira exige **8 pontos acumulados e ocupação do cume no fechamento do turno alemão**. Os objetivos dão no máximo **4 por rodada**: 2 + 1 + 1; duas rodadas de ocupação completa dão 8. Apoio não captura. Defesa vence por prazo de 10 rodadas ou perda de toda a infantaria de manobra brasileira. Tempo e perdas determinam o grau da vitória.
 - Reconstrução meteorológica ERA5 incorporada offline, com temperatura e nuvens aproximadas por hora, tabela e distinção entre modelo e relatos históricos.
@@ -74,13 +74,7 @@ O diretório [docs/simulacoes](docs/simulacoes/README.md) contém os experimento
 
 
 
-<!-- simulation:0.1.13/matriz-ias:start -->
-[**Nova matriz de IAs**](docs/simulacoes/0.1.13/matriz-ias/analise.md): 640 partidas, dez por dupla. FEB507/640 (79,2%), média7,54 rodadas; melhor atacante ED78/80, melhor defensor CA36/80. São frequências de amostra pequena, sem dominância global comprovada. As derrotas FEB com defesa eliminada caíram de104 para60 no painel com as mesmas sementes, mas ainda ocorrem.
-<!-- simulation:0.1.13/matriz-ias:end -->
 
-<!-- simulation:0.1.13/estudo-regras-batalhoes:start -->
-[Comparação das quatro combinações de regras](docs/simulacoes/0.1.13/estudo-regras-batalhoes/analise.md): 1.000 partidas com dados individuais. Retirada e cume suficiente no prazo permanecem desligados no padrão. A validação separada EA×EA deu407/500 FEB (81,4%): **a meta de50% ainda não foi atingida**; não reutilizar o equilíbrio da versão anterior para esta IA.
-<!-- simulation:0.1.13/estudo-regras-batalhoes:end -->
 
 O prazo é o fechamento da rodada 10 (18h do relógio do cenário), com 8 pontos e cume assegurado. Apenas o cume rende 2 por rodada: ocupá-lo da rodada 7 à 10 permite alcançar 8. Pontos secundários já acumulados permitem tomá-lo depois. A meta de 5–10 minutos humanos ainda não foi medida com jogadores.
 
@@ -141,7 +135,7 @@ Para servir o jogo localmente, execute `npm start`; a entrada modular alternativ
 
 ## Validação
 
-Na implementação atual, passaram 41 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 28 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
+Na implementação atual, passaram 42 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 28 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
 
 Os testes de motor exercitam partidas completas com as combinações de IA e postura, movimento legal, combate, pontuação, altitude e linha de visão. Clima histórico e fidelidade topográfica não são validados por esses testes.
 

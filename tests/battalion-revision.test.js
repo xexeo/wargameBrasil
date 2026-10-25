@@ -1,6 +1,6 @@
 import{test}from'node:test';import assert from'node:assert/strict';
 import{createGame,missionForecast,endTurn,objectives,move,movementExposure,advance,attack,operationResult,canCaptureObjective,distance,key,travelCostsTo}from'../dist/engine.js';
-import{aiAction,takeAIAction}from'../dist/ai.js';import{validGame,decodeTurn,encodeTurn}from'../dist/exchange.js';
+import{aiAction,takeAIAction,chooseTarget}from'../dist/ai.js';import{validGame,decodeTurn,encodeTurn}from'../dist/exchange.js';
 
 test('projeção distingue pontos, ritmo e prazo sem prometer uma chegada segura',()=>{
  const s=createGame();let f=missionForecast(s);assert.equal(f.missing,8);assert.equal(f.remaining,10);assert.equal(f.income,0);assert.equal(f.roundsAtCurrentIncome,null);assert.equal(f.lastSummitOnlyRound,7);
@@ -48,4 +48,10 @@ test('reação que provoca retirada interrompe assalto e a reorganização cobra
  const s=createGame();s.rules.retreatOnLoss=true;s.units=s.units.filter(u=>['b1','g1'].includes(u.id));const[br,de]=s.units;Object.assign(br,{q:5,r:3,hp:2});Object.assign(de,{q:5,r:2});
  const result=attack(s,br.id,de.id,()=>.999);assert.equal(result.interrupted,true);assert.equal(br.reorganizing,true);assert.equal(br.hp,1);
  endTurn(s);endTurn(s);assert.equal(br.mp,0);assert.equal(br.fired,true);endTurn(s);endTurn(s);assert.equal(br.mp,3);assert.equal(br.fired,false);
+});
+
+
+test('defesa tática divide interceptação da infantaria e contrabateria sem alterar IAs básicas',()=>{
+ const s=createGame();s.units=s.units.filter(u=>['b1','b5','g2','g5'].includes(u.id));Object.assign(s.units.find(u=>u.id==='b1'),{q:3,r:5});Object.assign(s.units.find(u=>u.id==='b5'),{q:3,r:6});const foot=s.units.find(u=>u.id==='g2'),gun=s.units.find(u=>u.id==='g5');
+ assert.equal(chooseTarget(s,foot,'tactical').id,'b1');assert.equal(chooseTarget(s,gun,'tactical').id,'b5');assert.equal(chooseTarget(s,foot,'strong').id,'b5');assert.equal(chooseTarget(s,foot,'weak').id,'b5');
 });
