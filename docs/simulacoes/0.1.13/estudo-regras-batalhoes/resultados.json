@@ -1,0 +1,97 @@
+[
+  {
+    "retreatOnLoss": false,
+    "summitAtDeadlineWins": false,
+    "count": 250,
+    "wins": {
+      "br": 202,
+      "de": 48
+    },
+    "brRate": 0.808,
+    "interval95": [
+      0.7546609408206536,
+      0.8520166092735785
+    ],
+    "meanRound": 7.016,
+    "meanScore": 7.712,
+    "reasons": {
+      "points": 202,
+      "maneuver": 43,
+      "elimination": 5
+    },
+    "emptyDefenseDefeats": 5,
+    "summitDefeats": 4
+  },
+  {
+    "retreatOnLoss": false,
+    "summitAtDeadlineWins": true,
+    "count": 250,
+    "wins": {
+      "br": 206,
+      "de": 44
+    },
+    "brRate": 0.824,
+    "interval95": [
+      0.7719923442315464,
+      0.8662009227506975
+    ],
+    "meanRound": 7.016,
+    "meanScore": 7.712,
+    "reasons": {
+      "points": 202,
+      "maneuver": 43,
+      "late-summit": 4,
+      "elimination": 1
+    },
+    "emptyDefenseDefeats": 1,
+    "summitDefeats": 0
+  },
+  {
+    "retreatOnLoss": true,
+    "summitAtDeadlineWins": false,
+    "count": 250,
+    "wins": {
+      "br": 179,
+      "de": 71
+    },
+    "brRate": 0.716,
+    "interval95": [
+      0.6571607478551965,
+      0.7683014301329661
+    ],
+    "meanRound": 7.316,
+    "meanScore": 6.968,
+    "reasons": {
+      "elimination": 20,
+      "points": 179,
+      "maneuver": 48,
+      "time": 3
+    },
+    "emptyDefenseDefeats": 20,
+    "summitDefeats": 21
+  },
+  {
+    "retreatOnLoss": true,
+    "summitAtDeadlineWins": true,
+    "count": 250,
+    "wins": {
+      "br": 200,
+      "de": 50
+    },
+    "brRate": 0.8,
+    "interval95": [
+      0.7460429604530917,
+      0.8448767311971342
+    ],
+    "meanRound": 7.316,
+    "meanScore": 6.968,
+    "reasons": {
+      "late-summit": 21,
+      "points": 179,
+      "maneuver": 48,
+      "time": 2
+    },
+    "emptyDefenseDefeats": 0,
+    "summitDefeats": 0
+  }
+]

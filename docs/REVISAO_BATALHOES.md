@@ -21,3 +21,7 @@ Comparar quatro combinações com a mesma IA e sementes, guardando cada resultad
 Testar projeção e limites, trajetos expostos/suprimidos, IA que progride e mantém cume, motivos de resultado, retirada legal/bloqueada e intercâmbio. Exercitar computador/celular e partida completa. Repetir matriz8×8 com10 partidas por dupla e guardar análise/dados por versão. Treino da Veterana precisa refletir a nova IA; experiência pessoal não deve ser apagada.
 
 História oficial Fisher p.431 descreve retirada alemã e pequena retaguarda; isso apoia estudar retirada, mas não fornece um turno obrigatório nem efetivos por hexágono. Atualizar a documentação que ainda registra a fonte como inacessível. Nenhum atributo de batalhão, cota ou identidade será inventado para calibrar resultados.
+
+## Decisão após medir
+
+As regras candidatas foram implementadas e testadas, mas permanecem desligadas no padrão: a retirada trouxe efeitos indesejados sobre o prazo e aceitar cume sem pontos favoreceu ainda mais o atacante. Os números e a decisão detalhada ficam apenas nos relatórios versionados, para serem removidos quando incompatíveis. A nova IA conclui melhor a missão, mas a defesa ainda precisa de calibração; não declarar50% de equilíbrio sem medição válida.

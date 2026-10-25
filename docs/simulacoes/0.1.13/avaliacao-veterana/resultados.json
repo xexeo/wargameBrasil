@@ -1,0 +1,15 @@
+{
+  "generator": "Mulberry32",
+  "count": 300,
+  "seeds": [
+    90001,
+    90300
+  ],
+  "wins": {
+    "br": 294,
+    "de": 6
+  },
+  "brRate": 0.98,
+  "trainingEpisodes": 2000,
+  "note": "Mesma IA especial nos dois lados. Cada partida começa com a mesma tabela pré-treinada e permite atualização online dentro da partida; sementes separadas do treino."
+}

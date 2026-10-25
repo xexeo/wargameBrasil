@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.13 · 25/10/2026, 14:54:43 (Brasília)**
+**Versão 0.1.14 · 25/10/2026, 15:00:02 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -73,6 +73,14 @@ O [registro de mapas oficiais](docs/MAPAS_OFICIAIS.md) distingue fontes efetivam
 O diretório [docs/simulacoes](docs/simulacoes/README.md) contém os experimentos ainda compatíveis com o programa. Cada versão tem seu manifesto de hashes; cada execução reúne análise e dados. Mudanças nos fontes de regras, terreno, IA ou protocolo removem automaticamente as pastas incompatíveis ao compilar/commitar. Atualizar só a versão, CSS ou documentação preserva os resultados. O histórico do Git guarda os registros excluídos.
 
 
+
+<!-- simulation:0.1.13/matriz-ias:start -->
+[**Nova matriz de IAs**](docs/simulacoes/0.1.13/matriz-ias/analise.md): 640 partidas, dez por dupla. FEB507/640 (79,2%), média7,54 rodadas; melhor atacante ED78/80, melhor defensor CA36/80. São frequências de amostra pequena, sem dominância global comprovada. As derrotas FEB com defesa eliminada caíram de104 para60 no painel com as mesmas sementes, mas ainda ocorrem.
+<!-- simulation:0.1.13/matriz-ias:end -->
+
+<!-- simulation:0.1.13/estudo-regras-batalhoes:start -->
+[Comparação das quatro combinações de regras](docs/simulacoes/0.1.13/estudo-regras-batalhoes/analise.md): 1.000 partidas com dados individuais. Retirada e cume suficiente no prazo permanecem desligados no padrão. A validação separada EA×EA deu407/500 FEB (81,4%): **a meta de50% ainda não foi atingida**; não reutilizar o equilíbrio da versão anterior para esta IA.
+<!-- simulation:0.1.13/estudo-regras-batalhoes:end -->
 
 O prazo é o fechamento da rodada 10 (18h do relógio do cenário), com 8 pontos e cume assegurado. Apenas o cume rende 2 por rodada: ocupá-lo da rodada 7 à 10 permite alcançar 8. Pontos secundários já acumulados permitem tomá-lo depois. A meta de 5–10 minutos humanos ainda não foi medida com jogadores.
 
