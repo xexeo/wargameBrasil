@@ -34,12 +34,12 @@ O caso dos observatórios na crista de Riva pertence à operação aliada no set
 
 Implementado:
 
-- Grade axial de 9 × 8 hexágonos, com seis vizinhos por hexágono.
+- Grade axial de 9 × 9 hexágonos, com seis vizinhos por hexágono.
 - Peças quadradas, cada uma ocupando um hexágono.
 - Base geográfica atual ancorada no cume OSM de Monte Castello (44,2206238°N / 10,9537700°E), aproximadamente 180 m entre centros de hexágonos. DEM Copernicus GLO-90 em cada centro; feições OSM atuais. Ainda não é um mapa militar restituído de 1945.
 - Campo aberto, mata, estrada e objetivos elevados.
 - Quatro faixas de altitude DEM: N1 <780 m, N2 780–849 m, N3 850–919 m, N4 ≥920 m. Curvas a cada 50 m interpoladas entre amostras, não curvas de levantamento de precisão. Os níveis continuam simplificando o custo e a defesa.
-- Monte Castelo vale 2 pontos por rodada de ocupação brasileira; “Esporão ocidental” e “Crista oriental” valem 1 cada. Os nomes e posições dos objetivos secundários são abstrações do jogo.
+- Monte Castelo vale 2 pontos por rodada de ocupação brasileira; cada secundário vale 1. Os secundários não têm nomes próprios: são referências de hexágono sem localização histórica confirmada. O total máximo é 4 por rodada, acumulável até a meta de 8.
 
 Nenhuma peça atravessa ou termina movimento num hexágono ocupado, inclusive por aliado. Não há empilhamento, zonas de controle, suprimentos, reforços ou retirada obrigatória nesta versão.
 
@@ -77,7 +77,7 @@ O movimento e o direito de ataque de cada lado são renovados no começo do seu 
 
 ## 7. Movimento
 
-- Infantaria e artilharia começam o turno com 3 PM.
+- Batalhões brasileiros têm 3 PM; destacamentos alemães e apoio, 2; grupos de artilharia, 1. Cada perfil em troops.ts define o máximo.
 - Campo aberto ou estrada: 1 PM para entrar.
 - Mata: 2 PM para entrar.
 - Somar 1 PM por nível de altitude ganho ao entrar no próximo hexágono.
@@ -92,11 +92,11 @@ O código admite um tipo de apoio blindado com 4 PM, mas nenhuma peça desse tip
 ## 8. Ataque e observação
 
 - Selecionar a própria peça e depois um inimigo válido.
-- Infantaria: alcance de 1 hexágono. Artilharia: alcance de 3 hexágonos, com tiro indireto.
+- Infantaria: alcance de 1 hexágono. Artilharia: alcance de 5 hexágonos, com tiro indireto.
 - Apenas um ataque por peça por turno.
 - É permitido mover e depois atacar; não é permitido mover depois de atacar.
-- Infantaria usa linha de visão direta. Artilharia pode bombardear alvos conhecidos, inclusive fortificações, a até 3 hexágonos, sem bloqueio por terreno intermediário; a proteção do defensor continua valendo. Simplificação de fogo previamente planejado num mapa sem névoa de guerra.
-- Mata intermediária bloqueia a linha de visão. Um nível de terreno intermediário acima da linha interpolada entre atacante e alvo também bloqueia.
+- Infantaria usa linha de visão direta. Artilharia pode bombardear alvos conhecidos, inclusive fortificações, a até 5 hexágonos, sem bloqueio por terreno intermediário; a proteção do defensor continua valendo. Simplificação de fogo previamente planejado num mapa sem névoa de guerra.
+- O raio direto interpola a altitude DEM dos centros com altura de observação de 2 m; terreno e copa de mata (15 m como parâmetro de jogo) bloqueiam se ultrapassarem esse raio. Hexágonos adjacentes sempre têm linha de visão.
 - Peças intermediárias não bloqueiam a visão. Não há avistamento compartilhado, observadores de artilharia individualizados, névoa de guerra ou efeito de luminosidade nesta versão.
 
 ## 9. Combate
@@ -108,8 +108,8 @@ potência = A + d6 − D − cobertura − vantagem de altura − penalidade por
 ```
 
 - `d6`: sorteio uniforme de 1 a 6.
-- Cobertura: +1 à defesa em mata, objetivo elevado ou fortificação; usar o maior bônus, sem acumular coberturas. Monte Castelo e o esporão recebem abrigos/trincheiras esquemáticos de nível 1, não localizações verificadas de bunkers.
-- Vantagem de altura: mais +1 à defesa quando o defensor está num nível acima do atacante, independentemente da diferença total de níveis.
+- Cobertura: +1 à defesa em mata, objetivo elevado ou fortificação; usar o maior bônus, sem acumular coberturas. Monte Castelo e um objetivo secundário recebem abrigos/trincheiras esquemáticos de nível 1, não localizações verificadas de bunkers.
+- Vantagem de altura: mais +1 à defesa quando o defensor está pelo menos 30 m acima do atacante.
 - Penalidade por dano: 0,5 por PV perdido pelo atacante.
 - Barragem: +1 somente para artilharia brasileira na rodada 10.
 
@@ -120,20 +120,24 @@ potência = A + d6 − D − cobertura − vantagem de altura − penalidade por
 | Potência < 1 | Nenhum dano no defensor |
 | Potência ≤ 0 e distância 1 | Atacante perde 1 PV por contra-ataque |
 
-O contra-ataque é uma consequência automática de um ataque mal sucedido adjacente; não gasta a ação futura do defensor. No intervalo fracionário entre 0 e 1, pode haver falha sem contra-ataque. Peças com PV ≤ 0 são removidas imediatamente. Não há dano por área, munição ou fogo amigo.
+O contra-ataque de um ataque mal sucedido adjacente só ocorre se o defensor não estiver suprimido e não tiver reagido. Na nova missão, consome sua próxima ação, sem duplicar um tiro defensivo anterior. No intervalo fracionário entre 0 e 1, pode haver falha sem contra-ataque. Peças com PV ≤ 0 são removidas imediatamente. Não há dano por área, munição ou fogo amigo.
 
 Registrar dado, dano e eventual contra-ataque no diário. Mostrar a resistência e o selo de dano atualizados nas peças.
 
 ## 10. Pontos e vitória
 
-- Ao fim de cada turno alemão, somar pontos dos objetivos ocupados por peças brasileiras: Monte Castelo 2, cada secundário 1.
-- Os pontos são cumulativos; perder uma posição não subtrai pontos já ganhos.
-- FEB vence ao alcançar 8 pontos ou eliminar todas as peças alemãs.
-- Defesa alemã vence se eliminar a FEB ou se, ao terminar a décima rodada, a FEB não tiver alcançado 8 pontos.
-- Ocupação exige a peça sobre o hexágono; proximidade não basta. Não existe bandeira permanente depois que a peça sai.
-- Na regra atual, é possível vencer acumulando pontos secundários sem ocupar o cume. Avaliar esse detalhe no balanceamento, pois a fidelidade ao objetivo histórico pode justificar exigir a ocupação de Monte Castelo numa versão futura.
+- Ao fim do turno alemão, apenas infantaria de manobra brasileira sobre objetivos pontua: cume 2, cada secundário 1. Apoio e artilharia não ocupam para pontuação.
+- **4 é o máximo por rodada; 8 é a meta acumulada.** Dois fechamentos de rodada com todos os objetivos dão 4 + 4 = 8. Os pontos ganhos não são subtraídos ao perder uma posição.
+- FEB precisa acumular 8 pontos **e assegurar Monte Castelo com infantaria no fechamento do turno alemão**. Eliminar a defesa ou controlar somente os secundários não substitui a ocupação do cume.
+- Defesa vence se toda a infantaria de manobra brasileira sair de combate ou a missão não for cumprida até o fim da décima rodada.
+- Grau da vitória: eficiência = máximo de zero e arredondamento de `100 − 3 × (rodada final − 1) − 8 × peças brasileiras perdidas − 1,5 × coesão perdida`. Decisiva ≥70, tática ≥45, custosa ≥20, pírrica abaixo de 20. Isso não é contagem de mortos reais.
+- Partidas antigas sem configuração de missão preservam as regras de sua versão; a interface lê a meta do estado salvo.
 
-Essas regras são simétricas quanto a eliminação, mas o objetivo e o relógio são assimétricos: cabe ao brasileiro avançar; o alemão deve atrasar.
+### Subida sob fogo
+
+Uma unidade de tiro direto pelo menos 30 m acima pode reagir primeiro ao avanço exposto ou ao assalto contra ela, respeitando alcance e linha de visão. Uma reação por movimento completo e uma por unidade entre seus turnos; consome o próximo turno de movimento e ataque. O tiro de oportunidade causa no máximo 1 dano. Não se soma novo contra-ataque de falha do assalto após a reação. Regra simétrica para ambos os lados.
+
+Acerto indireto suprime reação até o início do turno do alvo; não tira o ataque normal. Apoio deve preceder a manobra. Tiro direto ganha +1 hexágono com pelo menos 90 m de vantagem real de altitude e linha de visão. Indireto não ganha alcance com altura. Os grupos de ambos os lados têm alcance 5; isso representa disponibilidade de apoio, não limite balístico dos obuses.
 
 ## 11. Horário e clima
 
@@ -178,7 +182,7 @@ A avaliação deve usar sementes distintas e registrar quando a experiência onl
 ## 13. Controles e comunicação
 
 - Popup de narrativa no começo de cada operação; botão Missão reabre a narrativa sem reiniciar.
-- Um toque/clique seleciona. Escolher Mover ou Atacar na barra fixa acima do mapa. No modo Mover, tocar num destino azul move; no modo Atacar, tocar num inimigo vermelho ataca. Um clique num inimigo no modo Mover apenas orienta a troca de modo.
+- Um toque/clique seleciona e mostra simultaneamente destinos azuis e barras vermelhas nos alvos. Tocar no destino move; tocar no inimigo marcado ataca. Não há botões de modo.
 - Destaque de hexágonos alcançáveis e inimigos ao alcance.
 - Duplo toque/clique amplia peça; seleção por Enter/Espaço também é aceita nas peças.
 - Zoom contínuo por slider, pinça e Ctrl/Command + roda do mouse; botões +/− são atalhos adicionais.
@@ -246,3 +250,7 @@ Na comparação da base geográfica, os atributos originais ficaram mais próxim
 | 25/10/2026 | Informações dinâmicas de movimento, dano e estado | Implementado |
 | 25/10/2026 | Documentar regras antes de continuar sua evolução | Este guia criado após o protótipo inicial |
 | 25/10/2026 | Pesquisar clima diário e cartografia original | Pendente; não inventar dados |
+
+## Revisão 0.1.9
+
+Perfis e escala em [docs/TROPAS.md](docs/TROPAS.md); fontes militares em [docs/MAPAS_OFICIAIS.md](docs/MAPAS_OFICIAIS.md). Tabuleiro alongado para 81 hexágonos com amostras DEM reais. Sem nomes fictícios nos secundários. Nova vitória exige cume, tempo e perdas graduam o resultado. Relatórios antigos de equilíbrio não avaliam estas regras; consultar os novos relatórios summit no README.

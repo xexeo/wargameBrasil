@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-test("narrativa, mapa, movimento, combate, zoom e turno do computador", async ({
+test("narrativa, mapa, movimento, zoom e turno do computador", async ({
   page,
 }) => {
   const errors = [];
@@ -13,13 +13,10 @@ test("narrativa, mapa, movimento, combate, zoom e turno do computador", async ({
     "rgb(255, 255, 255)",
   );
   await page.locator('[data-id="b1"]').click();
-  await page.locator('[data-q="1"][data-r="5"]').click();
+  await page.locator('[data-q="1"][data-r="6"]').click();
   await expect(page.locator("#unitInfo")).toContainText("Movimento 2");
-  await page.locator('[data-id="b5"]').click();
-  await page.locator('[data-q="2"][data-r="6"]').click();
-  await page.locator("#actionAttack").click();
-  await page.locator('[data-id="g2"]').click();
-  await expect(page.locator("#log")).toContainText("dado");
+  await expect(page.locator('#actionMove')).toHaveCount(0);
+  await expect(page.locator('#actionAttack')).toHaveCount(0);
   await page.locator("#ideal").click();
   await expect(page.locator("#resetZoom")).not.toHaveText("100%");
   await page.locator("#fit").click();
@@ -164,7 +161,7 @@ test("partida retoma movimento salvo após fechar a página", async ({
   await page.goto("/");
   await page.locator("#begin").click();
   await page.locator('[data-id="b1"]').click();
-  await page.locator('[data-q="1"][data-r="5"]').click();
+  await page.locator('[data-q="1"][data-r="6"]').click();
   await page.reload();
   await expect(page.locator("#modalBody")).toContainText("OPERAÇÃO SALVA");
   await page.locator("#begin").click();
@@ -178,14 +175,15 @@ test("humano x humano recebe turno alemão e permite mover e atacar", async ({
   const { createGame, endTurn } = await import("../../dist/engine.js");
   const { encodeTurn } = await import("../../dist/exchange.js");
   const state = createGame();
+  state.units.find(u=>u.id==='b4').r=6;
   endTurn(state);
   await page.goto("/#turn=" + encodeTurn(state));
   await page.locator("#begin").click();
   await expect(page.locator("#yourSide")).toContainText("DEFESA ALEMÃ");
-  await page.locator('[data-id="g2"]').click();
-  await page.locator('[data-q="3"][data-r="5"]').click();
-  await page.locator("#actionAttack").click();
-  await page.locator('[data-id="b2"]').click();
+  await page.locator('[data-id="g5"]').click();
+  await page.locator('[data-q="7"][data-r="3"]').click();
+
+  await page.locator('[data-id="b4"]').click();
   await expect(page.locator("#log")).toContainText("dado");
   await page.locator("#end").click();
   await expect(page.locator("#modalBody")).toContainText("Passe o comando");
@@ -198,7 +196,7 @@ test("autojogo completo pela interface chega ao fim usando a mesma IA", async ({
   page,
 }) => {
   test.setTimeout(60000);
-  const { aiAction } = await import("../../dist/ai.js");
+  const { aiAction,activationOrder } = await import("../../dist/ai.js");
   await page.addInitScript(() => {
     let n = 42;
     Math.random = () => {
@@ -218,9 +216,7 @@ test("autojogo completo pela interface chega ao fim usando a mesma IA", async ({
   for (let turn = 0; turn < 10; turn++) {
     let game = await state();
     if (game.winner) break;
-    for (const id of game.units
-      .filter((u) => u.side === "br")
-      .map((u) => u.id)) {
+    for(const id of activationOrder(game,"br")) {
       game = await state();
       if (game.winner) break;
       const source = game.units.find((u) => u.id === id);
@@ -235,8 +231,12 @@ test("autojogo completo pela interface chega ao fim usando a mesma IA", async ({
             `polygon[data-q="${destination.q}"][data-r="${destination.r}"]`,
           )
           .click();
-      if (action) {
-        await page.locator("#actionAttack").click();
+      const current=await state();
+      if(current.winner)break;
+      const {canAttack}=await import('../../dist/engine.js');
+      const actor=current.units.find(u=>u.id===id),target=action?current.units.find(u=>u.id===action.target):null;
+      if (action&&actor&&target&&canAttack(actor,target)) {
+
         await page.locator(`[data-id="${action.target}"]`).click();
       }
     }
@@ -260,4 +260,23 @@ test("autojogo completo pela interface chega ao fim usando a mesma IA", async ({
   console.log(
     `Autojogo na interface: ${final.winner}, rodada ${final.round}, ${final.score} pontos.`,
   );
+});
+
+test('forças mostram escalão e níveis e a seleção oferece movimento e ataque juntos',async({page})=>{await page.goto('/');await page.locator('#begin').click();await page.locator('#forces').click();await expect(page.locator('#modalBody')).toContainText('ESCALA');await expect(page.locator('.roster-table tbody tr')).toHaveCount(10);await expect(page.locator('#modalBody')).toContainText('batalhões');await expect(page.locator('#modalBody')).toContainText('T3');await page.locator('#close').click();await page.locator('[data-id="b4"]').click();await expect(page.locator('#unitInfo')).toContainText('Armas coletivas agregadas');await expect(page.locator('#unitInfo')).toContainText('Movimento 2/2');await expect(page.locator('#unitInfo')).toContainText('não ocupa objetivos');await expect(page.locator('polygon.reach').first()).toBeVisible();await page.locator('[data-id="b5"]').click();await expect(page.locator('#unitInfo')).toContainText('Movimento 1/1');});
+
+test('seleção direta destaca movimento e ataque sem botões de modo',async({page})=>{const {createGame}=await import('../../dist/engine.js');const game=createGame();Object.assign(game.units.find(u=>u.id==='b5'),{q:2,r:6});await page.addInitScript(g=>localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'})),game);await page.goto('/');await page.locator('#begin').click();await page.locator('[data-id="b5"]').click();await expect(page.locator('polygon.reach').first()).toBeVisible();await expect(page.locator('[data-id="g2"] .attack-bar')).toHaveCount(1);await expect(page.locator('#actionMove,#actionAttack')).toHaveCount(0);await page.locator('[data-id="g2"]').click();await expect(page.locator('#log')).toContainText('dado');await expect(page.locator('#unitInfo')).toContainText('já atacou');});
+
+test('missão distingue meta acumulada de rendimento por rodada',async({page})=>{
+ await page.goto('/');await expect(page.locator('#modalBody')).toContainText('8 pontos');await page.locator('#begin').click();
+ await expect(page.locator('#score')).toHaveText('0 / 8');
+ await expect(page.locator('#missionDetail')).toContainText('até 4 pontos por rodada');
+ await expect(page.locator('#goals')).toContainText('+2/rodada');
+ await page.locator('#rules').click();await expect(page.locator('#modalBody')).toContainText('4 pontos por rodada, não o limite do placar');
+});
+
+test('meta de partida salva aparece igual no placar, missão, narrativa e regras',async({page})=>{
+ const{createGame}=await import('../../dist/engine.js');const game=createGame();game.rules.targetScore=6;
+ await page.addInitScript(g=>localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'})),game);
+ await page.goto('/');await page.locator('#begin').click();await expect(page.locator('#score')).toHaveText('0 / 6');await expect(page.locator('#missionDetail')).toContainText('Acumule 6 pontos');
+ await page.locator('#briefing').click();await expect(page.locator('#modalBody')).toContainText('6 pontos');await page.locator('#close').click();await page.locator('#rules').click();await expect(page.locator('#modalBody')).toContainText('Acumule 6 pontos');
 });

@@ -1,0 +1,237 @@
+{
+  "purpose": "Calibrar limiar de alcance e missão mantendo fatos, mapa e perfis. IA avalia risco de reação, sem modificar dados de combate.",
+  "results": [
+    {
+      "rules": {
+        "rangeHeightThreshold": 60,
+        "targetScore": 2
+      },
+      "generator": "Mulberry32",
+      "count": 250,
+      "firstSeed": 1,
+      "lastSeed": 250,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 36,
+        "de": 214
+      },
+      "brRate": 0.144,
+      "interval95": [
+        0.10586196391903242,
+        0.19291333532269944
+      ],
+      "meanRound": 3.856,
+      "reasons": {
+        "elimination": 0,
+        "points": 36,
+        "time": 6,
+        "maneuver": 208
+      },
+      "brSummitAtEnd": 36
+    },
+    {
+      "rules": {
+        "rangeHeightThreshold": 60,
+        "targetScore": 4
+      },
+      "generator": "Mulberry32",
+      "count": 250,
+      "firstSeed": 1,
+      "lastSeed": 250,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 36,
+        "de": 214
+      },
+      "brRate": 0.144,
+      "interval95": [
+        0.10586196391903242,
+        0.19291333532269944
+      ],
+      "meanRound": 3.992,
+      "reasons": {
+        "elimination": 0,
+        "points": 36,
+        "time": 6,
+        "maneuver": 208
+      },
+      "brSummitAtEnd": 36
+    },
+    {
+      "rules": {
+        "rangeHeightThreshold": 90,
+        "targetScore": 2
+      },
+      "generator": "Mulberry32",
+      "count": 250,
+      "firstSeed": 1,
+      "lastSeed": 250,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 30,
+        "de": 220
+      },
+      "brRate": 0.12,
+      "interval95": [
+        0.08536266215857913,
+        0.16613906175113463
+      ],
+      "meanRound": 4.152,
+      "reasons": {
+        "elimination": 5,
+        "points": 30,
+        "time": 6,
+        "maneuver": 209
+      },
+      "brSummitAtEnd": 30
+    },
+    {
+      "rules": {
+        "rangeHeightThreshold": 90,
+        "targetScore": 4
+      },
+      "generator": "Mulberry32",
+      "count": 250,
+      "firstSeed": 1,
+      "lastSeed": 250,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 29,
+        "de": 221
+      },
+      "brRate": 0.116,
+      "interval95": [
+        0.08199108127964577,
+        0.161631713408065
+      ],
+      "meanRound": 4.248,
+      "reasons": {
+        "elimination": 5,
+        "points": 29,
+        "time": 6,
+        "maneuver": 210
+      },
+      "brSummitAtEnd": 29
+    },
+    {
+      "rules": {
+        "rangeHeightThreshold": 120,
+        "targetScore": 2
+      },
+      "generator": "Mulberry32",
+      "count": 250,
+      "firstSeed": 1,
+      "lastSeed": 250,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 78,
+        "de": 172
+      },
+      "brRate": 0.312,
+      "interval95": [
+        0.25777795668122416,
+        0.3719123698846343
+      ],
+      "meanRound": 5.292,
+      "reasons": {
+        "elimination": 7,
+        "points": 78,
+        "time": 13,
+        "maneuver": 152
+      },
+      "brSummitAtEnd": 78
+    },
+    {
+      "rules": {
+        "rangeHeightThreshold": 120,
+        "targetScore": 4
+      },
+      "generator": "Mulberry32",
+      "count": 250,
+      "firstSeed": 1,
+      "lastSeed": 250,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 78,
+        "de": 172
+      },
+      "brRate": 0.312,
+      "interval95": [
+        0.25777795668122416,
+        0.3719123698846343
+      ],
+      "meanRound": 5.552,
+      "reasons": {
+        "elimination": 7,
+        "points": 78,
+        "time": 13,
+        "maneuver": 152
+      },
+      "brSummitAtEnd": 78
+    },
+    {
+      "rules": {
+        "rangeHeightThreshold": 150,
+        "targetScore": 2
+      },
+      "generator": "Mulberry32",
+      "count": 250,
+      "firstSeed": 1,
+      "lastSeed": 250,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 84,
+        "de": 166
+      },
+      "brRate": 0.336,
+      "interval95": [
+        0.2803219824371439,
+        0.3966419194607326
+      ],
+      "meanRound": 5.26,
+      "reasons": {
+        "elimination": 13,
+        "points": 84,
+        "time": 9,
+        "maneuver": 144
+      },
+      "brSummitAtEnd": 84
+    },
+    {
+      "rules": {
+        "rangeHeightThreshold": 150,
+        "targetScore": 4
+      },
+      "generator": "Mulberry32",
+      "count": 250,
+      "firstSeed": 1,
+      "lastSeed": 250,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "wins": {
+        "br": 84,
+        "de": 166
+      },
+      "brRate": 0.336,
+      "interval95": [
+        0.2803219824371439,
+        0.3966419194607326
+      ],
+      "meanRound": 5.492,
+      "reasons": {
+        "elimination": 13,
+        "points": 84,
+        "time": 9,
+        "maneuver": 144
+      },
+      "brSummitAtEnd": 84
+    }
+  ]
+}

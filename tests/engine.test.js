@@ -19,11 +19,11 @@ test("subida custa movimento e a altura protege o defensor", () => {
 test("movimento respeita alcance, ocupação e pontos restantes", () => {
   const s = createGame(),
     u = s.units[0];
-  assert.equal(move(s, u.id, 3, 6), false);
-  assert.equal(move(s, u.id, 1, 5), true);
+  assert.equal(move(s, u.id, 3, 7), false);
+  assert.equal(move(s, u.id, 1, 6), true);
   assert.equal(u.mp, 2);
   assert.equal(move(s, u.id, 8, 0), false);
-  assert.ok(!reachable(s, u).has("3,6"));
+  assert.ok(!reachable(s, u).has("3,7"));
 });
 test("combate, contra-ataque e limite de um ataque", () => {
   const s = createGame();
@@ -38,9 +38,9 @@ test("combate, contra-ataque e limite de um ataque", () => {
   assert.equal(s.units[0].mp, 0);
   assert.equal(attack(s, "b1", "b2"), null);
 });
-test("mata bloqueia a linha de visão", () => {
-  assert.equal(lineOfSight({ q: 1, r: 2 }, { q: 3, r: 2 }), false);
-  assert.equal(lineOfSight({ q: 6, r: 7 }, { q: 8, r: 7 }), true);
+test("vegetação bloqueia o raio baixo, mas pode ficar abaixo do raio elevado", () => {
+  assert.equal(lineOfSight({ q: 3, r: 3 }, { q: 3, r: 5 }), false);
+  assert.equal(lineOfSight({ q: 1, r: 2 }, { q: 3, r: 2 }), true);
 });
 test("pontuação apenas depois do turno inimigo e vitória com 8 pontos", () => {
   const s = createGame();

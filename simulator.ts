@@ -1,13 +1,15 @@
+import {defaultRules,type ScenarioRules} from "./scenario.js";
 import {
   createGame,
   attack,
   endTurn,
   objectives,
   elevation,
+  canCaptureObjective,
   type Game,
   type Side,
 } from "./engine.js";
-import { aiAction } from "./ai.js";
+import { activationOrder,takeAIAction } from "./ai.js";
 
 export type Strategy = "strong" | "weak" | "tactical";
 export type Stance = "aggressive" | "defensive";
@@ -17,6 +19,7 @@ export interface SimulationOptions {
   stance?: Stance;
   record?: boolean;
   setup?: (game: Game) => void;
+  rules?:Partial<ScenarioRules>;
 }
 export interface MatchResult {
   generator: "Mulberry32";
@@ -24,7 +27,7 @@ export interface MatchResult {
   winner: Side;
   round: number;
   score: number;
-  reason: "elimination" | "points" | "time";
+  reason: "elimination" | "points" | "time" | "maneuver";
   summitOccupied: boolean;
   attacks: number;
   uphillAttacks: number;
@@ -43,7 +46,7 @@ export function seededRandom(seed: number): () => number {
 }
 // No DOM, storage, timer or visual dependency. Both sides use exactly the same policy.
 export function simulate(options: SimulationOptions): MatchResult {
-  const game = createGame();
+  const game = createGame({...defaultRules,...options.rules});
   options.setup?.(game);
   const random = seededRandom(options.seed),
     history: Game[] = [];
@@ -53,25 +56,10 @@ export function simulate(options: SimulationOptions): MatchResult {
   while (!game.winner) {
     if (++turns > 22)
       throw new Error("Partida não terminou no limite previsto.");
-    for (const id of game.units
-      .filter((u) => u.side === game.turn)
-      .map((u) => u.id)) {
-      const action = aiAction(
-        game,
-        id,
-        options.strategy ?? "tactical",
-        options.stance ?? "aggressive",
-      );
-      if (action) {
-        attacks++;
-        const source = game.units.find((u) => u.id === action.attacker)!;
-        const target = game.units.find((u) => u.id === action.target)!;
-        // Track the exposure of assaulting units without imposing a historical result.
-        if (elevation(target.q, target.r) > elevation(source.q, source.r))
-          uphillAttacks++;
-        attack(game, action.attacker, action.target, random);
-      }
-      if (game.winner) break;
+    for(const id of activationOrder(game)){
+      const result=takeAIAction(game,id,options.strategy??'tactical',options.stance??'aggressive',random);
+      if(result?.attack){attacks++;if(result.uphill)uphillAttacks++;}
+      if(game.winner)break;
     }
     if (!game.winner) endTurn(game);
     if (options.record) history.push(structuredClone(game));
@@ -83,12 +71,12 @@ export function simulate(options: SimulationOptions): MatchResult {
     generator: "Mulberry32",
     seed: options.seed,
     winner: game.winner,
-    round: Math.min(game.round, 10),
+    round: game.finishedRound??Math.min(game.round, 10),
     score: game.score,
-    reason: eliminated ? "elimination" : game.score >= 8 ? "points" : "time",
+    reason:game.winner==='br'?'points':!game.units.some(u=>u.side==='br'&&canCaptureObjective(u))?'maneuver':eliminated?'elimination':'time',
     summitOccupied: game.units.some(
       (u) =>
-        u.side === "br" && u.q === objectives[0].q && u.r === objectives[0].r,
+        u.side === "br" && canCaptureObjective(u) && u.q === objectives[0].q && u.r === objectives[0].r,
     ),
     attacks,
     uphillAttacks,
@@ -128,6 +116,7 @@ export function tournament(
       elimination: results.filter((r) => r.reason === "elimination").length,
       points: results.filter((r) => r.reason === "points").length,
       time: results.filter((r) => r.reason === "time").length,
+      maneuver:results.filter(r=>r.reason==='maneuver').length,
     },
     brSummitAtEnd: results.filter((r) => r.summitOccupied).length,
   };

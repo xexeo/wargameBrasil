@@ -1,0 +1,25 @@
+{
+  "generator": "Mulberry32",
+  "count": 500,
+  "firstSeed": 10001,
+  "lastSeed": 10500,
+  "strategy": "tactical",
+  "stance": "aggressive",
+  "wins": {
+    "br": 242,
+    "de": 258
+  },
+  "brRate": 0.484,
+  "interval95": [
+    0.4404846519415505,
+    0.5277593358514384
+  ],
+  "meanRound": 6.24,
+  "reasons": {
+    "elimination": 9,
+    "points": 242,
+    "time": 1,
+    "maneuver": 248
+  },
+  "brSummitAtEnd": 246
+}

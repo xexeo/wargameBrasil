@@ -1,5 +1,6 @@
-import { createGame, attack, endTurn, objectives, elevation, } from "./engine.js";
-import { aiAction } from "./ai.js";
+import { defaultRules } from "./scenario.js";
+import { createGame, endTurn, objectives, canCaptureObjective, } from "./engine.js";
+import { activationOrder, takeAIAction } from "./ai.js";
 export function seededRandom(seed) {
     let state = seed >>> 0;
     return () => {
@@ -13,25 +14,19 @@ export function seededRandom(seed) {
 }
 // No DOM, storage, timer or visual dependency. Both sides use exactly the same policy.
 export function simulate(options) {
-    const game = createGame();
+    const game = createGame({ ...defaultRules, ...options.rules });
     options.setup?.(game);
     const random = seededRandom(options.seed), history = [];
     let attacks = 0, uphillAttacks = 0, turns = 0;
     while (!game.winner) {
         if (++turns > 22)
             throw new Error("Partida não terminou no limite previsto.");
-        for (const id of game.units
-            .filter((u) => u.side === game.turn)
-            .map((u) => u.id)) {
-            const action = aiAction(game, id, options.strategy ?? "tactical", options.stance ?? "aggressive");
-            if (action) {
+        for (const id of activationOrder(game)) {
+            const result = takeAIAction(game, id, options.strategy ?? 'tactical', options.stance ?? 'aggressive', random);
+            if (result?.attack) {
                 attacks++;
-                const source = game.units.find((u) => u.id === action.attacker);
-                const target = game.units.find((u) => u.id === action.target);
-                // Track the exposure of assaulting units without imposing a historical result.
-                if (elevation(target.q, target.r) > elevation(source.q, source.r))
+                if (result.uphill)
                     uphillAttacks++;
-                attack(game, action.attacker, action.target, random);
             }
             if (game.winner)
                 break;
@@ -47,10 +42,10 @@ export function simulate(options) {
         generator: "Mulberry32",
         seed: options.seed,
         winner: game.winner,
-        round: Math.min(game.round, 10),
+        round: game.finishedRound ?? Math.min(game.round, 10),
         score: game.score,
-        reason: eliminated ? "elimination" : game.score >= 8 ? "points" : "time",
-        summitOccupied: game.units.some((u) => u.side === "br" && u.q === objectives[0].q && u.r === objectives[0].r),
+        reason: game.winner === 'br' ? 'points' : !game.units.some(u => u.side === 'br' && canCaptureObjective(u)) ? 'maneuver' : eliminated ? 'elimination' : 'time',
+        summitOccupied: game.units.some((u) => u.side === "br" && canCaptureObjective(u) && u.q === objectives[0].q && u.r === objectives[0].r),
         attacks,
         uphillAttacks,
         history,
@@ -78,6 +73,7 @@ export function tournament(count, firstSeed = 1, options = {}) {
             elimination: results.filter((r) => r.reason === "elimination").length,
             points: results.filter((r) => r.reason === "points").length,
             time: results.filter((r) => r.reason === "time").length,
+            maneuver: results.filter(r => r.reason === 'maneuver').length,
         },
         brSummitAtEnd: results.filter((r) => r.summitOccupied).length,
     };

@@ -1,4 +1,6 @@
-import { geographicTerrain, terrainLevel, altitude } from "./geography.js";
+import { defaultRules, heightThreshold } from "./scenario.js";
+import { troopProfiles } from "./troops.js";
+import { geographicTerrain, terrainLevel, altitude, geography } from "./geography.js";
 // Prepared positions are scenario abstractions, not surveyed bunker locations.
 export const fortifications = [
     { q: 5, r: 1, level: 1 },
@@ -7,7 +9,7 @@ export const fortifications = [
 export function fortification(q, r) {
     return fortifications.find((f) => f.q === q && f.r === r)?.level ?? 0;
 }
-export const COLS = 9, ROWS = 8, LIMIT = 10;
+export const COLS = geography.columns, ROWS = geography.rows, LIMIT = 10;
 export const key = (q, r) => `${q},${r}`;
 export const inside = (q, r) => q >= 0 && r >= 0 && q < COLS && r < ROWS;
 export const distance = (a, b) => (Math.abs(a.q - b.q) +
@@ -24,8 +26,8 @@ export const neighbors = (q, r) => [
 ].filter(([q, r]) => inside(q, r));
 export const objectives = [
     { q: 5, r: 1, name: "Monte Castelo", points: 2 },
-    { q: 3, r: 3, name: "Esporão ocidental", points: 1 },
-    { q: 6, r: 3, name: "Crista oriental", points: 1 },
+    { q: 3, r: 3, name: "", points: 1 },
+    { q: 6, r: 3, name: "", points: 1 },
 ];
 // Geometry is sampled from Copernicus DEM; land cover/roads from a dated OSM snapshot.
 export const terrain = (q, r) => geographicTerrain(q, r);
@@ -54,74 +56,62 @@ export function lineOfSight(a, b) {
             ry = -rx - rz;
         else
             rz = -rx - ry;
-        const sight = elevation(a.q, a.r) + (elevation(b.q, b.r) - elevation(a.q, a.r)) * t;
-        if (elevation(rx, rz) > sight || terrain(rx, rz) === "forest")
+        const sight = altitude(a.q, a.r) + 2 + (altitude(b.q, b.r) - altitude(a.q, a.r)) * t;
+        if (altitude(rx, rz) + (terrain(rx, rz) === 'forest' ? 15 : 0) > sight)
             return false;
     }
     return true;
 }
 export function defenseBonus(a, b) {
-    return (Math.max(["hill", "forest"].includes(terrain(b.q, b.r)) ? 1 : 0, fortification(b.q, b.r)) + (elevation(b.q, b.r) > elevation(a.q, a.r) ? 1 : 0));
+    return (Math.max(["hill", "forest"].includes(terrain(b.q, b.r)) ? 1 : 0, fortification(b.q, b.r)) + (hasHeightAdvantage(b, a) ? 1 : 0));
 }
-const make = (id, side, q, r, name, type, atk, def) => ({
-    id,
-    side,
-    q,
-    r,
-    name,
-    type,
-    atk,
-    def,
-    hp: 3,
-    mp: type === "armor" ? 4 : 3,
-    fired: false,
-});
-export function createGame() {
-    return {
-        round: 1,
-        turn: "br",
-        score: 0,
-        winner: null,
-        units: [
-            make("b1", "br", 1, 6, "Batalhão Franklin", "infantry", 3, 3),
-            make("b2", "br", 3, 6, "Batalhão Uzeda", "infantry", 4, 3),
-            make("b3", "br", 5, 6, "Batalhão Sizeno", "infantry", 3, 4),
-            make("b4", "br", 6, 6, "Pelotão de apoio", "infantry", 4, 3),
-            make("b5", "br", 2, 7, "Artilharia FEB", "artillery", 4, 2),
-            make("g1", "de", 5, 1, "Defesa do Castelo", "infantry", 4, 4),
-            make("g2", "de", 3, 3, "Guarnição da cota", "infantry", 3, 3),
-            make("g3", "de", 6, 3, "Posto avançado", "infantry", 3, 3),
-            make("g4", "de", 4, 1, "Reserva de montanha", "infantry", 4, 3),
-            make("g5", "de", 7, 2, "Bateria de montanha", "artillery", 4, 2),
-        ],
-        log: ["21 de fevereiro de 1945. A FEB avança sobre Monte Castelo."],
-    };
+export const maximumMovement = (u) => u.maxMp ?? (u.type === 'armor' ? 4 : 3);
+export const canCaptureObjective = (u) => u.canCapture ?? true;
+export const objectivePointsPerRound = () => objectives.reduce((sum, o) => sum + o.points, 0);
+export const targetScore = (s) => s.rules?.targetScore ?? 8;
+export const roundLimit = (s) => s.rules?.roundLimit ?? LIMIT;
+export const unitLevel = (u) => u.level ?? 2;
+export function createGame(rules = defaultRules) {
+    return { rules: { ...rules }, summitSecured: false, round: 1, turn: 'br', score: 0, winner: null,
+        units: troopProfiles.map(p => ({ id: p.id, side: p.side, q: p.q, r: p.r, name: p.name, type: p.type, atk: p.atk, def: p.def, hp: 3, mp: p.mp, maxMp: p.mp, range: p.range, indirect: p.indirect, canCapture: p.canCapture, level: p.level, heightRange: rules.highGroundRange, rangeHeightThreshold: rules.rangeHeightThreshold, reactionSpent: false, suppressed: false, fired: false })),
+        log: ['21 de fevereiro de 1945. Os batalhões do Sampaio avançam com apoio da artilharia.'] };
 }
-export function reachable(s, u) {
-    const result = new Map([[key(u.q, u.r), 0]]), pending = [[u.q, u.r, 0]];
+function movementSearch(s, u) {
+    const costs = new Map([[key(u.q, u.r), 0]]), previous = new Map(), pending = [[u.q, u.r, 0]];
     while (pending.length) {
         pending.sort((a, b) => a[2] - b[2]);
         const [q, r, spent] = pending.shift();
+        if (spent !== costs.get(key(q, r)))
+            continue;
         for (const [nq, nr] of neighbors(q, r)) {
-            const n = spent + movementCost({ q, r }, { q: nq, r: nr }), k = key(nq, nr);
-            if (n > u.mp ||
-                s.units.some((v) => v.id !== u.id && v.q === nq && v.r === nr))
+            const next = spent + movementCost({ q, r }, { q: nq, r: nr }), k = key(nq, nr);
+            if (next > u.mp || s.units.some(v => v.id !== u.id && v.q === nq && v.r === nr))
                 continue;
-            if (n < (result.get(k) ?? Infinity)) {
-                result.set(k, n);
-                pending.push([nq, nr, n]);
+            if (next < (costs.get(k) ?? Infinity)) {
+                costs.set(k, next);
+                previous.set(k, key(q, r));
+                pending.push([nq, nr, next]);
             }
         }
     }
-    result.delete(key(u.q, u.r));
-    return result;
+    return { costs, previous };
 }
-export const attackRange = (u) => u.type === "artillery" ? 3 : 1;
+export function reachable(s, u) { const { costs } = movementSearch(s, u); costs.delete(key(u.q, u.r)); return costs; }
+export function movementRoute(s, u, q, r) { const { costs, previous } = movementSearch(s, u), origin = key(u.q, u.r); let current = key(q, r); if (!costs.has(current) || current === origin)
+    return []; const path = []; while (current !== origin) {
+    const [q, r] = current.split(',').map(Number);
+    path.unshift({ q, r });
+    current = previous.get(current);
+} return path; }
+export const attackRange = (u) => u.range ?? (u.type === "artillery" ? 3 : 1);
+export const isIndirect = (u) => u.indirect ?? (u.type === 'artillery');
+export const hasHeightAdvantage = (a, b) => altitude(a.q, a.r) - altitude(b.q, b.r) >= heightThreshold;
+export const effectiveAttackRange = (u, v) => attackRange(u) + (!isIndirect(u) && u.heightRange && altitude(u.q, u.r) - altitude(v.q, v.r) >= (u.rangeHeightThreshold ?? 90) ? 1 : 0);
 export function canAttack(u, v) {
     return (u.side !== v.side &&
         !u.fired &&
-        distance(u, v) <= attackRange(u) &&
-        (u.type === "artillery" || lineOfSight(u, v)));
+        distance(u, v) <= effectiveAttackRange(u, v) &&
+        (isIndirect(u) || lineOfSight(u, v)));
 }
 export function move(s, id, q, r) {
     const u = s.units.find((v) => v.id === id);
@@ -135,57 +125,142 @@ export function move(s, id, q, r) {
     u.mp -= n;
     return true;
 }
-export function attack(s, id, target, rng = Math.random) {
-    const u = s.units.find((v) => v.id === id), v = s.units.find((v) => v.id === target);
-    if (!u || !v || s.winner || u.side !== s.turn || !canAttack(u, v))
-        return null;
-    const cover = defenseBonus(u, v);
-    const barrage = u.side === "br" && u.type === "artillery" && s.round === 10 ? 1 : 0;
-    const die = 1 + Math.floor(rng() * 6), power = u.atk + barrage + (u.hp - 3) * 0.5 + die - v.def - cover;
-    const damage = power >= 5 ? 2 : power >= 1 ? 1 : 0;
+function resolveCombat(s, u, v, rng, reaction = false) {
+    const cover = defenseBonus(u, v), barrage = u.side === 'br' && u.type === 'artillery' && s.round === 10 ? 1 : 0;
+    const die = 1 + Math.floor(rng() * 6), power = u.atk + barrage + (u.hp - 3) * .5 + die - v.def - cover;
+    const hit = power >= 5 ? 2 : power >= 1 ? 1 : 0, damage = reaction ? Math.min(1, hit) : hit;
     v.hp -= damage;
-    u.fired = true;
-    u.mp = 0;
+    if (reaction) {
+        u.reactionSpent = true;
+        u.fired = true;
+        u.mp = 0;
+    }
+    else {
+        u.fired = true;
+        u.mp = 0;
+    }
     let counter = 0;
-    if (v.hp > 0 && distance(u, v) === 1 && power <= 0) {
+    if (!reaction && !v.reactionSpent && !v.suppressed && v.hp > 0 && distance(u, v) === 1 && power <= 0) {
         u.hp--;
         counter = 1;
+        if (s.rules?.opportunityFire) {
+            v.reactionSpent = true;
+            v.fired = true;
+            v.mp = 0;
+        }
     }
-    s.log.unshift(`${u.name} → ${v.name}: dado ${die}${barrage ? " + barragem" : ""}, ${damage} dano${counter ? ", contra-ataque: 1 dano" : ""}.`);
-    s.units = s.units.filter((v) => v.hp > 0);
+    if (damage > 0 && isIndirect(u))
+        v.suppressed = true;
+    s.log.unshift(`${reaction ? 'Fogo defensivo · ' : ''}${u.name} → ${v.name}: dado ${die}${barrage ? ' + barragem' : ''}, ${damage} dano${counter ? ', contra-ataque: 1 dano' : ''}${damage > 0 && isIndirect(u) ? ' · reação suprimida' : ''}.`);
+    s.units = s.units.filter(v => v.hp > 0);
     checkWinner(s);
     return { die, damage, counter };
 }
-export function checkWinner(s) {
-    if (!s.units.some((u) => u.side === "br"))
-        s.winner = "de";
-    else if (!s.units.some((u) => u.side === "de") || s.score >= 8)
-        s.winner = "br";
+function canReact(s, defender, target) { return !!s.rules?.opportunityFire && !defender.reactionSpent && !defender.suppressed && !isIndirect(defender) && hasHeightAdvantage(defender, target) && canAttack({ ...defender, fired: false }, target); }
+export function opportunityFire(s, targetId, rng = Math.random) {
+    if (s.winner)
+        return false;
+    const target = s.units.find(u => u.id === targetId);
+    if (!target)
+        return false;
+    const defender = s.units.filter(u => u.side !== target.side && canReact(s, u, target)).sort((a, b) => b.atk - a.atk || distance(a, target) - distance(b, target) || a.id.localeCompare(b.id))[0];
+    if (!defender)
+        return false;
+    resolveCombat(s, defender, target, rng, true);
+    return true;
+}
+export function advance(s, id, q, r, rng = Math.random) {
+    const u = s.units.find(v => v.id === id);
+    if (!u || u.side !== s.turn || s.winner)
+        return false;
+    const route = movementRoute(s, u, q, r);
+    if (!route.length)
+        return false;
+    let reacted = false;
+    for (const cell of route) {
+        u.mp -= movementCost(u, cell);
+        u.q = cell.q;
+        u.r = cell.r;
+        if (!reacted)
+            reacted = opportunityFire(s, id, rng);
+        if (s.winner || !s.units.some(v => v.id === id))
+            break;
+    }
+    return true;
+}
+export function attack(s, id, target, rng = Math.random) {
+    let u = s.units.find(v => v.id === id), v = s.units.find(v => v.id === target);
+    if (!u || !v || s.winner || u.side !== s.turn || !canAttack(u, v))
+        return null;
+    if (!isIndirect(u) && canReact(s, v, u)) {
+        resolveCombat(s, v, u, rng, true);
+        u = s.units.find(v => v.id === id);
+        if (!u || s.winner)
+            return { die: 0, damage: 0, counter: 0, interrupted: true };
+        v = s.units.find(v => v.id === target);
+    }
+    return resolveCombat(s, u, v, rng);
+}
+export const summitOccupied = (s) => s.units.some(u => u.side === 'br' && canCaptureObjective(u) && u.q === objectives[0].q && u.r === objectives[0].r);
+export function checkWinner(s, completedRound) {
+    if (s.winner)
+        return s.winner;
+    if (!s.units.some(u => u.side === 'br' && canCaptureObjective(u)))
+        s.winner = 'de';
+    else if (s.rules) {
+        if (s.score >= targetScore(s) && (!s.rules.requireSummit || (s.summitSecured && summitOccupied(s))))
+            s.winner = 'br';
+        else if (s.round > roundLimit(s))
+            s.winner = 'de';
+    }
+    else if (!s.units.some(u => u.side === 'de') || s.score >= 8)
+        s.winner = 'br';
     else if (s.round > LIMIT)
-        s.winner = s.score >= 8 ? "br" : "de";
+        s.winner = 'de';
+    if (s.winner)
+        s.finishedRound = completedRound ?? Math.min(s.round, roundLimit(s));
     return s.winner;
 }
 export function endTurn(s) {
     if (s.winner)
         return;
-    if (s.turn === "br")
-        s.turn = "de";
+    const outgoing = s.turn;
+    for (const u of s.units.filter(u => u.side === outgoing))
+        u.reactionSpent = false;
+    if (outgoing === 'br')
+        s.turn = 'de';
     else {
-        const points = objectives.reduce((sum, o) => sum +
-            (s.units.some((u) => u.side === "br" && u.q === o.q && u.r === o.r)
-                ? o.points
-                : 0), 0);
+        const points = objectives.reduce((n, o) => n + (s.units.some(u => u.side === 'br' && canCaptureObjective(u) && u.q === o.q && u.r === o.r) ? o.points : 0), 0);
         s.score += points;
+        s.summitSecured = summitOccupied(s);
         s.log.unshift(`Fim da rodada ${s.round}: +${points} pontos para a FEB.`);
         s.round++;
+        s.turn = 'br';
         if (s.round === 10)
-            s.log.unshift("16:48 · Concentração de artilharia: ataques da bateria FEB recebem +1 nesta rodada.");
-        s.turn = "br";
+            s.log.unshift('16:48 · Concentração de artilharia: ataques da bateria FEB recebem +1 nesta rodada.');
     }
-    for (const u of s.units.filter((u) => u.side === s.turn)) {
-        u.mp = u.type === "armor" ? 4 : 3;
-        u.fired = false;
+    for (const u of s.units.filter(u => u.side === s.turn)) {
+        u.mp = u.reactionSpent ? 0 : maximumMovement(u);
+        u.fired = !!u.reactionSpent;
+        u.suppressed = false;
     }
-    checkWinner(s);
+    checkWinner(s, outgoing === 'de' ? s.round - 1 : undefined);
+}
+export function victoryAssessment(s) { const rounds = s.finishedRound ?? Math.min(s.round, roundLimit(s)), remaining = s.units.filter(u => u.side === 'br'), lostUnits = 5 - remaining.length, lostCohesion = 15 - remaining.reduce((n, u) => n + u.hp, 0), efficiency = Math.max(0, Math.round(100 - (rounds - 1) * 3 - lostUnits * 8 - lostCohesion * 1.5)); return { rounds, lostUnits, lostCohesion, efficiency, grade: s.winner !== 'br' ? 'Defesa bem-sucedida' : efficiency >= 70 ? 'Vitória decisiva' : efficiency >= 45 ? 'Vitória tática' : efficiency >= 20 ? 'Vitória custosa' : 'Vitória pírrica' }; }
+export function expectedReactionRisk(s, u) {
+    let risk = 0;
+    for (const v of s.units) {
+        if (v.side === u.side || !canReact(s, v, u))
+            continue;
+        let damage = 0, kills = 0;
+        for (let die = 1; die <= 6; die++) {
+            const power = v.atk + (v.hp - 3) * .5 + die - u.def - defenseBonus(v, u), hit = power >= 1 ? 1 : 0;
+            damage += hit;
+            if (hit >= u.hp)
+                kills++;
+        }
+        risk = Math.max(risk, damage / 6 * 4 + kills / 6 * 10);
+    }
+    return risk;
 }
 //# sourceMappingURL=engine.js.map

@@ -1,7 +1,7 @@
 import { geography } from "./geography-data.js";
 export { geography };
 export const geographicCell = (q: number, r: number) =>
-  geography.cells[r * 9 + q];
+  geography.cells[r * geography.columns + q];
 export const altitude = (q: number, r: number): number =>
   geographicCell(q, r)?.altitude ?? 0;
 export function terrainLevel(q: number, r: number): number {

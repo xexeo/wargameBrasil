@@ -154,6 +154,7 @@ const round = (p) => ({
   y: Math.round(p.y * 10) / 10,
 });
 const data = {
+  columns:9,rows:Math.max(...cells.map(c=>c.r))+1,
   peak: { ...locations.peak, documentedAltitude: 977, osmNode: 5245929042 },
   metersPerPixel: locations.metersPerPixel,
   cells,

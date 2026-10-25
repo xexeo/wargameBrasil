@@ -1,5 +1,5 @@
-import { objectives, createGame, attack, endTurn } from './engine.js';
-import { aiAction } from './ai.js';
+import { objectives, canCaptureObjective, createGame, endTurn } from './engine.js';
+import { activationOrder, takeAIAction } from './ai.js';
 import { seededRandom } from './simulator.js';
 export const policies = ['strong/aggressive', 'strong/defensive', 'weak/aggressive', 'weak/defensive', 'tactical/aggressive', 'tactical/defensive'];
 export const emptyLearning = () => ({ schema: 1, episodes: 0, updates: 0, q: {} });
@@ -10,13 +10,13 @@ export function validLearning(value) {
 export function learningState(g, side) {
     const hp = (s) => g.units.filter(u => u.side === s).reduce((n, u) => n + u.hp, 0);
     const advantage = hp(side) - hp(side === 'br' ? 'de' : 'br');
-    const owned = objectives.filter(o => g.units.some(u => u.side === side && u.q === o.q && u.r === o.r)).length;
-    const summit = g.units.some(u => u.side === side && u.q === 5 && u.r === 1) ? 1 : 0;
+    const owned = objectives.filter(o => g.units.some(u => u.side === side && canCaptureObjective(u) && u.q === o.q && u.r === o.r)).length;
+    const summit = g.units.some(u => u.side === side && canCaptureObjective(u) && u.q === 5 && u.r === 1) ? 1 : 0;
     return `${side}:${Math.min(2, Math.floor((g.round - 1) / 4))}:${advantage < -2 ? 'behind' : advantage > 2 ? 'ahead' : 'equal'}:${Math.min(2, Math.floor(g.score / 3))}:${owned}:${summit}`;
 }
 function utility(g, side) {
     const hp = g.units.reduce((n, u) => n + (u.side === side ? u.hp : -u.hp), 0);
-    const brControl = objectives.reduce((n, o) => n + (g.units.some(u => u.side === 'br' && u.q === o.q && u.r === o.r) ? o.points : 0), 0);
+    const brControl = objectives.reduce((n, o) => n + (g.units.some(u => u.side === 'br' && canCaptureObjective(u) && u.q === o.q && u.r === o.r) ? o.points : 0), 0);
     return hp * .6 + (side === 'br' ? 1 : -1) * (g.score * .7 + brControl * .4);
 }
 function values(t, state) { return t.q[state] ?? (t.q[state] = [0, 0, 0, 0, 0, 0]); }
@@ -53,10 +53,8 @@ export function trainEpisode(t, seed, epsilon = .2) {
     const g = createGame(), rng = seededRandom(seed), context = {};
     while (!g.winner) {
         const side = g.turn, policy = beginLearningTurn(t, context, g, side, rng, epsilon);
-        for (const id of g.units.filter(u => u.side === side).map(u => u.id)) {
-            const action = aiAction(g, id, policy.strategy, policy.stance);
-            if (action)
-                attack(g, action.attacker, action.target, rng);
+        for (const id of activationOrder(g, side)) {
+            takeAIAction(g, id, policy.strategy, policy.stance, rng);
             if (g.winner)
                 break;
         }

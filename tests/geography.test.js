@@ -6,8 +6,8 @@ import {
   altitude,
   terrainLevel,
 } from "../dist/geography.js";
-test("tabuleiro ancora o cume real e contém 72 amostras geográficas válidas", () => {
-  assert.equal(geography.cells.length, 72);
+test("tabuleiro ancora o cume real e contém 81 amostras geográficas válidas", () => {
+  assert.equal(geography.cells.length, 81);
   const peak = geographicCell(5, 1);
   assert.ok(Math.abs(peak.latitude - 44.2206238) < 1e-7);
   assert.ok(Math.abs(peak.longitude - 10.95377) < 1e-7);

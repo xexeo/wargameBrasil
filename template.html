@@ -42,18 +42,14 @@
         <div class="metrics">
           <div><small>21 FEV · HORA</small><b id="time">06:00</b></div>
           <div><small>RODADA</small><b id="round">1 / 10</b></div>
-          <div><small>OBJETIVO</small><b id="score">0 / 8</b></div>
+          <div><small>PONTOS ACUMULADOS</small><b id="score">—</b></div>
           <button id="end">Encerrar turno →</button
           ><button id="newTop" class="new-top">＋ Nova partida</button>
         </div>
       </section>
       <section class="mission">
-        <strong>⚑ MISSÃO: OCUPE AS POSIÇÕES MARCADAS E ACUMULE 8 PONTOS</strong>
-        <p>
-          Fique sobre um hexágono com bandeira até o fim do turno alemão. Monte
-          Castelo rende 2 pontos; cada posição secundária, 1. Prazo: 10 rodadas.
-          Eliminar todo o inimigo também vence.
-        </p>
+        <strong id="missionTitle">⚑ MISSÃO: TOME E SEGURE MONTE CASTELO</strong>
+        <p id="missionDetail">A infantaria deve assegurar o cume. Os pontos acumulados e o prazo da missão aparecem aqui.</p>
         <button
           id="weatherInfo"
           class="weather-chip"
@@ -84,8 +80,6 @@
           </div>
           <div class="actionbar">
             <p id="actionHint" aria-live="polite"></p>
-            <button id="actionMove" disabled>Mover</button
-            ><button id="actionAttack" disabled>Atacar</button>
           </div>
           <div class="height-key" aria-label="Legenda da altitude">
             <span style="--height: #f4efdf">N1 · &lt;780 m</span
@@ -127,7 +121,7 @@
               </p>
               <p>Toque duas vezes numa peça para ampliá-la.</p>
             </div>
-          </section>
+          <button id="forces" class="secondary">Forças e níveis · escala das tropas</button></section>
           <section class="card">
             <label for="gameMode">MODO DE JOGO</label
             ><select id="gameMode">

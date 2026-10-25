@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.8 · 25/10/2026, 03:53:40 (Brasília)**
+**Versão 0.1.9 · 25/10/2026, 11:34:12 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -27,28 +27,42 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 - Botão **Nova partida** visível no topo, ao lado de Encerrar turno, além do painel lateral.
 - Interface clara, com fundo branco, responsiva para celular e computador. FEB em azul, defesa alemã em carvão; terreno em papel e terra. Títulos sem serifa Barlow Condensed, fonte embutida offline sob licença OFL.
 - Narrativa histórica em popup ao iniciar cada operação e reaberta pelo botão **Missão**, sem reiniciar. Logo original do jogo inspirado na cobra fumando da FEB, criado com assistência de IA; não é um distintivo oficial.
-- Tabuleiro de 9 × 8 hexágonos; peças quadradas com símbolos de infantaria e artilharia.
-- Ações explícitas **Mover** e **Atacar** acima do mapa. Primeiro selecione a peça, escolha a ação e toque no hexágono azul ou no alvo vermelho. Movimento desconta pontos; tocar em inimigo no modo Mover não ataca.
+- Tabuleiro de 9 × 9 hexágonos; peças quadradas com símbolos de infantaria e artilharia.
+- Seleção direta: toque na peça e veja destinos azuis e barras vermelhas nos inimigos atacáveis ao mesmo tempo. Toque no destino para mover ou no alvo para atacar, sem botões de modo.
 - Duplo toque/clique amplia a peça e mostra seus atributos. Cada peça mostra movimento restante (M), ataque (A), defesa (D), resistência atual e selo de dano acumulado, atualizados após cada ação.
-- Florestinhas desenhadas em SVG, fortificações e trincheiras esquemáticas em Monte Castelo e no esporão; bônus de proteção não acumula com cobertura natural.
-- Mapa ancorado no cume OSM de 977 m, 72 amostras Copernicus DEM de 90 m, caminhos/bosques/edifícios e localidades reais como Abetaia; escala aproximada de 180 m por hexágono. Popup **Mapa & fontes** com referência histórica de Armand Casini.
+- Florestinhas desenhadas em SVG, fortificações e trincheiras esquemáticas em Monte Castelo e num objetivo secundário; bônus de proteção não acumula com cobertura natural.
+- Mapa ancorado no cume OSM de 977 m, 81 amostras Copernicus DEM de 90 m, caminhos/bosques/edifícios atuais, com localidades modernas sem rótulos de objetivos históricos; escala aproximada de 180 m por hexágono. Popup **Mapa & fontes** com mapa 10 de Cassino to the Alps (história oficial do Exército dos EUA) e referência complementar de Armand Casini.
 - Relevo com faixas de altitude em metros e curvas generalizadas; versão em letra pequena ao lado do nome do jogo.
 - Faixa de missão, bandeiras e botões para localizar os três objetivos, com controle e pontuação visíveis.
-- Artilharia com tiro indireto de até 3 hexágonos, inclusive contra fortificações; proteção do defensor mantida. Essa revisão corrige o bloqueio excessivo da linha de visão direta.
+- Artilharia com tiro indireto de até 5 hexágonos nos novos perfis, inclusive contra fortificações; proteção do defensor mantida. Essa revisão corrige o bloqueio excessivo da linha de visão direta.
 - Terreno afeta movimento, defesa e linha de visão. Subidas gastam mais movimento; defensores acima do atacante recebem proteção adicional.
 - Zoom contínuo por slider, pinça e Ctrl/Command + roda do mouse; atalhos **Mapa inteiro** e **Visão tática**.
 - Regras com exemplo de peça e legenda de bolinhas, símbolos militares, A/D/M, dano e marca de ação; contexto histórico, fontes e diário de combate na interface.
 - Popup **Autoria & licença**, incluindo logo oficial do LUDES, copyright e texto integral da CC BY-NC-SA 4.0 para consulta offline. O logo foi obtido no [endereço oficial informado pelo autor](https://ludes.cos.ufrj.br/wp-content/uploads/2016/07/ludes_azul.png).
 - IA de maior ataque, IA de menor defesa e IA tática que avalia cobertura, ameaças, apoio e objetivos; posturas agressiva e defensiva.
-- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 20.205 atualizações e 124 situações aprendidas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Relatório de treino](docs/training-report.json) e [avaliação independente](docs/trained-evaluation.json).
+- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 30.743 atualizações e 125 situações aprendidas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Relatório de treino](docs/training-report.json) e [avaliação independente](docs/trained-evaluation.json).
 - IA aprendiz: Q-learning simples sobre seis combinações de estratégia/postura, exploração de 20% e experiência mantida em `localStorage` entre partidas. Não treina uma rede neural nem aprende movimentos individuais.
-- Vitória brasileira por 8 pontos de ocupação ou eliminação da defesa; vitória alemã por impedir o objetivo em 10 rodadas ou eliminar a FEB.
+- Vitória brasileira exige **8 pontos acumulados e ocupação do cume no fechamento do turno alemão**. Os objetivos dão no máximo **4 por rodada**: 2 + 1 + 1; duas rodadas de ocupação completa dão 8. Apoio não captura. Defesa vence por prazo de 10 rodadas ou perda de toda a infantaria de manobra brasileira. Tempo e perdas determinam o grau da vitória.
 - Reconstrução meteorológica ERA5 incorporada offline, com temperatura e nuvens aproximadas por hora, tabela e distinção entre modelo e relatos históricos.
 - Relógio de cenário das 06:00 às 18:00; concentração de artilharia brasileira na rodada 10, inspirada no fogo histórico de 16:00–17:00.
 
 O tempo de 5–10 minutos é uma meta de projeto, ainda sem validação com jogadores. A IA calcula localmente; sua sequência visual normalmente leva cerca de 1–2 segundos.
 
-## Balanceamento da base geográfica atual
+## Revisão atual: tropas, fogo e fontes
+
+A escala principal é batalhão para a FEB e grupo de fogos para artilharia; apoio é agregado. Os alemães são destacamentos de cenário, com escalão exato não confirmado. Atributos e T1–T3 são classificações de jogo, sem notas históricas inventadas. [Perfis e critérios](docs/TROPAS.md).
+
+A altura permite tiro defensivo antes do avanço/assalto, com limite de 1 dano e consumo da próxima ação. Apoio indireto suprime a reação. Vantagem de 90 m amplia o tiro direto em um hexágono; defesa elevada usa limiar de 30 m. A IA usa apoio antes de manobrar. Essas regras são simétricas.
+
+O [registro de mapas oficiais](docs/MAPAS_OFICIAIS.md) distingue fontes efetivamente lidas e catálogos. Fisher, p. 431, relata retirada alemã e pequena retaguarda final. O jogo ainda abstrai essa retirada; não afirma que quatro batalhões completos defenderam o cume. Os mapas integrais da memória de Mascarenhas permanecem pendentes de consulta.
+
+## Balanceamento das regras atuais (0.1.9)
+
+Mesma IA tática/agressiva em ambos os lados, Mulberry32, 1.000 partidas: **511 vitórias FEB (51,1%) / 489 alemãs (48,9%)**. Referência, sementes 1–500: 269/500 FEB; validação separada, 10001–10500: 242/500. Todas as vitórias FEB exigiram pontos e cume. Os resultados medem essa IA, sem garantir 50% contra humanos. [Referência](docs/balance-summit.json) · [Validação](docs/balance-summit-validation.json).
+
+A calibração conservou DEM, formações e cronologia. O alcance abstrato dos grupos de ambos os lados passou a 5, permitindo apoiar a aproximação, e a reação ficou limitada a 1 dano. [Método e tentativas](docs/BALANCEAMENTO_0_1_9.md). A meta permanece 8 pontos acumulados; 4 por rodada é o máximo dos objetivos, não o total disponível na partida. A IA especial, que seleciona outras políticas e aprende durante a partida, deu 273/300 FEB (91%); isso revela desequilíbrio dessa política e não deve ser confundido com os 51,1% da IA tática fixa.
+
+## Registros de balanceamento da versão anterior (0.1.8)
 
 Com o mesmo algoritmo tático e postura agressiva nos dois lados, gerador reproduzível **Mulberry32**, foram jogadas 1.000 partidas: **466 vitórias FEB (46,6%) e 534 alemãs (53,4%)**. Amostra de referência: 237/500; amostra separada de validação: 229/500. A meta é ficar próximo de 50%, sem forçar resultados. [Referência](docs/balance-geographic.json) · [Validação](docs/balance-geographic-validation.json).
 
@@ -116,7 +130,7 @@ Para servir o jogo localmente, execute `npm start`; a entrada modular alternativ
 
 ## Validação
 
-Na implementação atual, passaram 17 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 16 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
+Na implementação atual, passaram 28 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 24 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
 
 Os testes de motor exercitam partidas completas com as combinações de IA e postura, movimento legal, combate, pontuação, altitude e linha de visão. Clima histórico e fidelidade topográfica não são validados por esses testes.
 

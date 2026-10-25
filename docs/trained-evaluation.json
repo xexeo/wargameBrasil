@@ -6,10 +6,10 @@
     90300
   ],
   "wins": {
-    "br": 101,
-    "de": 199
+    "br": 273,
+    "de": 27
   },
-  "brRate": 0.33666666666666667,
+  "brRate": 0.91,
   "trainingEpisodes": 2000,
   "note": "Mesma IA especial nos dois lados. Cada partida começa com a mesma tabela pré-treinada e permite atualização online dentro da partida; sementes separadas do treino."
 }

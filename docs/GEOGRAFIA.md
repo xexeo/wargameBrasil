@@ -12,7 +12,7 @@ Atualização de 25/10/2026: o tabuleiro deixou de usar apenas faixas inventadas
 
 ## Elevação
 
-Fonte: **Copernicus DEM 2021 GLO-90**, resolução de aproximadamente 90 m, obtido pela [API de elevação do Open-Meteo](https://open-meteo.com/en/docs/elevation-api). Foram consultados os 72 centros dos hexágonos. As amostras vão de **713 a 980 m**.
+Fonte: **Copernicus DEM 2021 GLO-90**, resolução de aproximadamente 90 m, obtido pela [API de elevação do Open-Meteo](https://open-meteo.com/en/docs/elevation-api). Foram consultados os 81 centros dos hexágonos. As amostras vão de **678 a 980 m**.
 
 Conversão deliberadamente simples para as regras:
 
@@ -23,7 +23,7 @@ Conversão deliberadamente simples para as regras:
 | N3 | 850–919 m | encostas/cristas intermediárias |
 | N4 | a partir de 920 m | terrenos mais altos, incluindo o cume |
 
-Subir uma faixa adiciona 1 PM; defender numa faixa acima do atacante acrescenta 1 de proteção. O valor em metros aparece como aproximado. Essas faixas não devem ser confundidas com uma classificação geomorfológica precisa.
+Subir uma faixa adiciona 1 PM; defender pelo menos 30 m acima do atacante acrescenta 1 de proteção. O valor em metros aparece como aproximado. Essas faixas não devem ser confundidas com uma classificação geomorfológica precisa.
 
 As linhas de 50 em 50 metros são **curvas interpoladas entre amostras**, obtidas por triangulação da grade de centros e interseção das cotas com as arestas dos triângulos. Não são curvas oficiais contínuas de um levantamento de precisão. A altimetria atual representa melhor o relevo local do que o mapa inicial; não restitui automaticamente o terreno de 1945.
 
@@ -45,7 +45,7 @@ Um caminho a menos de aproximadamente 31 m do centro classifica a célula como c
 
 [10thMtMap01.jpg, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:10thMtMap01.jpg): **Armand Casini**, mapa dos movimentos da 10ª Divisão de Montanha em Riva Ridge, Belvedere e Torraccia, no panfleto *Mountaineers*, aproximadamente 1950. Os metadados consultados indicam **domínio público**, por publicação sem aviso de copyright. A imagem original está em `assets/riva-belvedere-map.jpg` e é exibida no popup **Mapa & fontes**.
 
-É uma perspectiva regional histórica, útil para entender a relação entre as elevações e operações aliadas. Não foi usada como se fosse uma carta topográfica georreferenciada dos 72 hexágonos.
+É uma perspectiva regional histórica, útil para entender a relação entre as elevações e operações aliadas. Não foi usada como se fosse uma carta topográfica georreferenciada dos 81 hexágonos.
 
 ## Reproduzir e conferir
 
@@ -64,3 +64,7 @@ O script simplifica geometrias para exibição e usa centros de células para cl
 **© OpenStreetMap contributors**, dados sob [Open Database License 1.0](https://opendatacommons.org/licenses/odbl/1-0/). A base adaptada e as cópias de dados OSM mantêm essa licença própria; não são relicenciadas como CC BY-NC-SA. A atribuição também aparece na interface.
 
 Elevação: Copernicus DEM 2021 GLO-90 via Open-Meteo; [documentação e referência do conjunto](https://open-meteo.com/en/docs/elevation-api). Mapa Casini: domínio público conforme Wikimedia Commons. Tipografia Barlow Condensed: OFL. A licença do código e das criações originais do jogo permanece CC BY-NC-SA 4.0.
+
+## História oficial
+
+O popup também incorpora o mapa 10 da história oficial americana Cassino to the Alps. Ver [MAPAS_OFICIAIS.md](MAPAS_OFICIAIS.md), incluindo a distinção entre mapa operacional e posições táticas não confirmadas. O tabuleiro atual tem 9 × 9 hexágonos; topografia não foi alterada para balanceamento.
