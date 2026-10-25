@@ -1,12 +1,12 @@
 # Monte Castelo Vibed — experimento de companhias
 
 <!-- release:start -->
-**Versão 0.1.13 · 25/10/2026, 14:20:40 (Brasília)**
+**Versão 0.1.14 · 25/10/2026, 14:40:22 (Brasília)**
 <!-- release:end -->
 
 **Branch experimental: `experimento/escala-companhia`.** Este primeiro passo contém um quadro de companhias e estado inicial sem interface em [experiments/company/scenario.ts](experiments/company/scenario.ts). O HTML ainda executa o jogo base de batalhões; a alternativa ainda não tem movimento, combate ou simulação de partidas.
 
-[Guia e plano da alternativa](experiments/company/GUIA.md): nove companhias brasileiras (seis ativas/três reservas), quatro destacamentos alemães de cenário e apoios fora do mapa. A distribuição é hipótese de desenho. As próximas etapas são orçamento de ativações, entrada de reservas, missões de fogo, motor completo, interface e matriz de 10 jogos por dupla com dados por versão.
+[**Especificação completa da alternativa**](experiments/company/ESPECIFICACAO.md) · [Guia e plano](experiments/company/GUIA.md): nove companhias brasileiras (seis ativas/três reservas), quatro destacamentos alemães de cenário e apoios fora do mapa. A distribuição é hipótese de desenho. A especificação company-draft-1 registra requisitos fixos, parâmetros iniciais e hipóteses ainda abertas: três ativações, reserva com atraso e entrada bloqueada, observação/apoio fora do mapa, coesão/supressão/retirada, esquema de salvamento/intercâmbio, critérios de UI/testes e matriz de 10 jogos por dupla com dados por versão. Nenhuma dessas regras futuras foi apresentada como já implementada.
 
 Desenvolvimento/testes desta branch usam porta **8001** para manter o servidor da base separado. O link online abaixo continua apontando à versão publicada da `main`, que não contém este experimento.
 

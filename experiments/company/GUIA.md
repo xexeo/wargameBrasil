@@ -4,6 +4,10 @@ Branch: `experimento/escala-companhia`, derivada de `main` em `19053be`.
 
 Registro feito antes da implementação. Este primeiro passo é um **protótipo de organização e estado inicial sem interface**, sem movimento, combate ou avaliação de equilíbrio. O jogo de batalhões continua sendo o jogo executado pelo HTML nesta branch; o cenário experimental não é passado ao motor existente.
 
+## Especificação completa
+
+A [ESPECIFICACAO.md](ESPECIFICACAO.md), revisão company-draft-1, detalha parâmetros candidatos, comando, turnos, combate, retirada, reservas, observação/apoio, prazo, persistência/intercâmbio, UI, arquitetura, testes e protocolo de simulação. É uma especificação de trabalho ainda não implementada; tem precedência sobre a lista resumida de etapas abertas abaixo.
+
 ## Hipótese de trabalho
 
 - Nove companhias brasileiras de fuzileiros, agrupadas nos três batalhões do 1º RI.
