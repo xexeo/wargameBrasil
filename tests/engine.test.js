@@ -72,3 +72,19 @@ test("campanhas completas terminam com movimentos legais para todas as IAs", () 
       assert.ok(s.winner);
     }
 });
+
+test("artilharia faz tiro indireto contra fortificação sem perder seu bônus defensivo", async () => {
+  const { canAttack, lineOfSight, defenseBonus } =
+    await import("../dist/engine.js");
+  const s = createGame(),
+    gun = s.units.find((u) => u.id === "b5"),
+    fort = s.units.find((u) => u.id === "g2");
+  gun.q = 3;
+  gun.r = 5;
+  assert.equal(lineOfSight(gun, fort), false);
+  assert.equal(canAttack(gun, fort), true);
+  assert.equal(defenseBonus(gun, fort), 2);
+  const hit = attack(s, gun.id, fort.id, () => 0.999);
+  assert.equal(hit.damage, 2);
+  assert.equal(fort.hp, 1);
+});

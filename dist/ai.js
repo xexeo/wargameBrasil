@@ -1,4 +1,4 @@
-import { distance, objectives, terrain, reachable, canAttack, move } from "./engine.js";
+import { distance, objectives, terrain, reachable, canAttack, attackRange, move, } from "./engine.js";
 export function chooseTarget(s, u, mode) {
     const enemies = s.units.filter((v) => v.side !== u.side);
     return enemies.sort((a, b) => {
@@ -36,8 +36,7 @@ export function aiAction(s, id, mode = "tactical", stance = "defensive") {
         }
         if (mode === "tactical") {
             const threats = s.units
-                .filter((v) => v.side !== u.side &&
-                distance(p, v) <= (v.type === "artillery" ? 2 : 1))
+                .filter((v) => v.side !== u.side && distance(p, v) <= attackRange(v))
                 .reduce((n, v) => n + v.atk, 0);
             value -= threats * 0.35;
             value += hill ? 4 : 0;

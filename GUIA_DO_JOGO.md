@@ -38,7 +38,7 @@ Implementado:
 - Peças quadradas, cada uma ocupando um hexágono.
 - Mapa inteiramente esquemático, sem escala ou georreferenciamento; não é um mapa militar histórico.
 - Campo aberto, mata, estrada e objetivos elevados.
-- Quatro níveis relativos de altitude, indicados por ↑1–↑4. Não correspondem a cotas em metros.
+- Quatro níveis relativos de altitude N1–N4, com faixas de cor e curvas de nível esquemáticas nos limites entre patamares. Legendas no mapa e acima do tabuleiro explicam vale, encosta, crista e cume. Não correspondem a cotas em metros.
 - Monte Castelo vale 2 pontos por rodada de ocupação brasileira; “Esporão ocidental” e “Crista oriental” valem 1 cada. Os nomes e posições dos objetivos secundários são abstrações do jogo.
 
 Nenhuma peça atravessa ou termina movimento num hexágono ocupado, inclusive por aliado. Não há empilhamento, zonas de controle, suprimentos, reforços ou retirada obrigatória nesta versão.
@@ -58,6 +58,8 @@ Cada lado começa com cinco peças; valores e quantidade são abstrações, não
 | Símbolo de ponto no retângulo | Artilharia |
 
 As peças brasileiras são azuis; as alemãs, carvão, ambas com identificação textual. O mapa usa papel e terra para separar terreno e contadores. Títulos usam Barlow Condensed sem serifa, e números dos contadores usam Arial/sans em negrito. Os nomes Franklin, Uzeda e Sizeno contextualizam a infantaria brasileira; não equivalem a uma ordem de batalha exata.
+
+O popup de regras deve conter uma peça de exemplo e explicar cada marca: bolinhas douradas = PV; ponto branco central = artilharia; retângulo com X = infantaria; selo vermelho = dano; traço diagonal = ataque já usado; A/D/M = ataque, defesa e movimento restante; FEB/DE = lado.
 
 No painel de seleção: ataque, defesa, movimento, resistência, altitude, cobertura, alcance, potência atual e estado de ação. No duplo toque/clique: peça ampliada e seus atributos atuais.
 
@@ -90,12 +92,12 @@ O código admite um tipo de apoio blindado com 4 PM, mas nenhuma peça desse tip
 ## 8. Ataque e observação
 
 - Selecionar a própria peça e depois um inimigo válido.
-- Infantaria: alcance de 1 hexágono. Artilharia: alcance de 2.
+- Infantaria: alcance de 1 hexágono. Artilharia: alcance de 3 hexágonos, com tiro indireto.
 - Apenas um ataque por peça por turno.
 - É permitido mover e depois atacar; não é permitido mover depois de atacar.
-- Deve existir linha de visão, inclusive para artilharia nesta versão simplificada.
+- Infantaria usa linha de visão direta. Artilharia pode bombardear alvos conhecidos, inclusive fortificações, a até 3 hexágonos, sem bloqueio por terreno intermediário; a proteção do defensor continua valendo. Simplificação de fogo previamente planejado num mapa sem névoa de guerra.
 - Mata intermediária bloqueia a linha de visão. Um nível de terreno intermediário acima da linha interpolada entre atacante e alvo também bloqueia.
-- Peças intermediárias não bloqueiam a visão. Não há avistamento compartilhado, fogo indireto real, névoa de guerra ou efeito de luminosidade nesta versão.
+- Peças intermediárias não bloqueiam a visão. Não há avistamento compartilhado, observadores de artilharia individualizados, névoa de guerra ou efeito de luminosidade nesta versão.
 
 ## 9. Combate
 
@@ -183,6 +185,7 @@ A avaliação deve usar sementes distintas e registrar quando a experiência onl
 - **Mapa inteiro:** enquadrar todos os hexágonos na área de mapa.
 - **Visão tática:** aproximar para leitura das peças, permitindo rolagem do mapa.
 - Popup de regras e história disponível durante a partida; popup separado de autoria e licença.
+- Botão Nova partida no topo, ao lado de Encerrar turno, e também no painel lateral. Reiniciar não apaga o aprendizado.
 - Diário comunica combate, rodada, pontuação e barragem. Tela de fim explica o resultado e permite reiniciar.
 
 ### Partidas remotas e retomada
@@ -215,7 +218,11 @@ Buscar aproximadamente 50% de vitórias para cada lado usando a mesma IA, postur
 
 A amostra inicial de 500 partidas resultou em 51,4% FEB e 48,6% defesa alemã. A grande maioria terminou por eliminação; essa semelhança limitada com a tomada histórica do cume deve permanecer explícita.
 
-## 17. Registro de decisões
+## 17. Revisão de jogabilidade — tiro indireto
+
+A versão inicial exigia linha de visão direta para artilharia. O autojogo e a observação do autor mostraram que a dobra do terreno bloqueava o tiro contra posições que a artilharia deveria apoiar. Decisão revisável: alcance 3 e tiro indireto contra alvos conhecidos; manter cobertura/fortificação. Reexecutar treino, testes e torneios após essa mudança, sem misturar taxas de vitória com as do modelo anterior.
+
+## 18. Registro de decisões
 
 | Data | Decisão | Estado |
 | --- | --- | --- |

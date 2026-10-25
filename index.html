@@ -17,11 +17,18 @@
         <img id="gameLogo" class="game-logo" alt="Logo Monte Castelo Vibed" />
         <div>
           <span class="eyebrow">BRASIL NA SEGUNDA GUERRA · 21 FEV 1945</span>
-          <h1>MONTE CASTELO VIBED<span>Operação Encore</span></h1>
+          <h1>
+            MONTE CASTELO VIBED<span
+              id="titleVersion"
+              class="title-version"
+            ></span
+            ><span>Operação Encore</span>
+          </h1>
         </div>
       </div>
       <div class="header-actions">
-        <button id="briefing">Missão</button><button id="credits">Autoria & licença</button
+        <button id="briefing">Missão</button
+        ><button id="credits">Autoria & licença</button
         ><button id="rules">Regras & história</button>
       </div>
     </header>
@@ -36,10 +43,20 @@
           <div><small>21 FEV · HORA</small><b id="time">06:00</b></div>
           <div><small>RODADA</small><b id="round">1 / 10</b></div>
           <div><small>OBJETIVO</small><b id="score">0 / 8</b></div>
-          <button id="end">Encerrar turno →</button>
+          <button id="end">Encerrar turno →</button
+          ><button id="newTop" class="new-top">＋ Nova partida</button>
         </div>
       </section>
-      <section class="mission"><strong>⚑ MISSÃO: OCUPE AS POSIÇÕES MARCADAS E ACUMULE 8 PONTOS</strong><p>Fique sobre um hexágono com bandeira até o fim do turno alemão. Monte Castelo rende 2 pontos; cada posição secundária, 1. Prazo: 10 rodadas. Eliminar todo o inimigo também vence.</p><div id="goals" class="goals"></div></section><div class="layout">
+      <section class="mission">
+        <strong>⚑ MISSÃO: OCUPE AS POSIÇÕES MARCADAS E ACUMULE 8 PONTOS</strong>
+        <p>
+          Fique sobre um hexágono com bandeira até o fim do turno alemão. Monte
+          Castelo rende 2 pontos; cada posição secundária, 1. Prazo: 10 rodadas.
+          Eliminar todo o inimigo também vence.
+        </p>
+        <div id="goals" class="goals"></div>
+      </section>
+      <div class="layout">
         <section class="battlefield">
           <div class="maptop">
             <span>SETOR DOS APENINOS · ITÁLIA</span>
@@ -59,7 +76,19 @@
               ><button id="in" aria-label="Aumentar zoom">+</button>
             </div>
           </div>
-          <div class="actionbar"><p id="actionHint" aria-live="polite"></p><button id="actionMove" disabled>Mover</button><button id="actionAttack" disabled>Atacar</button></div><div id="viewport">
+          <div class="actionbar">
+            <p id="actionHint" aria-live="polite"></p>
+            <button id="actionMove" disabled>Mover</button
+            ><button id="actionAttack" disabled>Atacar</button>
+          </div>
+          <div class="height-key" aria-label="Legenda da altitude">
+            <span style="--height: #f4efdf">N1 · Vale</span
+            ><span style="--height: #e9d6a7">N2 · Encosta</span
+            ><span style="--height: #d1b48c">N3 · Crista</span
+            ><span style="--height: #bd8b4f">N4 · Cume</span
+            ><small>Subir +1 PM/nível · defender acima +1</small>
+          </div>
+          <div id="viewport">
             <svg
               id="map"
               viewBox="0 0 960 690"
@@ -70,7 +99,8 @@
           <div class="legend">
             <span>▧ Mata · movimento 2</span
             ><span>↑ Altitude · subida +PM · defesa +1</span
-            ><span>━ Estrada · movimento 1</span><span class="br">■ FEB · azul</span
+            ><span>━ Estrada · movimento 1</span
+            ><span class="br">■ FEB · azul</span
             ><span class="de">■ Alemães · carvão</span>
           </div>
         </section>
@@ -87,12 +117,26 @@
             </div>
           </section>
           <section class="card">
-            <label for="gameMode">MODO DE JOGO</label><select id="gameMode"><option value="computer">Humano × computador</option><option value="remote">Humano × humano · à distância</option></select><button id="shareTurn" class="secondary" disabled>Enviar turno · WhatsApp</button><label class="file-label" for="loadTurn">Abrir arquivo de turno<input id="loadTurn" type="file" accept="application/json,.json"></label><label for="ai">COMANDANTE INIMIGO</label
+            <label for="gameMode">MODO DE JOGO</label
+            ><select id="gameMode">
+              <option value="computer">Humano × computador</option>
+              <option value="remote">
+                Humano × humano · à distância
+              </option></select
+            ><button id="shareTurn" class="secondary" disabled>
+              Enviar turno · WhatsApp</button
+            ><label class="file-label" for="loadTurn"
+              >Abrir arquivo de turno<input
+                id="loadTurn"
+                type="file"
+                accept="application/json,.json" /></label
+            ><label for="ai">COMANDANTE INIMIGO</label
             ><select id="ai">
               <option value="tactical">Estado-maior · tática avançada</option>
               <option value="strong">Caçador · maior ataque</option>
               <option value="weak">Oportunista · menor defesa</option>
-              <option value="trained">Veterana · IA especial treinada</option><option value="learning">
+              <option value="trained">Veterana · IA especial treinada</option>
+              <option value="learning">
                 Aprendiz · aprende neste navegador
               </option></select
             ><label for="stance">POSTURA DE MOVIMENTO</label
@@ -101,7 +145,10 @@
               <option value="aggressive">Agressiva · aproximar e atacar</option>
             </select>
             <p id="learningStatus" class="muted"></p>
-            <p id="storageStatus" class="muted"></p><button id="memory" class="secondary">Experiência da IA · exportar / importar</button><button id="new" class="secondary">Nova operação</button>
+            <p id="storageStatus" class="muted"></p>
+            <button id="memory" class="secondary">
+              Experiência da IA · exportar / importar</button
+            ><button id="new" class="secondary">Nova operação</button>
           </section>
           <section class="card journal">
             <span class="eyebrow">DIÁRIO DE OPERAÇÕES</span>
@@ -109,8 +156,9 @@
           </section>
         </aside>
       </div>
-      <footer><span id="buildVersion" aria-label="Versão e data da edição"></span>
-        Um jogo tático de 5–10 minutos. Cenário histórico, escala e forças
+      <footer>
+        <span id="buildVersion" aria-label="Versão e data da edição"></span> Um
+        jogo tático de 5–10 minutos. Cenário histórico, escala e forças
         simplificadas. <a href="LICENSE">© 2026 xexeo · CC BY-NC-SA 4.0</a>
       </footer>
     </main>

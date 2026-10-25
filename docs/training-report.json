@@ -1,15 +1,15 @@
 {
   "episodes": 2000,
-  "updates": 18143,
-  "states": 116,
+  "updates": 18262,
+  "states": 108,
   "seeds": [
     50001,
     52000
   ],
   "trainingWins": {
-    "br": 643,
-    "de": 1357
+    "br": 819,
+    "de": 1181
   },
-  "seconds": 6.358063627000001,
+  "seconds": 4.970668294,
   "note": "Resultados durante exploração; não equivalem a avaliação independente."
 }

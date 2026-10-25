@@ -23,19 +23,26 @@ test("narrativa, mapa, movimento, combate, zoom e turno do computador", async ({
   await page.locator("#ideal").click();
   await expect(page.locator("#resetZoom")).not.toHaveText("100%");
   await page.locator("#fit").click();
-  const sizes = await page
-    .locator("#map")
-    .evaluate((el) => ({
-      map: el.getBoundingClientRect().width,
-      parent: el.parentElement.clientWidth,
-    }));
+  const sizes = await page.locator("#map").evaluate((el) => ({
+    map: el.getBoundingClientRect().width,
+    parent: el.parentElement.clientWidth,
+  }));
   expect(sizes.map).toBeLessThanOrEqual(sizes.parent + 1);
   await page.locator("#end").click();
   await expect(page.locator("#round")).toHaveText("2 / 10", { timeout: 10000 });
   await expect(page.locator("#end")).toBeEnabled();
   await page.locator("#rules").click();
   await expect(page.locator("#modalBody")).toContainText("altura");
+  await expect(page.locator("#modalBody")).toContainText("Bolinhas douradas");
+  await expect(page.locator("#modalBody")).toContainText("Retângulo com X");
   await page.locator("#close").click();
+  await page.locator("#briefing").click();
+  await expect(page.locator("#modalBody")).toContainText("Sua missão");
+  await expect(page.locator("#round")).toHaveText("2 / 10");
+  await page.locator("#close").click();
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.locator("#newTop").click();
+  await expect(page.locator("#round")).toHaveText("1 / 10");
   expect(errors).toEqual([]);
 });
 test("aprendizado persiste ao recarregar e duplo toque amplia peça", async ({
@@ -113,17 +120,138 @@ test("arquivo standalone funciona com todos os recursos embutidos", async ({
   expect(blocked).toEqual([]);
 });
 
-test('IA especial vem treinada, persiste e permite exportar experiência',async({page})=>{
- await page.goto('/');await page.locator('#begin').click();await page.locator('#ai').selectOption('trained');
- await page.locator('#end').click();await expect(page.locator('#round')).toHaveText('2 / 10');
- const initialUpdates=JSON.parse(await page.evaluate(()=>localStorage.getItem('monte-castelo-trained-v1'))).updates;
- await page.locator('#end').click();await expect(page.locator('#round')).toHaveText('3 / 10');
- const saved=JSON.parse(await page.evaluate(()=>localStorage.getItem('monte-castelo-trained-v1')));
- expect(saved.episodes).toBeGreaterThanOrEqual(2000);expect(saved.updates).toBeGreaterThan(initialUpdates);
- await page.locator('#memory').click();const download=page.waitForEvent('download');await page.locator('#exportMemory').click();expect((await download).suggestedFilename()).toContain('experiencia');
- await page.reload();expect(JSON.parse(await page.evaluate(()=>localStorage.getItem('monte-castelo-trained-v1')))).toEqual(saved);
+test("IA especial vem treinada, persiste e permite exportar experiência", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.locator("#begin").click();
+  await page.locator("#ai").selectOption("trained");
+  await page.locator("#end").click();
+  await expect(page.locator("#round")).toHaveText("2 / 10");
+  const initialUpdates = JSON.parse(
+    await page.evaluate(() => localStorage.getItem("monte-castelo-trained-v1")),
+  ).updates;
+  await page.locator("#end").click();
+  await expect(page.locator("#round")).toHaveText("3 / 10");
+  const saved = JSON.parse(
+    await page.evaluate(() => localStorage.getItem("monte-castelo-trained-v1")),
+  );
+  expect(saved.episodes).toBeGreaterThanOrEqual(2000);
+  expect(saved.updates).toBeGreaterThan(initialUpdates);
+  await page.locator("#memory").click();
+  const download = page.waitForEvent("download");
+  await page.locator("#exportMemory").click();
+  expect((await download).suggestedFilename()).toContain("experiencia");
+  await page.reload();
+  expect(
+    JSON.parse(
+      await page.evaluate(() =>
+        localStorage.getItem("monte-castelo-trained-v1"),
+      ),
+    ),
+  ).toEqual(saved);
 });
 
-test('partida retoma movimento salvo após fechar a página',async({page})=>{await page.goto('/');await page.locator('#begin').click();await page.locator('[data-id="b1"]').click();await page.locator('[data-q="1"][data-r="5"]').click();await page.reload();await expect(page.locator('#modalBody')).toContainText('OPERAÇÃO SALVA');await page.locator('#begin').click();await page.locator('[data-id="b1"]').click();await expect(page.locator('#unitInfo')).toContainText('Movimento 2');});
+test("partida retoma movimento salvo após fechar a página", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.locator("#begin").click();
+  await page.locator('[data-id="b1"]').click();
+  await page.locator('[data-q="1"][data-r="5"]').click();
+  await page.reload();
+  await expect(page.locator("#modalBody")).toContainText("OPERAÇÃO SALVA");
+  await page.locator("#begin").click();
+  await page.locator('[data-id="b1"]').click();
+  await expect(page.locator("#unitInfo")).toContainText("Movimento 2");
+});
 
-test('humano x humano recebe turno alemão e permite mover e atacar',async({page})=>{const {createGame,endTurn}=await import('../../dist/engine.js');const{encodeTurn}=await import('../../dist/exchange.js');const state=createGame();endTurn(state);await page.goto('/#turn='+encodeTurn(state));await page.locator('#begin').click();await expect(page.locator('#yourSide')).toContainText('DEFESA ALEMÃ');await page.locator('[data-id="g2"]').click();await page.locator('[data-q="3"][data-r="5"]').click();await page.locator('#actionAttack').click();await page.locator('[data-id="b2"]').click();await expect(page.locator('#log')).toContainText('dado');await page.locator('#end').click();await expect(page.locator('#modalBody')).toContainText('Passe o comando');await page.locator('#close').click();await expect(page.locator('#end')).toBeDisabled();await expect(page.locator('#shareTurn')).toBeEnabled();});
+test("humano x humano recebe turno alemão e permite mover e atacar", async ({
+  page,
+}) => {
+  const { createGame, endTurn } = await import("../../dist/engine.js");
+  const { encodeTurn } = await import("../../dist/exchange.js");
+  const state = createGame();
+  endTurn(state);
+  await page.goto("/#turn=" + encodeTurn(state));
+  await page.locator("#begin").click();
+  await expect(page.locator("#yourSide")).toContainText("DEFESA ALEMÃ");
+  await page.locator('[data-id="g2"]').click();
+  await page.locator('[data-q="3"][data-r="5"]').click();
+  await page.locator("#actionAttack").click();
+  await page.locator('[data-id="b2"]').click();
+  await expect(page.locator("#log")).toContainText("dado");
+  await page.locator("#end").click();
+  await expect(page.locator("#modalBody")).toContainText("Passe o comando");
+  await page.locator("#close").click();
+  await expect(page.locator("#end")).toBeDisabled();
+  await expect(page.locator("#shareTurn")).toBeEnabled();
+});
+
+test("autojogo completo pela interface chega ao fim usando a mesma IA", async ({
+  page,
+}) => {
+  test.setTimeout(60000);
+  const { aiAction } = await import("../../dist/ai.js");
+  await page.addInitScript(() => {
+    let n = 42;
+    Math.random = () => {
+      n = (Math.imul(1664525, n) + 1013904223) >>> 0;
+      return n / 4294967296;
+    };
+  });
+  await page.goto("/");
+  await page.locator("#begin").click();
+  await page.locator("#stance").selectOption("aggressive");
+  const state = async () =>
+    JSON.parse(
+      await page.evaluate(() =>
+        localStorage.getItem("monte-castelo-session-v1"),
+      ),
+    ).game;
+  for (let turn = 0; turn < 10; turn++) {
+    let game = await state();
+    if (game.winner) break;
+    for (const id of game.units
+      .filter((u) => u.side === "br")
+      .map((u) => u.id)) {
+      game = await state();
+      if (game.winner) break;
+      const source = game.units.find((u) => u.id === id);
+      if (!source) continue;
+      const planned = structuredClone(game),
+        action = aiAction(planned, id, "tactical", "aggressive"),
+        destination = planned.units.find((u) => u.id === id);
+      await page.locator(`[data-id="${id}"]`).click();
+      if (source.q !== destination.q || source.r !== destination.r)
+        await page
+          .locator(
+            `polygon[data-q="${destination.q}"][data-r="${destination.r}"]`,
+          )
+          .click();
+      if (action) {
+        await page.locator("#actionAttack").click();
+        await page.locator(`[data-id="${action.target}"]`).click();
+      }
+    }
+    game = await state();
+    if (game.winner) break;
+    const round = game.round;
+    await page.locator("#end").click();
+    await expect
+      .poll(
+        async () => {
+          const next = await state();
+          return !!next.winner || next.round > round;
+        },
+        { timeout: 10000 },
+      )
+      .toBeTruthy();
+  }
+  const final = await state();
+  expect(["br", "de"]).toContain(final.winner);
+  await expect(page.locator("#modalBody")).toContainText("FIM DA OPERAÇÃO");
+  console.log(
+    `Autojogo na interface: ${final.winner}, rodada ${final.round}, ${final.score} pontos.`,
+  );
+});
