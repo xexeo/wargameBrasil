@@ -57,16 +57,25 @@ export function aiAction(s:Game,id:string,mode='tactical',stance='defensive'){
  };
  const ratings=new Map(cells.map(p=>[key(p.q,p.r),evaluate(p)]));cells.sort((a,b)=>ratings.get(key(b.q,b.r))!-ratings.get(key(a.q,a.r))!);
  if(cells[0].spent)move(s,id,cells[0].q,cells[0].r);
+ const target=selectAttackTarget(s,u,mode);
+ return target?{attacker:id,target:target.id}:null;
+}
+export function selectAttackTarget(s:Game,u:Unit,mode='tactical'):Unit|undefined{
  const targets=s.units.filter(v=>canAttack(u,v));
  targets.sort((a,b)=>mode==='strong'?b.atk-a.atk||distance(u,a)-distance(u,b):mode==='weak'?a.def-b.def||distance(u,a)-distance(u,b):(a.hp+a.def-a.atk*.5-(canCaptureObjective(a)?1:0))-(b.hp+b.def-b.atk*.5-(canCaptureObjective(b)?1:0)));
- return targets[0]?{attacker:id,target:targets[0].id}:null;
+ return targets[0];
 }
+
 export function activationOrder(s:Game,side=s.turn):string[]{return s.units.filter(u=>u.side===side).sort((a,b)=>Number(canCaptureObjective(a))-Number(canCaptureObjective(b))||attackRange(b)-attackRange(a)||a.id.localeCompare(b.id)).map(u=>u.id);}
 export function takeAIAction(s:Game,id:string,mode='tactical',stance='defensive',rng=Math.random){
- const source=s.units.find(u=>u.id===id);if(!source||s.winner)return null;
+ const source=s.units.find(u=>u.id===id);if(!source||s.winner||source.side!==s.turn)return null;
+ const first=s.rules?.freeFireOrder?selectAttackTarget(s,source,mode):undefined;
+ let shot:ReturnType<typeof attack>=null,uphill=first?hasHeightAdvantage(first,source):false;
+ if(first)shot=attack(s,id,first.id,rng);
+ if(s.winner||!s.units.some(u=>u.id===id))return{moved:false,attack:shot,uphill};
  const plan=structuredClone(s),intent=aiAction(plan,id,mode,stance),destination=plan.units.find(u=>u.id===id)!;
  const moved=source.q!==destination.q||source.r!==destination.r;if(moved)advance(s,id,destination.q,destination.r,rng);
- if(s.winner||!s.units.some(u=>u.id===id))return{moved,attack:null,uphill:false};
- const target=intent?s.units.find(u=>u.id===intent.target):undefined,uphill=target?hasHeightAdvantage(target,source):false;
- const shot=intent?attack(s,intent.attacker,intent.target,rng):null;return{moved,attack:shot,uphill};
+ if(s.winner||!s.units.some(u=>u.id===id))return{moved,attack:shot,uphill};
+ if(!first&&intent){const target=s.units.find(u=>u.id===intent.target);uphill=target?hasHeightAdvantage(target,source):false;shot=attack(s,intent.attacker,intent.target,rng);}
+ return{moved,attack:shot,uphill};
 }

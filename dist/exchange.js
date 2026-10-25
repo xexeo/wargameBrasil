@@ -8,6 +8,10 @@ export function validGame(value) {
         return false;
     if (g.finishedRound !== undefined && (!Number.isInteger(g.finishedRound) || g.finishedRound < 1 || g.finishedRound > 10))
         return false;
+    if (g.victoryReason !== undefined && !['elimination', 'mission', 'late-summit', 'no-infantry', 'deadline'].includes(g.victoryReason))
+        return false;
+    if (g.withdrawals !== undefined && (!g.withdrawals || !['br', 'de'].every(side => Number.isInteger(g.withdrawals[side]) && g.withdrawals[side] >= 0 && g.withdrawals[side] <= 5)))
+        return false;
     if (g.summitSecured !== undefined && typeof g.summitSecured !== 'boolean')
         return false;
     const ids = new Set(), positions = new Set();

@@ -36,6 +36,8 @@ export interface Game {
   rules?:ScenarioRules;
   summitSecured?:boolean;
   finishedRound?:number;
+  victoryReason?:'elimination'|'mission'|'late-summit'|'no-infantry'|'deadline';
+  withdrawals?:{br:number;de:number};
 }
 export interface Cell {
   q: number;
@@ -128,7 +130,7 @@ export const targetScore=(s:Game):number=>s.rules?.targetScore??8;
 export const roundLimit=(s:Game):number=>s.rules?.roundLimit??LIMIT;
 export const unitLevel=(u:Unit):1|2|3=>u.level??2;
 export function createGame(rules:ScenarioRules=defaultRules):Game {
- return {rules:{...rules},summitSecured:false,round:1,turn:'br',score:0,winner:null,
+ return {withdrawals:{br:0,de:0},rules:{...rules},summitSecured:false,round:1,turn:'br',score:0,winner:null,
  units:troopProfiles.map(p=>({id:p.id,side:p.side,q:p.q,r:p.r,name:p.name,type:p.type,atk:p.atk,def:p.def,hp:3,mp:p.mp,maxMp:p.mp,range:p.range,indirect:p.indirect,canCapture:p.canCapture,level:p.level,heightRange:rules.highGroundRange,rangeHeightThreshold:rules.rangeHeightThreshold,reactionSpent:false,suppressed:false,fired:false})),
  log:['21 de fevereiro de 1945. Os batalhões do Sampaio avançam com apoio da artilharia.']};
 }
@@ -167,12 +169,12 @@ function resolveCombat(s:Game,u:Unit,v:Unit,rng:()=>number,reaction=false):Attac
  const cover=defenseBonus(u,v),barrage=u.side==='br'&&u.type==='artillery'&&s.round===10?1:0;
  const die=1+Math.floor(rng()*6),power=u.atk+barrage+(u.hp-3)*.5+die-v.def-cover;
  const previousHP=v.hp,hit=power>=5?2:power>=1?1:0,damage=reaction?Math.min(1,hit):hit;v.hp-=damage;
- if(reaction){u.reactionSpent=true;u.fired=true;u.mp=0;}else{u.fired=true;u.mp=0;}
+ if(reaction){u.reactionSpent=true;u.fired=true;u.mp=0;}else{u.fired=true;if(!s.rules?.freeFireOrder)u.mp=0;}
  let counter=0;
  if(!reaction&&!v.reactionSpent&&!v.suppressed&&v.hp>0&&distance(u,v)===1&&power<=0){u.hp--;counter=1;if(s.rules?.opportunityFire){v.reactionSpent=true;v.fired=true;v.mp=0;}}
  if(damage>0&&isIndirect(u))v.suppressed=true;
  s.log.unshift(`${reaction?'Fogo defensivo · ':''}${u.name} → ${v.name}: dado ${die}${barrage?' + barragem':''}, ${damage} dano${counter?', contra-ataque: 1 dano':''}${damage>0&&isIndirect(u)?' · reação suprimida':''}.`);
- if(s.rules?.retreatOnLoss&&previousHP>1&&v.hp===1&&canCaptureObjective(v)){const candidates=neighbors(v.q,v.r).map(([q,r])=>({q,r})).filter(p=>distance(p,u)>distance(v,u)&&!s.units.some(w=>w.q===p.q&&w.r===p.r)).sort((a,b)=>distance(b,u)-distance(a,u)||altitude(a.q,a.r)-altitude(b.q,b.r)||a.r-b.r||a.q-b.q);if(candidates[0]){v.q=candidates[0].q;v.r=candidates[0].r;v.mp=0;v.fired=true;v.reactionSpent=true;v.suppressed=true;v.reorganizing=true;s.log.unshift(`${v.name}: retirada por perdas para ${v.q+1}-${v.r+1}; próxima ação comprometida, sem recuperar PV.`);}}
+ if(s.rules?.retreatOnLoss&&previousHP>1&&v.hp===1&&canCaptureObjective(v)){const candidates=neighbors(v.q,v.r).map(([q,r])=>({q,r})).filter(p=>distance(p,u)>distance(v,u)&&!s.units.some(w=>w.q===p.q&&w.r===p.r)).sort((a,b)=>distance(b,u)-distance(a,u)||altitude(a.q,a.r)-altitude(b.q,b.r)||a.r-b.r||a.q-b.q);if(candidates[0]){v.q=candidates[0].q;v.r=candidates[0].r;v.mp=0;v.fired=true;v.reactionSpent=true;v.suppressed=true;v.reorganizing=true;s.withdrawals??={br:0,de:0};s.withdrawals[v.side]++;s.log.unshift(`${v.name}: retirada por perdas para ${v.q+1}-${v.r+1}; próxima ação comprometida, sem recuperar PV.`);}}
  s.units=s.units.filter(v=>v.hp>0);checkWinner(s);return{die,damage,counter};
 }
 function canReact(s:Game,defender:Unit,target:Unit):boolean{return !!s.rules?.opportunityFire&&!defender.reactionSpent&&!defender.suppressed&&!defender.reorganizing&&!isIndirect(defender)&&hasHeightAdvantage(defender,target)&&canAttack({...defender,fired:false},target);}
@@ -196,19 +198,23 @@ export function attack(s:Game,id:string,target:string,rng=Math.random):AttackRes
 export const summitOccupied=(s:Game):boolean=>s.units.some(u=>u.side==='br'&&canCaptureObjective(u)&&u.q===objectives[0].q&&u.r===objectives[0].r);
 export function checkWinner(s:Game,completedRound?:number){
  if(s.winner)return s.winner;
- if(!s.units.some(u=>u.side==='br'&&canCaptureObjective(u)))s.winner='de';
- else if(s.rules){if(s.score>=targetScore(s)&&(!s.rules.requireSummit||(s.summitSecured&&summitOccupied(s))))s.winner='br';else if(s.round>roundLimit(s))s.winner=s.rules.summitAtDeadlineWins&&s.summitSecured&&summitOccupied(s)?'br':'de';}
- else if(!s.units.some(u=>u.side==='de')||s.score>=8)s.winner='br';else if(s.round>LIMIT)s.winner='de';
+ if(!s.units.some(u=>u.side==='br')){s.winner='de';s.victoryReason='elimination';}
+ else if(!s.units.some(u=>u.side==='de')){s.winner='br';s.victoryReason='elimination';}
+ else if(!s.units.some(u=>u.side==='br'&&canCaptureObjective(u))){s.winner='de';s.victoryReason='no-infantry';}
+ else if(s.rules){
+  if(s.score>=targetScore(s)&&(!s.rules.requireSummit||(s.summitSecured&&summitOccupied(s)))){s.winner='br';s.victoryReason='mission';}
+  else if(s.round>roundLimit(s)){s.winner=s.rules.summitAtDeadlineWins&&s.summitSecured&&summitOccupied(s)?'br':'de';s.victoryReason=s.winner==='br'?'late-summit':'deadline';}
+ }else if(s.score>=8){s.winner='br';s.victoryReason='mission';}else if(s.round>LIMIT){s.winner='de';s.victoryReason='deadline';}
  if(s.winner)s.finishedRound=completedRound??Math.min(s.round,roundLimit(s));return s.winner;
 }
 export function endTurn(s:Game){
- if(s.winner)return;const outgoing=s.turn;
+ if(checkWinner(s))return;const outgoing=s.turn;
  for(const u of s.units.filter(u=>u.side===outgoing))u.reactionSpent=false;
  if(outgoing==='br')s.turn='de';else{const points=objectives.reduce((n,o)=>n+(s.units.some(u=>u.side==='br'&&canCaptureObjective(u)&&u.q===o.q&&u.r===o.r)?o.points:0),0);s.score+=points;s.summitSecured=summitOccupied(s);s.log.unshift(`Fim da rodada ${s.round}: +${points} pontos para a FEB.`);s.round++;s.turn='br';if(s.round===10)s.log.unshift('16:48 · Concentração de artilharia: ataques da bateria FEB recebem +1 nesta rodada.');}
  for(const u of s.units.filter(u=>u.side===s.turn)){u.mp=u.reactionSpent||u.reorganizing?0:maximumMovement(u);u.fired=!!(u.reactionSpent||u.reorganizing);u.reorganizing=false;u.suppressed=false;}
  checkWinner(s,outgoing==='de'?s.round-1:undefined);
 }
-export function victoryAssessment(s:Game){const rounds=s.finishedRound??Math.min(s.round,roundLimit(s)),remaining=s.units.filter(u=>u.side==='br'),lostUnits=5-remaining.length,lostCohesion=15-remaining.reduce((n,u)=>n+u.hp,0),efficiency=Math.min(s.winner==='br'&&s.rules?.summitAtDeadlineWins&&s.score<targetScore(s)?44:100,Math.max(0,Math.round(100-(rounds-1)*3-lostUnits*8-lostCohesion*1.5)));return{rounds,lostUnits,lostCohesion,efficiency,grade:s.winner!=='br'?'Defesa bem-sucedida':efficiency>=70?'Vitória decisiva':efficiency>=45?'Vitória tática':efficiency>=20?'Vitória custosa':'Vitória pírrica'};}
+export function victoryAssessment(s:Game){const rounds=s.finishedRound??Math.min(s.round,roundLimit(s)),remaining=s.units.filter(u=>u.side==='br'),lostUnits=5-remaining.length,lostCohesion=15-remaining.reduce((n,u)=>n+u.hp,0),efficiency=Math.min(s.winner==='br'&&s.victoryReason!=='elimination'&&s.rules?.summitAtDeadlineWins&&s.score<targetScore(s)?44:100,Math.max(0,Math.round(100-(rounds-1)*3-lostUnits*8-lostCohesion*1.5)));return{rounds,lostUnits,lostCohesion,efficiency,grade:s.winner!=='br'?'Defesa bem-sucedida':efficiency>=70?'Vitória decisiva':efficiency>=45?'Vitória tática':efficiency>=20?'Vitória custosa':'Vitória pírrica'};}
 
 export function expectedReactionRisk(s:Game,u:Unit):number{
  let risk=0;for(const v of s.units){if(v.side===u.side||!canReact(s,v,u))continue;let damage=0,kills=0;for(let die=1;die<=6;die++){const power=v.atk+(v.hp-3)*.5+die-u.def-defenseBonus(v,u),hit=power>=1?1:0;damage+=hit;if(hit>=u.hp)kills++;}risk=Math.max(risk,damage/6*4+kills/6*10);}return risk;
@@ -238,6 +244,7 @@ export function movementExposure(s:Game,u:Unit,q:number,r:number):RouteExposure|
 export function operationResult(s:Game){
  const occupied=summitOccupied(s),noDefenders=!s.units.some(u=>u.side==='de'),noInfantry=!s.units.some(u=>u.side==='br'&&canCaptureObjective(u));
  if(!s.winner)return{title:'Operação em andamento',detail:'O cume e o prazo continuam sendo os objetivos.'};
+ if(s.victoryReason==='elimination'||(s.winner==='br'&&noDefenders))return{title:s.winner==='br'?'Vitória por neutralização':'Força brasileira neutralizada',detail:s.winner==='br'?`Não restam peças alemãs em combate.${occupied?' Monte Castelo também está ocupado.':' O cume não foi ocupado; a vitória foi por neutralização da força adversária.'} Peças fora de combate não equivalem a todos os soldados mortos.`:'Não restam peças brasileiras em combate.'};
  if(s.winner==='br'&&!s.rules&&!occupied)return{title:'Vitória pelas regras legadas',detail:'A partida preservou a condição de eliminação de sua versão anterior.'};
  const late=!!s.rules?.summitAtDeadlineWins&&s.score<targetScore(s);
  if(s.winner==='br')return{title:late?'Vitória custosa — conquista no limite do prazo':victoryAssessment(s).grade,detail:late?'O cume foi assegurado no fechamento final, sem completar a meta de pontos: vitória custosa pela conquista no prazo.':'A infantaria assegurou Monte Castelo e cumpriu a pontuação da missão.'};
@@ -249,7 +256,13 @@ export function operationResult(s:Game){
 
 
 export function missionInstruction(s:Game):string{
- if(s.rules?.summitAtDeadlineWins)return `Assegure Monte Castelo até o fim da rodada ${roundLimit(s)}. Acumule ${targetScore(s)} pontos e segure o cume para antecipar a vitória. No último fechamento, o cume basta; sem a meta de pontos, a vitória é custosa.`;
+ if(s.rules?.summitAtDeadlineWins)return `Neutralize todas as peças alemãs ou assegure Monte Castelo até o fim da rodada ${roundLimit(s)}. Acumule ${targetScore(s)} pontos e segure o cume para antecipar a vitória. No último fechamento, o cume basta; sem a meta de pontos, a vitória é custosa.`;
  if(!s.rules)return `Acumule ${targetScore(s)} pontos ou elimine a defesa em até ${roundLimit(s)} rodadas, conforme as regras legadas desta partida.`;
- return `Acumule ${targetScore(s)} pontos${s.rules.requireSummit?' e assegure Monte Castelo com infantaria':''} até o fim da rodada ${roundLimit(s)}.`;
+ return `Neutralize todas as peças alemãs ou acumule ${targetScore(s)} pontos${s.rules.requireSummit?' e assegure Monte Castelo com infantaria':''} até o fim da rodada ${roundLimit(s)}.`;
+}
+
+
+export function battleLosses(s:Game){
+ const forSide=(side:Side)=>{const initial=troopProfiles.filter(p=>p.side===side).length,remaining=s.units.filter(u=>u.side===side);return{initialUnits:initial,presentUnits:remaining.length,removedUnits:Math.max(0,initial-remaining.length),lostCohesion:Math.max(0,initial*3-remaining.reduce((n,u)=>n+u.hp,0)),initialCohesion:initial*3,withdrawnUnits:s.withdrawals?.[side]??null};};
+ return{br:forSide('br'),de:forSide('de')};
 }

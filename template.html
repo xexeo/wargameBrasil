@@ -14,7 +14,7 @@
   <body>
     <header>
       <div class="brand">
-        <img id="gameLogo" class="game-logo" alt="Logo Monte Castelo Vibed" />
+        <img id="gameLogo" class="game-logo" alt="Distintivo oficial da Força Expedicionária Brasileira" />
         <div>
           <span class="eyebrow">BRASIL NA SEGUNDA GUERRA · 21 FEV 1945</span>
           <h1>
@@ -27,6 +27,8 @@
         </div>
       </div>
       <div class="header-actions">
+        <label for="language">Idioma</label><select id="language" aria-label="Idioma"><option value="pt-BR" lang="pt-BR">Português (Brasil)</option><option value="en-US" lang="en-US">English (US)</option></select>
+        <button id="tribute">Homenagem</button>
         <button id="briefing">Missão</button
         ><button id="credits">Autoria & licença</button
         ><button id="rules">Regras & história</button>
@@ -43,8 +45,7 @@
           <div><small>21 FEV · HORA</small><b id="time">06:00</b></div>
           <div><small>RODADA</small><b id="round">1 / 10</b></div>
           <div><small>PONTOS ACUMULADOS</small><b id="score">—</b></div>
-          <button id="end">Encerrar turno →</button
-          ><button id="newTop" class="new-top">＋ Nova partida</button>
+          <button id="newTop" class="new-top">＋ Nova partida</button>
         </div>
       </section>
       <section class="mission">
@@ -97,6 +98,10 @@
               aria-label="Mapa hexagonal de Monte Castelo"
             ></svg>
           </div>
+          <div class="map-turn-bar" aria-label="Comando do turno no mapa">
+            <span>Concluiu suas ordens?</span>
+            <button id="end">Encerrar turno →</button>
+          </div>
           <div class="legend">
             <span>▧ Mata · movimento 2</span
             ><span>↑ Altitude · subida +PM · defesa +1</span
@@ -126,7 +131,9 @@
           <section class="card">
             <label for="gameMode">MODO DE JOGO</label
             ><select id="gameMode">
-              <option value="computer">Humano × computador</option>
+              <option value="computer">Humano FEB × computador alemão</option>
+              <option value="computer-br">Computador FEB × humano alemão</option>
+              <option value="local">Dois humanos · mesmo aparelho</option>
               <option value="remote">
                 Humano × humano · à distância
               </option></select
@@ -164,9 +171,7 @@
         </aside>
       </div>
       <footer>
-        <span id="buildVersion" aria-label="Versão e data da edição"></span> Um
-        jogo tático de 5–10 minutos. Cenário histórico, escala e forças
-        simplificadas. <a href="LICENSE">© 2026 xexeo · CC BY-NC-SA 4.0</a>
+        <span id="buildVersion" aria-label="Versão e data da edição"></span> <span>Um jogo tático de 5–10 minutos. Cenário histórico, escala e forças simplificadas.</span> <a href="LICENSE">© 2026 xexeo · CC BY-NC-SA 4.0</a>
       </footer>
     </main>
     <dialog id="modal">

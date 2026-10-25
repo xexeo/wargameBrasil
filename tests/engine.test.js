@@ -35,7 +35,7 @@ test("combate, contra-ataque e limite de um ataque", () => {
   assert.equal(result.damage, 0);
   assert.equal(result.counter, 1);
   assert.equal(s.units[0].hp, 2);
-  assert.equal(s.units[0].mp, 0);
+  assert.equal(s.units[0].mp, 3);
   assert.equal(attack(s, "b1", "b2"), null);
 });
 test("vegetação bloqueia o raio baixo, mas pode ficar abaixo do raio elevado", () => {

@@ -1117,3 +1117,8 @@ h1 .title-version {
 .mission-forecast{padding:.65rem .8rem;border-left:4px solid #226ba4;background:#fff;font-weight:600;line-height:1.6}.mission-forecast.urgent{border-color:#ad3a25;color:#812e1b;background:#fff4ed}.hex.reach.exposed-reach{stroke:#c46b16;stroke-width:4;stroke-dasharray:6 3}
 /* Keep long exposure instructions inside their fixed touch-safe panel. */
 .actionbar p{overflow-y:auto;overflow-wrap:anywhere}
+
+/* The turn command stays beside the board while the page or hex map scrolls. */
+.battlefield{overflow:clip}.map-turn-bar{position:sticky;bottom:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fff;border-top:1px solid #d9dfd0;box-shadow:0 -3px 12px #26332b12}.map-turn-bar span{font-size:12px;color:#526149}.map-turn-bar #end{min-height:48px;min-width:170px;font-size:14px}@media(max-width:520px){.map-turn-bar{padding-bottom:max(10px,env(safe-area-inset-bottom))}.map-turn-bar span{max-width:95px}.map-turn-bar #end{flex:1;min-width:0}}
+
+.loss-comparison{overflow-x:auto}.loss-comparison table{width:100%;border-collapse:collapse;font-size:13px}.loss-comparison th,.loss-comparison td{text-align:left;padding:8px;border-bottom:1px solid #dce1d2}.loss-comparison thead{background:#f4f6eb}.support-explanation{line-height:1.6}

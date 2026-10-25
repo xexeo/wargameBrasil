@@ -196,7 +196,7 @@ test("autojogo completo pela interface chega ao fim usando a mesma IA", async ({
   page,
 }) => {
   test.setTimeout(60000);
-  const { aiAction,activationOrder } = await import("../../dist/ai.js");
+  const { aiAction,activationOrder,selectAttackTarget } = await import("../../dist/ai.js");
   await page.addInitScript(() => {
     let n = 42;
     Math.random = () => {
@@ -219,26 +219,29 @@ test("autojogo completo pela interface chega ao fim usando a mesma IA", async ({
     for(const id of activationOrder(game,"br")) {
       game = await state();
       if (game.winner) break;
-      const source = game.units.find((u) => u.id === id);
+      let source = game.units.find((u) => u.id === id);
       if (!source) continue;
-      const planned = structuredClone(game),
-        action = aiAction(planned, id, "tactical", "aggressive"),
-        destination = planned.units.find((u) => u.id === id);
-      await page.locator(`[data-id="${id}"]`).click();
-      if (source.q !== destination.q || source.r !== destination.r)
-        await page
-          .locator(
-            `polygon[data-q="${destination.q}"][data-r="${destination.r}"]`,
-          )
-          .click();
+      const selectActor=async()=>{if(!await page.locator(`[data-id="${id}"]`).evaluate(el=>el.classList.contains('selected')))await page.locator(`[data-id="${id}"]`).click();};
+      await selectActor();
+      const initialTarget=selectAttackTarget(game,source,"tactical");
+      if(initialTarget)await page.locator(`[data-id="${initialTarget.id}"]`).click();
+      game=await state();
+      source=game.units.find(u=>u.id===id);
+      if(game.winner)break;
+      if(!source)continue;
+      const planned=structuredClone(game);
+      aiAction(planned,id,"tactical","aggressive");
+      const destination=planned.units.find(u=>u.id===id);
+      if(destination&&(source.q!==destination.q||source.r!==destination.r)) {
+        await selectActor();
+        await page.locator(`polygon[data-q="${destination.q}"][data-r="${destination.r}"]`).click();
+      }
       const current=await state();
       if(current.winner)break;
-      const {canAttack}=await import('../../dist/engine.js');
-      const actor=current.units.find(u=>u.id===id),target=action?current.units.find(u=>u.id===action.target):null;
-      if (action&&actor&&target&&canAttack(actor,target)) {
+      const actor=current.units.find(u=>u.id===id);
+      const target=actor?selectAttackTarget(current,actor,"tactical"):null;
+      if(target) { await selectActor(); await page.locator(`[data-id="${target.id}"]`).click(); }
 
-        await page.locator(`[data-id="${action.target}"]`).click();
-      }
     }
     game = await state();
     if (game.winner) break;
@@ -289,4 +292,99 @@ test('percurso exposto é laranja e supressão remove aviso de reação',async({
  const{createGame}=await import('../../dist/engine.js');const game=createGame();game.units=game.units.filter(u=>['b1','g1'].includes(u.id));Object.assign(game.units[0],{q:5,r:3});Object.assign(game.units[1],{q:5,r:2});
  await page.addInitScript(g=>{if(!localStorage.getItem('monte-castelo-session-v1'))localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'}));},game);await page.goto('/');await page.locator('#begin').click();await page.locator('[data-id="b1"]').click();await expect(page.locator('polygon[data-q="4"][data-r="3"]')).toHaveClass(/exposed-reach/);await expect(page.locator('#actionHint')).toContainText('borda laranja');
  game.units[1].suppressed=true;await page.evaluate(g=>localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'})),game);await page.reload();await page.locator('#begin').click();await page.locator('[data-id="b1"]').click();await expect(page.locator('polygon.exposed-reach')).toHaveCount(0);
+});
+
+
+test('objetivos têm estrela vermelha central sob as peças e sem interceptar toques',async({page})=>{
+  await page.goto('/');await page.locator('#begin').click();
+  await expect(page.locator('.objective-star')).toHaveCount(3);
+  const stars=await page.locator('.objective-star').evaluateAll(nodes=>nodes.map(el=>{
+    const [q,r]=el.dataset.objective.split(',').map(Number),points=el.getAttribute('points').split(' ').map(p=>p.split(',').map(Number));
+    return {x:points.reduce((n,p)=>n+p[0],0)/10,y:points.reduce((n,p)=>n+p[1],0)/10,expectedX:65+q*64+r*32,expectedY:63+r*56,fill:el.getAttribute('fill'),pointer:el.getAttribute('pointer-events'),beforeUnits:!!(el.compareDocumentPosition(document.querySelector('.unit'))&Node.DOCUMENT_POSITION_FOLLOWING)};
+  }));
+  for(const star of stars){expect(star.x).toBeCloseTo(star.expectedX,5);expect(star.y).toBeCloseTo(star.expectedY,5);expect(star.fill).toBe('#c92f37');expect(star.pointer).toBe('none');expect(star.beforeUnits).toBeTruthy();}
+});
+
+test('encerrar turno fica no mapa durante zoom e rolagem inclusive no celular',async({page})=>{
+  await page.goto('/');await page.locator('#begin').click();
+  await expect(page.locator('.battlefield #end')).toHaveCount(1);
+  await page.locator('#zoom').fill('2');await page.locator('#zoom').dispatchEvent('input');
+  await page.locator('#viewport').evaluate(el=>{el.scrollLeft=300;el.scrollTop=250;});
+  await page.locator('#viewport').evaluate(el=>el.scrollIntoView({block:'center'}));
+  const positions=await page.evaluate(()=>{const button=document.querySelector('#end').getBoundingClientRect(),bar=document.querySelector('.map-turn-bar').getBoundingClientRect(),viewport=document.querySelector('#viewport');return {button:{top:button.top,bottom:button.bottom,height:button.height},bar:{top:bar.top,bottom:bar.bottom},height:innerHeight,scroll:viewport.scrollLeft,sticky:getComputedStyle(document.querySelector('.map-turn-bar')).position};});
+  expect(positions.sticky).toBe('sticky');expect(positions.scroll).toBeGreaterThan(0);expect(positions.button.height).toBeGreaterThanOrEqual(48);expect(positions.button.top).toBeGreaterThanOrEqual(0);expect(positions.button.bottom).toBeLessThanOrEqual(positions.height);await expect(page.locator('#end')).toBeEnabled();
+});
+
+test('computador FEB inicia sozinho e humano alemão retoma seu lado',async({page})=>{
+  await page.goto('/');await page.locator('#begin').click();
+  await page.locator('#gameMode').selectOption('computer-br');
+  await expect(page.locator('#modalBody')).toContainText('peças em carvão');
+  await page.locator('#begin').click();
+  await expect(page.locator('#yourSide')).toContainText('DEFESA ALEMÃ');
+  await expect(page.locator('#end')).toBeEnabled({timeout:10000});
+  const getState=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('monte-castelo-session-v1')));
+  expect((await getState()).game.turn).toBe('de');
+  await page.reload();await page.locator('#begin').click();
+  await expect(page.locator('#end')).toBeEnabled();expect((await getState()).game.turn).toBe('de');
+  await page.locator('#end').click();await expect(page.locator('#round')).toHaveText('2 / 10');await expect(page.locator('#end')).toBeEnabled({timeout:10000});expect((await getState()).game.turn).toBe('de');
+});
+
+test('dois humanos no aparelho alternam lados sem IA nem envio',async({page})=>{
+  await page.goto('/');await page.locator('#begin').click();await page.locator('#gameMode').selectOption('local');await page.locator('#begin').click();
+  await expect(page.locator('#ai')).toBeDisabled();await page.locator('#end').click();
+  await expect(page.locator('#phase')).toHaveText('Vez da DEFESA ALEMÃ');await expect(page.locator('#end')).toBeEnabled();await expect(page.locator('dialog')).not.toBeVisible();
+  await page.locator('[data-id="g5"]').click();await expect(page.locator('polygon.reach').first()).toBeVisible();
+  await page.locator('#end').click();await expect(page.locator('#phase')).toHaveText('Vez da FEB');await expect(page.locator('#round')).toHaveText('2 / 10');await expect(page.locator('dialog')).not.toBeVisible();
+  await page.reload();await page.locator('#begin').click();await expect(page.locator('#gameMode')).toHaveValue('local');await expect(page.locator('#end')).toBeEnabled();
+});
+
+test('atirar antes de mover preserva PM e permite só um tiro',async({page})=>{
+  const {createGame}=await import('../../dist/engine.js');const game=createGame();Object.assign(game.units.find(u=>u.id==='b5'),{q:2,r:6});
+  await page.addInitScript(g=>localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'})),game);
+  await page.goto('/');await page.locator('#begin').click();await page.locator('[data-id="b5"]').click();
+  await page.locator('[data-id="g2"]').click();await expect(page.locator('#actionHint')).toContainText('ainda pode mover');await expect(page.locator('#unitInfo')).toContainText('Movimento 1/1');await expect(page.locator('.attack-bar')).toHaveCount(0);await expect(page.locator('polygon.reach').first()).toBeVisible();
+  const before=await page.evaluate(()=>JSON.parse(localStorage.getItem('monte-castelo-session-v1')).game);
+  await page.locator('polygon.reach').first().click();
+  const after=await page.evaluate(()=>JSON.parse(localStorage.getItem('monte-castelo-session-v1')).game),actor=after.units.find(u=>u.id==='b5');
+  expect(actor.fired).toBeTruthy();expect(actor.mp).toBeLessThan(before.units.find(u=>u.id==='b5').mp);expect(after.log.filter(l=>l.includes('dado')).length).toBe(before.log.filter(l=>l.includes('dado')).length);await expect(page.locator('.attack-bar')).toHaveCount(0);
+});
+
+test('apoio Sampaio explica infantaria agregada, armas e alcance de cenário',async({page})=>{
+  await page.goto('/');await page.locator('#begin').click();await page.locator('[data-id="b4"]').dblclick();
+  await expect(page.locator('#modalBody')).toContainText('ramo de infantaria');await expect(page.locator('#modalBody')).toContainText('81 e 60 mm');await expect(page.locator('#modalBody')).toContainText('360 m');await expect(page.locator('#modalBody')).toContainText('quarto batalhão');await expect(page.locator('#modalBody a')).toHaveAttribute('href',/museuvirtualdafeb/);
+});
+
+
+test('turno salvo do computador FEB continua sem repetir peça já ativada',async({page})=>{
+  const {createGame}=await import('../../dist/engine.js');const game=createGame();
+  await page.addInitScript(g=>localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer-br',localSide:'de',ai:'tactical',stance:'aggressive',aiProgress:{side:'br',completed:['b1'],chosen:'tactical',stance:'aggressive',mode:'tactical',before:0,oldScore:0}})),game);
+  await page.goto('/');await page.locator('#begin').click();await expect(page.locator('#end')).toBeEnabled({timeout:10000});
+  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('monte-castelo-session-v1')));
+  expect(saved.game.turn).toBe('de');expect(saved.aiProgress).toBeNull();
+  const actor=saved.game.units.find(u=>u.id==='b1');expect([actor.q,actor.r,actor.mp,actor.fired]).toEqual([1,7,3,false]);
+});
+
+test('trocar de modo cancela turno do computador que ainda está em execução',async({page})=>{
+  await page.goto('/');await page.locator('#begin').click();await page.locator('#gameMode').selectOption('computer-br');await page.locator('#begin').click();
+  await page.locator('#gameMode').selectOption('local');await page.locator('#begin').click();
+  await expect(page.locator('#phase')).toHaveText('Vez da FEB');await page.waitForTimeout(1500);
+  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('monte-castelo-session-v1')));
+  expect(saved.mode).toBe('local');expect(saved.game.turn).toBe('br');expect(saved.game.round).toBe(1);expect(saved.game.log.filter(l=>l.includes('dado'))).toHaveLength(0);await expect(page.locator('#end')).toBeEnabled();
+});
+
+test('partida salva sem defensores encerra imediatamente e compara perdas dos dois lados',async({page})=>{
+  const {createGame}=await import('../../dist/engine.js');const game=createGame();game.units=game.units.filter(u=>u.side==='br');game.units.find(u=>u.id==='b1').hp=2;
+  await page.addInitScript(g=>localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'})),game);
+  await page.goto('/');await expect(page.locator('#modalBody')).toContainText('FIM DA OPERAÇÃO');await expect(page.locator('.loss-comparison:not(.historical-losses)')).toContainText('Alemanha');await expect(page.locator('.loss-comparison:not(.historical-losses)')).toContainText('5/5');await expect(page.locator('.loss-comparison:not(.historical-losses)')).toContainText('1/15');await expect(page.locator('#end')).toBeDisabled();
+  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('monte-castelo-session-v1')));expect(saved.game.winner).toBe('br');
+});
+
+
+test('popup final distingue baixas históricas não confirmadas e retirada alemã registrada',async({page})=>{
+  const {createGame}=await import('../../dist/engine.js');const game=createGame();game.units=game.units.filter(u=>u.side==='br');
+  await page.addInitScript(g=>localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'})),game);
+  await page.goto('/');await expect(page.locator('#modalBody')).toContainText('FIM DA OPERAÇÃO');
+  const daily=page.locator('.historical-losses');await expect(daily).toContainText('Mortos');await expect(daily).toContainText('Feridos');await expect(daily).toContainText('Prisioneiros');await expect(daily).toContainText('Retirada registrada; total não confirmado');
+  const counts=await daily.locator('tbody td').allTextContents();expect(counts).toHaveLength(8);for(const count of counts)expect(count.toLowerCase()).toContain('não confirmado');
+  await page.locator('.historical-context summary').click();await expect(page.locator('.historical-context')).toContainText('414 baixas');await expect(page.locator('.historical-context')).toContainText('não é apresentado como baixas do ataque de 21/02');await expect(page.locator('.historical-context')).toContainText('Desaparecidos não são prisioneiros confirmados');await expect(page.locator('.historical-sources a')).toHaveCount(3);
 });

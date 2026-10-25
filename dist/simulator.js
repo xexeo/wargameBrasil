@@ -44,7 +44,7 @@ export function simulate(options) {
         winner: game.winner,
         round: game.finishedRound ?? Math.min(game.round, 10),
         score: game.score,
-        reason: game.winner === 'br' ? (game.score >= (game.rules?.targetScore ?? 8) ? 'points' : 'late-summit') : !game.units.some(u => u.side === 'br' && canCaptureObjective(u)) ? 'maneuver' : eliminated ? 'elimination' : 'time',
+        reason: game.victoryReason === 'elimination' ? 'elimination' : game.winner === 'br' ? (game.score >= (game.rules?.targetScore ?? 8) ? 'points' : 'late-summit') : !game.units.some(u => u.side === 'br' && canCaptureObjective(u)) ? 'maneuver' : eliminated ? 'elimination' : 'time',
         summitOccupied: game.units.some((u) => u.side === "br" && canCaptureObjective(u) && u.q === objectives[0].q && u.r === objectives[0].r),
         attacks,
         uphillAttacks,

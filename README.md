@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.17 · 25/10/2026, 15:21:46 (Brasília)**
+**Versão 0.1.18 · 25/10/2026, 19:05:06 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -17,6 +17,18 @@ Publicação pelo GitHub Pages, a partir da `main`, pelo workflow `.github/workf
 Abra **[jogo.html](jogo.html)** em um navegador moderno. Esse arquivo já contém todo o HTML, CSS e JavaScript compilado: não precisa de instalação, backend, login, conexão externa ou servidor de jogo. Baixe o arquivo antes de abri-lo; a visualização de código do GitHub não executa HTML.
 
 O código-fonte é **TypeScript**. O JavaScript compilado é o que roda no navegador. A página principal `index.html` contém a mesma versão autocontida. O fonte HTML e a entrada modular de desenvolvimento ficam em `template.html`.
+
+## Novidades da interface
+
+Português é o idioma padrão; **English (US)** é opcional e persistente, incluindo regras, narrativa, mensagens, histórico e acessibilidade. Trocar o idioma preserva partida e aprendizado.
+
+**Encerrar turno** fica no mapa em barra fixa. Estrelas vermelhas centrais marcam objetivos; bordas tracejadas marrons/laranja indicam risco de fogo defensivo no percurso. Novas partidas permitem mover e disparar em qualquer ordem com um ataque normal por turno. A eliminação da última peça adversária encerra a partida imediatamente.
+
+Modos: humano FEB × computador alemão; computador FEB × humano alemão; dois humanos no mesmo aparelho; dois humanos à distância. Popup Homenagem a Pedro Henrique de Figueiredo Bonorino, tenente do **6º RI**, com emblemas da FEB e Regimento Ipiranga. O brasão atual é identificado como atual, sem afirmar seu uso em1945.
+
+[**Ver as três paletas**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.svg) · [**Abrir a análise de UX**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.html). A recomendação é azul/carvão; propostas ainda não aplicadas.
+
+[Pesquisa de mortos, feridos, prisioneiros e retirada](docs/PESQUISA_MASCARENHAS_BAIXAS.md): comparação final separa coesão/peças das contagens humanas, desconhecido não é zero e totais de outros períodos não são atribuídos ao dia21. [Copyright do roteiro no Memorial](docs/IMAGEM_ROTEIRO_FEB.md): sem licença de reprodução localizada; apenas referência externa foi incluída.
 
 ## Revisão atual da escala de batalhão
 
@@ -36,7 +48,7 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 
 ## Estado atual
 
-- Botão **Nova partida** visível no topo, ao lado de Encerrar turno, além do painel lateral.
+- **Encerrar turno** na barra do mapa; Nova partida no topo e no painel lateral.
 - Interface clara, com fundo branco, responsiva para celular e computador. FEB em azul, defesa alemã em carvão; terreno em papel e terra. Títulos sem serifa Barlow Condensed, fonte embutida offline sob licença OFL.
 - Narrativa histórica em popup ao iniciar cada operação e reaberta pelo botão **Missão**, sem reiniciar. Logo original do jogo inspirado na cobra fumando da FEB, criado com assistência de IA; não é um distintivo oficial.
 - Tabuleiro de 9 × 9 hexágonos; peças quadradas com símbolos de infantaria e artilharia.
@@ -76,13 +88,7 @@ O diretório [docs/simulacoes](docs/simulacoes/README.md) contém os experimento
 
 
 
-<!-- simulation:0.1.16/matriz-ias:start -->
-[**Matriz atual:10 jogos por dupla**](docs/simulacoes/0.1.16/matriz-ias/analise.md), com640 partidas e dados individuais. Melhor defensora no painel:Estado-maior agressivo (32/80 vitórias alemãs). Melhores atacantes:Caçador defensivo e Veterana (76/80 cada). As políticas têm forças distintas; a Veterana continua precisando melhorar como defensora. Não há dominância global comprovada.
-<!-- simulation:0.1.16/matriz-ias:end -->
 
-<!-- simulation:0.1.16/estudo-regras-batalhoes:start -->
-[Comparação e decisão de regras](docs/simulacoes/0.1.16/estudo-regras-batalhoes/analise.md): quatro configurações de250 partidas. A combinação adotada deu49,6% FEB na referência; a [validação separada](docs/simulacoes/0.1.16/validacao-batalhoes/analise.md),500 jogos, deu**54% FEB/46% DE**, média**6,33 rodadas**. São resultados da mesma IA tática/agressiva nos dois lados, não de qualquer jogador ou política. Retirada e conquista custosa no fechamento final estão ativas para novas partidas; iniciar Nova partida aplica as novas regras sem apagar experiência local.
-<!-- simulation:0.1.16/estudo-regras-batalhoes:end -->
 
 O prazo é o fechamento da rodada10 (18h do cenário). Cume mais8 pontos antecipa a vitória; o cume assegurado no fechamento final basta para vitória custosa quando faltam pontos. Só o cume rende2 por rodada: ocupá-lo da rodada7 à10 alcança a meta de8. A meta de 5–10 minutos humanos ainda não foi medida com jogadores.
 
@@ -143,7 +149,7 @@ Para servir o jogo localmente, execute `npm start`; a entrada modular alternativ
 
 ## Validação
 
-Na implementação atual, passaram 44 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 28 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
+Na implementação atual, passaram 50 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 60 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
 
 Os testes de motor exercitam partidas completas com as combinações de IA e postura, movimento legal, combate, pontuação, altitude e linha de visão. Clima histórico e fidelidade topográfica não são validados por esses testes.
 

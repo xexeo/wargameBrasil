@@ -33,3 +33,7 @@ A primeira versão da IA de missão favoreceu excessivamente a FEB. Foram compar
 ## Decisão final para novas partidas
 
 A defesa passou a separar interceptação da infantaria e contrabateria. Com essa correção, as duas regras combinadas foram próximas da meta e evitaram os finais de defesa vencedora sem defensores na validação independente. Adotar a combinação: retirada por perda de coesão, sem cura e com reorganização, e vitória custosa por cume assegurado no fechamento final quando faltar pontuação. Cume com a meta completa permite vencer antes. As configurações individuais continuam no estudo de comparação, sem tratar parâmetros como fatos históricos. Partidas antigas preservam flags ausentes/falsas; somente novas partidas recebem o padrão. A análise numérica fica nos diretórios versionados compatíveis.
+
+## Solicitações posteriores do autor
+
+A vitória por neutralização de todas as peças adversárias volta a ser detectada imediatamente, inclusive ao retomar uma partida ativa sem defensores. Isso não afirma conquista do cume nem morte de todos os soldados. Novas partidas permitem mover e disparar em qualquer ordem com um ataque normal e o mesmo orçamento de PM; flags antigas preservam a regra anterior de movimento. Contagens de recuos são eventos/unidades do jogo, sem conversão em pessoas. Recalcular a matriz após essas mudanças; os números de54% não avaliam automaticamente esta revisão.

@@ -267,3 +267,7 @@ Implementadas projeção de missão, risco no percurso e orientação da IA por 
 ## Regra adotada após comparar candidatos
 
 A combinação de retirada e cume suficiente no fechamento final foi validada com sementes separadas e adotada para novas partidas. Retirada por tiro não cura e cobra a próxima ativação; sem saída livre não há recuo, e golpe fatal remove a peça. Cume mais8 pontos antecipa vitória. No último fechamento, cume ocupado por infantaria dá vitória; sem8 pontos, eficiência fica limitada a44 e o grau é custoso. A versão antiga continua exigindo8 pontos se a flag de conquista no prazo estiver ausente/falsa. Instrução da missão vem do motor para manter texto e regra iguais.
+
+## Ordem de ação, modos e fim imediato
+
+Novas partidas têm freeFireOrder: movimento e um ataque em qualquer ordem, sem PM cobrados pelo disparo. Reação/reorganização ainda comprometem ações. Flag ausente/falsa preserva ordem anterior. Neutralização completa de um lado encerra imediatamente por eliminação, identificada como tal sem afirmar ocupação do cume. Há modos computador FEB e humanos locais, além dos anteriores. O comando de encerrar turno fica na barra fixa do mapa. Estrelas vermelhas centrais são objetivos, tracejado indica exposição, não bloqueio. O apoio agregado é histórico na composição de armas, mas o contador/alcance são abstrações explicitadas no popup. PT padrão, EN-US opcional; estado da partida e memória não dependem do idioma.

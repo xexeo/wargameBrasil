@@ -44,7 +44,7 @@ function match(br,de,seed){
  }
  for(const side of['br','de']){const c=controls[side];if(c.profile.kind==='trained')finishLearningEpisode(c.table,c.context,game);if(c.profile.kind==='bandit')banditUpdate(c,game.winner===side?8:-8,true);}
  const losses={};for(const side of['br','de']){const units=game.units.filter(u=>u.side===side);losses[side]={units:5-units.length,cohesion:15-units.reduce((n,u)=>n+u.hp,0)};}
- return{seed,winner:game.winner,round:game.finishedRound,score:game.score,reason:game.winner==='br'?(game.score>=(game.rules?.targetScore??8)?'mission':'lateSummit'):game.units.some(u=>u.side==='br'&&canCaptureObjective(u))?'deadline':'noManeuverInfantry',summit:summitOccupied(game),losses,grade:victoryAssessment(game).grade,...metrics};
+ return{seed,winner:game.winner,round:game.finishedRound,score:game.score,reason:game.victoryReason==='elimination'?'elimination':game.winner==='br'?(game.score>=(game.rules?.targetScore??8)?'mission':'lateSummit'):game.units.some(u=>u.side==='br'&&canCaptureObjective(u))?'deadline':'noManeuverInfantry',summit:summitOccupied(game),losses,grade:victoryAssessment(game).grade,...metrics};
 }
 function wilson(w,n){const p=w/n,z=1.96,d=1+z*z/n,c=(p+z*z/(2*n))/d,h=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/d;return[c-h,c+h];}
 const count=Number(process.argv[2]??10),firstSeed=Number(process.argv[3]??200001);
@@ -56,7 +56,7 @@ if(!Number.isInteger(count)||count<1||count>1000||!Number.isInteger(firstSeed))t
 for(const profile of profiles.filter(p=>!p.kind))for(let i=0;i<3;i++){const seed=firstSeed+i,a=match(profile,profile,seed),b=simulate({seed,strategy:profile.strategy,stance:profile.stance,rules});assert.equal(a.winner,b.winner);assert.equal(a.score,b.score);assert.equal(a.round,b.round);}
 const cells=[];for(const br of profiles)for(const de of profiles){const games=Array.from({length:count},(_,i)=>match(br,de,firstSeed+i)),wins=games.filter(g=>g.winner==='br').length;
  const mean=fn=>games.reduce((n,g)=>n+fn(g),0)/games.length;
- cells.push({br:br.id,de:de.id,count,wins:{br:wins,de:count-wins},brRate:wins/count,interval95:wilson(wins,count),meanRound:mean(g=>g.round),meanScore:mean(g=>g.score),meanLosses:{br:{units:mean(g=>g.losses.br.units),cohesion:mean(g=>g.losses.br.cohesion)},de:{units:mean(g=>g.losses.de.units),cohesion:mean(g=>g.losses.de.cohesion)}},reasons:Object.fromEntries(['mission','lateSummit','deadline','noManeuverInfantry'].map(r=>[r,games.filter(g=>g.reason===r).length])),games});
+ cells.push({br:br.id,de:de.id,count,wins:{br:wins,de:count-wins},brRate:wins/count,interval95:wilson(wins,count),meanRound:mean(g=>g.round),meanScore:mean(g=>g.score),meanLosses:{br:{units:mean(g=>g.losses.br.units),cohesion:mean(g=>g.losses.br.cohesion)},de:{units:mean(g=>g.losses.de.units),cohesion:mean(g=>g.losses.de.cohesion)}},reasons:Object.fromEntries(['elimination','mission','lateSummit','deadline','noManeuverInfantry'].map(r=>[r,games.filter(g=>g.reason===r).length])),games});
  console.log(`${br.id} × ${de.id}: FEB ${wins}/${count}`);
 }
 const hashes={};for(const f of['engine.ts','ai.ts','learning.ts','app.ts','troops.ts','scenario.ts','pretrained.ts','geography-data.ts'])hashes[f]=createHash('sha256').update(await readFile(f)).digest('hex');
