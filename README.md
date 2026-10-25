@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.11 · 25/10/2026, 12:03:49 (Brasília)**
+**Versão 0.1.12 · 25/10/2026, 12:13:07 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -17,6 +17,10 @@ Publicação pelo GitHub Pages, a partir da `main`, pelo workflow `.github/workf
 Abra **[jogo.html](jogo.html)** em um navegador moderno. Esse arquivo já contém todo o HTML, CSS e JavaScript compilado: não precisa de instalação, backend, login, conexão externa ou servidor de jogo. Baixe o arquivo antes de abri-lo; a visualização de código do GitHub não executa HTML.
 
 O código-fonte é **TypeScript**. O JavaScript compilado é o que roda no navegador. A página principal `index.html` contém a mesma versão autocontida. O fonte HTML e a entrada modular de desenvolvimento ficam em `template.html`.
+
+## Estudo de escala das peças
+
+[Companhia ou batalhão?](docs/ESCALA_DAS_PECAS.md) compara o modelo atual com nove companhias brasileiras e quatro destacamentos alemães de cenário (13 contadores, com apoios fora do mapa). Proposta ainda não implementada. A organização de três companhias de fuzileiros por batalhão foi confirmada em fonte institucional do Museu Virtual da FEB; a distribuição local dos alemães e das reservas ainda exige documentação.
 
 ## Referência de regras
 

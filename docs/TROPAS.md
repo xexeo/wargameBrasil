@@ -63,3 +63,7 @@ O capítulo XXIV, p. 431, de Fisher relata retirada alemã e resistência final 
 ## Parâmetros de fogo revistos
 
 Alcance dos dois grupos: 5 hexágonos (disponibilidade abstrata, não limite balístico). Reação em altura: máximo 1 dano, uma reação por movimento completo; consome o próximo turno da unidade. Alcance direto +1 com desnível mínimo de 90 m e linha de visão. Defesa elevada +1 a partir de 30 m. Regras simétricas.
+
+## Estudo posterior de escala (não implementado)
+
+O [estudo de companhia versus batalhão](ESCALA_DAS_PECAS.md) acrescenta a estrutura institucional publicada pelo Museu Virtual da FEB e tabelas americanas de 1944. Propõe experimentar nove companhias brasileiras e quatro destacamentos alemães de cenário, com apoios fora do mapa: treze contadores. A composição alemã e a hipótese de seis companhias brasileiras iniciais/três em reserva não são quantidades históricas confirmadas. O modelo implementado continua sendo o descrito acima.
