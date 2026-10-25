@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.7 · 25/10/2026, 03:50:07 (Brasília)**
+**Versão 0.1.8 · 25/10/2026, 03:53:40 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -16,7 +16,7 @@ Publicação pelo GitHub Pages, a partir da `main`, pelo workflow `.github/workf
 
 Abra **[jogo.html](jogo.html)** em um navegador moderno. Esse arquivo já contém todo o HTML, CSS e JavaScript compilado: não precisa de instalação, backend, login, conexão externa ou servidor de jogo. Baixe o arquivo antes de abri-lo; a visualização de código do GitHub não executa HTML.
 
-O código-fonte é **TypeScript**. O JavaScript compilado é o que roda no navegador. Há também uma versão modular em `index.html`, destinada a hospedagem estática.
+O código-fonte é **TypeScript**. O JavaScript compilado é o que roda no navegador. A página principal `index.html` contém a mesma versão autocontida. O fonte HTML e a entrada modular de desenvolvimento ficam em `template.html`.
 
 ## Referência de regras
 
@@ -110,9 +110,9 @@ npm run train -- 2000
 npm run build
 ```
 
-`npm run build` compila o TypeScript em `dist/` e gera `jogo.html` com os recursos embutidos. Esses arquivos são mantidos no repositório para jogar sem ferramentas de desenvolvimento. Depois de alterar fontes, gere-os novamente.
+`npm run build` compila o TypeScript em `dist/`, usa `template.html` como fonte e gera `index.html` e `jogo.html` idênticos, com os recursos embutidos. Isso permite publicação nativa do Pages na raiz sem misturar arquivos de versões diferentes. Esses arquivos são mantidos no repositório para jogar sem ferramentas de desenvolvimento. Depois de alterar fontes, gere-os novamente.
 
-Para servir a versão modular localmente, execute `npm start`. Para os testes em navegador, execute `npm run test:browser`. Os testes usam Chromium em `/usr/bin/chromium`, configurado em [playwright.config.js](playwright.config.js); ajuste esse caminho em outras máquinas.
+Para servir o jogo localmente, execute `npm start`; a entrada modular alternativa é `template.html`. Para os testes em navegador, execute `npm run test:browser`. Os testes usam Chromium em `/usr/bin/chromium`, configurado em [playwright.config.js](playwright.config.js); ajuste esse caminho em outras máquinas.
 
 ## Validação
 

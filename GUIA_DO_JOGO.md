@@ -14,7 +14,7 @@ Meta de duração: 5–10 minutos, ainda a confirmar por testes com jogadores. C
 
 - Nome: **Monte Castelo Vibed**.
 - Jogável em navegador de computador e celular; o arquivo `jogo.html` incorpora os recursos necessários e pode ser aberto diretamente.
-- Código-fonte em TypeScript; saída compilada em JavaScript.
+- Código-fonte em TypeScript; saída compilada em JavaScript. `template.html` é o fonte HTML; `index.html` e `jogo.html` são gerados e autocontidos. Publicar a mesma versão completa evita mistura de recursos entre atualizações.
 - Fundo branco, texto escuro, mapa com cores claras de vegetação e terra.
 - Logo original inspirado na cobra fumando da FEB; não usar como referência o símbolo de aviação “Senta a Pua”. Não apresentar o logo do jogo como distintivo oficial.
 - Popup de autoria: Geraldo Xexéo, assistência de IA, logo oficial do LUDES, copyright e licença CC BY-NC-SA 4.0 completa, inclusive offline. Marcas institucionais não são relicenciadas.

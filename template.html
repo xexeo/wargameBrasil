@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23526d40%27/%3E%3Cpath d=%27M5 8h22v16H5zM5 8l22 16M27 8L5 24%27 fill=%27none%27 stroke=%27white%27/%3E%3C/svg%3E"
+    />
+    <title>Monte Castelo Vibed · FEB 1945</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <img id="gameLogo" class="game-logo" alt="Logo Monte Castelo Vibed" />
+        <div>
+          <span class="eyebrow">BRASIL NA SEGUNDA GUERRA · 21 FEV 1945</span>
+          <h1>
+            MONTE CASTELO VIBED<span
+              id="titleVersion"
+              class="title-version"
+            ></span
+            ><span>Operação Encore</span>
+          </h1>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="briefing">Missão</button
+        ><button id="credits">Autoria & licença</button
+        ><button id="rules">Regras & história</button>
+      </div>
+    </header>
+    <main>
+      <section class="command">
+        <div>
+          <span class="eyebrow" id="yourSide">VOCÊ COMANDA A FEB</span>
+          <h2 id="phase">Sua vez de avançar</h2>
+          <p id="brief">Selecione uma unidade brasileira para começar.</p>
+        </div>
+        <div class="metrics">
+          <div><small>21 FEV · HORA</small><b id="time">06:00</b></div>
+          <div><small>RODADA</small><b id="round">1 / 10</b></div>
+          <div><small>OBJETIVO</small><b id="score">0 / 8</b></div>
+          <button id="end">Encerrar turno →</button
+          ><button id="newTop" class="new-top">＋ Nova partida</button>
+        </div>
+      </section>
+      <section class="mission">
+        <strong>⚑ MISSÃO: OCUPE AS POSIÇÕES MARCADAS E ACUMULE 8 PONTOS</strong>
+        <p>
+          Fique sobre um hexágono com bandeira até o fim do turno alemão. Monte
+          Castelo rende 2 pontos; cada posição secundária, 1. Prazo: 10 rodadas.
+          Eliminar todo o inimigo também vence.
+        </p>
+        <button
+          id="weatherInfo"
+          class="weather-chip"
+          aria-label="Consultar reconstrução meteorológica da batalha"
+        ></button>
+        <div id="goals" class="goals"></div>
+      </section>
+      <div class="layout">
+        <section class="battlefield">
+          <div class="maptop">
+            <span>SETOR DOS APENINOS · ITÁLIA</span>
+            <div class="zoomtools">
+              <button id="mapSources">Mapa & fontes</button
+              ><button id="fit">Mapa inteiro</button
+              ><button id="ideal">Visão tática</button
+              ><input
+                id="zoom"
+                type="range"
+                min="0.25"
+                max="3"
+                step="0.01"
+                value="1"
+                aria-label="Zoom contínuo"
+              /><button id="out" aria-label="Diminuir zoom">−</button
+              ><button id="resetZoom">100%</button
+              ><button id="in" aria-label="Aumentar zoom">+</button>
+            </div>
+          </div>
+          <div class="actionbar">
+            <p id="actionHint" aria-live="polite"></p>
+            <button id="actionMove" disabled>Mover</button
+            ><button id="actionAttack" disabled>Atacar</button>
+          </div>
+          <div class="height-key" aria-label="Legenda da altitude">
+            <span style="--height: #f4efdf">N1 · &lt;780 m</span
+            ><span style="--height: #e9d6a7">N2 · 780–849 m</span
+            ><span style="--height: #d1b48c">N3 · 850–919 m</span
+            ><span style="--height: #bd8b4f">N4 · ≥920 m</span
+            ><small>Subir +1 PM/nível · defender acima +1</small>
+          </div>
+          <div id="viewport">
+            <svg
+              id="map"
+              viewBox="0 0 960 690"
+              role="img"
+              aria-label="Mapa hexagonal de Monte Castelo"
+            ></svg>
+          </div>
+          <div class="legend">
+            <span>▧ Mata · movimento 2</span
+            ><span>↑ Altitude · subida +PM · defesa +1</span
+            ><span>━ Estrada · movimento 1</span
+            ><span class="br">■ FEB · azul</span
+            ><span class="de">■ Alemães · carvão</span
+            ><a
+              href="https://www.openstreetmap.org/copyright"
+              target="_blank"
+              rel="noopener"
+              >© OSM · ODbL</a
+            ><span>Copernicus DEM / Open-Meteo</span>
+          </div>
+        </section>
+        <aside>
+          <section class="card">
+            <span class="eyebrow">CENTRO DE COMANDO</span>
+            <h3 id="unitName">A cobra vai fumar.</h3>
+            <div id="unitInfo">
+              <p>
+                Toque numa peça verde, depois num hexágono iluminado para mover
+                ou num inimigo marcado para atacar.
+              </p>
+              <p>Toque duas vezes numa peça para ampliá-la.</p>
+            </div>
+          </section>
+          <section class="card">
+            <label for="gameMode">MODO DE JOGO</label
+            ><select id="gameMode">
+              <option value="computer">Humano × computador</option>
+              <option value="remote">
+                Humano × humano · à distância
+              </option></select
+            ><button id="shareTurn" class="secondary" disabled>
+              Enviar turno · WhatsApp</button
+            ><label class="file-label" for="loadTurn"
+              >Abrir arquivo de turno<input
+                id="loadTurn"
+                type="file"
+                accept="application/json,.json" /></label
+            ><label for="ai">COMANDANTE INIMIGO</label
+            ><select id="ai">
+              <option value="tactical">Estado-maior · tática avançada</option>
+              <option value="strong">Caçador · maior ataque</option>
+              <option value="weak">Oportunista · menor defesa</option>
+              <option value="trained">Veterana · IA especial treinada</option>
+              <option value="learning">
+                Aprendiz · aprende neste navegador
+              </option></select
+            ><label for="stance">POSTURA DE MOVIMENTO</label
+            ><select id="stance">
+              <option value="defensive">Defensiva · proteger elevações</option>
+              <option value="aggressive">Agressiva · aproximar e atacar</option>
+            </select>
+            <p id="learningStatus" class="muted"></p>
+            <p id="storageStatus" class="muted"></p>
+            <button id="memory" class="secondary">
+              Experiência da IA · exportar / importar</button
+            ><button id="new" class="secondary">Nova operação</button>
+          </section>
+          <section class="card journal">
+            <span class="eyebrow">DIÁRIO DE OPERAÇÕES</span>
+            <div id="log" aria-live="polite"></div>
+          </section>
+        </aside>
+      </div>
+      <footer>
+        <span id="buildVersion" aria-label="Versão e data da edição"></span> Um
+        jogo tático de 5–10 minutos. Cenário histórico, escala e forças
+        simplificadas. <a href="LICENSE">© 2026 xexeo · CC BY-NC-SA 4.0</a>
+      </footer>
+    </main>
+    <dialog id="modal">
+      <button id="close" aria-label="Fechar janela">✕</button>
+      <div id="modalBody"></div>
+    </dialog>
+    <script type="module" src="dist/app.js"></script>
+  </body>
+</html>

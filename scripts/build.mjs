@@ -18,7 +18,7 @@ const css =
     'url("assets/fonts/barlow-condensed-latin-600-normal.woff2")',
     () => `url("data:font/woff2;base64,${font.toString("base64")}")`,
   );
-const html = (await readFile("index.html", "utf8"))
+const html = (await readFile("template.html", "utf8"))
   .replace(
     /<link\s+rel="stylesheet"\s+href="style\.css"\s*\/?>/,
     () => `<style>${css}</style>`,
@@ -32,6 +32,7 @@ if (html.includes('href="style.css"') || html.includes('src="dist/app.js"')) {
   throw new Error("Falha ao incorporar os recursos do jogo standalone.");
 }
 await writeFile("jogo.html", html);
+await writeFile("index.html", html);
 console.log(
   "jogo.html gerado: HTML, CSS e JavaScript embutidos; funciona sem servidor.",
 );
