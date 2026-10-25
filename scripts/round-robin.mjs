@@ -48,8 +48,8 @@ function match(br,de,seed){
 }
 function wilson(w,n){const p=w/n,z=1.96,d=1+z*z/n,c=(p+z*z/(2*n))/d,h=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/d;return[c-h,c+h];}
 const count=Number(process.argv[2]??10),firstSeed=Number(process.argv[3]??200001);
-const rules={...defaultRules,retreatOnLoss:process.argv.includes('--retreat'),summitAtDeadlineWins:process.argv.includes('--deadline-summit')};
-const runName='matriz-ias'+(rules.retreatOnLoss?'-retirada':'')+(rules.summitAtDeadlineWins?'-cume-no-prazo':'');
+const rules={...defaultRules,retreatOnLoss:process.argv.includes('--no-retreat')?false:process.argv.includes('--retreat')?true:!!defaultRules.retreatOnLoss,summitAtDeadlineWins:process.argv.includes('--strict-points')?false:process.argv.includes('--deadline-summit')?true:!!defaultRules.summitAtDeadlineWins};
+const runName='matriz-ias'+(rules.retreatOnLoss!==!!defaultRules.retreatOnLoss?'-sem-retirada':'')+(rules.summitAtDeadlineWins!==!!defaultRules.summitAtDeadlineWins?'-pontos-obrigatorios':'');
 if(!Number.isInteger(count)||count<1||count>1000||!Number.isInteger(firstSeed))throw Error('Use: node scripts/round-robin.mjs [partidas por dupla: 1–1000] [primeira semente]');
 // Meaningful integration check: the fixed-policy runner must match the canonical
 // simulator on the same random stream, including win, score and final round.

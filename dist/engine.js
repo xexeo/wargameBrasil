@@ -162,7 +162,7 @@ function resolveCombat(s, u, v, rng, reaction = false) {
             v.reactionSpent = true;
             v.suppressed = true;
             v.reorganizing = true;
-            s.log.unshift(`${v.name}: retirada experimental para ${v.q + 1}-${v.r + 1}; próxima ação comprometida, sem recuperar PV.`);
+            s.log.unshift(`${v.name}: retirada por perdas para ${v.q + 1}-${v.r + 1}; próxima ação comprometida, sem recuperar PV.`);
         }
     }
     s.units = s.units.filter(v => v.hp > 0);
@@ -262,7 +262,7 @@ export function endTurn(s) {
     }
     checkWinner(s, outgoing === 'de' ? s.round - 1 : undefined);
 }
-export function victoryAssessment(s) { const rounds = s.finishedRound ?? Math.min(s.round, roundLimit(s)), remaining = s.units.filter(u => u.side === 'br'), lostUnits = 5 - remaining.length, lostCohesion = 15 - remaining.reduce((n, u) => n + u.hp, 0), efficiency = Math.max(0, Math.round(100 - (rounds - 1) * 3 - lostUnits * 8 - lostCohesion * 1.5)); return { rounds, lostUnits, lostCohesion, efficiency, grade: s.winner !== 'br' ? 'Defesa bem-sucedida' : efficiency >= 70 ? 'Vitória decisiva' : efficiency >= 45 ? 'Vitória tática' : efficiency >= 20 ? 'Vitória custosa' : 'Vitória pírrica' }; }
+export function victoryAssessment(s) { const rounds = s.finishedRound ?? Math.min(s.round, roundLimit(s)), remaining = s.units.filter(u => u.side === 'br'), lostUnits = 5 - remaining.length, lostCohesion = 15 - remaining.reduce((n, u) => n + u.hp, 0), efficiency = Math.min(s.winner === 'br' && s.rules?.summitAtDeadlineWins && s.score < targetScore(s) ? 44 : 100, Math.max(0, Math.round(100 - (rounds - 1) * 3 - lostUnits * 8 - lostCohesion * 1.5))); return { rounds, lostUnits, lostCohesion, efficiency, grade: s.winner !== 'br' ? 'Defesa bem-sucedida' : efficiency >= 70 ? 'Vitória decisiva' : efficiency >= 45 ? 'Vitória tática' : efficiency >= 20 ? 'Vitória custosa' : 'Vitória pírrica' }; }
 export function expectedReactionRisk(s, u) {
     let risk = 0;
     for (const v of s.units) {
@@ -318,7 +318,7 @@ export function operationResult(s) {
         return { title: 'Vitória pelas regras legadas', detail: 'A partida preservou a condição de eliminação de sua versão anterior.' };
     const late = !!s.rules?.summitAtDeadlineWins && s.score < targetScore(s);
     if (s.winner === 'br')
-        return { title: late ? 'Conquista no limite do prazo' : victoryAssessment(s).grade, detail: late ? 'A regra experimental aceita o cume assegurado no prazo mesmo sem a pontuação completa.' : 'A infantaria assegurou Monte Castelo e cumpriu a pontuação da missão.' };
+        return { title: late ? 'Vitória custosa — conquista no limite do prazo' : victoryAssessment(s).grade, detail: late ? 'O cume foi assegurado no fechamento final, sem completar a meta de pontos: vitória custosa pela conquista no prazo.' : 'A infantaria assegurou Monte Castelo e cumpriu a pontuação da missão.' };
     if (noInfantry)
         return { title: 'Infantaria de manobra esgotada', detail: 'Restou apoio ou a força saiu de combate; não há infantaria disponível para assegurar o cume.' };
     if (occupied)
@@ -326,5 +326,12 @@ export function operationResult(s) {
     if (noDefenders)
         return { title: 'Defesa eliminada — objetivo não cumprido', detail: 'Os alemães saíram de combate, mas o cume não foi assegurado a tempo. Eliminar a defesa não substitui a missão territorial.' };
     return { title: 'Prazo encerrado — cume não assegurado', detail: s.score >= targetScore(s) ? 'Os pontos foram suficientes, mas faltou assegurar Monte Castelo.' : 'A defesa atrasou a FEB; faltaram cume e/ou pontos no prazo.' };
+}
+export function missionInstruction(s) {
+    if (s.rules?.summitAtDeadlineWins)
+        return `Assegure Monte Castelo até o fim da rodada ${roundLimit(s)}. Acumule ${targetScore(s)} pontos e segure o cume para antecipar a vitória. No último fechamento, o cume basta; sem a meta de pontos, a vitória é custosa.`;
+    if (!s.rules)
+        return `Acumule ${targetScore(s)} pontos ou elimine a defesa em até ${roundLimit(s)} rodadas, conforme as regras legadas desta partida.`;
+    return `Acumule ${targetScore(s)} pontos${s.rules.requireSummit ? ' e assegure Monte Castelo com infantaria' : ''} até o fim da rodada ${roundLimit(s)}.`;
 }
 //# sourceMappingURL=engine.js.map

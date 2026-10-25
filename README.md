@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.15 · 25/10/2026, 15:05:28 (Brasília)**
+**Versão 0.1.16 · 25/10/2026, 15:16:44 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -24,7 +24,7 @@ A main conserva as dez peças. A missão mostra pontos faltantes, ritmo pela ocu
 
 A IA tática distingue ataque e defesa: a FEB considera custo do caminho, prazo e preservação; a Alemanha combina interceptação e proteção dos objetivos. Todos os modos avançam ao cume quando não restam inimigos, e a infantaria brasileira que o ocupa mantém posição. O fim distingue chegada tardia, falta do cume e perda da infantaria.
 
-[Plano, experimentos e decisões](docs/REVISAO_BATALHOES.md). Retirada por perdas e vitória apenas pelo cume no prazo são candidatos headless, **desligados no padrão**; os testes de regras não substituem os fatos históricos. Os relatórios incompatíveis foram removidos. Consulte os [resultados válidos por versão](docs/simulacoes/README.md) para os novos números, sem reutilizar os 51,1% da revisão anterior.
+[Plano, experimentos e decisões](docs/REVISAO_BATALHOES.md). As novas partidas usam retirada por perdas sem cura e conquista custosa ao assegurar o cume no fechamento final, mesmo sem completar a meta de pontos. A meta de8 pontos com cume antecipa a vitória. São abstrações de jogo; partidas salvas preservam as regras anteriores. Os relatórios incompatíveis foram removidos. Consulte os [resultados válidos por versão](docs/simulacoes/README.md) para os novos números, sem reutilizar os 51,1% da revisão anterior.
 
 ## Estudo de escala das peças
 
@@ -52,9 +52,9 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 - Regras com exemplo de peça e legenda de bolinhas, símbolos militares, A/D/M, dano e marca de ação; contexto histórico, fontes e diário de combate na interface.
 - Popup **Autoria & licença**, incluindo logo oficial do LUDES, copyright e texto integral da CC BY-NC-SA 4.0 para consulta offline. O logo foi obtido no [endereço oficial informado pelo autor](https://ludes.cos.ufrj.br/wp-content/uploads/2016/07/ludes_azul.png).
 - IA de maior ataque, IA de menor defesa e IA tática que avalia cobertura, ameaças, apoio e objetivos; posturas agressiva e defensiva.
-- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 16.877 atualizações e 108 situações aprendidas, alternando autojogo e adversários das seis políticas fixas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Experimentos válidos por versão](docs/simulacoes/README.md).
+- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 17.109 atualizações e 96 situações aprendidas, alternando autojogo e adversários das seis políticas fixas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Experimentos válidos por versão](docs/simulacoes/README.md).
 - IA aprendiz: Q-learning simples sobre seis combinações de estratégia/postura, exploração de 20% e experiência mantida em `localStorage` entre partidas. Não treina uma rede neural nem aprende movimentos individuais.
-- Vitória brasileira exige **8 pontos acumulados e ocupação do cume no fechamento do turno alemão**. Os objetivos dão no máximo **4 por rodada**: 2 + 1 + 1; duas rodadas de ocupação completa dão 8. Apoio não captura. Defesa vence por prazo de 10 rodadas ou perda de toda a infantaria de manobra brasileira. Tempo e perdas determinam o grau da vitória.
+- Vitória antecipada brasileira exige **8 pontos acumulados e ocupação do cume no fechamento do turno alemão**; no último fechamento, basta assegurar o cume, com vitória custosa se faltar pontuação. Os objetivos dão no máximo **4 por rodada**: 2 + 1 + 1; duas rodadas de ocupação completa dão 8. Apoio não captura. Defesa vence por prazo de 10 rodadas ou perda de toda a infantaria de manobra brasileira. Tempo e perdas determinam o grau da vitória.
 - Reconstrução meteorológica ERA5 incorporada offline, com temperatura e nuvens aproximadas por hora, tabela e distinção entre modelo e relatos históricos.
 - Relógio de cenário das 06:00 às 18:00; concentração de artilharia brasileira na rodada 10, inspirada no fogo histórico de 16:00–17:00.
 
@@ -76,7 +76,7 @@ O diretório [docs/simulacoes](docs/simulacoes/README.md) contém os experimento
 
 
 
-O prazo é o fechamento da rodada 10 (18h do relógio do cenário), com 8 pontos e cume assegurado. Apenas o cume rende 2 por rodada: ocupá-lo da rodada 7 à 10 permite alcançar 8. Pontos secundários já acumulados permitem tomá-lo depois. A meta de 5–10 minutos humanos ainda não foi medida com jogadores.
+O prazo é o fechamento da rodada10 (18h do cenário). Cume mais8 pontos antecipa a vitória; o cume assegurado no fechamento final basta para vitória custosa quando faltam pontos. Só o cume rende2 por rodada: ocupá-lo da rodada7 à10 alcança a meta de8. A meta de 5–10 minutos humanos ainda não foi medida com jogadores.
 
 ## Autojogo sem interface
 
@@ -135,7 +135,7 @@ Para servir o jogo localmente, execute `npm start`; a entrada modular alternativ
 
 ## Validação
 
-Na implementação atual, passaram 42 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 28 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
+Na implementação atual, passaram 44 testes do motor/simulador/aprendizado/troca de turnos/clima/geografia e 28 cenários de navegador (computador e celular): narrativa, movimento, zoom, turno inimigo, popup de regras, ampliação de peça, persistência do aprendizado, créditos/licença e arquivo standalone sem carregar recursos adicionais. A suíte é executada novamente antes da entrega das mudanças.
 
 Os testes de motor exercitam partidas completas com as combinações de IA e postura, movimento legal, combate, pontuação, altitude e linha de visão. Clima histórico e fidelidade topográfica não são validados por esses testes.
 

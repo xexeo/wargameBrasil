@@ -22,10 +22,14 @@ Testar projeção e limites, trajetos expostos/suprimidos, IA que progride e man
 
 História oficial Fisher p.431 descreve retirada alemã e pequena retaguarda; isso apoia estudar retirada, mas não fornece um turno obrigatório nem efetivos por hexágono. Atualizar a documentação que ainda registra a fonte como inacessível. Nenhum atributo de batalhão, cota ou identidade será inventado para calibrar resultados.
 
-## Decisão após medir
+## Decisão intermediária após medir (superada abaixo)
 
-As regras candidatas foram implementadas e testadas, mas permanecem desligadas no padrão: a retirada trouxe efeitos indesejados sobre o prazo e aceitar cume sem pontos favoreceu ainda mais o atacante. Os números e a decisão detalhada ficam apenas nos relatórios versionados, para serem removidos quando incompatíveis. A nova IA conclui melhor a missão, mas a defesa ainda precisa de calibração; não declarar50% de equilíbrio sem medição válida.
+Na etapa intermediária, as regras candidatas foram implementadas e testadas e permaneceram desligadas no padrão: a retirada trouxe efeitos indesejados sobre o prazo e aceitar cume sem pontos favoreceu ainda mais o atacante. Os números e a decisão detalhada ficam apenas nos relatórios versionados, para serem removidos quando incompatíveis. A nova IA conclui melhor a missão, mas a defesa ainda precisa de calibração; não declarar50% de equilíbrio sem medição válida.
 
 ## Refinamento da defesa por função
 
 A primeira versão da IA de missão favoreceu excessivamente a FEB. Foram comparados em cópias isoladas alvos de manobra para todos os alemães, somente artilharia e somente infantaria. Adotou-se a divisão funcional: infantaria tática intercepta unidades que podem conquistar o cume, considerando proximidade/coesão; artilharia tática prioriza contrabateria até haver ameaça imediata ao cume. Caçador e Oportunista preservam suas prioridades originais. A decisão altera escolhas da IA, não atributos, identidade de tropas, DEM ou cronologia. Revalidar com sementes separadas e refazer treino/matriz; números de candidatos incompatíveis são removidos da árvore atual e preservados no Git quando já commitados.
+
+## Decisão final para novas partidas
+
+A defesa passou a separar interceptação da infantaria e contrabateria. Com essa correção, as duas regras combinadas foram próximas da meta e evitaram os finais de defesa vencedora sem defensores na validação independente. Adotar a combinação: retirada por perda de coesão, sem cura e com reorganização, e vitória custosa por cume assegurado no fechamento final quando faltar pontuação. Cume com a meta completa permite vencer antes. As configurações individuais continuam no estudo de comparação, sem tratar parâmetros como fatos históricos. Partidas antigas preservam flags ausentes/falsas; somente novas partidas recebem o padrão. A análise numérica fica nos diretórios versionados compatíveis.

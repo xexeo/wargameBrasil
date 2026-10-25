@@ -55,3 +55,13 @@ test('defesa tática divide interceptação da infantaria e contrabateria sem al
  const s=createGame();s.units=s.units.filter(u=>['b1','b5','g2','g5'].includes(u.id));Object.assign(s.units.find(u=>u.id==='b1'),{q:3,r:5});Object.assign(s.units.find(u=>u.id==='b5'),{q:3,r:6});const foot=s.units.find(u=>u.id==='g2'),gun=s.units.find(u=>u.id==='g5');
  assert.equal(chooseTarget(s,foot,'tactical').id,'b1');assert.equal(chooseTarget(s,gun,'tactical').id,'b5');assert.equal(chooseTarget(s,foot,'strong').id,'b5');assert.equal(chooseTarget(s,foot,'weak').id,'b5');
 });
+
+
+test('instrução do motor e regra final preservam a exigência antiga em partidas salvas',async()=>{
+ const{missionInstruction}=await import('../dist/engine.js');const current=createGame();assert.match(missionInstruction(current),/antecipar/);assert.match(missionInstruction(current),/cume basta/);
+ delete current.rules.summitAtDeadlineWins;delete current.rules.retreatOnLoss;assert.doesNotMatch(missionInstruction(current),/cume basta/);current.units=current.units.filter(u=>u.id!=='g1');Object.assign(current.units[0],objectives[0]);current.round=10;current.turn='de';endTurn(current);assert.equal(current.winner,'de');assert.equal(validGame(current),true);
+});
+
+test('conquista sem meta de pontos no fechamento final tem grau custoso e eficiência limitada',async()=>{
+ const{victoryAssessment}=await import('../dist/engine.js');const s=createGame();s.units=s.units.filter(u=>u.id!=='g1');Object.assign(s.units[0],objectives[0]);s.round=10;s.turn='de';endTurn(s);assert.equal(s.winner,'br');assert.equal(s.finishedRound,10);assert.equal(victoryAssessment(s).grade,'Vitória custosa');assert.equal(victoryAssessment(s).efficiency,44);assert.match(operationResult(s).title,/Vitória custosa/);
+});

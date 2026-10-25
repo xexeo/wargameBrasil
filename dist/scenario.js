@@ -1,5 +1,5 @@
 // Design parameters, not historical measurements. Calibrate rules, not the map.
-export const defaultRules = { retreatOnLoss: false, summitAtDeadlineWins: false, roundLimit: 10, targetScore: 8, requireSummit: true, opportunityFire: true, highGroundRange: true, rangeHeightThreshold: 90 };
+export const defaultRules = { retreatOnLoss: true, summitAtDeadlineWins: true, roundLimit: 10, targetScore: 8, requireSummit: true, opportunityFire: true, highGroundRange: true, rangeHeightThreshold: 90 };
 export const heightThreshold = 30;
 export function validRules(value) {
     const r = value;

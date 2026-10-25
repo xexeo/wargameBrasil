@@ -128,8 +128,8 @@ Registrar dado, dano e eventual contra-ataque no diário. Mostrar a resistência
 
 - Ao fim do turno alemão, apenas infantaria de manobra brasileira sobre objetivos pontua: cume 2, cada secundário 1. Apoio e artilharia não ocupam para pontuação.
 - **4 é o máximo por rodada; 8 é a meta acumulada.** Dois fechamentos de rodada com todos os objetivos dão 4 + 4 = 8. Os pontos ganhos não são subtraídos ao perder uma posição.
-- FEB precisa acumular 8 pontos **e assegurar Monte Castelo com infantaria no fechamento do turno alemão**. Eliminar a defesa ou controlar somente os secundários não substitui a ocupação do cume.
-- Defesa vence se toda a infantaria de manobra brasileira sair de combate ou a missão não for cumprida até o fim da décima rodada.
+- Para vencer antes do prazo, FEB precisa acumular8 pontos e assegurar Monte Castelo com infantaria no fechamento do turno alemão. No fechamento da rodada10, o cume basta; sem8 pontos, é vitória custosa, com eficiência máxima44. Eliminar a defesa ou controlar somente os secundários não substitui o cume.
+- Defesa vence se toda a infantaria de manobra brasileira sair de combate ou o cume não for assegurado no fechamento final. Partidas antigas sem a flag de conquista no prazo ainda exigem a pontuação completa.
 - Grau da vitória: eficiência = máximo de zero e arredondamento de `100 − 3 × (rodada final − 1) − 8 × peças brasileiras perdidas − 1,5 × coesão perdida`. Decisiva ≥70, tática ≥45, custosa ≥20, pírrica abaixo de 20. Isso não é contagem de mortos reais.
 - Partidas antigas sem configuração de missão preservam as regras de sua versão; a interface lê a meta do estado salvo.
 
@@ -262,4 +262,8 @@ Guardar análises e dados por versão em docs/simulacoes/<versão>/<execução>.
 
 ## Revisão atual dos batalhões
 
-Implementadas projeção de missão, risco no percurso e orientação da IA por papel/objetivo. Ver [REVISAO_BATALHOES.md](docs/REVISAO_BATALHOES.md). Explicar motivo do resultado mesmo quando a defesa foi eliminada; não afirmar que manteve o cume se a FEB o ocupa. Retirada e cume suficiente no prazo são parâmetros experimentais opcionais, desativados no padrão. Treino distribuído alterna os lados aprendizes contra seis políticas fixas, com autojogo a cada sétima partida; isso não é avaliação independente. Novas simulações são rejeitadas se o programa mudar durante sua execução.
+Implementadas projeção de missão, risco no percurso e orientação da IA por papel/objetivo. Ver [REVISAO_BATALHOES.md](docs/REVISAO_BATALHOES.md). Explicar motivo do resultado mesmo quando a defesa foi eliminada; não afirmar que manteve o cume se a FEB o ocupa. Novas partidas ativam retirada por perdas e aceitam o cume no fechamento final para vitória custosa sem a meta de pontos. Partidas anteriores preservam suas flags/regras. Treino distribuído alterna os lados aprendizes contra seis políticas fixas, com autojogo a cada sétima partida; isso não é avaliação independente. Novas simulações são rejeitadas se o programa mudar durante sua execução.
+
+## Regra adotada após comparar candidatos
+
+A combinação de retirada e cume suficiente no fechamento final foi validada com sementes separadas e adotada para novas partidas. Retirada por tiro não cura e cobra a próxima ativação; sem saída livre não há recuo, e golpe fatal remove a peça. Cume mais8 pontos antecipa vitória. No último fechamento, cume ocupado por infantaria dá vitória; sem8 pontos, eficiência fica limitada a44 e o grau é custoso. A versão antiga continua exigindo8 pontos se a flag de conquista no prazo estiver ausente/falsa. Instrução da missão vem do motor para manter texto e regra iguais.

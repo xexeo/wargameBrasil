@@ -172,7 +172,7 @@ function resolveCombat(s:Game,u:Unit,v:Unit,rng:()=>number,reaction=false):Attac
  if(!reaction&&!v.reactionSpent&&!v.suppressed&&v.hp>0&&distance(u,v)===1&&power<=0){u.hp--;counter=1;if(s.rules?.opportunityFire){v.reactionSpent=true;v.fired=true;v.mp=0;}}
  if(damage>0&&isIndirect(u))v.suppressed=true;
  s.log.unshift(`${reaction?'Fogo defensivo · ':''}${u.name} → ${v.name}: dado ${die}${barrage?' + barragem':''}, ${damage} dano${counter?', contra-ataque: 1 dano':''}${damage>0&&isIndirect(u)?' · reação suprimida':''}.`);
- if(s.rules?.retreatOnLoss&&previousHP>1&&v.hp===1&&canCaptureObjective(v)){const candidates=neighbors(v.q,v.r).map(([q,r])=>({q,r})).filter(p=>distance(p,u)>distance(v,u)&&!s.units.some(w=>w.q===p.q&&w.r===p.r)).sort((a,b)=>distance(b,u)-distance(a,u)||altitude(a.q,a.r)-altitude(b.q,b.r)||a.r-b.r||a.q-b.q);if(candidates[0]){v.q=candidates[0].q;v.r=candidates[0].r;v.mp=0;v.fired=true;v.reactionSpent=true;v.suppressed=true;v.reorganizing=true;s.log.unshift(`${v.name}: retirada experimental para ${v.q+1}-${v.r+1}; próxima ação comprometida, sem recuperar PV.`);}}
+ if(s.rules?.retreatOnLoss&&previousHP>1&&v.hp===1&&canCaptureObjective(v)){const candidates=neighbors(v.q,v.r).map(([q,r])=>({q,r})).filter(p=>distance(p,u)>distance(v,u)&&!s.units.some(w=>w.q===p.q&&w.r===p.r)).sort((a,b)=>distance(b,u)-distance(a,u)||altitude(a.q,a.r)-altitude(b.q,b.r)||a.r-b.r||a.q-b.q);if(candidates[0]){v.q=candidates[0].q;v.r=candidates[0].r;v.mp=0;v.fired=true;v.reactionSpent=true;v.suppressed=true;v.reorganizing=true;s.log.unshift(`${v.name}: retirada por perdas para ${v.q+1}-${v.r+1}; próxima ação comprometida, sem recuperar PV.`);}}
  s.units=s.units.filter(v=>v.hp>0);checkWinner(s);return{die,damage,counter};
 }
 function canReact(s:Game,defender:Unit,target:Unit):boolean{return !!s.rules?.opportunityFire&&!defender.reactionSpent&&!defender.suppressed&&!defender.reorganizing&&!isIndirect(defender)&&hasHeightAdvantage(defender,target)&&canAttack({...defender,fired:false},target);}
@@ -208,7 +208,7 @@ export function endTurn(s:Game){
  for(const u of s.units.filter(u=>u.side===s.turn)){u.mp=u.reactionSpent||u.reorganizing?0:maximumMovement(u);u.fired=!!(u.reactionSpent||u.reorganizing);u.reorganizing=false;u.suppressed=false;}
  checkWinner(s,outgoing==='de'?s.round-1:undefined);
 }
-export function victoryAssessment(s:Game){const rounds=s.finishedRound??Math.min(s.round,roundLimit(s)),remaining=s.units.filter(u=>u.side==='br'),lostUnits=5-remaining.length,lostCohesion=15-remaining.reduce((n,u)=>n+u.hp,0),efficiency=Math.max(0,Math.round(100-(rounds-1)*3-lostUnits*8-lostCohesion*1.5));return{rounds,lostUnits,lostCohesion,efficiency,grade:s.winner!=='br'?'Defesa bem-sucedida':efficiency>=70?'Vitória decisiva':efficiency>=45?'Vitória tática':efficiency>=20?'Vitória custosa':'Vitória pírrica'};}
+export function victoryAssessment(s:Game){const rounds=s.finishedRound??Math.min(s.round,roundLimit(s)),remaining=s.units.filter(u=>u.side==='br'),lostUnits=5-remaining.length,lostCohesion=15-remaining.reduce((n,u)=>n+u.hp,0),efficiency=Math.min(s.winner==='br'&&s.rules?.summitAtDeadlineWins&&s.score<targetScore(s)?44:100,Math.max(0,Math.round(100-(rounds-1)*3-lostUnits*8-lostCohesion*1.5)));return{rounds,lostUnits,lostCohesion,efficiency,grade:s.winner!=='br'?'Defesa bem-sucedida':efficiency>=70?'Vitória decisiva':efficiency>=45?'Vitória tática':efficiency>=20?'Vitória custosa':'Vitória pírrica'};}
 
 export function expectedReactionRisk(s:Game,u:Unit):number{
  let risk=0;for(const v of s.units){if(v.side===u.side||!canReact(s,v,u))continue;let damage=0,kills=0;for(let die=1;die<=6;die++){const power=v.atk+(v.hp-3)*.5+die-u.def-defenseBonus(v,u),hit=power>=1?1:0;damage+=hit;if(hit>=u.hp)kills++;}risk=Math.max(risk,damage/6*4+kills/6*10);}return risk;
@@ -240,9 +240,16 @@ export function operationResult(s:Game){
  if(!s.winner)return{title:'Operação em andamento',detail:'O cume e o prazo continuam sendo os objetivos.'};
  if(s.winner==='br'&&!s.rules&&!occupied)return{title:'Vitória pelas regras legadas',detail:'A partida preservou a condição de eliminação de sua versão anterior.'};
  const late=!!s.rules?.summitAtDeadlineWins&&s.score<targetScore(s);
- if(s.winner==='br')return{title:late?'Conquista no limite do prazo':victoryAssessment(s).grade,detail:late?'A regra experimental aceita o cume assegurado no prazo mesmo sem a pontuação completa.':'A infantaria assegurou Monte Castelo e cumpriu a pontuação da missão.'};
+ if(s.winner==='br')return{title:late?'Vitória custosa — conquista no limite do prazo':victoryAssessment(s).grade,detail:late?'O cume foi assegurado no fechamento final, sem completar a meta de pontos: vitória custosa pela conquista no prazo.':'A infantaria assegurou Monte Castelo e cumpriu a pontuação da missão.'};
  if(noInfantry)return{title:'Infantaria de manobra esgotada',detail:'Restou apoio ou a força saiu de combate; não há infantaria disponível para assegurar o cume.'};
  if(occupied)return{title:'Conquista tardia — missão incompleta',detail:`A infantaria chegou ao cume, mas terminou com ${s.score}/${targetScore(s)} pontos. O prazo encerrou antes de completar a ocupação exigida.`};
  if(noDefenders)return{title:'Defesa eliminada — objetivo não cumprido',detail:'Os alemães saíram de combate, mas o cume não foi assegurado a tempo. Eliminar a defesa não substitui a missão territorial.'};
  return{title:'Prazo encerrado — cume não assegurado',detail:s.score>=targetScore(s)?'Os pontos foram suficientes, mas faltou assegurar Monte Castelo.':'A defesa atrasou a FEB; faltaram cume e/ou pontos no prazo.'};
+}
+
+
+export function missionInstruction(s:Game):string{
+ if(s.rules?.summitAtDeadlineWins)return `Assegure Monte Castelo até o fim da rodada ${roundLimit(s)}. Acumule ${targetScore(s)} pontos e segure o cume para antecipar a vitória. No último fechamento, o cume basta; sem a meta de pontos, a vitória é custosa.`;
+ if(!s.rules)return `Acumule ${targetScore(s)} pontos ou elimine a defesa em até ${roundLimit(s)} rodadas, conforme as regras legadas desta partida.`;
+ return `Acumule ${targetScore(s)} pontos${s.rules.requireSummit?' e assegure Monte Castelo com infantaria':''} até o fim da rodada ${roundLimit(s)}.`;
 }

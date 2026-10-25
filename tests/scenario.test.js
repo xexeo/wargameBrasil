@@ -33,7 +33,7 @@ test('supressão impede reação e altura amplia só o tiro direto',()=>{
 });
 
 test('grau de vitória penaliza demora e perdas sem alterar o vencedor',()=>{
- const early=createGame();early.winner='br';early.finishedRound=2;
+ const early=createGame();early.winner='br';early.finishedRound=2;early.score=8;
  const late=structuredClone(early);late.finishedRound=9;late.units=late.units.filter(u=>u.id!=='b3');late.units[0].hp=1;
  assert.ok(victoryAssessment(early).efficiency>victoryAssessment(late).efficiency);
  assert.equal(late.winner,'br');
