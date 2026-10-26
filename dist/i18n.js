@@ -41,6 +41,10 @@ export function translateData(source) {
         return '16:48 · Concentrated artillery fire: FEB battery attacks receive +1 this round.';
     if (m = source.match(/^A infantaria chegou ao cume, mas terminou com (\d+)\/(\d+) pontos\. O prazo encerrou antes de completar a ocupação exigida\.$/))
         return `Infantry reached the summit but finished with ${m[1]}/${m[2]} points. The deadline passed before the required occupation was completed.`;
+    if (m = source.match(/^Não restam peças alemãs em combate\. A vitória foi por neutralização da força adversária\. (No encerramento, .+?) Peças fora de combate não equivalem a todos os soldados mortos\.$/)) {
+        const status = m[1] === 'No encerramento, o cume está ocupado pela infantaria brasileira.' ? 'At the end, Brazilian infantry occupies the summit.' : m[1] === 'No encerramento, há apoio brasileiro no cume; apoio não assegura objetivos.' ? 'At the end, Brazilian support is on the summit; support cannot secure objectives.' : 'At the end, no Brazilian counter is on the summit.';
+        return `No German counters remain in action. Victory came through neutralizing the opposing force. ${status} Counters out of action do not mean all soldiers were killed.`;
+    }
     if (m = source.match(/^Não restam peças alemãs em combate\.( Monte Castelo também está ocupado\.| O cume não foi ocupado; a vitória foi por neutralização da força adversária\.) Peças fora de combate não equivalem a todos os soldados mortos\.$/))
         return `No German counters remain in action.${m[1].startsWith(' Monte Castelo') ? ' Monte Castelo is also occupied.' : ' The summit was not occupied; victory came through neutralizing the opposing force.'} Counters out of action do not mean all soldiers were killed.`;
     const policy = { strong: 'hunter', weak: 'opportunist', tactical: 'general staff', aggressive: 'aggressive', defensive: 'defensive' };

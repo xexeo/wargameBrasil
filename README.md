@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.20 · 25/10/2026, 23:32:13 (Brasília)**
+**Versão 0.1.21 · 26/10/2026, 00:31:50 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -20,7 +20,18 @@ O código-fonte é **TypeScript**. O JavaScript compilado é o que roda no naveg
 
 ## Novidades da interface
 
-O duplo clique/toque mostra dano acumulado e estado atual da peça. Disparos recebem sinalização no mapa: trajetória, impacto e identificação de fogo defensivo, inclusive ao avançar. Os efeitos apenas mostram os eventos reais do motor; não alteram dados de combate ou regras.
+**Aparência configurável:** botão no topo abre as três paletas A/B/C, com A como padrão. É possível editar separadamente 45 cores semânticas, fontes, tamanhos, linhas e opacidades, além de ativar/desativar animações e ajustar sua duração. As preferências ficam neste navegador; importação/exportação e restauração estão no popup. Os valores visuais são centralizados em `ui-settings.ts` e variáveis CSS compartilhadas pelo SVG, efeitos, exemplos das regras e painéis. Não exige conexão nem reinicia a partida, o zoom ou o aprendizado.
+
+O botão **Som** permite ligar/desligar efeitos; o popup Aparência inclui volume. Som começa desligado e usa síntese local para rajadas, morteiro e artilharia, sem gravações históricas ou downloads. [Pesquisa e implementação sonora](docs/SONS.md).
+
+As regras incluem uma tabela responsiva de movimento, proteção e observação por terreno.
+
+Todos os popups têm **Fechar / Close** ao fim do texto. As regras incluem a legenda completa; o selo vermelho de dano fica acima das peças, separado do escalão/ID. O popup final contém um epílogo próprio de cada vencedor: impacto histórico para a FEB e hipótese identificada para uma defesa alemã bem-sucedida. O impacto da vitória foi retirado da narrativa geral para ficar concentrado no encerramento.
+
+**Mapa inteiro** usa a largura disponível e ajusta a altura do quadro à proporção do SVG, eliminando a faixa vazia da redução anterior; a página pode ser rolada para percorrer o mapa completo. Zoom livre e Visão tática continuam disponíveis.
+
+
+O duplo clique/toque mostra dano acumulado e estado atual da peça. Disparos recebem sinalização no mapa: trajetória, impacto e identificação de fogo defensivo, inclusive ao avançar. A animação distingue rajadas de infantaria, granadas de morteiro do apoio e obuses de artilharia; pode ser desativada sem ocultar o resultado do disparo. Os efeitos apenas mostram os eventos reais do motor; não alteram dados de combate ou regras.
 
 Português é o idioma padrão; **English (US)** é opcional e persistente, incluindo regras, narrativa, mensagens, histórico e acessibilidade. Trocar o idioma preserva partida e aprendizado.
 
@@ -28,7 +39,7 @@ Português é o idioma padrão; **English (US)** é opcional e persistente, incl
 
 Modos: humano FEB × computador alemão; computador FEB × humano alemão; dois humanos no mesmo aparelho; dois humanos à distância. Popup Homenagem a Pedro Henrique de Figueiredo Bonorino, tenente do **6º RI**, com a nova fotografia fornecida pelo usuário, preservada sem tratamento adicional e emblemas da FEB e Regimento Ipiranga. O brasão atual é identificado como atual, sem afirmar seu uso em1945.
 
-[**Ver as três paletas**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.svg) · [**Abrir a análise de UX**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.html). A recomendação é azul/carvão; propostas ainda não aplicadas. A análise inclui terreno de inverno, iluminação do dia, neve, lama e pedra, distinguindo evidência de hipótese. [Ver estudo visual do terreno de inverno](https://xexeo.github.io/wargameBrasil/ux/terreno-inverno.svg).
+[**Ver as três paletas**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.svg) · [**Abrir a análise de UX**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.html). As três propostas estão disponíveis no popup Aparência; A, azul/carvão, é o padrão recomendado. A análise inclui terreno de inverno, iluminação do dia, neve, lama e pedra, distinguindo evidência de hipótese. [Ver estudo visual do terreno de inverno](https://xexeo.github.io/wargameBrasil/ux/terreno-inverno.svg).
 
 [Pesquisa de mortos, feridos, prisioneiros e retirada](docs/PESQUISA_MASCARENHAS_BAIXAS.md) preservada na documentação. A comparação histórica de baixas humanas foi removida do resultado final por falta de dados confirmados; a tela mostra somente perdas desta partida em peças, coesão e recuos. [Copyright do roteiro no Memorial](docs/IMAGEM_ROTEIRO_FEB.md): sem licença de reprodução localizada; apenas referência externa foi incluída.
 
@@ -69,11 +80,18 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 - **Aprendiz fixo · por lado**: dois modelos independentes, treinados em 2.400 partidas cada, com 400 contra cada política adversária. Pesos congelados, exploração zero durante as partidas e nenhum acesso às memórias pessoais. [Parâmetros, método e limites](docs/IA_POR_LADO.md).
 - IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 17.109 atualizações e 96 situações aprendidas, alternando autojogo e adversários das seis políticas fixas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. Esse treinamento distribuído é anterior às regras atuais e não demonstra desempenho nesta versão; a avaliação atual está nos relatórios abaixo. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Experimentos válidos por versão](docs/simulacoes/README.md).
 - IA aprendiz: Q-learning simples sobre seis combinações de estratégia/postura, exploração de 20% e experiência mantida em `localStorage` entre partidas. Não treina uma rede neural nem aprende movimentos individuais.
+- O resultado por eliminação agora descreve a ocupação **no encerramento**: infantaria no cume, apoio no cume ou ausência de peça. Não usa a frase ambígua “o cume não foi ocupado” para negar uma ocupação anterior.
 - Vitória antecipada brasileira exige **8 pontos acumulados e ocupação do cume no fechamento do turno alemão**; no último fechamento, basta assegurar o cume, com vitória custosa se faltar pontuação. Os objetivos dão no máximo **4 por rodada**: 2 + 1 + 1; duas rodadas de ocupação completa dão 8. Apoio não captura. Defesa vence por prazo de 10 rodadas ou perda de toda a infantaria de manobra brasileira. Tempo e perdas determinam o grau da vitória.
 - Reconstrução meteorológica ERA5 incorporada offline, com temperatura e nuvens aproximadas por hora, tabela e distinção entre modelo e relatos históricos.
 - Relógio de cenário das 06:00 às 18:00; concentração de artilharia brasileira na rodada 10, inspirada no fogo histórico de 16:00–17:00.
 
 O tempo de 5–10 minutos é uma meta de projeto, ainda sem validação com jogadores. A IA calcula localmente; sua sequência visual normalmente leva cerca de 1–2 segundos.
+
+## História ampliada e acervos
+
+O botão **História** apresenta os antecedentes de1944, as tentativas anteriores, a ofensiva coordenada e a progressão de21/02/1945, com conteúdo equivalente em português e inglês americano. O popup inicial também recebeu contexto. A síntese usa textos brasileiros efetivamente lidos da FGV CPDOC, Museu Virtual da FEB e BBC News Brasil, além da história oficial americana.
+
+A [pesquisa dos acervos e conferência bibliográfica](docs/PESQUISA_ACERVOS_NARRATIVA.md) registra fichas CFa foto182, CFa-22f, TN foto0266 e três imagens examinadas na exposição do Arquivo Nacional, com limites de datação. Foram separados1945, uma comemoração de1962 e uma foto deminas demaio; não se inventou uma série datada de21–23/02. O catálogo confirma o livro deJoel Silveira em2005; a referência atribuída aCosta em2020 permanece a localizar. As imagens desses acervos não foram incorporadas sem condições de reprodução confirmadas.
 
 ## Revisão atual: tropas, fogo e fontes
 
@@ -81,7 +99,7 @@ A escala principal é batalhão para a FEB e grupo de fogos para artilharia; apo
 
 A altura permite tiro defensivo antes do avanço/assalto, com limite de 1 dano e consumo da próxima ação. Apoio indireto suprime a reação. Vantagem de 90 m amplia o tiro direto em um hexágono; defesa elevada usa limiar de 30 m. A IA usa apoio antes de manobrar. Essas regras são simétricas.
 
-O [registro de mapas oficiais](docs/MAPAS_OFICIAIS.md) distingue fontes efetivamente lidas e catálogos. Fisher, p. 431, relata retirada alemã e pequena retaguarda final. O jogo ainda abstrai essa retirada; não afirma que quatro batalhões completos defenderam o cume. Os mapas integrais da memória de Mascarenhas permanecem pendentes de consulta.
+O [registro de mapas oficiais](docs/MAPAS_OFICIAIS.md) distingue fontes efetivamente lidas e catálogos. Fisher, p. 431, relata retirada alemã e pequena retaguarda final. O jogo ainda abstrai essa retirada; não afirma que quatro batalhões completos defenderam o cume. Os mapas integrais da memória de Mascarenhas permanecem pendentes de consulta. A nova narrativa confronta o verbete brasileiro da FGV com a exposição do Museu Virtual da FEB; consultar o registro de acervos acima.
 
 
 <!-- simulation:0.1.20/avaliacao-ias-fixas:start -->
@@ -106,7 +124,7 @@ O prazo é o fechamento da rodada10 (18h do cenário). Cume mais8 pontos antecip
 
 ## Autojogo sem interface
 
-A arquitetura separa `geography.ts`/`geography-data.ts` (terreno e fontes geográficas), `engine.ts` (regras e estado), `ai.ts` (estratégias), `simulator.ts` (partidas e torneios sem DOM), `app.ts` (interface) e `scripts/autoplay.mjs` (CLI). O mesmo motor executa jogo visual e simulações. `learning.ts`, `simple-learning.ts` e os módulos fixos treinam e atualizam as IAs sem DOM ou armazenamento; `persistence.ts` adapta armazenamento do navegador; `pretrained.ts` incorpora o treinamento inicial.
+A arquitetura separa `geography.ts`/`geography-data.ts` (terreno e fontes geográficas), `engine.ts` (regras e estado), `ai.ts` (estratégias), `simulator.ts` (partidas e torneios sem DOM), `app.ts` (interface), `ui-settings.ts` (preferências visuais) e `history-content.ts` (narrativa/epílogos) e `scripts/autoplay.mjs` (CLI). O mesmo motor executa jogo visual e simulações. `learning.ts`, `simple-learning.ts` e os módulos fixos treinam e atualizam as IAs sem DOM ou armazenamento; `persistence.ts` adapta armazenamento do navegador; `pretrained.ts` incorpora o treinamento inicial.
 
 ```sh
 npm run simulate -- --games 500 --seed 1 --name referencia

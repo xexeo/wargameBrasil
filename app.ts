@@ -1,3 +1,8 @@
+import {createCombatAudio} from "./combat-audio.js";
+import {heightThreshold} from "./scenario.js";
+import {operationPresentation as operationResult} from "./outcome-presentation.js";
+import {historyContent,openingContext,victoryEpilogue} from "./history-content.js";
+import {loadUISettings,applyUISettings,saveUISettings,defaultUISettings,winterUISettings,validatedUISettings,colorControls,numberControls,fontChoices,type ColorKey,type NumberKey} from "./ui-settings.js";
 import { t, translateData, language, setLanguage, applyStaticTranslations, initializeStaticTranslations, localizedDate, translateRenderedMessage } from "./i18n.js";
 import {tributeAssets} from "./tribute-assets.js";
 import {createCombatEffects} from "./combat-effects.js";
@@ -52,7 +57,6 @@ import {
   missionForecast,
   missionInstruction,
   movementExposure,
-  operationResult,
   canCaptureObjective,
   unitLevel,
   move,
@@ -63,6 +67,8 @@ import {
 } from "./engine.js";
 const $ = (id: string): any => document.getElementById(id);
 const gameLogo=tributeAssets.feb.src;
+let uiSettings=loadUISettings();
+applyUISettings(uiSettings);
 initializeStaticTranslations();
 function updateVersionLabels(){
  const date=localizedDate(release.builtAt);
@@ -137,11 +143,12 @@ function learn(reward, terminal = false) {
 }
 function choosePolicy(side: Side) { return chooseSimplePolicy(memory,side); }
 const center = (q, r) => ({ x: 65 + q * 64 + r * 32, y: 63 + r * 56 });
+const combatAudio=createCombatAudio(()=>({enabled:uiSettings.soundEnabled,volume:uiSettings.numbers.soundVolume,duration:uiSettings.numbers.animationDuration}));
 const combatEffects=createCombatEffects($("map"),$("combatAnnouncement"),event=>{
  const kind=t(`combat.${event.kind}`),result=event.damage?t("combat.damage",event.damage):t("combat.miss");
  const label=`${kind} · ${result}`;
  return {label,announcement:`${translateData(event.from.name)} → ${translateData(event.to.name)}: ${label}`};
-});
+},()=>({animations:uiSettings.animations,duration:uiSettings.numbers.animationDuration}),event=>combatAudio.play(event));
 let effectsGame=game;
 const hex = (q, r) => {
   const { x, y } = center(q, r);
@@ -155,7 +162,7 @@ function symbol(u) {
     ? '<path d="M-14 -13L14 5M14 -13L-14 5"/>'
     : u.type === "armor"
       ? '<ellipse cx="0" cy="-4" rx="11" ry="6"/>'
-      : '<circle cx="0" cy="-4" r="5" fill="#f4efd9"/>';
+      : '<circle cx="0" cy="-4" r="5" fill="var(--ui-counterText)"/>';
 }
 let localSide: Side = "br";
 function computerSide(): Side | null {
@@ -242,14 +249,14 @@ function forestGlyph(x: number, y: number): string {
   ]
     .map(
       ([dx, dy, size]) =>
-        `<g transform="translate(${x + dx},${y + dy}) scale(${size})"><path d="M0 -13L-7 -2H-4L-9 5H9L4 -2H7Z" fill="#597c68" stroke="#405d4d" stroke-width=".7"/><path d="M0 4V10" stroke="#836d4d" stroke-width="2.5"/></g>`,
+        `<g transform="translate(${x + dx},${y + dy}) scale(${size})"><path d="M0 -13L-7 -2H-4L-9 5H9L4 -2H7Z" fill="var(--ui-forest)" stroke="var(--ui-forestStroke)" stroke-width=".7"/><path d="M0 4V10" stroke="var(--ui-branches)" stroke-width="2.5"/></g>`,
     )
     .join("")}</g>`;
 }
 function fortGlyph(x: number, y: number): string {
-  return `<g pointer-events="none"><path d="M${x - 29} ${y + 18}v10h58v-10M${x - 29} ${y - 18}v-10h58v10" stroke="#786e59" stroke-width="5" fill="none"/><path d="M${x - 20} ${y + 26}v-6m12 6v-6m12 6v-6m12 6v-6" stroke="#ede4ce" stroke-width="2"/><rect x="${x - 8}" y="${y - 32}" width="16" height="5" fill="#4b4a43"/></g>`;
+  return `<g pointer-events="none"><path d="M${x - 29} ${y + 18}v10h58v-10M${x - 29} ${y - 18}v-10h58v10" stroke="var(--ui-fort)" stroke-width="5" fill="none"/><path d="M${x - 20} ${y + 26}v-6m12 6v-6m12 6v-6m12 6v-6" stroke="var(--ui-mapHalo)" stroke-width="2"/><rect x="${x - 8}" y="${y - 32}" width="16" height="5" fill="var(--ui-fort)"/></g>`;
 }
-const heightColors = ["", "#f4efdf", "#e9d6a7", "#d1b48c", "#bd8b4f"];
+const heightColors = ["", "var(--ui-terrain1)", "var(--ui-terrain2)", "var(--ui-terrain3)", "var(--ui-terrain4)"];
 function contourGlyph(): string {
   let lines = "";
   for (let r = 0; r < ROWS - 1; r++)
@@ -283,14 +290,15 @@ function contourGlyph(): string {
             }
           }
           if (crossings.length === 2)
-            lines += `<path d="M${crossings[0].x},${crossings[0].y}L${crossings[1].x},${crossings[1].y}" stroke-width="${level % 100 === 0 ? 1.8 : 1}"/>`;
+            lines += `<path d="M${crossings[0].x},${crossings[0].y}L${crossings[1].x},${crossings[1].y}" stroke-width="calc(var(--ui-contourWidth) * ${level % 100 === 0 ? 1.5 : 1})"/>`;
         }
     }
-  return `<g class="contours" fill="none" stroke="#936432" stroke-width="2.8" stroke-linecap="round" pointer-events="none">${lines}</g>`;
+  return `<g class="contours" fill="none" stroke="var(--ui-contour)" stroke-width="2.8" stroke-linecap="round" pointer-events="none">${lines}</g>`;
 }
 let activeDialog:(()=>string)|null=null;
 function render() {
-  if(effectsGame!==game){combatEffects.clear();effectsGame=game;}
+  updateSoundUI();
+  if(effectsGame!==game){combatAudio.mute();combatEffects.clear();effectsGame=game;}
   checkWinner(game);
   const weather = weatherAt(game.round);
   $("weatherInfo").textContent =
@@ -309,13 +317,13 @@ function render() {
     for (let q = 0; q < COLS; q++) {
       const t = terrain(q, r),
         { x, y } = center(q, r);
-      svg += `<g><polygon class="hex ${reach.has(key(q, r)) ? "reach" : ""} ${exposure.has(key(q,r))?"exposed-reach":""}" data-q="${q}" data-r="${r}" data-danger="${exposure.has(key(q,r))}" points="${hex(q, r)}" fill="${t === "road" ? "#e6c998" : heightColors[elevation(q, r)]}"/>${t === "forest" ? forestGlyph(x, y) : ""}${fortification(q, r) ? fortGlyph(x, y) : ""}${t === "hill" ? `<path d="M${x - 22} ${y + 12}q22 -38 44 0m-37 0q15 -26 30 0" stroke="#69754e" fill="none" pointer-events="none"/>` : ""}<text x="${x - 25}" y="${y + 27}" font-size="7" fill="#495c3d88" pointer-events="none">~${Math.round(altitude(q, r) / 10) * 10}m · N${elevation(q, r)}</text></g>`;
+      svg += `<g><polygon class="hex ${reach.has(key(q, r)) ? "reach" : ""} ${exposure.has(key(q,r))?"exposed-reach":""}" data-q="${q}" data-r="${r}" data-danger="${exposure.has(key(q,r))}" points="${hex(q, r)}" fill="${t === "road" ? "var(--ui-road)" : heightColors[elevation(q, r)]}"/>${t === "forest" ? forestGlyph(x, y) : ""}${fortification(q, r) ? fortGlyph(x, y) : ""}${t === "hill" ? `<path d="M${x - 22} ${y + 12}q22 -38 44 0m-37 0q15 -26 30 0" stroke="var(--ui-stone)" fill="none" pointer-events="none"/>` : ""}<text class="altitude-label" x="${x - 25}" y="${y + 27}" fill="var(--ui-altitude)" pointer-events="none">~${Math.round(altitude(q, r) / 10) * 10}m · N${elevation(q, r)}</text></g>`;
     }
   svg += geographicGlyph();
   svg += contourGlyph();
   for (const o of objectives) {
     const { x, y } = center(o.q, o.r);
-    const star=Array.from({length:10},(_,i)=>{const angle=(i*36-90)*Math.PI/180,radius=i%2?4.2:10;return `${x+radius*Math.cos(angle)},${y+radius*Math.sin(angle)}`;}).join(" ");
+    const star=Array.from({length:10},(_,i)=>{const angle=(i*36-90)*Math.PI/180,radius=uiSettings.numbers.starRadius*(i%2?.42:1);return `${x+radius*Math.cos(angle)},${y+radius*Math.sin(angle)}`;}).join(" ");
     svg += t("app.016", x, y, o.q, o.r, star, x, y - 39, o.name?o.name+' · ':'', o.points);
   }
   svg +=
@@ -328,8 +336,9 @@ function render() {
         canAttack(u, v) &&
         !busy &&
         myTurn();
-    svg += t("app.018", selected === v.id ? "selected" : "", target ? "target" : "", v.id, x, y, esc(v.name), v.side === "br" ? "FEB" : t("app.019"), v.hp, v.atk, v.def, esc(v.name), v.atk, v.def, v.hp, v.side === "br" ? "#226ba4" : "#30363d", target?'<rect class="attack-bar" x="-24" y="-30" width="48" height="4" rx="1" fill="#c92f37" pointer-events="none"/>':'', troopProfile(v.id)?.mark??'II', unitLevel(v), symbol(v), v.side === "br" ? "FEB" : "DE", v.hp, v.atk, v.def, v.mp, Array.from({ length: v.hp }, (_, i) => `<circle cx="${-7 + i * 7}" cy="10" r="2" fill="#eed788"/>`).join(""), v.hp < 3 ? `<g><circle cx="23" cy="-23" r="10" fill="#b34332" stroke="#fff"/><text x="23" y="-20" text-anchor="middle" style="font-size:10px">−${3 - v.hp}</text></g>` : "", v.suppressed?'<circle class="suppression-marker" cx="-23" cy="-23" r="6" fill="#e2a827" stroke="#fff"/><text x="-23" y="-20" text-anchor="middle" style="font-size:8px">S</text>':'', v.fired ? '<path d="M-22 -22L22 22" stroke="#e5d9bb" opacity=".4"/>' : "");
+    svg += t("app.018", selected === v.id ? "selected" : "", target ? "target" : "", v.id, x, y, esc(v.name), v.side === "br" ? "FEB" : t("app.019"), v.hp, v.atk, v.def, esc(v.name), v.atk, v.def, v.hp, v.side === "br" ? "var(--ui-br)" : "var(--ui-de)", target?'<rect class="attack-bar" x="-24" y="-30" width="48" height="4" rx="1" fill="var(--ui-objective)" pointer-events="none"/>':'', troopProfile(v.id)?.mark??'II', unitLevel(v), symbol(v), v.side === "br" ? "FEB" : "DE", v.hp, v.atk, v.def, v.mp, Array.from({ length: v.hp }, (_, i) => `<circle cx="${-7 + i * 7}" cy="10" r="2" fill="var(--ui-cohesion)"/>`).join(""), "", v.suppressed?'<circle class="suppression-marker" cx="-23" cy="-23" r="6" fill="var(--ui-suppression)" stroke="var(--ui-panel)"/><text x="-23" y="-20" text-anchor="middle" style="font-size:calc(8px * var(--ui-counterFontScale))">S</text>':'', v.fired ? '<path d="M-22 -22L22 22" stroke="var(--ui-counterText)" opacity="var(--ui-firedOpacity)"/>' : "");
   }
+  svg+=`<g class="unit-condition-layer" pointer-events="none">${game.units.filter(v=>v.hp<3).map(v=>{const{x,y}=center(v.q,v.r),label=t("symbols.damageLabel",3-v.hp),offset=25*uiSettings.numbers.counterScale+12;return `<g class="damage-marker" data-damage-unit="${v.id}" transform="translate(${x},${y-offset})" role="img" aria-label="${esc(label)}"><title>${esc(label)}</title><circle r="8" fill="var(--ui-damage)" stroke="var(--ui-counterText)" stroke-width="1"/><text y="3" text-anchor="middle" fill="var(--ui-counterText)" style="font:700 9px var(--ui-font)">−${3-v.hp}</text></g>`;}).join('')}</g>`;
   $("map").innerHTML = svg;
   combatEffects.redraw();
   $("time").textContent = clock(game.winner&&game.finishedRound?game.finishedRound+1:game.round);
@@ -390,7 +399,7 @@ function render() {
         t("app.077", memory.games);
     }
     const assessment=victoryAssessment(game),outcome=operationResult(game);
-    show(() => t("app.078", esc(outcome.title), esc(outcome.detail), assessment.rounds, roundLimit(game), game.score, assessment.lostUnits, assessment.lostCohesion, assessment.efficiency, gameLossComparison(), "", sideName(game.winner!), game.rules?.summitAtDeadlineWins?t("victory.paths",targetScore(game),roundLimit(game)):t("victory.legacy",missionInstruction(game))));
+    show(() => t("app.078", esc(outcome.title), esc(outcome.detail), assessment.rounds, roundLimit(game), game.score, assessment.lostUnits, assessment.lostCohesion, assessment.efficiency, gameLossComparison(), victoryEpilogue(language,game.winner!), sideName(game.winner!), game.rules?.summitAtDeadlineWins?t("victory.paths",targetScore(game),roundLimit(game)):t("victory.legacy",missionInstruction(game))));
   }
   saveSession();
 }
@@ -401,7 +410,7 @@ function show(html:()=>string) {
 }
 function refreshDialog(){
  if(!$("modal").open||!activeDialog)return;
- const statuses=["importResult","shareStatus"].map(id=>({id,text:$(id)?.textContent}));
+ const statuses=["importResult","shareStatus","uiSettingsStatus"].map(id=>({id,text:$(id)?.textContent}));
  const handlers=new Map<string,{click:GlobalEventHandlers['onclick'];change:GlobalEventHandlers['onchange'];value:string}>();
  for(const el of $("modalBody").querySelectorAll('[id]') as NodeListOf<HTMLInputElement>)handlers.set(el.id,{click:el.onclick,change:el.onchange,value:el.value});
  $("modalBody").innerHTML=activeDialog();
@@ -538,7 +547,8 @@ $("new").onclick = () => {
   render();
   narrative();
 };
-const mapBase = 960;
+const mapBase = $("map").viewBox.baseVal.width;
+const mapHeight = $("map").viewBox.baseVal.height;
 function setZoom(n: number, anchor?: { x: number; y: number }) {
   const viewport = $("viewport");
   const oldWidth = $("map").getBoundingClientRect().width;
@@ -546,9 +556,11 @@ function setZoom(n: number, anchor?: { x: number; y: number }) {
     py = anchor?.y ?? viewport.clientHeight / 2;
   const oldX = viewport.scrollLeft + px,
     oldY = viewport.scrollTop + py;
+  viewport.dataset.view="free";
+  viewport.style.maxHeight="";
   zoom = Math.max(0.25, Math.min(3, n));
   const newWidth = mapBase * zoom;
-  viewport.style.height = `${Math.min(690 * zoom, innerHeight * 0.65)}px`;
+  viewport.style.height = `${Math.min(mapHeight * zoom, innerHeight * 0.65)}px`;
   $("map").style.width = `${newWidth}px`;
   $("map").style.minWidth = "0";
   $("resetZoom").textContent = `${Math.round(zoom * 100)}%`;
@@ -558,8 +570,11 @@ function setZoom(n: number, anchor?: { x: number; y: number }) {
 }
 function fitMap() {
   const viewport = $("viewport");
-  const fit = Math.min(viewport.clientWidth / 960, (innerHeight * 0.65) / 690);
+  const fit = viewport.clientWidth / mapBase;
   setZoom(fit);
+  viewport.dataset.view="full";
+  viewport.style.maxHeight="none";
+  viewport.style.height=`${mapHeight * zoom}px`;
   viewport.scrollTo(0, 0);
 }
 function idealView() {
@@ -575,6 +590,7 @@ $("out").onclick = () => setZoom(zoom - 0.1);
 $("resetZoom").onclick = () => setZoom(1);
 $("zoom").oninput = (e) => setZoom(Number(e.target.value));
 $("fit").onclick = fitMap;
+window.addEventListener("resize",()=>{if($("viewport").dataset.view==="full")fitMap();});
 $("ideal").onclick = idealView;
 $("viewport").addEventListener(
   "wheel",
@@ -627,9 +643,9 @@ $("viewport").addEventListener("touchend", () => (pinch = null));
 $("close").onclick = () => $("modal").close();
 $("modal").addEventListener("close",()=>{void computerTurn();});
 $("rules").onclick = () =>
-  show(() => t("app.085", commandDescription(), roundLimit(game), game.rules?.rangeHeightThreshold??90, game.rules?.freeFireOrder?t("app.086"):t("app.087"), objectivePointsPerRound(), missionInstruction(game), roundLimit(game), game.rules?.retreatOnLoss?t("app.088"):t("app.089"), game.rules?.freeFireOrder?t("app.090"):t("app.091")));
+  show(() => completeSymbolLegend()+t("app.085", commandDescription(), roundLimit(game), game.rules?.rangeHeightThreshold??90, game.rules?.freeFireOrder?t("app.086"):t("app.087"), objectivePointsPerRound(), missionInstruction(game), roundLimit(game), game.rules?.retreatOnLoss?t("app.088"):t("app.089"), game.rules?.freeFireOrder?t("app.090"):t("app.091"),terrainRulesTable(),t("rules.automatic")));
 function narrative() {
-  show(() => t("app.092", gameLogo, commandDescription(), $("gameMode").value==="local"?t("app.093"):humanSide()==="br"?t("app.094"):t("app.095"), missionInstruction(game)));
+  show(() => t("app.092", gameLogo, commandDescription(), $("gameMode").value==="local"?t("app.093"):humanSide()==="br"?t("app.094"):t("app.095"), missionInstruction(game),openingContext(language)));
   $("begin").onclick = () => { $("modal").close(); void computerTurn(); };
 }
 let resumed = loadSession(),
@@ -804,7 +820,7 @@ $("weatherInfo").onclick = () =>
 function geographicGlyph(): string {
   const path = (p: { x: number; y: number }[]) =>
     p.map((v, i) => `${i ? "L" : "M"}${v.x},${v.y}`).join("");
-  return `<g pointer-events="none" class="geographical-features">${geography.woods.map((p) => `<path d="${path(p)}Z" fill="#5e856b" fill-opacity=".12" stroke="#658371" stroke-opacity=".3" stroke-width=".7"/>`).join("")}${geography.roads.map((r) => `<path d="${path(r.points)}" fill="none" stroke="${["path", "footway", "track"].includes(r.type) ? "#8e795a" : "#e6b971"}" stroke-width="${["path", "footway"].includes(r.type) ? 1.3 : 3.5}" stroke-dasharray="${["path", "footway"].includes(r.type) ? "3 3" : "none"}" stroke-linecap="round"/>`).join("")}${geography.buildings.map((p) => `<path d="${path(p)}Z" fill="#a48a73" stroke="#806b57" stroke-width=".4"/>`).join("")}${geography.settlements.filter(() => false).map((p) =>
+  return `<g pointer-events="none" class="geographical-features">${geography.woods.map((p) => `<path d="${path(p)}Z" fill="var(--ui-forest)" fill-opacity="var(--ui-forestOpacity)" stroke="var(--ui-forestStroke)" stroke-opacity="var(--ui-forestOpacity)" stroke-width=".7"/>`).join("")}${geography.roads.map((r) => `<path d="${path(r.points)}" fill="none" stroke="${["path", "footway", "track"].includes(r.type) ? "var(--ui-path)" : "var(--ui-road)"}" stroke-width="${["path", "footway"].includes(r.type) ? 1.3 : 3.5}" stroke-dasharray="${["path", "footway"].includes(r.type) ? "3 3" : "none"}" stroke-linecap="round"/>`).join("")}${geography.buildings.map((p) => `<path d="${path(p)}Z" fill="var(--ui-building)" stroke="var(--ui-building)" stroke-width=".4"/>`).join("")}${geography.settlements.filter(() => false).map((p) =>
         `<text x="${p.x + 5}" y="${p.y - 6}" class="place-label">${esc(p.name)}</text>`,
     )
     .join("")}</g>`;
@@ -846,3 +862,103 @@ function englishLicense(){
  const end=licenseText.lastIndexOf("\n---\n");
  return `Copyright © 2026 Geraldo Xexéo (xexeo)\nCC BY-NC-SA 4.0\n\n${licenseText.slice(begin,end)}\n\n${t("license.thirdParty")}`;
 }
+
+function appearanceDialog(){
+ const word=(control:{pt:string;en:string})=>language==='en-US'?control.en:control.pt;
+ const groups=['page','units','terrain','actions','combat','type','lines','opacity'];
+ const sections=groups.map(group=>{
+  const colorFields=colorControls.filter(control=>control.group===group).map(control=>{
+   const id=`ui-color-${control.key}`,label=esc(word(control)),value=uiSettings.colors[control.key];
+   return `<div class="appearance-field"><label for="${id}">${label}</label><input id="${id}" type="color" value="${value}" data-ui-color="${control.key}" aria-label="${label}"><input id="ui-hex-${control.key}" type="text" value="${value}" data-ui-color="${control.key}" maxlength="7" pattern="#[0-9a-fA-F]{6}" spellcheck="false" aria-label="${esc(t('appearance.hex',word(control)))}"></div>`;
+  }).join('');
+  const numericFields=numberControls.filter(control=>control.group===group).map(control=>`<div class="appearance-field appearance-number"><label for="ui-number-${control.key}">${esc(word(control))}</label><input id="ui-number-${control.key}" type="number" min="${control.min}" max="${control.max}" step="${control.step}" value="${uiSettings.numbers[control.key]}" data-ui-number="${control.key}"><small>${control.unit}</small></div>`).join('');
+  const animationToggle=group==='combat'?`<label class="appearance-toggle" for="uiAnimations"><input id="uiAnimations" type="checkbox" ${uiSettings.animations?'checked':''}>${t('appearance.animations')}</label><p class="appearance-note">${t('appearance.animationsNote')}</p><label class="appearance-toggle" for="uiSound"><input id="uiSound" type="checkbox" ${uiSettings.soundEnabled?'checked':''}>${t('appearance.soundEnabled')}</label><p class="appearance-note">${t('appearance.soundNote')}</p>`:'';
+  const font=group==='type'?`<label for="uiFont">${t('appearance.font')}</label><select id="uiFont">${Object.entries(fontChoices).map(([key,choice])=>`<option value="${key}" ${uiSettings.font===key?'selected':''}>${esc(word(choice))}</option>`).join('')}</select>`:'';
+  return `<details class="appearance-group" ${group==='page'?'open':''}><summary>${t(`appearance.group.${group}`)}</summary><div class="appearance-fields">${font}${animationToggle}${colorFields}${numericFields}</div></details>`;
+ }).join('');
+ return `<section id="appearanceSettings"><h2>${t('appearance.title')}</h2><p class="appearance-intro">${t('appearance.intro')}</p><div class="appearance-toolbar"><label for="uiPreset">${t('appearance.preset')}</label><select id="uiPreset">${['A','B','C'].map(preset=>`<option value="${preset}" ${uiSettings.preset===preset?'selected':''}>${t(`appearance.preset.${preset}`)}</option>`).join('')}<option value="custom" ${uiSettings.preset==='custom'?'selected':''} disabled>${t('appearance.custom')}</option></select><button id="uiWinter">${t('appearance.winter')}</button><button id="uiReset">${t('appearance.reset')}</button><button id="uiExport">${t('appearance.export')}</button><label class="file-label" for="uiImport">${t('appearance.import')}<input id="uiImport" type="file" accept="application/json,.json"></label></div><p id="uiSettingsStatus" class="appearance-status" role="status">${t('appearance.saved')}</p>${sections}<p class="appearance-note">${t('appearance.note')}</p></section>`;
+}
+function commitAppearance(){
+ if(uiSettings.soundEnabled)combatAudio.sync();else combatAudio.mute();
+ applyUISettings(uiSettings);
+ const saved=saveUISettings(uiSettings);
+ document.querySelector('meta[name="theme-color"]')?.setAttribute('content',uiSettings.colors.page);
+ render();
+ if($('uiPreset'))$('uiPreset').value=uiSettings.preset;
+ if($('uiSettingsStatus'))$('uiSettingsStatus').textContent=t(saved?'appearance.saved':'appearance.storage');
+}
+function openAppearance(){
+ show(appearanceDialog);
+ $('uiPreset').onchange=()=>{uiSettings=defaultUISettings($('uiPreset').value);commitAppearance();openAppearance();};
+ $('uiWinter').onclick=()=>{uiSettings=winterUISettings(uiSettings);commitAppearance();openAppearance();};
+ $('uiReset').onclick=()=>{uiSettings=defaultUISettings();commitAppearance();openAppearance();};
+ $('uiFont').onchange=()=>{uiSettings.font=$('uiFont').value;uiSettings.preset='custom';commitAppearance();};
+ $('uiAnimations').onchange=()=>{uiSettings.animations=$('uiAnimations').checked;uiSettings.preset='custom';commitAppearance();};
+ $('uiSound').onchange=()=>setSoundEnabled($('uiSound').checked);
+ $('modalBody').oninput=(event:Event)=>{
+  const input=event.target as HTMLInputElement;
+  if(!input.closest('#appearanceSettings'))return;
+  const color=input.dataset.uiColor as ColorKey|undefined,number=input.dataset.uiNumber as NumberKey|undefined;
+  if(color){
+   if(!/^#[0-9a-f]{6}$/i.test(input.value)){input.setAttribute('aria-invalid','true');return;}
+   input.removeAttribute('aria-invalid');uiSettings.colors[color]=input.value.toUpperCase();
+   $(`ui-color-${color}`).value=uiSettings.colors[color];$(`ui-hex-${color}`).value=uiSettings.colors[color];
+  }else if(number){
+   const definition=numberControls.find(control=>control.key===number)!,value=input.valueAsNumber;
+   if(!Number.isFinite(value)||value<definition.min||value>definition.max){input.setAttribute('aria-invalid','true');return;}
+   input.removeAttribute('aria-invalid');uiSettings.numbers[number]=value;
+  }else return;
+  uiSettings.preset='custom';commitAppearance();
+ };
+ $('uiExport').onclick=()=>{
+  const url=URL.createObjectURL(new Blob([JSON.stringify(uiSettings,null,2)],{type:'application/json'})),link=document.createElement('a');
+  link.href=url;link.download='monte-castelo-vibed-ui.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ };
+ $('uiImport').onchange=async(event:Event)=>{
+  try{const file=(event.target as HTMLInputElement).files?.[0];if(!file||file.size>64000)throw Error();const value=validatedUISettings(JSON.parse(await file.text()));if(!value)throw Error();uiSettings=value;commitAppearance();openAppearance();}
+  catch{$('uiSettingsStatus').textContent=t('appearance.invalid');}
+ };
+}
+$('appearance').onclick=openAppearance;
+
+function completeSymbolLegend(){
+ const icon=(drawing:string)=>`<svg viewBox="0 0 100 80" aria-hidden="true" focusable="false">${drawing}</svg>`;
+ const hexagon='<polygon points="50,10 78,25 78,55 50,70 22,55 22,25" fill="var(--ui-terrain1)" stroke="var(--ui-grid)"/>';
+ const examples:[string,string][]=[
+  ['factions',icon('<rect x="4" y="18" width="42" height="42" fill="var(--ui-br)"/><rect x="54" y="18" width="42" height="42" fill="var(--ui-de)"/><text x="25" y="45" text-anchor="middle" fill="var(--ui-counterText)">FEB</text><text x="75" y="45" text-anchor="middle" fill="var(--ui-counterText)">DE</text>')],
+  ['military',icon('<g fill="none" stroke="var(--ui-mapText)" stroke-width="2"><rect x="8" y="13" width="35" height="23"/><path d="M8 13L43 36M43 13L8 36"/><rect x="57" y="13" width="35" height="23"/><circle cx="75" cy="25" r="5"/><rect x="32" y="47" width="35" height="23"/><ellipse cx="50" cy="58" rx="12" ry="6"/></g>')],
+  ['echelon',icon('<text x="50" y="25" text-anchor="middle" fill="var(--ui-mapText)">II · AP · DEST</text><text x="50" y="55" text-anchor="middle" fill="var(--ui-mapText)">T1 · T2 · T3</text>')],
+  ['values',icon('<text x="50" y="34" text-anchor="middle" fill="var(--ui-mapText)">A3 D3 M2</text><text x="50" y="59" text-anchor="middle" fill="var(--ui-mapText)">FEB 2/3</text>')],
+  ['dots',icon('<rect x="18" y="15" width="64" height="50" fill="var(--ui-br)"/><g fill="var(--ui-cohesion)"><circle cx="36" cy="40" r="5"/><circle cx="50" cy="40" r="5"/><circle cx="64" cy="40" r="5"/></g>')],
+  ['damage',icon('<rect x="28" y="29" width="44" height="44" fill="var(--ui-br)"/><circle cx="50" cy="15" r="12" fill="var(--ui-damage)"/><text x="50" y="20" text-anchor="middle" fill="var(--ui-counterText)">−1</text>')],
+  ['suppression',icon('<circle cx="50" cy="36" r="19" fill="var(--ui-suppression)"/><text x="50" y="43" text-anchor="middle" fill="var(--ui-counterText)">S</text>')],
+  ['spent',icon('<rect x="25" y="13" width="50" height="50" fill="var(--ui-br)"/><path d="M27 15L73 61" stroke="var(--ui-counterText)" stroke-width="4" opacity="var(--ui-firedOpacity)"/>')],
+  ['selection',icon('<rect x="25" y="13" width="50" height="50" fill="var(--ui-br)" stroke="var(--ui-selection)" stroke-width="5"/>')],
+  ['movement',icon(hexagon+'<polygon points="50,10 78,25 78,55 50,70 22,55 22,25" fill="none" stroke="var(--ui-movement)" stroke-width="4"/>')],
+  ['risk',icon(hexagon+'<polygon points="50,10 78,25 78,55 50,70 22,55 22,25" fill="none" stroke="var(--ui-risk)" stroke-width="5" stroke-dasharray="6 3"/>')],
+  ['attack',icon('<rect x="25" y="23" width="50" height="45" fill="var(--ui-de)" stroke="var(--ui-attack)" stroke-width="4"/><path d="M25 15H75" stroke="var(--ui-attack)" stroke-width="6"/>')],
+  ['objective',icon(hexagon+'<circle cx="50" cy="40" r="30" fill="none" stroke="var(--ui-objective)" stroke-dasharray="5 3"/><path d="M50 28L53 36L62 36L55 42L58 51L50 46L42 51L45 42L38 36L47 36Z" fill="var(--ui-objective)"/>')],
+  ['height',icon('<path d="M10 59Q40 5 88 27M10 70Q48 20 88 40" fill="none" stroke="var(--ui-contour)" stroke-width="2"/><text x="50" y="22" text-anchor="middle" fill="var(--ui-altitude)">~850m · N3</text>')],
+  ['forest',icon(forestGlyph(50,38))],
+  ['fort',icon(fortGlyph(50,39))],
+  ['routes',icon('<path d="M8 20Q50 55 92 20" fill="none" stroke="var(--ui-road)" stroke-width="6"/><path d="M8 51Q50 80 92 51" fill="none" stroke="var(--ui-path)" stroke-width="3" stroke-dasharray="5 4"/>')],
+  ['buildings',icon('<g fill="var(--ui-building)"><rect x="20" y="20" width="24" height="18"/><rect x="52" y="30" width="27" height="19" transform="rotate(18 65 40)"/><rect x="30" y="48" width="19" height="15"/></g><path d="M5 70Q30 15 50 70M15 70Q30 35 43 70" fill="none" stroke="var(--ui-stone)"/>')],
+  ['orientation',icon('<text x="50" y="27" text-anchor="middle" fill="var(--ui-mapText)">N ↑</text><path d="M15 54H85M15 49V59M85 49V59" stroke="var(--ui-mapText)"/><text x="50" y="75" text-anchor="middle" fill="var(--ui-mapText)">500 m</text>')],
+  ['fire',icon('<path d="M8 58L66 25" stroke="var(--ui-combatTrace)" stroke-width="3" stroke-dasharray="7 4"/><path d="M70 10L76 24L91 19L82 31L93 42L78 41L73 56L67 42L52 45L60 32L50 21L65 24Z" fill="var(--ui-combatBurst)" stroke="var(--ui-combatTrace)"/>')],
+ ];
+ return `<details class="symbol-legend"><summary>${t('symbols.title')}</summary><p>${t('symbols.intro')}</p><div class="symbol-legend-grid">${examples.map(([key,drawing])=>`<div class="symbol-legend-row">${drawing}<p>${t(`symbols.${key}`)}</p></div>`).join('')}</div></details>`;
+}
+
+function dismissCurrentDialog(){const begin=$("begin");if(begin&&$("modalBody").contains(begin)&&typeof begin.onclick==="function")begin.click();else $("modal").close();}
+$("close").onclick=dismissCurrentDialog;
+$("closeBottom").onclick=dismissCurrentDialog;
+$("modal").addEventListener("cancel",event=>{event.preventDefault();dismissCurrentDialog();});
+
+$("history").onclick=()=>show(()=>historyContent(language));
+
+function terrainRulesTable(){return t("terrain.rulesTable",heightThreshold,game.rules?.rangeHeightThreshold??90);}
+
+function updateSoundUI(){const button=$("soundToggle");button.textContent=t(uiSettings.soundEnabled?"sound.on":"sound.off");button.setAttribute("aria-pressed",String(uiSettings.soundEnabled));button.title=t("sound.tooltip");if($("uiSound"))$("uiSound").checked=uiSettings.soundEnabled;}
+function setSoundEnabled(enabled:boolean){uiSettings.soundEnabled=enabled;uiSettings.preset="custom";if(enabled)void combatAudio.unlock();else combatAudio.mute();commitAppearance();}
+$("soundToggle").onclick=()=>setSoundEnabled(!uiSettings.soundEnabled);
+for(const name of ["pointerdown","keydown"])document.addEventListener(name,()=>{if(uiSettings.soundEnabled)void combatAudio.unlock();},{capture:true});

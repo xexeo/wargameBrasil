@@ -1,20 +1,160 @@
 // Explicit bilingual templates. Ordered parameters use {0}, {1}, … .
 export const messages = {
-  "unit.current": {"pt": "<section class=\"unit-current-state\"><h3>Estado atual da unidade</h3><dl><dt>Coesão atual</dt><dd>{0}/3 PV</dd><dt>Dano acumulado</dt><dd>{1} PV</dd><dt>Movimento restante</dt><dd>{2}/{3} PM</dd><dt>Ataque efetivo</dt><dd>{4} (base {5} − penalidade {6})</dd><dt>Defesa base</dt><dd>{7}</dd><dt>Já disparou</dt><dd>{8}</dd><dt>Pode mover nesta fase</dt><dd>{9}</dd><dt>Suprimida</dt><dd>{10}</dd><dt>Reorganizando</dt><dd>{11}</dd><dt>Reação gasta</dt><dd>{12}</dd></dl><p class=\"muted\">Cobertura, altura, dado e situação do alvo são calculados no combate; a defesa base não é uma defesa final única.</p></section>", "en": "<section class=\"unit-current-state\"><h3>Current unit status</h3><dl><dt>Current cohesion</dt><dd>{0}/3 HP</dd><dt>Accumulated damage</dt><dd>{1} HP</dd><dt>Movement remaining</dt><dd>{2}/{3} MP</dd><dt>Effective attack</dt><dd>{4} (base {5} − penalty {6})</dd><dt>Base defense</dt><dd>{7}</dd><dt>Already fired</dt><dd>{8}</dd><dt>Can move in this phase</dt><dd>{9}</dd><dt>Suppressed</dt><dd>{10}</dd><dt>Reorganizing</dt><dd>{11}</dd><dt>Reaction spent</dt><dd>{12}</dd></dl><p class=\"muted\">Cover, elevation, the die, and the target’s situation are evaluated during combat; base defense is not a single final defense value.</p></section>"},
-  "unit.no": {"pt": "não", "en": "no"},
-  "unit.yes": {"pt": "sim", "en": "yes"},
-  "combat.miss": {"pt": "Sem perda de coesão", "en": "No cohesion loss"},
-  "combat.damage": {"pt": "−{0} PV", "en": "−{0} HP"},
-  "combat.counterattack": {"pt": "Contra-ataque", "en": "Counterattack"},
-  "combat.defensive-fire": {"pt": "Fogo defensivo", "en": "Defensive fire"},
-  "combat.attack": {"pt": "Ataque", "en": "Attack"},
-  "fixed.model": {"pt": "<h4>{0}</h4><p>{1} partidas de treino · {2} atualizações · {3} situações. Sementes: {4}–{5}. α = {6}; γ = {7}; exploração no treino = {8}; exploração no jogo = {9}.</p>", "en": "<h4>{0}</h4><p>{1} training games · {2} updates · {3} states. Seeds: {4}–{5}. α = {6}; γ = {7}; training exploration = {8}; in-game exploration = {9}.</p>"},
-  "fixed.dialog": {"pt": "<section class=\"fixed-models\"><h3>Dois aprendizes fixos, um por lado</h3><p>Cada modelo foi treinado separadamente contra seis combinações fixas de estratégia e postura, com 400 partidas por adversário. Os pesos ficam congelados no jogo. A postura é escolhida pelo próprio modelo. Estes modelos não usam nem alteram a experiência pessoal da Veterana ou do Aprendiz simples.</p>{0}{1}<p>A exploração de inferência é zero; empates usam a primeira política. As sementes tornam o treino reproduzível. Os dados e a avaliação independente estão no repositório, em docs/simulacoes.</p></section>", "en": "<section class=\"fixed-models\"><h3>Two fixed learners, one for each side</h3><p>Each model was trained separately against six fixed strategy and stance combinations, with 400 games per opponent. Weights remain frozen in the game. Each model chooses its own stance. These models do not use or change the personal experience of the Veteran or the simple learner.</p>{0}{1}<p>Inference exploration is zero; ties select the first policy. Seeds make training reproducible. Raw data and held-out evaluation are in the repository under docs/simulacoes.</p></section>"},
-  "fixed.status": {"pt": "Aprendiz fixo · {0}: {1} partidas de treino. Modelo exclusivo deste lado; escolhe estratégia e postura sem explorar nem alterar pesos durante a partida.", "en": "Fixed learner · {0}: {1} training games. A separate model for this side chooses strategy and stance without exploration or weight updates during play."},
-  "fixed.option": {"pt": "Aprendiz fixo · por lado", "en": "Fixed learner · per side"},
+  "appearance.group.opacity": {
+    "pt": "Opacidades",
+    "en": "Opacities"
+  },
+  "appearance.group.lines": {
+    "pt": "Espessuras",
+    "en": "Line widths"
+  },
+  "appearance.group.type": {
+    "pt": "Fontes e tamanhos",
+    "en": "Fonts and sizes"
+  },
+  "appearance.group.combat": {
+    "pt": "Efeitos de combate",
+    "en": "Combat effects"
+  },
+  "appearance.group.actions": {
+    "pt": "Objetivos e ações",
+    "en": "Objectives and actions"
+  },
+  "appearance.group.terrain": {
+    "pt": "Terreno e mapa",
+    "en": "Terrain and map"
+  },
+  "appearance.group.units": {
+    "pt": "Peças e estados",
+    "en": "Counters and conditions"
+  },
+  "appearance.group.page": {
+    "pt": "Página, painéis e texto",
+    "en": "Page, panels, and text"
+  },
+  "appearance.note": {
+    "pt": "As letras FEB/DE, símbolos e formas continuam identificando ações. Ajustes livres podem reduzir o contraste; use Restaurar padrão A para recuperar a proposta recomendada. Terreno de inverno é uma opção gráfica, sem criar neve, lama ou regras novas.",
+    "en": "FEB/DE labels, symbols, and shapes still identify actions. Custom settings can reduce contrast; use Restore preset A to recover the recommended proposal. Winter terrain is a visual option and adds no snow, mud, or new rules."
+  },
+  "appearance.hex": {
+    "pt": "Cor hexadecimal · {0}",
+    "en": "Hex color · {0}"
+  },
+  "appearance.font": {
+    "pt": "Fonte offline",
+    "en": "Offline font"
+  },
+  "appearance.invalid": {
+    "pt": "Arquivo de aparência inválido. As preferências anteriores foram preservadas.",
+    "en": "Invalid appearance file. Your previous preferences were preserved."
+  },
+  "appearance.storage": {
+    "pt": "Preferências aplicadas; armazenamento indisponível. Exporte para guardar.",
+    "en": "Preferences applied; storage unavailable. Export them to keep a copy."
+  },
+  "appearance.saved": {
+    "pt": "Preferências aplicadas. As alterações ficam neste navegador.",
+    "en": "Preferences applied. Changes stay in this browser."
+  },
+  "appearance.import": {
+    "pt": "Importar aparência",
+    "en": "Import appearance"
+  },
+  "appearance.export": {
+    "pt": "Exportar aparência",
+    "en": "Export appearance"
+  },
+  "appearance.reset": {
+    "pt": "Restaurar padrão A",
+    "en": "Restore preset A"
+  },
+  "appearance.winter": {
+    "pt": "Aplicar terreno de inverno",
+    "en": "Apply winter terrain"
+  },
+  "appearance.custom": {
+    "pt": "Personalizado",
+    "en": "Custom"
+  },
+  "appearance.preset.C": {
+    "pt": "C · Violeta e areia",
+    "en": "C · Violet and sand"
+  },
+  "appearance.preset.B": {
+    "pt": "B · Petróleo e pedra",
+    "en": "B · Teal and stone"
+  },
+  "appearance.preset.A": {
+    "pt": "A · Azul e papel — recomendado",
+    "en": "A · Blue and paper — recommended"
+  },
+  "appearance.preset": {
+    "pt": "Ponto de partida",
+    "en": "Starting preset"
+  },
+  "appearance.intro": {
+    "pt": "Escolha uma das três propostas ou personalize cada valor. O mapa muda imediatamente; partida, zoom e experiência das IAs são preservados.",
+    "en": "Choose one of the three proposals or customize each value. The map updates immediately; your game, zoom, and AI experience are preserved."
+  },
+  "appearance.title": {
+    "pt": "Aparência do jogo",
+    "en": "Game appearance"
+  },
+  "appearance.button": {
+    "pt": "Aparência",
+    "en": "Appearance"
+  },
+  "unit.current": {
+    "pt": "<section class=\"unit-current-state\"><h3>Estado atual da unidade</h3><dl><dt>Coesão atual</dt><dd>{0}/3 PV</dd><dt>Dano acumulado</dt><dd>{1} PV</dd><dt>Movimento restante</dt><dd>{2}/{3} PM</dd><dt>Ataque efetivo</dt><dd>{4} (base {5} − penalidade {6})</dd><dt>Defesa base</dt><dd>{7}</dd><dt>Já disparou</dt><dd>{8}</dd><dt>Pode mover nesta fase</dt><dd>{9}</dd><dt>Suprimida</dt><dd>{10}</dd><dt>Reorganizando</dt><dd>{11}</dd><dt>Reação gasta</dt><dd>{12}</dd></dl><p class=\"muted\">Cobertura, altura, dado e situação do alvo são calculados no combate; a defesa base não é uma defesa final única.</p></section>",
+    "en": "<section class=\"unit-current-state\"><h3>Current unit status</h3><dl><dt>Current cohesion</dt><dd>{0}/3 HP</dd><dt>Accumulated damage</dt><dd>{1} HP</dd><dt>Movement remaining</dt><dd>{2}/{3} MP</dd><dt>Effective attack</dt><dd>{4} (base {5} − penalty {6})</dd><dt>Base defense</dt><dd>{7}</dd><dt>Already fired</dt><dd>{8}</dd><dt>Can move in this phase</dt><dd>{9}</dd><dt>Suppressed</dt><dd>{10}</dd><dt>Reorganizing</dt><dd>{11}</dd><dt>Reaction spent</dt><dd>{12}</dd></dl><p class=\"muted\">Cover, elevation, the die, and the target’s situation are evaluated during combat; base defense is not a single final defense value.</p></section>"
+  },
+  "unit.no": {
+    "pt": "não",
+    "en": "no"
+  },
+  "unit.yes": {
+    "pt": "sim",
+    "en": "yes"
+  },
+  "combat.miss": {
+    "pt": "Sem perda de coesão",
+    "en": "No cohesion loss"
+  },
+  "combat.damage": {
+    "pt": "−{0} PV",
+    "en": "−{0} HP"
+  },
+  "combat.counterattack": {
+    "pt": "Contra-ataque",
+    "en": "Counterattack"
+  },
+  "combat.defensive-fire": {
+    "pt": "Fogo defensivo",
+    "en": "Defensive fire"
+  },
+  "combat.attack": {
+    "pt": "Ataque",
+    "en": "Attack"
+  },
+  "fixed.model": {
+    "pt": "<h4>{0}</h4><p>{1} partidas de treino · {2} atualizações · {3} situações. Sementes: {4}–{5}. α = {6}; γ = {7}; exploração no treino = {8}; exploração no jogo = {9}.</p>",
+    "en": "<h4>{0}</h4><p>{1} training games · {2} updates · {3} states. Seeds: {4}–{5}. α = {6}; γ = {7}; training exploration = {8}; in-game exploration = {9}.</p>"
+  },
+  "fixed.dialog": {
+    "pt": "<section class=\"fixed-models\"><h3>Dois aprendizes fixos, um por lado</h3><p>Cada modelo foi treinado separadamente contra seis combinações fixas de estratégia e postura, com 400 partidas por adversário. Os pesos ficam congelados no jogo. A postura é escolhida pelo próprio modelo. Estes modelos não usam nem alteram a experiência pessoal da Veterana ou do Aprendiz simples.</p>{0}{1}<p>A exploração de inferência é zero; empates usam a primeira política. As sementes tornam o treino reproduzível. Os dados e a avaliação independente estão no repositório, em docs/simulacoes.</p></section>",
+    "en": "<section class=\"fixed-models\"><h3>Two fixed learners, one for each side</h3><p>Each model was trained separately against six fixed strategy and stance combinations, with 400 games per opponent. Weights remain frozen in the game. Each model chooses its own stance. These models do not use or change the personal experience of the Veteran or the simple learner.</p>{0}{1}<p>Inference exploration is zero; ties select the first policy. Seeds make training reproducible. Raw data and held-out evaluation are in the repository under docs/simulacoes.</p></section>"
+  },
+  "fixed.status": {
+    "pt": "Aprendiz fixo · {0}: {1} partidas de treino. Modelo exclusivo deste lado; escolhe estratégia e postura sem explorar nem alterar pesos durante a partida.",
+    "en": "Fixed learner · {0}: {1} training games. A separate model for this side chooses strategy and stance without exploration or weight updates during play."
+  },
+  "fixed.option": {
+    "pt": "Aprendiz fixo · por lado",
+    "en": "Fixed learner · per side"
+  },
   "legend.exposure": {
     "pt": "┄ Borda tracejada marrom/laranja · rota exposta a fogo defensivo",
-    "en": "┄ Dashed brown/orange border · route exposed to defensive fire"
+    "en": "┄ Dashed brown/dashed border · route exposed to defensive fire"
   },
   "app.001": {
     "pt": " · Brasília",
@@ -37,20 +177,20 @@ export const messages = {
     "en": "GERMAN DEFENSE"
   },
   "app.008": {
-    "pt": "Dois jogadores comandam FEB (azul) e defesa alemã (carvão) neste aparelho.",
-    "en": "Two players command the FEB (blue) and German defense (charcoal) on this device."
+    "pt": "Dois jogadores comandam a FEB e a defesa alemã neste aparelho. As peças mostram FEB ou DE.",
+    "en": "Two players command the FEB and German defense on this device. Counters are labeled FEB or DE."
   },
   "app.009": {
     "pt": "Você comanda a {0}, {1}. {2}",
     "en": "You command the {0}, {1}. {2}"
   },
   "app.010": {
-    "pt": "em azul",
-    "en": "in blue"
+    "pt": "com as peças marcadas FEB",
+    "en": "using counters labeled FEB"
   },
   "app.011": {
-    "pt": "em carvão",
-    "en": "in charcoal"
+    "pt": "com as peças marcadas DE",
+    "en": "using counters labeled DE"
   },
   "app.012": {
     "pt": "O computador comanda a {0}.",
@@ -61,44 +201,44 @@ export const messages = {
     "en": "Your opponent receives turns through a link or file."
   },
   "app.014": {
-    "pt": "<defs><pattern id=\"paper\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\"><circle cx=\"2\" cy=\"2\" r=\".5\" fill=\"#4e633a\" opacity=\".16\"/></pattern></defs><rect width=\"960\" height=\"690\" fill=\"#f2edde\"/><rect width=\"960\" height=\"690\" fill=\"url(#paper)\"/><text x=\"900\" y=\"65\" class=\"maplabel\">N ↑</text><text x=\"650\" y=\"650\" class=\"maplabel\">Base geográfica atual · cenário tático 1945</text>",
-    "en": "<defs><pattern id=\"paper\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\"><circle cx=\"2\" cy=\"2\" r=\".5\" fill=\"#4e633a\" opacity=\".16\"/></pattern></defs><rect width=\"960\" height=\"690\" fill=\"#f2edde\"/><rect width=\"960\" height=\"690\" fill=\"url(#paper)\"/><text x=\"900\" y=\"65\" class=\"maplabel\">N ↑</text><text x=\"650\" y=\"650\" class=\"maplabel\">Present-day geography · 1945 tactical scenario</text>"
+    "pt": "<defs><pattern id=\"paper\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\"><circle cx=\"2\" cy=\"2\" r=\".5\" fill=\"var(--ui-paper)\" opacity=\"var(--ui-paperOpacity)\"/></pattern></defs><rect width=\"960\" height=\"690\" fill=\"var(--ui-terrain1)\"/><rect width=\"960\" height=\"690\" fill=\"url(#paper)\"/><text x=\"900\" y=\"65\" class=\"maplabel\">N ↑</text><text x=\"650\" y=\"650\" class=\"maplabel\">Base geográfica atual · cenário tático 1945</text>",
+    "en": "<defs><pattern id=\"paper\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\"><circle cx=\"2\" cy=\"2\" r=\".5\" fill=\"var(--ui-paper)\" opacity=\"var(--ui-paperOpacity)\"/></pattern></defs><rect width=\"960\" height=\"690\" fill=\"var(--ui-terrain1)\"/><rect width=\"960\" height=\"690\" fill=\"url(#paper)\"/><text x=\"900\" y=\"65\" class=\"maplabel\">N ↑</text><text x=\"650\" y=\"650\" class=\"maplabel\">Present-day geography · 1945 tactical scenario</text>"
   },
   "app.016": {
-    "pt": "<circle class=\"objective-ring\" cx=\"{0}\" cy=\"{1}\" r=\"34\" fill=\"none\" stroke=\"#c92f37\" stroke-width=\"2\" stroke-dasharray=\"5 3\" pointer-events=\"none\"/><polygon class=\"objective-star\" data-objective=\"{2},{3}\" points=\"{4}\" fill=\"#c92f37\" fill-opacity=\".82\" pointer-events=\"none\"/><text x=\"{5}\" y=\"{6}\" text-anchor=\"middle\" class=\"maplabel\" pointer-events=\"none\">{7}+{8}/rod</text>",
-    "en": "<circle class=\"objective-ring\" cx=\"{0}\" cy=\"{1}\" r=\"34\" fill=\"none\" stroke=\"#c92f37\" stroke-width=\"2\" stroke-dasharray=\"5 3\" pointer-events=\"none\"/><polygon class=\"objective-star\" data-objective=\"{2},{3}\" points=\"{4}\" fill=\"#c92f37\" fill-opacity=\".82\" pointer-events=\"none\"/><text x=\"{5}\" y=\"{6}\" text-anchor=\"middle\" class=\"maplabel\" pointer-events=\"none\">{7}+{8}/round</text>"
+    "pt": "<circle class=\"objective-ring\" cx=\"{0}\" cy=\"{1}\" r=\"34\" fill=\"none\" stroke=\"var(--ui-objective)\" stroke-width=\"2\" stroke-dasharray=\"5 3\" pointer-events=\"none\"/><polygon class=\"objective-star\" data-objective=\"{2},{3}\" points=\"{4}\" fill=\"var(--ui-objective)\" fill-opacity=\"var(--ui-objectiveOpacity)\" pointer-events=\"none\"/><text x=\"{5}\" y=\"{6}\" text-anchor=\"middle\" class=\"maplabel\" pointer-events=\"none\">{7}+{8}/rod</text>",
+    "en": "<circle class=\"objective-ring\" cx=\"{0}\" cy=\"{1}\" r=\"34\" fill=\"none\" stroke=\"var(--ui-objective)\" stroke-width=\"2\" stroke-dasharray=\"5 3\" pointer-events=\"none\"/><polygon class=\"objective-star\" data-objective=\"{2},{3}\" points=\"{4}\" fill=\"var(--ui-objective)\" fill-opacity=\"var(--ui-objectiveOpacity)\" pointer-events=\"none\"/><text x=\"{5}\" y=\"{6}\" text-anchor=\"middle\" class=\"maplabel\" pointer-events=\"none\">{7}+{8}/round</text>"
   },
   "app.017": {
-    "pt": "<text x=\"75\" y=\"680\" class=\"maplabel\">Aproximação FEB · Gaggio Montano fora do recorte, a sudoeste</text><path d=\"M80 625h179m-179 -5v10m179 -10v10\" stroke=\"#5f5038\" stroke-width=\"2\"/><text x=\"80\" y=\"648\" font-size=\"11\" fill=\"#5f5038\">0</text><text x=\"235\" y=\"648\" font-size=\"11\" fill=\"#5f5038\">500 m</text><text x=\"430\" y=\"25\" class=\"maplabel\">Linha defensiva alemã · Apeninos setentrionais</text>",
-    "en": "<text x=\"75\" y=\"680\" class=\"maplabel\">FEB approach · Gaggio Montano beyond the map to the southwest</text><path d=\"M80 625h179m-179 -5v10m179 -10v10\" stroke=\"#5f5038\" stroke-width=\"2\"/><text x=\"80\" y=\"648\" font-size=\"11\" fill=\"#5f5038\">0</text><text x=\"235\" y=\"648\" font-size=\"11\" fill=\"#5f5038\">500 m</text><text x=\"430\" y=\"25\" class=\"maplabel\">German defensive line · Northern Apennines</text>"
+    "pt": "<text x=\"75\" y=\"680\" class=\"maplabel\">Aproximação FEB · Gaggio Montano fora do recorte, a sudoeste</text><path d=\"M80 625h179m-179 -5v10m179 -10v10\" stroke=\"var(--ui-mapText)\" stroke-width=\"2\"/><text x=\"80\" y=\"648\" font-size=\"11\" fill=\"var(--ui-mapText)\">0</text><text x=\"235\" y=\"648\" font-size=\"11\" fill=\"var(--ui-mapText)\">500 m</text><text x=\"430\" y=\"25\" class=\"maplabel\">Linha defensiva alemã · Apeninos setentrionais</text>",
+    "en": "<text x=\"75\" y=\"680\" class=\"maplabel\">FEB approach · Gaggio Montano beyond the map to the southwest</text><path d=\"M80 625h179m-179 -5v10m179 -10v10\" stroke=\"var(--ui-mapText)\" stroke-width=\"2\"/><text x=\"80\" y=\"648\" font-size=\"11\" fill=\"var(--ui-mapText)\">0</text><text x=\"235\" y=\"648\" font-size=\"11\" fill=\"var(--ui-mapText)\">500 m</text><text x=\"430\" y=\"25\" class=\"maplabel\">German defensive line · Northern Apennines</text>"
   },
   "app.018": {
-    "pt": "<g class=\"unit {0} {1}\" data-id=\"{2}\" transform=\"translate({3},{4})\" tabindex=\"0\" role=\"button\" aria-label=\"{5}, {6}, {7} de resistência, ataque {8}, defesa {9}\"><title>{10} · A{11} D{12} · {13} PV</title><rect class=\"counter\" x=\"-25\" y=\"-25\" width=\"50\" height=\"50\" rx=\"1\" fill=\"{14}\"/>{15}<text class=\"troop-mark\" x=\"0\" y=\"35\" text-anchor=\"middle\">{16} · T{17}</text><rect class=\"symbol\" x=\"-14\" y=\"-13\" width=\"28\" height=\"18\"/> <g class=\"symbol\">{18}</g><text x=\"0\" y=\"-17\" text-anchor=\"middle\" font-size=\"7\">{19} {20}/3</text><text x=\"-21\" y=\"21\" style=\"font-size:9px\">A{21} D{22}</text><text x=\"8\" y=\"21\" style=\"font-size:9px\">M{23}</text>{24}{25}{26}{27}</g>",
-    "en": "<g class=\"unit {0} {1}\" data-id=\"{2}\" transform=\"translate({3},{4})\" tabindex=\"0\" role=\"button\" aria-label=\"{5}, {6}, {7} cohesion, attack {8}, defense {9}\"><title>{10} · A{11} D{12} · {13} HP</title><rect class=\"counter\" x=\"-25\" y=\"-25\" width=\"50\" height=\"50\" rx=\"1\" fill=\"{14}\"/>{15}<text class=\"troop-mark\" x=\"0\" y=\"35\" text-anchor=\"middle\">{16} · T{17}</text><rect class=\"symbol\" x=\"-14\" y=\"-13\" width=\"28\" height=\"18\"/> <g class=\"symbol\">{18}</g><text x=\"0\" y=\"-17\" text-anchor=\"middle\" font-size=\"7\">{19} {20}/3</text><text x=\"-21\" y=\"21\" style=\"font-size:9px\">A{21} D{22}</text><text x=\"8\" y=\"21\" style=\"font-size:9px\">M{23}</text>{24}{25}{26}{27}</g>"
+    "pt": "<g class=\"unit {0} {1}\" data-id=\"{2}\" transform=\"translate({3},{4})\" tabindex=\"0\" role=\"button\" aria-label=\"{5}, {6}, {7} de resistência, ataque {8}, defesa {9}\"><title>{10} · A{11} D{12} · {13} PV</title><g class=\"counter-content\"><rect class=\"counter\" x=\"-25\" y=\"-25\" width=\"50\" height=\"50\" rx=\"1\" fill=\"{14}\"/><rect class=\"counter-separator\" x=\"-23\" y=\"-23\" width=\"46\" height=\"46\"/>{15}<text class=\"troop-mark\" x=\"0\" y=\"35\" text-anchor=\"middle\">{16} · T{17}</text><rect class=\"symbol\" x=\"-14\" y=\"-13\" width=\"28\" height=\"18\"/> <g class=\"symbol\">{18}</g><text x=\"0\" y=\"-17\" text-anchor=\"middle\" style=\"font-size:calc(7px * var(--ui-counterFontScale))\">{19} {20}/3</text><text x=\"-21\" y=\"21\" style=\"font-size:calc(9px * var(--ui-counterFontScale))\">A{21} D{22}</text><text x=\"8\" y=\"21\" style=\"font-size:calc(9px * var(--ui-counterFontScale))\">M{23}</text>{24}{25}{26}{27}</g></g>",
+    "en": "<g class=\"unit {0} {1}\" data-id=\"{2}\" transform=\"translate({3},{4})\" tabindex=\"0\" role=\"button\" aria-label=\"{5}, {6}, {7} cohesion, attack {8}, defense {9}\"><title>{10} · A{11} D{12} · {13} HP</title><g class=\"counter-content\"><rect class=\"counter\" x=\"-25\" y=\"-25\" width=\"50\" height=\"50\" rx=\"1\" fill=\"{14}\"/><rect class=\"counter-separator\" x=\"-23\" y=\"-23\" width=\"46\" height=\"46\"/>{15}<text class=\"troop-mark\" x=\"0\" y=\"35\" text-anchor=\"middle\">{16} · T{17}</text><rect class=\"symbol\" x=\"-14\" y=\"-13\" width=\"28\" height=\"18\"/> <g class=\"symbol\">{18}</g><text x=\"0\" y=\"-17\" text-anchor=\"middle\" style=\"font-size:calc(7px * var(--ui-counterFontScale))\">{19} {20}/3</text><text x=\"-21\" y=\"21\" style=\"font-size:calc(9px * var(--ui-counterFontScale))\">A{21} D{22}</text><text x=\"8\" y=\"21\" style=\"font-size:calc(9px * var(--ui-counterFontScale))\">M{23}</text>{24}{25}{26}{27}</g></g>"
   },
   "app.019": {
     "pt": "alemã",
     "en": "German"
   },
   "app.024": {
-    "pt": "{0}: já atacou; ainda pode mover com seus {1} PM. Toque num destino AZUL.",
-    "en": "{0}: already fired; can still move with {1} MP. Tap a BLUE destination."
+    "pt": "{0}: já atacou; ainda pode mover com seus {1} PM. Toque num hexágono com CONTORNO DE MOVIMENTO.",
+    "en": "{0}: already fired; can still move with {1} MP. Tap a hex with a MOVEMENT OUTLINE."
   },
   "app.025": {
     "pt": "{0}: ação usada ou comprometida por fogo/reorganização. Selecione outra peça.",
     "en": "{0}: action spent or committed to reaction fire/reorganization. Select another counter."
   },
   "app.026": {
-    "pt": "{0} · {1} PM: toque num destino AZUL para andar ou num inimigo com BARRA VERMELHA para atacar.",
-    "en": "{0} · {1} MP: tap a BLUE destination to move or an enemy with a RED BAR to attack."
+    "pt": "{0} · {1} PM: toque num hexágono com CONTORNO DE MOVIMENTO para andar ou num inimigo com BARRA DE ATAQUE para atacar.",
+    "en": "{0} · {1} MP: tap a hex with a MOVEMENT OUTLINE to move or an enemy with an ATTACK BAR to attack."
   },
   "app.027": {
-    "pt": "Selecione sua peça. Destinos azuis movem; inimigos com barra vermelha recebem ataque.",
-    "en": "Select your counter. Blue destinations allow movement; enemies with a red bar can be attacked."
+    "pt": "Selecione sua peça. Toque num destino com contorno de movimento para mover ou num inimigo com barra de ataque para disparar.",
+    "en": "Select your counter. Tap a destination with a movement outline to move or an enemy with an attack bar to fire."
   },
   "app.028": {
-    "pt": " ⚠ {0} destino(s) com borda laranja expostos a fogo defensivo no percurso. Suprima o defensor com apoio antes de subir.",
-    "en": " ⚠ {0} destination(s) with orange borders are exposed to defensive fire along the route. Suppress the defender with support before climbing."
+    "pt": " ⚠ {0} destino(s) com borda tracejada expostos a fogo defensivo no percurso. Suprima o defensor com apoio antes de subir.",
+    "en": " ⚠ {0} destination(s) with dashed borders are exposed to defensive fire along the route. Suppress the defender with support before climbing."
   },
   "app.029": {
     "pt": "<button data-goal=\"{0}\" class=\"{1}\">⚑ {2} · +{3}/rodada<small>{4} · localizar ↗</small></button>",
@@ -277,16 +417,16 @@ export const messages = {
     "en": "Profile preserved from an earlier game; new games use revised profiles."
   },
   "app.073": {
-    "pt": "<p>Selecione uma peça {0} e toque no destino azul para andar ou no inimigo com barra vermelha para atacar.</p><p>A = ataque · D = defesa · M = movimento restante. Pontos dourados = resistência. Selo vermelho = dano acumulado. Toque duas vezes para ampliar.</p>",
-    "en": "<p>Select a {0} counter and tap a blue destination to move or an enemy with a red bar to attack.</p><p>A = attack · D = defense · M = movement remaining. Gold dots = cohesion. Red badge = accumulated damage. Double-tap to enlarge.</p>"
+    "pt": "<p>Selecione uma de suas peças ({0}) e toque no hexágono com contorno de movimento para andar ou no inimigo com barra de ataque para atacar.</p><p>A = ataque · D = defesa · M = movimento restante. Bolinhas = coesão. Marcador −N = dano acumulado. Toque duas vezes para ampliar.</p>",
+    "en": "<p>Select one of your counters ({0}) and tap a hex with a movement outline to move or an enemy with an attack bar to attack.</p><p>A = attack · D = defense · M = movement remaining. Dots = cohesion. The −N badge = accumulated damage. Double-tap to enlarge.</p>"
   },
   "app.074": {
-    "pt": "alemã em carvão",
-    "en": "charcoal German"
+    "pt": "DE",
+    "en": "DE"
   },
   "app.075": {
-    "pt": "alemã em carvão",
-    "en": "charcoal German"
+    "pt": "DE",
+    "en": "DE"
   },
   "app.076": {
     "pt": "IA especial: {0} partidas de experiência · {1} situações. Aprendiz simples: {2} partidas concluídas · experiência local{3}.",
@@ -300,7 +440,10 @@ export const messages = {
     "pt": "<span class=\"eyebrow\">FIM DA OPERAÇÃO</span><h2>{0}</h2><p><b>Vencedor: {10}</b></p><p>{1}</p><div class=\"statrow\"><span>Rodadas: {2}/{3}</span><span>Pontos: {4}</span><span>Peças FEB fora de combate: {5}/5</span><span>Coesão perdida: {6}/15</span><span>Eficiência: {7}/100</span></div>{8}{9}<p>Uma vitória mais cedo e com menos perdas recebe grau maior: decisiva, tática, custosa ou pírrica. Perdas de peças e coesão não são números de soldados mortos.</p><p>{11}</p><p>Use Nova partida para outra operação. A experiência da IA é preservada.</p>",
     "en": "<span class=\"eyebrow\">OPERATION COMPLETE</span><h2>{0}</h2><p><b>Winner: {10}</b></p><p>{1}</p><div class=\"statrow\"><span>Rounds: {2}/{3}</span><span>Points: {4}</span><span>FEB counters out of action: {5}/5</span><span>Cohesion lost: {6}/15</span><span>Efficiency: {7}/100</span></div>{8}{9}<p>An earlier victory with fewer losses earns a higher grade: decisive, tactical, costly, or Pyrrhic. Counter and cohesion losses do not count soldiers killed.</p><p>{11}</p><p>Use New game to start another operation. AI experience is preserved.</p>"
   },
-  "app.079": {"pt": "<h2>{0}</h2><p>{1} · T{2} — {3}</p><div class=\"bigpiece\" data-side=\"{4}\">{5}<small>A{6} · D{7} · M{8}<br>{9}/3 PV · {10} dano(s)</small></div>{20}<p>Ataque {11} · Defesa {12} · Resistência {13}/3 · Dano acumulado {14} · Alcance {15} hexágono(s).</p><p>{16}</p>{17}<p>{18} Mobilidade máxima: {19} PM.</p><p class=\"muted\">Os 3 PV são coesão relativa, não efetivos iguais de pessoas. Escalão e T1–T3 estão explicados em Forças e níveis.</p>", "en": "<h2>{0}</h2><p>{1} · T{2} — {3}</p><div class=\"bigpiece\" data-side=\"{4}\">{5}<small>A{6} · D{7} · M{8}<br>{9}/3 HP · {10} damage</small></div>{20}<p>Attack {11} · Defense {12} · Cohesion {13}/3 · Accumulated damage {14} · Range {15} hex(es).</p><p>{16}</p>{17}<p>{18} Maximum mobility: {19} MP.</p><p class=\"muted\">The 3 HP represent relative cohesion, not equal numbers of people. Echelons and T1–T3 are explained in Forces and levels.</p>"},
+  "app.079": {
+    "pt": "<h2>{0}</h2><p>{1} · T{2} — {3}</p><div class=\"bigpiece\" data-side=\"{4}\">{5}<small>A{6} · D{7} · M{8}<br>{9}/3 PV · {10} dano(s)</small></div>{20}<p>Ataque {11} · Defesa {12} · Resistência {13}/3 · Dano acumulado {14} · Alcance {15} hexágono(s).</p><p>{16}</p>{17}<p>{18} Mobilidade máxima: {19} PM.</p><p class=\"muted\">Os 3 PV são coesão relativa, não efetivos iguais de pessoas. Escalão e T1–T3 estão explicados em Forças e níveis.</p>",
+    "en": "<h2>{0}</h2><p>{1} · T{2} — {3}</p><div class=\"bigpiece\" data-side=\"{4}\">{5}<small>A{6} · D{7} · M{8}<br>{9}/3 HP · {10} damage</small></div>{20}<p>Attack {11} · Defense {12} · Cohesion {13}/3 · Accumulated damage {14} · Range {15} hex(es).</p><p>{16}</p>{17}<p>{18} Maximum mobility: {19} MP.</p><p class=\"muted\">The 3 HP represent relative cohesion, not equal numbers of people. Echelons and T1–T3 are explained in Forces and levels.</p>"
+  },
   "app.080": {
     "pt": "Agrupamento de cenário.",
     "en": "Scenario grouping."
@@ -322,8 +465,8 @@ export const messages = {
     "en": "Restart this operation? Learned experience will be preserved."
   },
   "app.085": {
-    "pt": "<span class=\"eyebrow\">MANUAL DE CAMPANHA</span><h2>Tomar as alturas</h2><p>{0} Uma partida tem no máximo {1} rodadas.</p><ol><li><b>Mova:</b> selecione a peça e toque no destino azul. Campo e estrada custam 1 PM; mata, 2 PM. Some 1 PM por nível de subida. Descer não tem custo extra. Pode mover em etapas. Não é possível atravessar peças.</li><li><b>Ataque:</b> selecione a peça e toque no inimigo com barra vermelha. Não há botões para trocar de ação. Infantaria alcança 1 hexágono; o apoio agregado alcança 2 por uma simplificação de suas armas coletivas. Artilharia faz tiro indireto em alvos conhecidos a até 5 hexágonos nos novos perfis, inclusive fortificações, dispensando linha de visão direta. A proteção do terreno e da fortificação continua valendo. Um ataque por turno.</li><li><b>Combate:</b> ataque + dado de 1 a 6 − defesa − cobertura − 0,5 por PV perdido pelo atacante. Mata, objetivo elevado ou fortificação dão +1 de cobertura, sem acumular entre si. As posições preparadas de Monte Castelo e de um objetivo secundário são desenhadas como abrigos e trincheiras; suas localizações são esquemáticas. Um defensor pelo menos 30 m acima recebe mais +1. O tiro direto de uma posição pelo menos {2} m acima alcança um hexágono extra, com linha de visão. Os números ↑1 a ↑4 indicam níveis relativos de altitude. Resultado ≥5 causa 2 danos; ≥1 causa 1; ≤0 falha e causa 1 dano de contra-ataque ao atacante se adjacente, desde que o defensor não esteja suprimido nem já tenha reagido. Cada peça começa com 3 PV de coesão. Infantaria possui 3 PM; destacamentos alemães 2; apoio 2; artilharia 1, conforme o perfil. Apenas infantaria de manobra ocupa objetivos. Perder toda a infantaria de manobra encerra a missão brasileira. {3}</li><li><b>Vitória:</b> ao fim de cada turno alemão, uma peça brasileira de infantaria de manobra sobre Monte Castelo rende 2 pontos; cada objetivo secundário rende 1. O máximo dos três objetivos é {4} pontos por rodada, não o limite do placar. Os pontos se acumulam entre rodadas e não são perdidos ao sair da posição. {5} Eliminar todas as peças de um lado dá vitória imediata ao adversário. Enquanto houver defensores, os secundários sozinhos não substituem a missão do cume. O prazo é {6} rodadas; a perda de toda a infantaria de manobra também dá vitória à defesa. O grau da vitória considera tempo, peças fora de combate e coesão perdida.</li></ol><h2>Retirada e reorganização</h2><p>{7}</p><h2>Fogo na subida</h2><p>Ao selecionar uma peça, os destinos legais expostos a reação no percurso recebem borda laranja. O cálculo considera altitude, linha de visão, alcance, supressão e reação já gasta. É risco de disparo, não dano garantido. A projeção da missão mostra pontuação pela ocupação atual e um percurso otimista; ignora bloqueios e fogo futuro e não é promessa de chegada.</p><p>Ao percorrer uma rota exposta ou iniciar um assalto, uma unidade de tiro direto pelo menos 30 m acima pode disparar primeiro. Há no máximo uma reação por movimento completo e uma do alvo antes do assalto. O tiro de oportunidade causa no máximo 1 dano; o ataque normal pode causar 2. A reação consome a ação de fogo e movimento do próximo turno da unidade; não é um disparo extra ilimitado. A regra é simétrica, incluindo brasileiros que dominem altura.</p><p>Um acerto de apoio indireto suprime a reação do defensor até o início do seu próprio turno, sem retirar seu tiro normal. Use apoio antes de mandar a infantaria encosta acima. O símbolo S indica supressão. Artilharia indireta não ganha alcance adicional por altura.</p><h2>Como ler a altura</h2><p>As cores de papel para o marrom mostram quatro níveis: N1 vale, N2 encosta, N3 crista e N4 cume. As linhas marrons são curvas de nível a cada 50 m, geradas por interpolação entre as amostras de elevação do tabuleiro. Subir um nível custa +1 PM; defender pelo menos 30 m acima dá +1 de defesa. As faixas agora derivam de amostras do Copernicus DEM de 90 m: N1 abaixo de 780 m, N2 de 780–849 m, N3 de 850–919 m, N4 a partir de 920 m. São generalizações para as regras. O cume está ancorado no ponto OSM de cota 977 m; a amostra DEM dá aproximadamente 980 m. O relevo é geográfico atual; caminhos e bosques modernos não comprovam a cobertura de 1945.</p><h2>Como ler o desenho das peças</h2><div class=\"counter-guide\"><div class=\"example-counter\" aria-label=\"Exemplo de infantaria brasileira: três pontos de resistência, ataque três, defesa três e movimento três\"><b>FEB 3/3</b><svg viewBox=\"0 0 80 44\" role=\"img\" aria-label=\"Símbolo militar de infantaria\"><rect x=\"10\" y=\"3\" width=\"60\" height=\"36\" fill=\"none\" stroke=\"white\" stroke-width=\"3\"/><path d=\"M10 3L70 39M70 3L10 39\" stroke=\"white\" stroke-width=\"3\"/></svg><span class=\"example-dots\">● ● ●</span><small>A3 D3 M3</small></div><div><p><b>FEB / DE:</b> lado da peça. Brasileiros são azuis; alemães, carvão. O número 3/3 mostra a resistência atual e a inicial.</p><p><b>Bolinhas douradas:</b> cada uma vale 1 ponto de resistência (PV). Três bolinhas: peça intacta. Duas: sofreu 1 dano. Uma: sofreu 2 danos. Ao perder o último PV, a peça sai do mapa.</p></div></div><ul><li><b>Retângulo com X:</b> símbolo militar convencional de infantaria, simplificado para o jogo.</li><li><b>Retângulo com ponto branco no centro:</b> artilharia, com tiro indireto de até 5 hexágonos nos novos perfis. O ponto central identifica o tipo da tropa; as bolinhas douradas abaixo mostram resistência.</li><li><b>A:</b> ataque nominal. <b>D:</b> defesa nominal. <b>M:</b> movimento restante no turno. M diminui ao mover{8}; volta ao máximo no próximo turno desse lado.</li><li><b>Selo vermelho −1 ou −2:</b> dano acumulado desde os 3 PV iniciais. Cada PV perdido reduz a potência do ataque em 0,5; a potência atual aparece no painel da peça.</li><li><b>Traço diagonal sobre a peça:</b> já atacou neste turno. O direito de ataque volta no próximo turno desse lado.</li><li><b>II:</b> escalão de batalhão ou grupo de artilharia. <b>AP:</b> apoio agregado. <b>DEST:</b> destacamento reduzido de cenário. <b>T1–T3:</b> nível tático do perfil; T1 reduzido, T2 operacional, T3 especializado em fogos. Não são notas históricas nem bônus ocultos.</li><li><b>Halo azul:</b> peça selecionada. <b>Hexágonos com contorno azul:</b> destinos legais ao selecionar sua peça. <b>Contorno vermelho no inimigo:</b> alvo legal ao selecionar sua peça.</li></ul><p>Duplo toque/clique amplia a peça com seus valores atuais. O painel mostra também altitude, cobertura, fortificação, alcance e estado de ação.</p><h2>21 de fevereiro de 1945</h2><p>A conquista de Monte Castelo, nos Apeninos setentrionais, foi um marco da Força Expedicionária Brasileira na campanha da Itália. Depois das tentativas frustradas de novembro e dezembro de 1944, o ataque de fevereiro de 1945 ocorreu no contexto da Operação Encore, em coordenação com a 10ª Divisão de Montanha dos EUA no setor de Monte Belvedere. O general Mascarenhas de Moraes comandava a FEB; a defesa do setor estava ligada à 232ª Divisão de Infantaria do Heer (Exército regular alemão). As fontes consultadas para este cenário não identificam unidades Waffen-SS na defesa de Monte Castelo; o jogo representa tropas do Heer.</p><p>O cenário representa o avanço brasileiro do setor de Gaggio Montano contra posições elevadas. Elevações favorecem a defesa, matas dificultam a progressão e a artilharia dá apoio a distância. O limite de rodadas representa a pressão por coordenação e tomada das posições.</p><p><b>Limites históricos:</b> o tabuleiro usa amostras do Copernicus DEM e caminhos/bosques do OpenStreetMap atual; não é uma restituição da cartografia de 1945. Os pontos secundários não recebem nomes geográficos inventados: são referências de hexágono para as regras, sem afirmar uma posição histórica identificada. Efetivos, posições militares e conversão dos dados geográficos em hexágonos foram simplificados para uma partida curta; as unidades não reproduzem uma ordem de batalha exata.</p><h3>Horário, observação e clima</h3><p>O relógio do cenário começa às 06:00 e avança 72 minutos por rodada, cobrindo o período até 18:00. A síntese em inglês da batalha situa o ataque principal às 06:00; a síntese em português diz “ao amanhecer”. Ambas registram a chegada ao cume às 17:30 e a concentração de artilharia entre 16:00 e 17:00. Na rodada 10 (16:48), a artilharia brasileira recebe +1 de ataque: uma abstração dessa concentração. Os turnos não reproduzem uma cronologia exata.</p><p>A posição de observação elevada lembrada na pergunta corresponde especialmente à crista de Riva, a sudoeste de Monte Belvedere. Dali os alemães observavam as aproximações à encosta sul de Belvedere e corrigiam o fogo de artilharia. O 1º Batalhão do 86º Regimento de Infantaria de Montanha, com a Companhia F, escalou de surpresa as escarpas na noite de 18 para 19 de fevereiro, tomou os postos e resistiu aos contra-ataques. A 10ª Divisão de Montanha atacou Belvedere–Gorgolesco em seguida. Isso integrou a ofensiva coordenada com a FEB; não é um segundo monte a ser tomado neste tabuleiro. Monte della Torraccia continuou sendo disputado durante a operação.</p><p><b>Clima do cenário:</b> a reanálise ERA5 regional de 21/02/1945, acessada pelo Open-Meteo, sugere frio forte e muitas nuvens às 06h, abertura pela manhã e céu aberto à tarde. Ela indica precipitação e neve nova zero nesse dia; a cobertura de neve no chão não está disponível. O modelo tem resolução de aproximadamente 25 km e não é uma medição feita pelos soldados ou uma reconstrução de cada encosta. O botão de tempo mostra a estimativa horária; esses dados não geram penalidades automáticas de movimento ou visibilidade. Nuvens não equivalem a nevoeiro.</p><h3>Fontes consultadas</h3><p><a href=\"https://pt.wikipedia.org/wiki/Batalha_de_Monte_Castelo\" target=\"_blank\" rel=\"noopener\">Batalha de Monte Castelo · síntese em português</a><br><a href=\"https://en.wikipedia.org/wiki/Battle_of_Monte_Castello\" target=\"_blank\" rel=\"noopener\">Battle of Monte Castello · cronologia em inglês</a><br><a href=\"https://en.wikipedia.org/wiki/Operation_Encore\" target=\"_blank\" rel=\"noopener\">Operation Encore · Riva Ridge e Belvedere</a></p><h3>Bibliografia para aprofundar</h3><p><a href=\"https://www.fgv.br/cpdoc/acervo/dicionarios/verbete-tematico/forca-expedicionaria-brasileira-feb\" target=\"_blank\" rel=\"noopener\">FGV CPDOC · Força Expedicionária Brasileira</a><br><a href=\"https://history.army.mil/html/books/006/6-4-1/index.html\" target=\"_blank\" rel=\"noopener\">U.S. Army Center of Military History · Cassino to the Alps</a></p><p>O capítulo XXIV e o mapa 10 de Cassino to the Alps foram consultados em reprodução HyperWar. A p. 431 registra retirada alemã e resistência final de pequena retaguarda, dinâmica simplificada neste jogo. Também foram consultadas as sínteses da batalha em português e inglês e de Operation Encore. O mapa agora está georreferenciado ao cume, com DEM e feições atuais OSM; ainda não é uma reconstrução cartográfica da batalha em 1945.</p><h3>Comandantes do computador</h3><p>Caçador prioriza maior ataque, desempata por distância. Oportunista prioriza menor defesa, desempata por distância. A postura agressiva aproxima; a defensiva valoriza cobertura e objetivos. Estado-maior avalia movimentos legais, ameaças, apoio e objetivos; calcula sem busca longa. Aprendiz usa Q-learning simples para escolher entre seis combinações de estratégia/postura, com exploração de 20%, recompensa por danos e contenção de pontos, e bônus por resultado final. Ele aprende a escolher políticas, não movimentos individuais. A experiência fica no armazenamento local, sem servidor; apagar os dados do navegador apaga o aprendizado.</p>",
-    "en": "<span class=\"eyebrow\">CAMPAIGN MANUAL</span><h2>Capture the heights</h2><p>{0} A game lasts at most {1} rounds.</p><ol><li><b>Move:</b> select a counter and tap a blue destination. Open ground and roads cost 1 MP; woods cost 2 MP. Add 1 MP for each elevation level climbed. Descending has no extra cost. You may move in stages. Counters cannot pass through other counters.</li><li><b>Attack:</b> select a counter and tap an enemy with a red bar. No action-switch buttons are needed. Infantry reaches 1 hex; aggregated support reaches 2 as a simplification of its crew-served weapons. In the new profiles, artillery uses indirect fire against known targets up to 5 hexes away, including fortifications, without requiring direct line of sight. Terrain and fortification protection still apply. One attack per turn.</li><li><b>Combat:</b> attack + a six-sided die − defense − cover − 0.5 per HP lost by the attacker. Woods, an elevated objective, or a fortification provide +1 cover; these do not stack. Prepared positions on Monte Castelo and a secondary objective are drawn as shelters and trenches; their locations are schematic. A defender at least 30 m higher receives another +1. Direct fire from a position at least {2} m higher reaches one extra hex, with line of sight. ↑1 through ↑4 indicate relative elevation levels. A result ≥5 causes 2 damage; ≥1 causes 1; ≤0 misses and causes 1 counterattack damage to an adjacent attacker, provided the defender is neither suppressed nor already spent its reaction. Each counter starts with 3 HP of cohesion. Infantry has 3 MP; German detachments 2; support 2; artillery 1, according to its profile. Only maneuver infantry occupies objectives. Losing all maneuver infantry ends the Brazilian mission. {3}</li><li><b>Victory:</b> at the end of each German turn, a Brazilian maneuver infantry counter on Monte Castelo earns 2 points; each secondary objective earns 1. The three objectives yield up to {4} points per round; this is not the score limit. Points accumulate between rounds and are retained after leaving a position. {5} Eliminating every counter on one side gives its opponent an immediate victory. While defenders remain, secondary objectives alone do not replace the summit mission. The deadline is {6} rounds; losing all maneuver infantry also gives victory to the defense. Victory grades consider time, counters out of action, and cohesion lost.</li></ol><h2>Withdrawal and reorganization</h2><p>{7}</p><h2>Fire on the climb</h2><p>When selecting a counter, legal destinations exposed to reactions along the route receive orange borders. The calculation considers elevation, line of sight, range, suppression, and spent reactions. It indicates a risk of fire rather than guaranteed damage. The mission forecast shows the score from current occupation and an optimistic route; it ignores blocking units and future fire and does not promise arrival.</p><p>When a unit follows an exposed route or starts an assault, a direct-fire unit at least 30 m higher may fire first. There is at most one reaction per complete movement and one from the target before an assault. Opportunity fire causes at most 1 damage; a normal attack can cause 2. A reaction commits the reacting unit’s fire and movement actions for its next turn; it is not an unlimited extra shot. The rule is symmetric and includes Brazilian units holding higher ground.</p><p>A hit from indirect support suppresses the defender’s reactions until its own turn begins without removing its normal shot. Use support before sending infantry uphill. S marks suppression. Indirect artillery gains no extra range from elevation.</p><h2>Reading elevation</h2><p>Paper-to-brown colors show four levels: N1 valley, N2 slope, N3 ridge, and N4 summit. Brown contours occur every 50 m, interpolated between board elevation samples. Climbing one level costs +1 MP; defending at least 30 m higher gives +1 defense. Bands derive from 90 m Copernicus DEM samples: N1 below 780 m, N2 780–849 m, N3 850–919 m, N4 at or above 920 m. These are rule generalizations. The summit is anchored at the OSM point of 977 m; the DEM sample is approximately 980 m. Terrain reflects present-day geography; modern paths and woods do not establish 1945 cover.</p><h2>Reading the counters</h2><div class=\"counter-guide\"><div class=\"example-counter\" aria-label=\"Brazilian infantry example: three cohesion points, attack three, defense three, movement three\"><b>FEB 3/3</b><svg viewBox=\"0 0 80 44\" role=\"img\" aria-label=\"Military infantry symbol\"><rect x=\"10\" y=\"3\" width=\"60\" height=\"36\" fill=\"none\" stroke=\"white\" stroke-width=\"3\"/><path d=\"M10 3L70 39M70 3L10 39\" stroke=\"white\" stroke-width=\"3\"/></svg><span class=\"example-dots\">● ● ●</span><small>A3 D3 M3</small></div><div><p><b>FEB / DE:</b> the counter’s side. Brazilians are blue; Germans are charcoal. The number 3/3 shows current and initial cohesion.</p><p><b>Gold dots:</b> each represents 1 cohesion point (HP). Three dots: intact counter. Two: 1 damage taken. One: 2 damage taken. Losing the last HP removes the counter from the map.</p></div></div><ul><li><b>Rectangle with X:</b> conventional military infantry symbol, simplified for the game.</li><li><b>Rectangle with a white center dot:</b> artillery, with indirect fire up to 5 hexes in the new profiles. The center dot identifies troop type; the gold dots below show cohesion.</li><li><b>A:</b> nominal attack. <b>D:</b> nominal defense. <b>M:</b> movement remaining this turn. M decreases when moving{8}; it returns to maximum on that side’s next turn.</li><li><b>Red −1 or −2 badge:</b> accumulated damage from the initial 3 HP. Each lost HP reduces attack power by 0.5; current power appears in the unit panel.</li><li><b>Diagonal line across a counter:</b> it has already attacked this turn. Its attack becomes available again on that side’s next turn.</li><li><b>II:</b> battalion or artillery group echelon. <b>AP:</b> aggregated support. <b>DEST:</b> reduced scenario detachment. <b>T1–T3:</b> tactical profile level; T1 reduced, T2 operational, T3 fire specialist. These are neither historical ratings nor hidden bonuses.</li><li><b>Blue halo:</b> selected counter. <b>Blue hex outlines:</b> legal destinations when your counter is selected. <b>Red enemy outline:</b> legal target when your counter is selected.</li></ul><p>Double-tap/click enlarges a counter with its current values. The panel also shows elevation, cover, fortifications, range, and action status.</p><h2>February 21, 1945</h2><p>The capture of Monte Castelo in the Northern Apennines was a milestone for the Brazilian Expeditionary Force in the Italian campaign. After failed attempts in November and December 1944, the February 1945 attack took place during Operation Encore, coordinated with the U.S. 10th Mountain Division in the Monte Belvedere sector. General Mascarenhas de Moraes commanded the FEB; the sector’s defense was associated with the Heer’s 232nd Infantry Division (the regular German Army). Sources consulted for this scenario do not identify Waffen-SS units defending Monte Castelo; the game represents Heer troops.</p><p>The scenario depicts the Brazilian advance from the Gaggio Montano sector against elevated positions. Heights favor defense, woods slow movement, and artillery provides distant support. The round limit represents pressure to coordinate and capture the positions.</p><p><b>Historical limits:</b> the board uses Copernicus DEM samples and present-day OpenStreetMap paths/woods; it does not reconstruct 1945 mapping. Secondary objectives have no invented geographic names: they are hex references for the rules without claiming an identified historical position. Strengths, military positions, and conversion of geographic data to hexes are simplified for a short game; the units do not reproduce an exact order of battle.</p><h3>Time, observation, and weather</h3><p>The scenario clock starts at 06:00 and advances 72 minutes per round, covering the period until 18:00. The English battle summary places the main attack at 06:00; the Portuguese summary says “at dawn.” Both record arrival at the summit at 17:30 and concentrated artillery fire between 16:00 and 17:00. In round 10 (16:48), Brazilian artillery receives +1 attack, abstracting that concentration. Turns do not reproduce an exact chronology.</p><p>The elevated observation position corresponds especially to Riva Ridge, southwest of Monte Belvedere. From there, Germans observed approaches to Belvedere’s southern slope and directed artillery fire. The 1st Battalion, 86th Mountain Infantry Regiment, with Company F, made a surprise climb of the cliffs on the night of February 18–19, captured the posts, and held against counterattacks. The 10th Mountain Division then attacked Belvedere–Gorgolesco. This formed part of the offensive coordinated with the FEB rather than a second mountain to capture on this board. Monte della Torraccia remained contested during the operation.</p><p><b>Scenario weather:</b> regional ERA5 reanalysis for February 21, 1945, accessed through Open-Meteo, suggests severe cold and heavy clouds at 06:00, clearing in the morning and clear afternoon skies. It reports zero precipitation and new snow that day; ground snow cover is unavailable. The model’s resolution is about 25 km; it is neither a measurement by soldiers nor a reconstruction of each slope. The weather button shows hourly estimates; these data impose no automatic movement or visibility penalties. Clouds do not mean fog.</p><h3>Sources consulted</h3><p><a href=\"https://pt.wikipedia.org/wiki/Batalha_de_Monte_Castelo\" target=\"_blank\" rel=\"noopener\">Battle of Monte Castelo · Portuguese summary</a><br><a href=\"https://en.wikipedia.org/wiki/Battle_of_Monte_Castello\" target=\"_blank\" rel=\"noopener\">Battle of Monte Castello · English chronology</a><br><a href=\"https://en.wikipedia.org/wiki/Operation_Encore\" target=\"_blank\" rel=\"noopener\">Operation Encore · Riva Ridge and Belvedere</a></p><h3>Further reading</h3><p><a href=\"https://www.fgv.br/cpdoc/acervo/dicionarios/verbete-tematico/forca-expedicionaria-brasileira-feb\" target=\"_blank\" rel=\"noopener\">FGV CPDOC · Brazilian Expeditionary Force</a><br><a href=\"https://history.army.mil/html/books/006/6-4-1/index.html\" target=\"_blank\" rel=\"noopener\">U.S. Army Center of Military History · Cassino to the Alps</a></p><p>Chapter XXIV and map 10 of Cassino to the Alps were consulted through HyperWar reproductions. Page 431 records German withdrawal and final resistance by a small rear guard, a dynamic simplified in this game. Portuguese and English battle summaries and the Operation Encore summary were also consulted. The map is georeferenced to the summit, with DEM and current OSM features; it is still not a cartographic reconstruction of the 1945 battle.</p><h3>Computer commanders</h3><p>Hunter prioritizes higher attack, breaking ties by distance. Opportunist prioritizes lower defense, breaking ties by distance. Aggressive stance closes the distance; defensive stance favors cover and objectives. General staff evaluates legal moves, threats, support, and objectives without a deep search. Learner uses simple Q-learning to choose among six strategy/stance combinations, with 20% exploration, rewards for damage and limiting points, and a final-result bonus. It learns to select policies rather than individual moves. Experience stays in local storage without a server; clearing browser data removes learning.</p>"
+    "pt": "<span class=\"eyebrow\">MANUAL DE CAMPANHA</span><h2>Tomar as alturas</h2><p>{0} Uma partida tem no máximo {1} rodadas.</p><ol><li><b>Mova:</b> selecione a peça e toque no hexágono com contorno de movimento. Campo e estrada custam 1 PM; mata, 2 PM. Some 1 PM por nível de subida. Descer não tem custo extra. Pode mover em etapas. Não é possível atravessar peças.</li><li><b>Ataque:</b> selecione a peça e toque no inimigo com barra de ataque. Não há botões para trocar de ação. Infantaria alcança 1 hexágono; o apoio agregado alcança 2 por uma simplificação de suas armas coletivas. Artilharia faz tiro indireto em alvos conhecidos a até 5 hexágonos nos novos perfis, inclusive fortificações, dispensando linha de visão direta. A proteção do terreno e da fortificação continua valendo. Um ataque por turno.</li><li><b>Combate:</b> ataque + dado de 1 a 6 − defesa − cobertura − 0,5 por PV perdido pelo atacante. Mata, morro ou fortificação dão +1 de cobertura, sem acumular entre si. As posições preparadas de Monte Castelo e de um objetivo secundário são desenhadas como abrigos e trincheiras; suas localizações são esquemáticas. Um defensor pelo menos 30 m acima recebe mais +1. O tiro direto de uma posição pelo menos {2} m acima alcança um hexágono extra, com linha de visão. N1 a N4 indicam as faixas de altitude do terreno. Resultado ≥5 causa 2 danos; ≥1 causa 1; ≤0 falha e causa 1 dano de contra-ataque ao atacante se adjacente, desde que o defensor não esteja suprimido nem já tenha reagido. Cada peça começa com 3 PV de coesão. Infantaria possui 3 PM; destacamentos alemães 2; apoio 2; artilharia 1, conforme o perfil. Apenas infantaria de manobra ocupa objetivos. Perder toda a infantaria de manobra encerra a missão brasileira. {3}<p class=\"automatic-combat\">{10}</p></li><li><b>Vitória:</b> ao fim de cada turno alemão, uma peça brasileira de infantaria de manobra sobre Monte Castelo rende 2 pontos; cada objetivo secundário rende 1. O máximo dos três objetivos é {4} pontos por rodada, não o limite do placar. Os pontos se acumulam entre rodadas e não são perdidos ao sair da posição. {5} Eliminar todas as peças de um lado dá vitória imediata ao adversário. Enquanto houver defensores, os secundários sozinhos não substituem a missão do cume. O prazo é {6} rodadas; a perda de toda a infantaria de manobra também dá vitória à defesa. O grau da vitória considera tempo, peças fora de combate e coesão perdida.</li></ol>{9}<h2>Retirada e reorganização</h2><p>{7}</p><h2>Fogo na subida</h2><p>Ao selecionar uma peça, os destinos legais expostos a reação no percurso recebem borda tracejada. O cálculo considera altitude, linha de visão, alcance, supressão e reação já gasta. É risco de disparo, não dano garantido. A projeção da missão mostra pontuação pela ocupação atual e um percurso otimista; ignora bloqueios e fogo futuro e não é promessa de chegada.</p><p>Ao percorrer uma rota exposta ou iniciar um assalto, uma unidade de tiro direto pelo menos 30 m acima pode disparar primeiro. Há no máximo uma reação por movimento completo e uma do alvo antes do assalto. O tiro de oportunidade causa no máximo 1 dano; o ataque normal pode causar 2. A reação consome a ação de fogo e movimento do próximo turno da unidade; não é um disparo extra ilimitado. A regra é simétrica, incluindo brasileiros que dominem altura.</p><p>Um acerto de apoio indireto suprime a reação do defensor até o início do seu próprio turno, sem retirar seu tiro normal. Use apoio antes de mandar a infantaria encosta acima. O símbolo S indica supressão. Artilharia indireta não ganha alcance adicional por altura.</p><h2>Como ler a altura</h2><p>As faixas de luminosidade mostram quatro níveis: N1 vale, N2 encosta, N3 crista e N4 cume. As linhas de contorno são curvas de nível a cada 50 m, geradas por interpolação entre as amostras de elevação do tabuleiro. Subir um nível custa +1 PM; defender pelo menos 30 m acima dá +1 de defesa. As faixas agora derivam de amostras do Copernicus DEM de 90 m: N1 abaixo de 780 m, N2 de 780–849 m, N3 de 850–919 m, N4 a partir de 920 m. São generalizações para as regras. O cume está ancorado no ponto OSM de cota 977 m; a amostra DEM dá aproximadamente 980 m. O relevo é geográfico atual; caminhos e bosques modernos não comprovam a cobertura de 1945.</p><h2>Como ler o desenho das peças</h2><div class=\"counter-guide\"><div class=\"example-counter\" aria-label=\"Exemplo de infantaria brasileira: três pontos de resistência, ataque três, defesa três e movimento três\"><b>FEB 3/3</b><svg viewBox=\"0 0 80 44\" role=\"img\" aria-label=\"Símbolo militar de infantaria\"><rect x=\"10\" y=\"3\" width=\"60\" height=\"36\" fill=\"none\" stroke=\"var(--ui-counterText)\" stroke-width=\"3\"/><path d=\"M10 3L70 39M70 3L10 39\" stroke=\"var(--ui-counterText)\" stroke-width=\"3\"/></svg><span class=\"example-dots\">● ● ●</span><small>A3 D3 M3</small></div><div><p><b>FEB / DE:</b> lado da peça. FEB identifica brasileiros; DE identifica alemães. As cores são as escolhidas em Aparência. O número 3/3 mostra a resistência atual e a inicial.</p><p><b>Bolinhas de coesão:</b> cada uma vale 1 ponto de resistência (PV). Três bolinhas: peça intacta. Duas: sofreu 1 dano. Uma: sofreu 2 danos. Ao perder o último PV, a peça sai do mapa.</p></div></div><ul><li><b>Retângulo com X:</b> símbolo militar convencional de infantaria, simplificado para o jogo.</li><li><b>Retângulo com ponto central:</b> artilharia, com tiro indireto de até 5 hexágonos nos novos perfis. O ponto central identifica o tipo da tropa; as bolinhas de coesão abaixo mostram resistência.</li><li><b>A:</b> ataque nominal. <b>D:</b> defesa nominal. <b>M:</b> movimento restante no turno. M diminui ao mover{8}; volta ao máximo no próximo turno desse lado.</li><li><b>Selo de dano −1 ou −2:</b> dano acumulado desde os 3 PV iniciais. Cada PV perdido reduz a potência do ataque em 0,5; a potência atual aparece no painel da peça.</li><li><b>Traço diagonal sobre a peça:</b> já atacou neste turno. O direito de ataque volta no próximo turno desse lado.</li><li><b>II:</b> escalão de batalhão ou grupo de artilharia. <b>AP:</b> apoio agregado. <b>DEST:</b> destacamento reduzido de cenário. <b>T1–T3:</b> nível tático do perfil; T1 reduzido, T2 operacional, T3 especializado em fogos. Não são notas históricas nem bônus ocultos.</li><li><b>Halo de seleção:</b> peça selecionada. <b>Hexágonos com contorno de movimento:</b> destinos legais ao selecionar sua peça. <b>Contorno de ataque no inimigo:</b> alvo legal ao selecionar sua peça.</li></ul><p>Duplo toque/clique amplia a peça com seus valores atuais. O painel mostra também altitude, cobertura, fortificação, alcance e estado de ação.</p><p>Leia a narrativa ampliada e as fontes brasileiras no botão História.</p><h3>Comandantes do computador</h3><p>Caçador prioriza maior ataque, desempata por distância. Oportunista prioriza menor defesa, desempata por distância. A postura agressiva aproxima; a defensiva valoriza cobertura e objetivos. Estado-maior avalia movimentos legais, ameaças, apoio e objetivos; calcula sem busca longa. Aprendiz usa Q-learning simples para escolher entre seis combinações de estratégia/postura, com exploração de 20%, recompensa por danos e contenção de pontos, e bônus por resultado final. Ele aprende a escolher políticas, não movimentos individuais. A experiência fica no armazenamento local, sem servidor; apagar os dados do navegador apaga o aprendizado.</p>",
+    "en": "<span class=\"eyebrow\">CAMPAIGN MANUAL</span><h2>Capture the heights</h2><p>{0} A game lasts at most {1} rounds.</p><ol><li><b>Move:</b> select a counter and tap a hex with a movement outline. Open ground and roads cost 1 MP; woods cost 2 MP. Add 1 MP for each elevation level climbed. Descending has no extra cost. You may move in stages. Counters cannot pass through other counters.</li><li><b>Attack:</b> select a counter and tap an enemy with an attack bar. No action-switch buttons are needed. Infantry reaches 1 hex; aggregated support reaches 2 as a simplification of its crew-served weapons. In the new profiles, artillery uses indirect fire against known targets up to 5 hexes away, including fortifications, without requiring direct line of sight. Terrain and fortification protection still apply. One attack per turn.</li><li><b>Combat:</b> attack + a six-sided die − defense − cover − 0.5 per HP lost by the attacker. Woods, an elevated objective, or a fortification provide +1 cover; these do not stack. Prepared positions on Monte Castelo and a secondary objective are drawn as shelters and trenches; their locations are schematic. A defender at least 30 m higher receives another +1. Direct fire from a position at least {2} m higher reaches one extra hex, with line of sight. ↑1 through ↑4 indicate relative elevation levels. A result ≥5 causes 2 damage; ≥1 causes 1; ≤0 misses and causes 1 counterattack damage to an adjacent attacker, provided the defender is neither suppressed nor already spent its reaction. Each counter starts with 3 HP of cohesion. Infantry has 3 MP; German detachments 2; support 2; artillery 1, according to its profile. Only maneuver infantry occupies objectives. Losing all maneuver infantry ends the Brazilian mission. {3}<p class=\"automatic-combat\">{10}</p></li><li><b>Victory:</b> at the end of each German turn, a Brazilian maneuver infantry counter on Monte Castelo earns 2 points; each secondary objective earns 1. The three objectives yield up to {4} points per round; this is not the score limit. Points accumulate between rounds and are retained after leaving a position. {5} Eliminating every counter on one side gives its opponent an immediate victory. While defenders remain, secondary objectives alone do not replace the summit mission. The deadline is {6} rounds; losing all maneuver infantry also gives victory to the defense. Victory grades consider time, counters out of action, and cohesion lost.</li></ol>{9}<h2>Withdrawal and reorganization</h2><p>{7}</p><h2>Fire on the climb</h2><p>When selecting a counter, legal destinations exposed to reactions along the route receive dashed borders. The calculation considers elevation, line of sight, range, suppression, and spent reactions. It indicates a risk of fire rather than guaranteed damage. The mission forecast shows the score from current occupation and an optimistic route; it ignores blocking units and future fire and does not promise arrival.</p><p>When a unit follows an exposed route or starts an assault, a direct-fire unit at least 30 m higher may fire first. There is at most one reaction per complete movement and one from the target before an assault. Opportunity fire causes at most 1 damage; a normal attack can cause 2. A reaction commits the reacting unit’s fire and movement actions for its next turn; it is not an unlimited extra shot. The rule is symmetric and includes Brazilian units holding higher ground.</p><p>A hit from indirect support suppresses the defender’s reactions until its own turn begins without removing its normal shot. Use support before sending infantry uphill. S marks suppression. Indirect artillery gains no extra range from elevation.</p><h2>Reading elevation</h2><p>Lightness bands show four levels: N1 valley, N2 slope, N3 ridge, and N4 summit. Contour lines occur every 50 m, interpolated between board elevation samples. Climbing one level costs +1 MP; defending at least 30 m higher gives +1 defense. Bands derive from 90 m Copernicus DEM samples: N1 below 780 m, N2 780–849 m, N3 850–919 m, N4 at or above 920 m. These are rule generalizations. The summit is anchored at the OSM point of 977 m; the DEM sample is approximately 980 m. Terrain reflects present-day geography; modern paths and woods do not establish 1945 cover.</p><h2>Reading the counters</h2><div class=\"counter-guide\"><div class=\"example-counter\" aria-label=\"Brazilian infantry example: three cohesion points, attack three, defense three, movement three\"><b>FEB 3/3</b><svg viewBox=\"0 0 80 44\" role=\"img\" aria-label=\"Military infantry symbol\"><rect x=\"10\" y=\"3\" width=\"60\" height=\"36\" fill=\"none\" stroke=\"var(--ui-counterText)\" stroke-width=\"3\"/><path d=\"M10 3L70 39M70 3L10 39\" stroke=\"var(--ui-counterText)\" stroke-width=\"3\"/></svg><span class=\"example-dots\">● ● ●</span><small>A3 D3 M3</small></div><div><p><b>FEB / DE:</b> the counter’s side. FEB identifies Brazilian counters; DE identifies German counters. Colors follow your Appearance settings. The number 3/3 shows current and initial cohesion.</p><p><b>Cohesion dots:</b> each represents 1 cohesion point (HP). Three dots: intact counter. Two: 1 damage taken. One: 2 damage taken. Losing the last HP removes the counter from the map.</p></div></div><ul><li><b>Rectangle with X:</b> conventional military infantry symbol, simplified for the game.</li><li><b>Rectangle with a center dot:</b> artillery, with indirect fire up to 5 hexes in the new profiles. The center dot identifies troop type; the cohesion dots below show cohesion.</li><li><b>A:</b> nominal attack. <b>D:</b> nominal defense. <b>M:</b> movement remaining this turn. M decreases when moving{8}; it returns to maximum on that side’s next turn.</li><li><b>−1 or −2 damage badge:</b> accumulated damage from the initial 3 HP. Each lost HP reduces attack power by 0.5; current power appears in the unit panel.</li><li><b>Diagonal line across a counter:</b> it has already attacked this turn. Its attack becomes available again on that side’s next turn.</li><li><b>II:</b> battalion or artillery group echelon. <b>AP:</b> aggregated support. <b>DEST:</b> reduced scenario detachment. <b>T1–T3:</b> tactical profile level; T1 reduced, T2 operational, T3 fire specialist. These are neither historical ratings nor hidden bonuses.</li><li><b>Selection halo:</b> selected counter. <b>Solid hex outlines:</b> legal destinations when your counter is selected. <b>Enemy attack outline:</b> legal target when your counter is selected.</li></ul><p>Double-tap/click enlarges a counter with its current values. The panel also shows elevation, cover, fortifications, range, and action status.</p><p>Read the expanded account and Brazilian sources with the History button.</p><h3>Computer commanders</h3><p>Hunter prioritizes higher attack, breaking ties by distance. Opportunist prioritizes lower defense, breaking ties by distance. Aggressive stance closes the distance; defensive stance favors cover and objectives. General staff evaluates legal moves, threats, support, and objectives without a deep search. Learner uses simple Q-learning to choose among six strategy/stance combinations, with 20% exploration, rewards for damage and limiting points, and a final-result bonus. It learns to select policies rather than individual moves. Experience stays in local storage without a server; clearing browser data removes learning.</p>"
   },
   "app.086": {
     "pt": "Mova e atire em qualquer ordem. O ataque normal preserva os PM restantes; só há um disparo por turno. Reações e reorganização ainda podem comprometer movimento e fogo.",
@@ -350,8 +493,8 @@ export const messages = {
     "en": " and drops to zero when attacking in this older game"
   },
   "app.092": {
-    "pt": "<span class=\"eyebrow\">APENINOS, ITÁLIA · 21 DE FEVEREIRO DE 1945</span><img class=\"narrative-logo\" src=\"{0}\" alt=\"Distintivo oficial da Força Expedicionária Brasileira\"><h2>Monte Castelo Vibed</h2><h3>Antes de o sol alcançar as alturas…</h3><p>À sua frente, Monte Castelo. Depois dos ataques frustrados do ano anterior, os pracinhas da Força Expedicionária Brasileira voltam a avançar. A encosta exposta favorece os defensores; cada dobra do terreno pode oferecer proteção ou esconder uma posição inimiga.</p><p>No setor vizinho, a ofensiva americana contra a crista de Riva e Monte Belvedere integra o esforço aliado. Agora, cabe à FEB conquistar sua parte das alturas.</p><p>{1}</p><p><b>Sua missão:</b> {2} {3} Planeje a subida: a altura custa movimento e protege o defensor.</p><p class=\"muted\">Narrativa ambientada em fatos históricos. Tabuleiro, forças e duração dos turnos são abstrações. Horário baseado nas sínteses da batalha; clima diário representado por reanálise regional ERA5; cartografia generalizada, cotejada com mapa operacional da história oficial americana.</p><button id=\"begin\">Assumir o comando →</button>",
-    "en": "<span class=\"eyebrow\">APENNINES, ITALY · FEBRUARY 21, 1945</span><img class=\"narrative-logo\" src=\"{0}\" alt=\"Official Brazilian Expeditionary Force emblem\"><h2>Monte Castelo Vibed</h2><h3>Before sunlight reaches the heights…</h3><p>Monte Castelo lies ahead. Following the previous year’s failed attacks, the soldiers of the Brazilian Expeditionary Force advance again. The exposed slope favors the defenders; every fold of ground can provide cover or conceal an enemy position.</p><p>In the neighboring sector, the American offensive against Riva Ridge and Monte Belvedere is part of the Allied effort. Now the FEB must capture its share of the heights.</p><p>{1}</p><p><b>Your mission:</b> {2} {3} Plan your climb: elevation costs movement and protects the defender.</p><p class=\"muted\">A narrative based on historical events. The board, forces, and turn length are abstractions. Times follow battle summaries; daily weather uses regional ERA5 reanalysis; generalized mapping is compared with an operational map from the official U.S. Army history.</p><button id=\"begin\">Take command →</button>"
+    "pt": "<span class=\"eyebrow\">APENINOS, ITÁLIA · 21 DE FEVEREIRO DE 1945</span><img class=\"narrative-logo\" src=\"{0}\" alt=\"Distintivo oficial da Força Expedicionária Brasileira\"><h2>Monte Castelo Vibed</h2><h3>Antes de o sol alcançar as alturas…</h3>{4}<p>{1}</p><p><b>Sua missão:</b> {2} {3} Planeje a subida: a altura custa movimento e protege o defensor.</p><p class=\"muted\">Narrativa ambientada em fatos históricos. Tabuleiro, forças e duração dos turnos são abstrações. Horário baseado nas sínteses da batalha; clima diário representado por reanálise regional ERA5; cartografia generalizada, cotejada com mapa operacional da história oficial americana.</p><button id=\"begin\">Assumir o comando →</button>",
+    "en": "<span class=\"eyebrow\">APENNINES, ITALY · FEBRUARY 21, 1945</span><img class=\"narrative-logo\" src=\"{0}\" alt=\"Official Brazilian Expeditionary Force emblem\"><h2>Monte Castelo Vibed</h2><h3>Before sunlight reaches the heights…</h3>{4}<p>{1}</p><p><b>Your mission:</b> {2} {3} Plan your climb: elevation costs movement and protects the defender.</p><p class=\"muted\">A narrative based on historical events. The board, forces, and turn length are abstractions. Times follow battle summaries; daily weather uses regional ERA5 reanalysis; generalized mapping is compared with an operational map from the official U.S. Army history.</p><button id=\"begin\">Take command →</button>"
   },
   "app.093": {
     "pt": "alterne o comando dos dois lados no mesmo aparelho.",
@@ -542,8 +685,8 @@ export const messages = {
     "en": "Artillery"
   },
   "term.azul": {
-    "pt": "azul",
-    "en": "blue"
+    "pt": "FEB",
+    "en": "FEB"
   },
   "term.sim": {
     "pt": "sim",
@@ -809,7 +952,10 @@ export const messages = {
     "pt": "O arquivo não contém JSON válido.",
     "en": "The file does not contain valid JSON."
   },
-  "tribute.dialog": {"pt": "<span class=\"eyebrow\">HOMENAGEM</span><h2>Pedro Henrique de Figueiredo Bonorino</h2><figure class=\"tribute-portrait\"><img src=\"{8}\" alt=\"Retrato de Pedro Henrique de Figueiredo Bonorino\" style=\"display:block;width:min(100%,340px);height:auto;margin:auto;border-radius:4px\"><figcaption>Fotografia fornecida pelo autor da homenagem.</figcaption></figure><p>Este jogo é uma homenagem a Pedro Henrique de Figueiredo Bonorino, à época tenente de Infantaria do 6º Regimento de Infantaria, integrante da Força Expedicionária Brasileira (FEB).</p><figure><img class=\"narrative-logo\" src=\"{0}\" alt=\"{1}\"><figcaption>{1}. Distintivo atual da unidade sucessora; não se afirma que tenha sido usado em 1945.</figcaption></figure><p class=\"muted\">{3} <a href=\"{2}\" target=\"_blank\" rel=\"noopener\">Fonte da imagem regimental</a></p><figure><img class=\"narrative-logo\" src=\"{4}\" alt=\"{5}\"><figcaption>{5}</figcaption></figure><p class=\"muted\">{7} <a href=\"{6}\" target=\"_blank\" rel=\"noopener\">Fonte do distintivo da FEB</a></p><p>As imagens conservam seus direitos e condições próprios; não são relicenciadas pela licença CC BY-NC-SA do jogo. Esta homenagem é independente e não implica endosso institucional.</p>", "en": "<span class=\"eyebrow\">TRIBUTE</span><h2>Pedro Henrique de Figueiredo Bonorino</h2><figure class=\"tribute-portrait\"><img src=\"{8}\" alt=\"Portrait of Pedro Henrique de Figueiredo Bonorino\" style=\"display:block;width:min(100%,340px);height:auto;margin:auto;border-radius:4px\"><figcaption>Photograph supplied by the tribute author.</figcaption></figure><p>This game is a tribute to Pedro Henrique de Figueiredo Bonorino, then an infantry lieutenant in the 6th Infantry Regiment of the Brazilian Expeditionary Force (FEB).</p><figure><img class=\"narrative-logo\" src=\"{0}\" alt=\"{1}\"><figcaption>{1}. Current emblem of the successor unit; no claim is made that it was used in 1945.</figcaption></figure><p class=\"muted\">{3} <a href=\"{2}\" target=\"_blank\" rel=\"noopener\">Regimental image source</a></p><figure><img class=\"narrative-logo\" src=\"{4}\" alt=\"{5}\"><figcaption>{5}</figcaption></figure><p class=\"muted\">{7} <a href=\"{6}\" target=\"_blank\" rel=\"noopener\">FEB emblem source</a></p><p>These images retain their own rights and conditions; they are not relicensed under the game’s CC BY-NC-SA license. This independent tribute does not imply institutional endorsement.</p>"},
+  "tribute.dialog": {
+    "pt": "<span class=\"eyebrow\">HOMENAGEM</span><h2>Pedro Henrique de Figueiredo Bonorino</h2><figure class=\"tribute-portrait\"><img src=\"{8}\" alt=\"Retrato de Pedro Henrique de Figueiredo Bonorino\" style=\"display:block;width:min(100%,340px);height:auto;margin:auto;border-radius:4px\"><figcaption>Fotografia fornecida pelo autor da homenagem.</figcaption></figure><p>Este jogo é uma homenagem a Pedro Henrique de Figueiredo Bonorino, à época tenente de Infantaria do 6º Regimento de Infantaria, integrante da Força Expedicionária Brasileira (FEB).</p><figure><img class=\"narrative-logo\" src=\"{0}\" alt=\"{1}\"><figcaption>{1}. Distintivo atual da unidade sucessora; não se afirma que tenha sido usado em 1945.</figcaption></figure><p class=\"muted\">{3} <a href=\"{2}\" target=\"_blank\" rel=\"noopener\">Fonte da imagem regimental</a></p><figure><img class=\"narrative-logo\" src=\"{4}\" alt=\"{5}\"><figcaption>{5}</figcaption></figure><p class=\"muted\">{7} <a href=\"{6}\" target=\"_blank\" rel=\"noopener\">Fonte do distintivo da FEB</a></p><p>As imagens conservam seus direitos e condições próprios; não são relicenciadas pela licença CC BY-NC-SA do jogo. Esta homenagem é independente e não implica endosso institucional.</p>",
+    "en": "<span class=\"eyebrow\">TRIBUTE</span><h2>Pedro Henrique de Figueiredo Bonorino</h2><figure class=\"tribute-portrait\"><img src=\"{8}\" alt=\"Portrait of Pedro Henrique de Figueiredo Bonorino\" style=\"display:block;width:min(100%,340px);height:auto;margin:auto;border-radius:4px\"><figcaption>Photograph supplied by the tribute author.</figcaption></figure><p>This game is a tribute to Pedro Henrique de Figueiredo Bonorino, then an infantry lieutenant in the 6th Infantry Regiment of the Brazilian Expeditionary Force (FEB).</p><figure><img class=\"narrative-logo\" src=\"{0}\" alt=\"{1}\"><figcaption>{1}. Current emblem of the successor unit; no claim is made that it was used in 1945.</figcaption></figure><p class=\"muted\">{3} <a href=\"{2}\" target=\"_blank\" rel=\"noopener\">Regimental image source</a></p><figure><img class=\"narrative-logo\" src=\"{4}\" alt=\"{5}\"><figcaption>{5}</figcaption></figure><p class=\"muted\">{7} <a href=\"{6}\" target=\"_blank\" rel=\"noopener\">FEB emblem source</a></p><p>These images retain their own rights and conditions; they are not relicensed under the game’s CC BY-NC-SA license. This independent tribute does not imply institutional endorsement.</p>"
+  },
   "license.thirdParty": {
     "pt": "Recursos de terceiros: consulte os créditos e fontes.",
     "en": "Third-party resources\nOpenStreetMap data and the adapted geography database retain ODbL 1.0: https://opendatacommons.org/licenses/odbl/1-0/\n© OpenStreetMap contributors: https://www.openstreetmap.org/copyright\nElevation: Copernicus DEM 2021 GLO-90 through Open-Meteo, subject to the provider’s terms: https://open-meteo.com/en/docs/elevation-api\nThe Armand Casini historical map, Mountaineers, c. 1950, is public domain according to Wikimedia Commons. Barlow Condensed retains the SIL Open Font License in assets/fonts/OFL.txt. Institutional logos and tribute images retain their own rights as stated in their source credits. These resources are not relicensed under the game code’s CC BY-NC-SA notice."
@@ -837,5 +983,145 @@ export const messages = {
   "victory.legacy": {
     "pt": "Condições preservadas desta partida antiga: {0}",
     "en": "Preserved conditions for this older game: {0}"
+  },
+  "symbols.title": {
+    "pt": "Legenda completa dos símbolos",
+    "en": "Complete symbol legend"
+  },
+  "symbols.intro": {
+    "pt": "As formas, letras e números continuam válidos em qualquer paleta. Exemplos usam suas cores atuais.",
+    "en": "Shapes, letters, and numbers keep the same meaning in every palette. Examples use your current colors."
+  },
+  "symbols.factions": {
+    "pt": "<b>FEB / DE:</b> identificam as forças brasileira e alemã; o preenchimento distingue os lados.",
+    "en": "<b>FEB / DE:</b> identify Brazilian and German forces; counter fills distinguish the sides."
+  },
+  "symbols.military": {
+    "pt": "<b>Retângulo com X:</b> infantaria. <b>Ponto:</b> artilharia. <b>Elipse:</b> blindados, quando presentes; o cenário atual não inclui uma peça blindada.",
+    "en": "<b>Rectangle with an X:</b> infantry. <b>Dot:</b> artillery. <b>Ellipse:</b> armor when present; the current scenario has no armored counter."
+  },
+  "symbols.echelon": {
+    "pt": "<b>II:</b> batalhão ou grupo de artilharia. <b>AP:</b> apoio agregado. <b>DEST:</b> destacamento reduzido do cenário. <b>T1–T3:</b> perfil tático, de reduzido a especialista de fogo; não é patente, número de homens nem bônus oculto.",
+    "en": "<b>II:</b> battalion or artillery group. <b>AP:</b> aggregated support. <b>DEST:</b> reduced scenario detachment. <b>T1–T3:</b> tactical profile, from reduced to fire specialist; not rank, manpower, or a hidden bonus."
+  },
+  "symbols.values": {
+    "pt": "<b>A:</b> ataque base. <b>D:</b> defesa base. <b>M:</b> movimento restante. <b>2/3:</b> coesão atual de três pontos; cada perda reduz o ataque efetivo em 0,5.",
+    "en": "<b>A:</b> base attack. <b>D:</b> base defense. <b>M:</b> movement remaining. <b>2/3:</b> current cohesion out of three points; each lost point reduces effective attack by 0.5."
+  },
+  "symbols.dots": {
+    "pt": "<b>Bolinhas:</b> um ponto de coesão por bolinha. Não contam soldados individuais.",
+    "en": "<b>Dots:</b> one cohesion point per dot. They do not count individual soldiers."
+  },
+  "symbols.damage": {
+    "pt": "<b>−1 / −2 acima da peça:</b> dano acumulado. O marcador fica separado da identificação e do escalão; não representa a força de ataque.",
+    "en": "<b>−1 / −2 above the counter:</b> accumulated damage. The badge is separate from identification and echelon; it is not attack strength."
+  },
+  "symbols.suppression": {
+    "pt": "<b>S:</b> unidade suprimida por fogo indireto; não pode executar reação enquanto essa condição durar. Reorganização e reação já gasta aparecem por extenso na inspeção.",
+    "en": "<b>S:</b> suppressed by indirect fire; the unit cannot react while suppressed. Reorganization and a spent reaction are written out in inspection."
+  },
+  "symbols.spent": {
+    "pt": "<b>Risco diagonal:</b> o ataque normal desta ativação já foi usado. Na regra atual, isso não impede mover com PM restantes.",
+    "en": "<b>Diagonal slash:</b> this activation’s normal attack has been used. Under current rules, remaining MP can still be spent on movement."
+  },
+  "symbols.selection": {
+    "pt": "<b>Contorno reforçado da peça:</b> seleção ou foco; as ações mostradas se referem a essa peça.",
+    "en": "<b>Heavy counter outline:</b> selection or focus; displayed actions apply to that counter."
+  },
+  "symbols.movement": {
+    "pt": "<b>Contorno contínuo no hexágono:</b> destino alcançável com os PM atuais pelo caminho calculado. Toque para mover.",
+    "en": "<b>Solid hex outline:</b> a destination reachable with current MP along the calculated route. Tap it to move."
+  },
+  "symbols.risk": {
+    "pt": "<b>Borda tracejada no destino:</b> a rota está exposta a possível fogo defensivo de uma posição elevada. É previsão de risco, não garantia de dano nem proibição de mover.",
+    "en": "<b>Dashed destination outline:</b> the route is exposed to possible defensive fire from a higher position. It predicts risk, not certain damage or prohibited movement."
+  },
+  "symbols.attack": {
+    "pt": "<b>Barra acima do inimigo e contorno de ataque:</b> alvo legal para a peça selecionada. Toque no inimigo para atacar.",
+    "en": "<b>Bar above an enemy and attack outline:</b> a legal target for the selected counter. Tap the enemy to attack."
+  },
+  "symbols.objective": {
+    "pt": "<b>Estrela e anel tracejado:</b> objetivo. O rótulo +N/rod indica os pontos por fechamento de rodada com infantaria FEB no hexágono. Monte Castelo é o cume exigido pela missão.",
+    "en": "<b>Star and dashed ring:</b> objective. The +N/round label shows points awarded at round ending with FEB infantry in the hex. Monte Castelo is the summit required by the mission."
+  },
+  "symbols.height": {
+    "pt": "<b>N1–N4 e ~metros:</b> faixas e cota aproximada da altura amostrada. <b>Curvas:</b> linhas de mesma altitude. Subir custa mais movimento e a altura pode favorecer defesa, reação e alcance conforme as regras.",
+    "en": "<b>N1–N4 and ~meters:</b> bands and approximate sampled elevation. <b>Contours:</b> lines of equal elevation. Climbing costs more movement, and height can improve defense, reaction, and range under the rules."
+  },
+  "symbols.forest": {
+    "pt": "<b>Grupos de árvores:</b> mata do terreno simplificado; exige mais movimento e dá cobertura. As manchas suaves de bosque vêm da base geográfica atual, não de um inventário de 1945.",
+    "en": "<b>Tree clusters:</b> woods in the simplified terrain; they cost extra movement and provide cover. Soft woodland areas come from present-day geographic data, not a 1945 inventory."
+  },
+  "symbols.fort": {
+    "pt": "<b>Traços de abrigo e pequeno bloco:</b> fortificação abstrata. Aumenta a proteção do defensor; não é uma construção histórica individual confirmada.",
+    "en": "<b>Shelter marks and a small block:</b> an abstract fortification. It improves defender protection; it is not an individually confirmed historical building."
+  },
+  "symbols.routes": {
+    "pt": "<b>Linha contínua:</b> estrada. <b>Tracejado fino:</b> trilha ou caminho da base atual. Só o terreno classificado pelo motor determina custo; um traço geográfico decorativo não cria uma regra extra.",
+    "en": "<b>Solid route:</b> road. <b>Thin dashes:</b> a trail or path in current geographic data. Only engine-classified terrain determines cost; a decorative geographic line creates no extra rule."
+  },
+  "symbols.buildings": {
+    "pt": "<b>Pequenos polígonos:</b> edificações da base atual. <b>Arcos de relevo:</b> símbolo esquemático de morro. Não identificam tropas ou objetivos e não acrescentam bônus além do terreno calculado.",
+    "en": "<b>Small polygons:</b> buildings in current data. <b>Relief arcs:</b> a schematic hill symbol. They do not identify troops or objectives and add no bonus beyond the calculated terrain."
+  },
+  "symbols.orientation": {
+    "pt": "<b>N ↑:</b> norte do mapa. <b>Barra de 500 m:</b> escala geográfica aproximada. Setas em mensagens de tiro ligam quem atira ao alvo.",
+    "en": "<b>N ↑:</b> map north. <b>500 m bar:</b> approximate geographic scale. Arrows in firing messages connect the shooter to its target."
+  },
+  "symbols.fire": {
+    "pt": "<b>Traço e pequena explosão:</b> disparo real já resolvido. O texto distingue Ataque, Fogo defensivo e Contra-ataque, com perda de PV ou Sem perda de coesão. O impacto fica no hexágono atingido, mesmo se a peça continuar andando, recuar ou sair de combate. Infantaria usa rajadas; o apoio agregado usa a imagem de morteiro; artilharia usa arco e projétil genérico, sem afirmar um calibre. Em Aparência, é possível desligar o movimento e ajustar a duração; o resultado continua visível.",
+    "en": "<b>Tracer and small burst:</b> an actual shot that has already resolved. Text distinguishes Attack, Defensive fire, and Counterattack, with HP loss or No cohesion loss. Impact stays in the struck hex even if the counter keeps moving, withdraws, or leaves action. Infantry uses bursts; aggregated support uses a mortar image; artillery uses an arc and generic shell with no stated caliber. Appearance lets you disable movement and adjust duration; the result stays visible."
+  },
+  "symbols.damageLabel": {
+    "pt": "Dano acumulado: {0} PV",
+    "en": "Accumulated damage: {0} HP"
+  },
+  "dialog.closeBottom": {
+    "pt": "Fechar",
+    "en": "Close"
+  },
+  "history.button": {
+    "pt": "História",
+    "en": "History"
+  },
+  "rules.button": {
+    "pt": "Regras & símbolos",
+    "en": "Rules & symbols"
+  },
+  "appearance.animations": {
+    "pt": "Animar os disparos",
+    "en": "Animate firing"
+  },
+  "appearance.animationsNote": {
+    "pt": "Infantaria mostra rajadas; apoio agregado mostra uma granada de morteiro; artilharia mostra um projétil em arco. São convenções visuais, sem calibre específico. Desligar mantém impacto e resultado estáticos. A preferência do aparelho por movimento reduzido sempre é respeitada.",
+    "en": "Infantry shows bursts; aggregated support shows a mortar round; artillery shows a shell on an arc. These are visual conventions with no specific caliber. Turning animations off keeps a static impact and result. Your device’s reduced-motion preference is always respected."
+  },
+  "terrain.rulesTable": {
+    "pt": "<section class=\"terrain-rules\"><h3>Terreno, movimento e proteção</h3><div class=\"terrain-table-scroll\" tabindex=\"0\" role=\"region\" aria-label=\"Terreno, movimento e proteção\"><table><caption>Referência do cenário: custos para entrar no hexágono e bônus de proteção.</caption><thead><tr><th scope=\"col\">Condição</th><th scope=\"col\">Custo de movimento</th><th scope=\"col\">Proteção</th><th scope=\"col\">Observação</th></tr></thead><tbody><tr><th scope=\"row\">Campo e estrada</th><td>1 PM</td><td>Sem cobertura própria</td><td>A altura ou uma fortificação ainda podem proteger o defensor.</td></tr><tr><th scope=\"row\">Mata</th><td>2 PM</td><td>+1 de cobertura</td><td>Não soma sua cobertura à de morro ou fortificação; usa-se a maior.</td></tr><tr><th scope=\"row\">Morro</th><td>1 PM + subida</td><td>+1 de cobertura</td><td>A altura custa movimento pela diferença entre N1–N4, não pelo símbolo de morro isoladamente.</td></tr><tr><th scope=\"row\">Subir níveis</th><td>+1 PM por nível</td><td>Ver desnível em metros</td><td>Some ao custo do terreno de destino. N1 → N2 acrescenta 1 PM; N1 → N3 acrescenta 2 PM.</td></tr><tr><th scope=\"row\">Descer</th><td>Sem custo extra</td><td>Depende da posição final</td><td>Pague o custo normal do terreno de destino, mesmo descendo.</td></tr><tr><th scope=\"row\">Fortificação</th><td>Custo do terreno</td><td>+1 de cobertura</td><td>Não acumula com a cobertura de mata ou morro. O desnível de altura ainda pode somar proteção.</td></tr><tr><th scope=\"row\">Defensor ≥{0} m acima</th><td>Sem custo próprio</td><td>+1 adicional de defesa</td><td>O desnível é medido entre atacante e defensor, em metros, independentemente da faixa N.</td></tr><tr><th scope=\"row\">Atirador ≥{1} m acima</th><td>Sem custo próprio</td><td>Não altera cobertura</td><td>+1 hexágono de alcance para tiro direto habilitado, mantendo linha de visão. Não se aplica ao tiro indireto.</td></tr><tr><th scope=\"row\">Tiro indireto</th><td>Não muda o movimento</td><td>Proteção continua valendo</td><td>Artilharia e apoio com tiro indireto dispensam linha de visão direta; não ignoram a defesa do terreno.</td></tr><tr><th scope=\"row\">Hexágono ocupado</th><td>Entrada bloqueada</td><td>—</td><td>Uma peça não atravessa nem termina o movimento sobre outra peça.</td></tr></tbody></table></div><p class=\"terrain-example\"><b>Exemplo:</b> entrar em mata (2 PM) e subir de N1 para N2 (+1 PM) custa <b>3 PM</b>.</p><p class=\"muted\">O clima regional é informativo: o modelo atual não aplica penalidades automáticas por frio, nuvens, neve ou lama. Os alcances e condições da unidade aparecem na inspeção.</p></section>",
+    "en": "<section class=\"terrain-rules\"><h3>Terrain, movement, and protection</h3><div class=\"terrain-table-scroll\" tabindex=\"0\" role=\"region\" aria-label=\"Terrain, movement, and protection\"><table><caption>Scenario reference: costs to enter a hex and protection bonuses.</caption><thead><tr><th scope=\"col\">Condition</th><th scope=\"col\">Movement cost</th><th scope=\"col\">Protection</th><th scope=\"col\">Notes</th></tr></thead><tbody><tr><th scope=\"row\">Open ground and road</th><td>1 MP</td><td>No inherent cover</td><td>Elevation or a fortification can still protect the defender.</td></tr><tr><th scope=\"row\">Woods</th><td>2 MP</td><td>+1 cover</td><td>Does not stack with hill or fortification cover; use the highest cover bonus.</td></tr><tr><th scope=\"row\">Hill</th><td>1 MP + climbing</td><td>+1 cover</td><td>Elevation costs movement through N1–N4 differences, not through the hill symbol alone.</td></tr><tr><th scope=\"row\">Climbing levels</th><td>+1 MP per level</td><td>See elevation in meters</td><td>Add to the destination terrain cost. N1 → N2 adds 1 MP; N1 → N3 adds 2 MP.</td></tr><tr><th scope=\"row\">Descending</th><td>No extra cost</td><td>Depends on the final position</td><td>Pay the destination’s normal terrain cost even when moving downhill.</td></tr><tr><th scope=\"row\">Fortification</th><td>Underlying terrain cost</td><td>+1 cover</td><td>Does not stack with woods or hill cover. An elevation advantage can still add protection.</td></tr><tr><th scope=\"row\">Defender ≥{0} m higher</th><td>No separate cost</td><td>+1 additional defense</td><td>The height difference is measured between attacker and defender in meters, independently of N bands.</td></tr><tr><th scope=\"row\">Shooter ≥{1} m higher</th><td>No separate cost</td><td>Does not alter cover</td><td>+1 hex of enabled direct-fire range, with line of sight still required. Does not apply to indirect fire.</td></tr><tr><th scope=\"row\">Indirect fire</th><td>Does not alter movement</td><td>Protection still applies</td><td>Artillery and indirect support do not require direct line of sight; they do not ignore terrain defense.</td></tr><tr><th scope=\"row\">Occupied hex</th><td>Entry blocked</td><td>—</td><td>A counter cannot pass through or end movement on another counter.</td></tr></tbody></table></div><p class=\"terrain-example\"><b>Example:</b> entering woods (2 MP) and climbing from N1 to N2 (+1 MP) costs <b>3 MP</b>.</p><p class=\"muted\">Regional weather is informational: the current model applies no automatic penalties for cold, clouds, snow, or mud. Unit inspection shows its ranges and conditions.</p></section>"
+  },
+  "appearance.soundEnabled": {
+    "pt": "Ativar som dos disparos",
+    "en": "Enable firing sounds"
+  },
+  "appearance.soundNote": {
+    "pt": "O som começa desligado. Ative com um toque; a preferência e o volume ficam neste navegador. O jogo continua funcionando em silêncio.",
+    "en": "Sound starts off. Enable it with a tap; your preference and volume stay in this browser. The game remains fully playable in silence."
+  },
+  "sound.off": {
+    "pt": "Som: desligado",
+    "en": "Sound: off"
+  },
+  "sound.on": {
+    "pt": "Som: ligado",
+    "en": "Sound: on"
+  },
+  "sound.tooltip": {
+    "pt": "Ligar ou desligar os sons dos disparos",
+    "en": "Turn firing sounds on or off"
+  },
+  "rules.automatic": {
+    "pt": "<b>Automático para humanos e computadores:</b> o contra-ataque acontece quando um ataque adjacente falha (resultado ≤0), o defensor sobrevive e não está suprimido nem já reagiu. O fogo defensivo de oportunidade também é automático para os dois lados quando suas condições de altura, alcance e linha de visão são atendidas. O ataque normal do jogador é comandado tocando na própria peça e depois no inimigo com barra de ataque. Os perfis das tropas determinam a mobilidade: os batalhões brasileiros têm 3 PM e os destacamentos alemães, 2 PM; apoio e artilharia têm os seus próprios valores.",
+    "en": "<b>Automatic for humans and computers:</b> a counterattack occurs when an adjacent attack fails (result ≤0), the defender survives, and it is neither suppressed nor has already reacted. Opportunity defensive fire is also automatic for both sides when its elevation, range, and line-of-sight conditions are met. A player commands a normal attack by tapping their own counter and then an enemy with an attack bar. Troop profiles determine mobility: Brazilian battalions have 3 MP and German detachments have 2 MP; support and artillery have their own values."
   }
 } as const;

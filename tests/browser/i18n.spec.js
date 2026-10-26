@@ -22,7 +22,7 @@ test('Portuguese is explicit default; switching preserves game and learning, and
 test('all English popups, static controls, accessibility labels, and troop inspections are translated',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await english(page);
  await noPortuguese(page.locator('header'));await noPortuguese(page.locator('main'));
- for(const id of ['briefing','rules','credits','weatherInfo','mapSources','forces','memory','tribute']){
+ for(const id of ['briefing','rules','history','credits','weatherInfo','mapSources','forces','memory','tribute']){
   await page.locator('#'+id).click();await noPortuguese(page.locator('#modalBody'));
   const attrs=await page.locator('#modalBody [aria-label],#modalBody [alt]').evaluateAll(nodes=>nodes.flatMap(n=>[n.getAttribute('aria-label')||'',n.getAttribute('alt')||'']).join('\n'));
   expect(attrs).not.toMatch(portuguese);
@@ -75,7 +75,7 @@ test('English outcomes show only actual game losses without unsupported historic
   game.log=['Fogo defensivo · Granadeiros — Castelo → I/1º RI — Franklin: dado 4, 1 dano.','Granadeiros — Castelo: retirada por perdas para 5-2; próxima ação comprometida, sem recuperar PV.'];
   localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game,localSide:'br',mode:'local',ai:'tactical',stance:'defensive'}));
  });
- await page.reload();await expect(page.locator('#modalBody')).toContainText('Victory by neutralization');await expect(page.locator('#modalBody')).toContainText('The summit was not occupied');await expect(page.locator('#phase')).toContainText('FEB victory');await noPortuguese(page.locator('#modalBody'));
+ await page.reload();await expect(page.locator('#modalBody')).toContainText('Victory by neutralization');await expect(page.locator('#modalBody')).toContainText('At the end, no Brazilian counter is on the summit.');await expect(page.locator('#phase')).toContainText('FEB victory');await noPortuguese(page.locator('#modalBody'));
  await expect(page.locator('.historical-losses,.historical-context')).toHaveCount(0);
  await expect(page.locator('.loss-comparison')).toContainText('German');
  await page.locator('#close').click();await noPortuguese(page.locator('#log'));await expect(page.locator('#log')).toContainText('withdrawal after losses');

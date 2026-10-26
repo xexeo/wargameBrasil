@@ -28,10 +28,11 @@
       </div>
       <div class="header-actions">
         <label for="language">Idioma</label><select id="language" aria-label="Idioma"><option value="pt-BR" lang="pt-BR">Português (Brasil)</option><option value="en-US" lang="en-US">English (US)</option></select>
+        <button id="appearance">Aparência</button><button id="soundToggle" aria-pressed="false">Som: desligado</button>
         <button id="tribute">Homenagem</button>
         <button id="briefing">Missão</button
         ><button id="credits">Autoria & licença</button
-        ><button id="rules">Regras & história</button>
+        ><button id="rules">Regras & símbolos</button><button id="history">História</button>
       </div>
     </header>
     <main>
@@ -84,10 +85,10 @@
             <p id="actionHint" aria-live="polite"></p>
           </div>
           <div class="height-key" aria-label="Legenda da altitude">
-            <span style="--height: #f4efdf">N1 · &lt;780 m</span
-            ><span style="--height: #e9d6a7">N2 · 780–849 m</span
-            ><span style="--height: #d1b48c">N3 · 850–919 m</span
-            ><span style="--height: #bd8b4f">N4 · ≥920 m</span
+            <span style="--height: var(--ui-terrain1)">N1 · &lt;780 m</span
+            ><span style="--height: var(--ui-terrain2)">N2 · 780–849 m</span
+            ><span style="--height: var(--ui-terrain3)">N3 · 850–919 m</span
+            ><span style="--height: var(--ui-terrain4)">N4 · ≥920 m</span
             ><small>Subir +1 PM/nível · defender acima +1</small>
           </div>
           <div id="viewport">
@@ -107,8 +108,8 @@
             <span>▧ Mata · movimento 2</span
             ><span>↑ Altitude · subida +PM · defesa +1</span
             ><span>━ Estrada · movimento 1</span
-            ><span class="br">■ FEB · azul</span
-            ><span class="de">■ Alemães · carvão</span
+            ><span class="br">■ FEB</span
+            ><span class="de">■ DE</span
             ><a
               href="https://www.openstreetmap.org/copyright"
               target="_blank"
@@ -179,6 +180,7 @@
     <dialog id="modal">
       <button id="close" aria-label="Fechar janela">✕</button>
       <div id="modalBody"></div>
+      <div class="dialog-footer"><button id="closeBottom">Fechar</button></div>
     </dialog>
     <script type="module" src="dist/app.js"></script>
   </body>

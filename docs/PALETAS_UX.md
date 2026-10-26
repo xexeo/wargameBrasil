@@ -2,7 +2,7 @@
 
 Análise de 25/10/2026. **Recomendação: opção A, azul e carvão com relevo em tons de papel.** Mantém a identidade atual, a página branca, os alemães escuros e a estrela vermelha no centro dos objetivos. Escurece os sinais de ação e melhora a leitura do relevo sem transformar o mapa em um conjunto de cores concorrentes.
 
-Este documento propõe cores; não aplica temas ao jogo. A [comparação visual](paletas-ux.svg) mostra as três opções em fundo branco. As amostras são propostas, não capturas da aplicação.
+As três propostas foram implementadas como presets do popup Aparência na v0.1.21; o usuário pode ajustar cada cor separadamente. A [comparação visual](paletas-ux.svg) mostra as três opções em fundo branco. As amostras são propostas, não capturas da aplicação.
 
 ## O que funciona e o que precisa melhorar
 
@@ -125,4 +125,4 @@ Materiais do terreno devem aparecer principalmente por **símbolo e textura**, e
 
 A iluminação pode ser ligeiramente mais fria/difusa ao amanhecer e neutra durante a abertura do tempo, mantendo o tabuleiro claro. Evitar filtro global, fundo preto, sombras que escondam peças ou mudar a cor das tropas conforme a hora. Aparência não deve sugerir que um bônus/penalidade foi ativado se as regras continuam iguais.
 
-**Decisão recomendada:** terreno terroso e pedregoso dessaturado, vegetação de inverno e relevo claro; neve e lama localizadas ficam pendentes de fontes. Esta avaliação não aplica uma nova paleta, não altera o mapa nem afirma uma reconstrução histórica fina. A opção A original continua disponível para comparação na imagem acima.
+**Decisão recomendada:** terreno terroso e pedregoso dessaturado, vegetação de inverno e relevo claro; neve e lama localizadas ficam pendentes de fontes. O botão Terreno de inverno no popup aplica essa variação visual opcional; não altera as regras ou a geografia nem afirma uma reconstrução histórica fina. A opção A original continua disponível para comparação na imagem acima.

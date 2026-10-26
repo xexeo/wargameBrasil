@@ -42,3 +42,9 @@ Próximo passo histórico: confrontar diário de operações da FEB, cartografia
 ## Organização confirmada em fonte institucional
 
 O [Museu Virtual da FEB](https://museuvirtualdafeb.eb.mil.br/estrutura-organizacional-da-forca-expedicionaria-brasileira/) confirma três batalhões por regimento, três companhias de fuzileiros por batalhão e apoios de petrechos. É síntese institucional de2025, não mapa de efetivos de21/02/1945. O jogo principal conserva batalhões; a composição local da defesa continua não confirmada. Retirada por baixa coesão é apenas experimento simétrico, sem alegação de reproduzir a ordem narrada por Fisher.
+
+## Ampliação com acervos brasileiros — v0.1.21
+
+A narrativa passou a usar o texto integral do verbete da FGV CPDOC de Alzira Alves de Abreu e a exposição Em combate do Museu Virtual da FEB, além da reportagem brasileira que apresenta testemunhos de Silveira e Braga. Antecedentes e sequência do ataque foram ampliados nos dois idiomas. Importância/consequências da vitória ficam no epílogo final; a defesa alemã recebe hipótese explícita, sem alegar um resultado histórico que não ocorreu.
+
+[Registro de consultas, fotografias e bibliografia](PESQUISA_ACERVOS_NARRATIVA.md). Foram efetivamente identificadas fichas CPDOC e examinadas três imagens da exposição pública do Arquivo Nacional. Os limites de datação impedem tratar toda fotografia como sendo de21–23/02. A narrativa não atribui minas, armamento ou neve a hexágonos sem documentação específica.

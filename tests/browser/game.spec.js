@@ -30,7 +30,7 @@ test("narrativa, mapa, movimento, zoom e turno do computador", async ({
   await expect(page.locator("#end")).toBeEnabled();
   await page.locator("#rules").click();
   await expect(page.locator("#modalBody")).toContainText("altura");
-  await expect(page.locator("#modalBody")).toContainText("Bolinhas douradas");
+  await expect(page.locator("#modalBody")).toContainText("Bolinhas de coesão");
   await expect(page.locator("#modalBody")).toContainText("Retângulo com X");
   await page.locator("#close").click();
   await page.locator("#weatherInfo").click();
@@ -290,7 +290,7 @@ test('projeção da missão mostra pontos, ritmo e prazo sem mover a peça',asyn
 
 test('percurso exposto é laranja e supressão remove aviso de reação',async({page})=>{
  const{createGame}=await import('../../dist/engine.js');const game=createGame();game.units=game.units.filter(u=>['b1','g1'].includes(u.id));Object.assign(game.units[0],{q:5,r:3});Object.assign(game.units[1],{q:5,r:2});
- await page.addInitScript(g=>{if(!localStorage.getItem('monte-castelo-session-v1'))localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'}));},game);await page.goto('/');await page.locator('#begin').click();await page.locator('[data-id="b1"]').click();await expect(page.locator('polygon[data-q="4"][data-r="3"]')).toHaveClass(/exposed-reach/);await expect(page.locator('#actionHint')).toContainText('borda laranja');
+ await page.addInitScript(g=>{if(!localStorage.getItem('monte-castelo-session-v1'))localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'}));},game);await page.goto('/');await page.locator('#begin').click();await page.locator('[data-id="b1"]').click();await expect(page.locator('polygon[data-q="4"][data-r="3"]')).toHaveClass(/exposed-reach/);await expect(page.locator('#actionHint')).toContainText('borda tracejada');
  game.units[1].suppressed=true;await page.evaluate(g=>localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'})),game);await page.reload();await page.locator('#begin').click();await page.locator('[data-id="b1"]').click();await expect(page.locator('polygon.exposed-reach')).toHaveCount(0);
 });
 
@@ -302,7 +302,7 @@ test('objetivos têm estrela vermelha central sob as peças e sem interceptar to
     const [q,r]=el.dataset.objective.split(',').map(Number),points=el.getAttribute('points').split(' ').map(p=>p.split(',').map(Number));
     return {radius:Math.max(...points.map(([x,y])=>Math.hypot(x-(65+q*64+r*32),y-(63+r*56)))),x:points.reduce((n,p)=>n+p[0],0)/10,y:points.reduce((n,p)=>n+p[1],0)/10,expectedX:65+q*64+r*32,expectedY:63+r*56,fill:el.getAttribute('fill'),pointer:el.getAttribute('pointer-events'),beforeUnits:!!(el.compareDocumentPosition(document.querySelector('.unit'))&Node.DOCUMENT_POSITION_FOLLOWING)};
   }));
-  for(const star of stars){expect(star.radius).toBeLessThanOrEqual(11);expect(star.radius).toBeGreaterThanOrEqual(9);expect(star.x).toBeCloseTo(star.expectedX,5);expect(star.y).toBeCloseTo(star.expectedY,5);expect(star.fill).toBe('#c92f37');expect(star.pointer).toBe('none');expect(star.beforeUnits).toBeTruthy();}
+  for(const star of stars){expect(star.radius).toBeLessThanOrEqual(11);expect(star.radius).toBeGreaterThanOrEqual(9);expect(star.x).toBeCloseTo(star.expectedX,5);expect(star.y).toBeCloseTo(star.expectedY,5);expect(star.fill).toBe('var(--ui-objective)');expect(star.pointer).toBe('none');expect(star.beforeUnits).toBeTruthy();}
 });
 
 test('encerrar turno fica no mapa durante zoom e rolagem inclusive no celular',async({page})=>{

@@ -287,3 +287,19 @@ Os disparos passam a emitir eventos transitórios, com origem e impacto registra
 A fotografia da homenagem é substituída pelo JPEG `1000165051.jpg`, enviado depois pelo usuário, sem tratamento adicional. A legenda é atualizada para não atribuir a esta imagem a restauração por IA aplicada à imagem anterior.
 
 Por solicitação do autor, a comparação histórica de baixas humanas deixa de aparecer no resultado final, já que não há dados confirmados adequados ao dia da batalha. A pesquisa permanece na documentação. O relatório final conserva apenas perdas da partida em peças, coesão e recuos. O popup de unidade exibe seu dano e estado atuais ao ser aberto.
+
+## Próxima entrega consolidada
+
+[Plano com pedidos, decisões revisáveis e verificação](docs/PLANO_PROXIMA_VERSAO.md): personalização completa da aparência e narrativa histórica ampliada com fontes brasileiras e pesquisa em acervos, preservando as correções e as regras da0.1.20.
+
+## Aparência, narrativa e encerramento — v0.1.21
+
+Popup Aparência com três presetsA/B/C e valores visuais independentes, persistência e validação. Tokens compartilhados por CSS/SVG centralizam cores, fontes, tamanhos, espessuras e opacidades. Animações opcionais diferenciam infantaria, apoio e artilharia; desativá-las mantém a indicação estática de impacto e o anúncio. Não alteram combate ou aprendizado.
+
+A legenda explica todos os símbolos atuais, e o marcador de dano passa para uma camada acima das peças, fora do escalão/ID. Todos os popups incluem botão Fechar/Close ao fim do texto. A narrativa antes/durante o ataque usa fontes brasileiras; o impacto e as hipóteses posteriores aparecem somente no resultado final, de acordo com o vencedor.
+
+A descrição de eliminação consulta a posição final do cume, distinguindo infantaria, apoio e ausência de peça. Não confunde ausência final com nunca ter ocupado a posição, nem exige o fechamento de rodada anterior para descrever uma infantaria já presente. A condição de vitória é preservada.
+
+Mapa inteiro passa a ajustar a largura e a altura proporcionalmente ao SVG, sem faixa vazia; a página pode ser rolada. Zoom livre, pinça e visão tática são preservados. Fontes e limites históricos permanecem em PESQUISA_ACERVOS_NARRATIVA.md. O plano consolidado está entregue, com pendências documentais explicitadas e o equilíbrio50/50 ainda não alcançado.
+
+Sons de combate opcionais, desligados inicialmente, com volume e preferência persistente. São sintetizados localmente; não gravações de armas históricas. O gerador de ruído é independente do RNG de combate. A tabela das regras resume movimento, cobertura, subida/descida, vantagem de altura e tiro indireto, sem mudar os valores do motor.

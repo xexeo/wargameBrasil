@@ -1,0 +1,82 @@
+{
+  "consultationDates": "25–26/10/2026 America/Sao_Paulo",
+  "records": [
+    {
+      "key": "fgv-feb-full",
+      "url": "https://www18.fgv.br/CPDOC/acervo/dicionarios/verbete-tematico/forca-expedicionaria-brasileira-feb",
+      "status": 200,
+      "scope": "Texto integral do verbete",
+      "responseSha256": "d976bacde3bc07124f341eba05a96e44ae60813a9afce8c17a9d255fc5dc8c75"
+    },
+    {
+      "key": "fgv-photo182",
+      "url": "https://www18.fgv.br/CPDOC/acervo/arquivo-pessoal/cfa/audiovisual/ademar-de-queiroz-caiado-de-castro-e-outros-em-monte-castelo/",
+      "status": 200,
+      "scope": "Ficha catalográfica; datas1944–1945,11postais",
+      "responseSha256": "8febbfbc7f26d06183c459b051713f9e1b1a991179ecb60571855f7bf4769f49"
+    },
+    {
+      "key": "fgv-folleto",
+      "url": "https://www18.fgv.br/CPDOC/acervo/arquivo-pessoal/cfa/impresso/conquista-de-monte-castelo-pela-feb-a/",
+      "status": 200,
+      "scope": "Ficha CFa-22f,1975,16p",
+      "responseSha256": "ac5cf7488f3910d496dd557b2f86023325c52c6232a63cc51fadb8b2088e7998"
+    },
+    {
+      "key": "fgv-tn266",
+      "url": "https://www18.fgv.br/CPDOC/acervo/arquivo-pessoal/tn/audiovisual/tancredo-neves-joao-goulart-e-outros-durante-comemoracao-pela-tomada-de-monte-castelo-ocorrida-durante-a-segunda-guerra-mundial/",
+      "status": 200,
+      "scope": "Ficha TNfoto0266; comemoração1962",
+      "responseSha256": "850c26021a4e38408e1120f82319bc90b7a4f6551cc2707670eace65adb5b978"
+    },
+    {
+      "key": "an-expo",
+      "url": "https://exposicoesvirtuais.an.gov.br/index.php?option=com_content&view=article&layout=edit&id=347",
+      "status": 200,
+      "scope": "Texto,legendas e3imagens para pesquisa",
+      "responseSha256": "ff445eb01f057e9c182a43078e5157768e1a6c85b2366fbfc8120aa65e880f3a"
+    },
+    {
+      "key": "ol-joel",
+      "url": "https://openlibrary.org/works/OL1004044W",
+      "status": 200,
+      "scope": "Metadados bibliográficos",
+      "responseSha256": "a70d30e11eebb2d88727f5086d4249bb9e4cecf98df8304e123730c11f353c07"
+    },
+    {
+      "key": "ol-moraes",
+      "url": "https://openlibrary.org/works/OL18683428W",
+      "status": 200,
+      "scope": "Metadados bibliográficos",
+      "responseSha256": "5299dec1ec1c99bc04f2f378f02cb28f6a0f0f2305060db583a849752cfb810b"
+    },
+    {
+      "key": "ol-costa",
+      "url": "https://openlibrary.org/search.json?title=Cr%C3%B4nicas+de+uma+guerra+esquecida",
+      "status": 200,
+      "scope": "Busca de título:0resultados",
+      "responseSha256": "a68a51a345fbaef76433e2dc9c3af3f7f73ee9f366a07aa6e9eec27944a0f069"
+    }
+  ],
+  "examinedImages": [
+    {
+      "key": "an-pos-castello",
+      "url": "https://exposicoesvirtuais.an.gov.br/images/Forca-Expedicionaria-Brasileira-pracinhas-teatro-guerra/Conteudo/expo_feb_mod3_37.jpg",
+      "status": 200,
+      "bytes": 115882
+    },
+    {
+      "key": "an-uniformes-neve",
+      "url": "https://exposicoesvirtuais.an.gov.br/images/Forca-Expedicionaria-Brasileira-pracinhas-teatro-guerra/Conteudo/expo_feb_mod3_29.jpg",
+      "status": 200,
+      "bytes": 65458
+    },
+    {
+      "key": "an-minas-maio",
+      "url": "https://exposicoesvirtuais.an.gov.br/images/Forca-Expedicionaria-Brasileira-pracinhas-teatro-guerra/Conteudo/expo_feb_mod3_36.jpg",
+      "status": 200,
+      "bytes": 113821
+    }
+  ],
+  "note": "Registros de consulta; páginas integrais e imagens de terceiros não são redistribuídas. Não constitui licença de reprodução."
+}
