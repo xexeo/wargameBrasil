@@ -1,3 +1,4 @@
+import {autoplayUI} from './autoplay.js';
 import {clickNavigation} from './navigation.js';
 import { test, expect } from "@playwright/test";
 test("narrativa, mapa, movimento, zoom e turno do computador", async ({
@@ -193,77 +194,8 @@ test("humano x humano recebe turno alemão e permite mover e atacar", async ({
   await expect(page.locator("#shareTurn")).toBeEnabled();
 });
 
-test("autojogo completo pela interface chega ao fim usando a mesma IA", async ({
-  page,
-}) => {
-  test.setTimeout(60000);
-  const { aiAction,activationOrder,selectAttackTarget } = await import("../../dist/ai.js");
-  await page.addInitScript(() => {
-    let n = 42;
-    Math.random = () => {
-      n = (Math.imul(1664525, n) + 1013904223) >>> 0;
-      return n / 4294967296;
-    };
-  });
-  await page.goto("/");
-  await page.locator("#begin").click();
-  await page.locator("#stance").selectOption("aggressive");
-  const state = async () =>
-    JSON.parse(
-      await page.evaluate(() =>
-        localStorage.getItem("monte-castelo-session-v1"),
-      ),
-    ).game;
-  for (let turn = 0; turn < 10; turn++) {
-    let game = await state();
-    if (game.winner) break;
-    for(const id of activationOrder(game,"br")) {
-      game = await state();
-      if (game.winner) break;
-      let source = game.units.find((u) => u.id === id);
-      if (!source) continue;
-      const selectActor=async()=>{if(!await page.locator(`[data-id="${id}"]`).evaluate(el=>el.classList.contains('selected')))await page.locator(`[data-id="${id}"]`).click();};
-      await selectActor();
-      const initialTarget=selectAttackTarget(game,source,"tactical");
-      if(initialTarget)await page.locator(`[data-id="${initialTarget.id}"]`).click();
-      game=await state();
-      source=game.units.find(u=>u.id===id);
-      if(game.winner)break;
-      if(!source)continue;
-      const planned=structuredClone(game);
-      aiAction(planned,id,"tactical","aggressive");
-      const destination=planned.units.find(u=>u.id===id);
-      if(destination&&(source.q!==destination.q||source.r!==destination.r)) {
-        await selectActor();
-        await page.locator(`polygon[data-q="${destination.q}"][data-r="${destination.r}"]`).click();
-      }
-      const current=await state();
-      if(current.winner)break;
-      const actor=current.units.find(u=>u.id===id);
-      const target=actor?selectAttackTarget(current,actor,"tactical"):null;
-      if(target) { await selectActor(); await page.locator(`[data-id="${target.id}"]`).click(); }
-
-    }
-    game = await state();
-    if (game.winner) break;
-    const round = game.round;
-    await page.locator("#end").click();
-    await expect
-      .poll(
-        async () => {
-          const next = await state();
-          return !!next.winner || next.round > round;
-        },
-        { timeout: 10000 },
-      )
-      .toBeTruthy();
-  }
-  const final = await state();
-  expect(["br", "de"]).toContain(final.winner);
-  await expect(page.locator("#modalBody")).toContainText("FIM DA OPERAÇÃO");
-  console.log(
-    `Autojogo na interface: ${final.winner}, rodada ${final.round}, ${final.score} pontos.`,
-  );
+test("autojogo completo pela interface chega ao fim usando a mesma IA",async({page})=>{
+ test.setTimeout(60000);await autoplayUI(page);
 });
 
 test('forças mostram escalão e níveis e a seleção oferece movimento e ataque juntos',async({page})=>{await page.goto('/');await page.locator('#begin').click();await page.locator('#forces').click();await expect(page.locator('#modalBody')).toContainText('ESCALA');await expect(page.locator('.roster-table tbody tr')).toHaveCount(10);await expect(page.locator('#modalBody')).toContainText('batalhões');await expect(page.locator('#modalBody')).toContainText('T3');await page.locator('#close').click();await page.locator('[data-id="b4"]').click();await expect(page.locator('#unitInfo')).toContainText('Armas coletivas agregadas');await expect(page.locator('#unitInfo')).toContainText('Movimento 2/2');await expect(page.locator('#unitInfo')).toContainText('não ocupa objetivos');await expect(page.locator('polygon.reach').first()).toBeVisible();await page.locator('[data-id="b5"]').click();await expect(page.locator('#unitInfo')).toContainText('Movimento 1/1');});

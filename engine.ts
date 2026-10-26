@@ -1,5 +1,5 @@
 import {defaultRules,heightThreshold,type ScenarioRules} from "./scenario.js";
-import {troopProfiles} from "./troops.js";
+import {profilesForScale,troopProfile} from "./troops.js";
 import { geographicTerrain, terrainLevel, altitude, geography } from "./geography.js";
 export type Side = "br" | "de";
 export type UnitType = "infantry" | "armor" | "artillery";
@@ -27,6 +27,8 @@ export interface Unit {
   rangeHeightThreshold?:number;
 }
 export interface Game {
+  commanded?:Record<string,string>;
+  reactionCommands?:Record<string,string>;
   round: number;
   turn: Side;
   score: number;
@@ -123,6 +125,26 @@ export function defenseBonus(a: Cell, b: Cell, fortificationStrength=1): number 
   );
 }
 
+export const scaleOf=(s:Game)=>s.rules?.scale??'battalion';
+export function canCommand(s:Game,u:Unit):boolean {
+ if(scaleOf(s)!=='company')return true;
+ const group=troopProfile(u.id)?.commandGroup;
+ return !group||!s.commanded?.[group]||s.commanded[group]===u.id;
+}
+function commitCommand(s:Game,u:Unit){
+ const group=scaleOf(s)==='company'?troopProfile(u.id)?.commandGroup:undefined;
+ if(group)(s.commanded??={})[group]=u.id;
+}
+function commitReaction(s:Game,u:Unit){
+ const group=scaleOf(s)==='company'?troopProfile(u.id)?.commandGroup:undefined;
+ if(group)(s.reactionCommands??={})[group]=u.id;
+}
+function groupCanReact(s:Game,u:Unit):boolean{
+ const group=scaleOf(s)==='company'?troopProfile(u.id)?.commandGroup:undefined;
+ return !group||(!s.reactionCommands?.[group]&&!s.units.some(v=>v.id!==u.id&&v.reactionSpent&&troopProfile(v.id)?.commandGroup===group));
+}
+export function initialForce(s:Game,side:Side){return profilesForScale(scaleOf(s)).filter(p=>p.side===side).length;}
+export function relativeCohesion(s:Game,side:Side){const hp=s.units.filter(u=>u.side===side).reduce((n,u)=>n+u.hp,0);return scaleOf(s)==='company'?hp*5/initialForce(s,side):hp;}
 export const maximumMovement=(u:Unit):number=>u.maxMp??(u.type==='armor'?4:3);
 export const canCaptureObjective=(u:Unit):boolean=>u.canCapture??true;
 export const objectivePointsPerRound=():number=>objectives.reduce((sum,o)=>sum+o.points,0);
@@ -131,7 +153,7 @@ export const roundLimit=(s:Game):number=>s.rules?.roundLimit??LIMIT;
 export const unitLevel=(u:Unit):1|2|3=>u.level??2;
 export function createGame(rules:ScenarioRules=defaultRules):Game {
  return {withdrawals:{br:0,de:0},rules:{...rules},summitSecured:false,round:1,turn:'br',score:0,winner:null,
- units:troopProfiles.map(p=>({id:p.id,side:p.side,q:p.q,r:p.r,name:p.name,type:p.type,atk:p.atk,def:p.def,hp:3,mp:p.mp,maxMp:p.mp,range:p.range,indirect:p.indirect,canCapture:p.canCapture,level:p.level,heightRange:rules.highGroundRange,rangeHeightThreshold:rules.rangeHeightThreshold,reactionSpent:false,suppressed:false,fired:false})),
+ units:profilesForScale(rules.scale).map(p=>({id:p.id,side:p.side,q:p.q,r:p.r,name:p.name,type:p.type,atk:p.atk,def:p.def,hp:3,mp:p.mp,maxMp:p.mp,range:p.range,indirect:p.indirect,canCapture:p.canCapture,level:p.level,heightRange:rules.highGroundRange,rangeHeightThreshold:rules.rangeHeightThreshold,reactionSpent:false,suppressed:false,fired:false})),
  log:['21 de fevereiro de 1945. Os batalhões do Sampaio avançam com apoio da artilharia.']};
 }
 function movementSearch(s:Game,u:Unit){
@@ -139,7 +161,7 @@ function movementSearch(s:Game,u:Unit){
  while(pending.length){pending.sort((a,b)=>a[2]-b[2]);const[q,r,spent]=pending.shift()!;if(spent!==costs.get(key(q,r)))continue;for(const[nq,nr]of neighbors(q,r)){const next=spent+movementCost({q,r},{q:nq,r:nr},s.rules?.ascentStepCost??1),k=key(nq,nr);if(next>u.mp||s.units.some(v=>v.id!==u.id&&v.q===nq&&v.r===nr))continue;if(next<(costs.get(k)??Infinity)){costs.set(k,next);previous.set(k,key(q,r));pending.push([nq,nr,next]);}}}
  return{costs,previous};
 }
-export function reachable(s:Game,u:Unit){const{costs}=movementSearch(s,u);costs.delete(key(u.q,u.r));return costs;}
+export function reachable(s:Game,u:Unit){if(!canCommand(s,u))return new Map<string,number>();const{costs}=movementSearch(s,u);costs.delete(key(u.q,u.r));return costs;}
 export function movementRoute(s:Game,u:Unit,q:number,r:number):Cell[]{const{costs,previous}=movementSearch(s,u),origin=key(u.q,u.r);let current=key(q,r);if(!costs.has(current)||current===origin)return[];const path:Cell[]=[];while(current!==origin){const[q,r]=current.split(',').map(Number);path.unshift({q,r});current=previous.get(current)!;}return path;}
 export const attackRange = (u: Unit): number =>
   u.range??(u.type === "artillery" ? 3 : 1);
@@ -156,9 +178,10 @@ export function canAttack(u: Unit, v: Unit) {
 }
 export function move(s: Game, id: string, q: number, r: number) {
   const u = s.units.find((v) => v.id === id);
-  if (!u || u.side !== s.turn || s.winner) return false;
+  if (!u || u.side !== s.turn || s.winner || !canCommand(s,u)) return false;
   const n = reachable(s, u).get(key(q, r));
   if (n === undefined) return false;
+  commitCommand(s,u);
   u.q = q;
   u.r = r;
   u.mp -= n;
@@ -174,29 +197,30 @@ function resolveCombat(s:Game,u:Unit,v:Unit,rng:()=>number,reaction=false,onComb
  const cover=defenseBonus(u,v,s.rules?.fortificationStrength??1),barrage=u.side==='br'&&u.type==='artillery'&&s.round===10?1:0;
  const die=1+Math.floor(rng()*6),power=u.atk+barrage+(u.hp-3)*.5+die-v.def-cover;
  const previousHP=v.hp,hit=power>=5?2:power>=1?1:0,damage=reaction?Math.min(1,hit):hit;v.hp-=damage;
- if(reaction){u.reactionSpent=true;u.fired=true;u.mp=0;}else{u.fired=true;if(!s.rules?.freeFireOrder)u.mp=0;}
+ if(reaction){commitReaction(s,u);u.reactionSpent=true;u.fired=true;u.mp=0;}else{u.fired=true;if(!s.rules?.freeFireOrder)u.mp=0;}
  let counter=0;
- if(!reaction&&!v.reactionSpent&&!v.suppressed&&v.hp>0&&distance(u,v)===1&&power<=0){u.hp--;counter=1;if(s.rules?.opportunityFire){v.reactionSpent=true;v.fired=true;v.mp=0;}}
+ if(!reaction&&!v.reactionSpent&&groupCanReact(s,v)&&!v.suppressed&&v.hp>0&&distance(u,v)===1&&power<=0){u.hp--;counter=1;if(s.rules?.opportunityFire){commitReaction(s,v);v.reactionSpent=true;v.fired=true;v.mp=0;}}
  if(damage>0&&isIndirect(u))v.suppressed=true;
  s.log.unshift(`${reaction?'Fogo defensivo · ':''}${u.name} → ${v.name}: dado ${die}${barrage?' + barragem':''}, ${damage} dano${counter?', contra-ataque: 1 dano':''}${damage>0&&isIndirect(u)?' · reação suprimida':''}.`);
  if(onCombat){reportCombat(onCombat,{kind:reaction?'defensive-fire':'attack',from:from!,to:to!,damage,remainingHP:v.hp});if(counter)reportCombat(onCombat,{kind:'counterattack',from:to!,to:from!,damage:counter,remainingHP:u.hp});}
- if(s.rules?.retreatOnLoss&&previousHP>1&&v.hp===1&&canCaptureObjective(v)){const candidates=neighbors(v.q,v.r).map(([q,r])=>({q,r})).filter(p=>distance(p,u)>distance(v,u)&&!s.units.some(w=>w.q===p.q&&w.r===p.r)).sort((a,b)=>distance(b,u)-distance(a,u)||altitude(a.q,a.r)-altitude(b.q,b.r)||a.r-b.r||a.q-b.q);if(candidates[0]){v.q=candidates[0].q;v.r=candidates[0].r;v.mp=0;v.fired=true;v.reactionSpent=true;v.suppressed=true;v.reorganizing=true;s.withdrawals??={br:0,de:0};s.withdrawals[v.side]++;s.log.unshift(`${v.name}: retirada por perdas para ${v.q+1}-${v.r+1}; próxima ação comprometida, sem recuperar PV.`);}}
+ if(s.rules?.retreatOnLoss&&previousHP>1&&v.hp===1&&canCaptureObjective(v)){const candidates=neighbors(v.q,v.r).map(([q,r])=>({q,r})).filter(p=>distance(p,u)>distance(v,u)&&!s.units.some(w=>w.q===p.q&&w.r===p.r)).sort((a,b)=>distance(b,u)-distance(a,u)||altitude(a.q,a.r)-altitude(b.q,b.r)||a.r-b.r||a.q-b.q);if(candidates[0]){v.q=candidates[0].q;v.r=candidates[0].r;commitReaction(s,v);v.mp=0;v.fired=true;v.reactionSpent=true;v.suppressed=true;v.reorganizing=true;s.withdrawals??={br:0,de:0};s.withdrawals[v.side]++;s.log.unshift(`${v.name}: retirada por perdas para ${v.q+1}-${v.r+1}; próxima ação comprometida, sem recuperar PV.`);}}
  s.units=s.units.filter(v=>v.hp>0);checkWinner(s);return{die,damage,counter};
 }
-function canReact(s:Game,defender:Unit,target:Unit):boolean{return !!s.rules?.opportunityFire&&!defender.reactionSpent&&!defender.suppressed&&!defender.reorganizing&&!isIndirect(defender)&&hasHeightAdvantage(defender,target)&&canAttack({...defender,fired:false},target);}
+function canReact(s:Game,defender:Unit,target:Unit):boolean{return !!s.rules?.opportunityFire&&groupCanReact(s,defender)&&!defender.reactionSpent&&!defender.suppressed&&!defender.reorganizing&&!isIndirect(defender)&&hasHeightAdvantage(defender,target)&&canAttack({...defender,fired:false},target);}
 export function opportunityFire(s:Game,targetId:string,rng=Math.random,onCombat?:CombatObserver):boolean{
  if(s.winner)return false;const target=s.units.find(u=>u.id===targetId);if(!target)return false;
  const defender=s.units.filter(u=>u.side!==target.side&&canReact(s,u,target)).sort((a,b)=>b.atk-a.atk||distance(a,target)-distance(b,target)||a.id.localeCompare(b.id))[0];
  if(!defender)return false;resolveCombat(s,defender,target,rng,true,onCombat);return true;
 }
 export function advance(s:Game,id:string,q:number,r:number,rng=Math.random,onCombat?:CombatObserver):boolean{
- const u=s.units.find(v=>v.id===id);if(!u||u.side!==s.turn||s.winner)return false;const route=movementRoute(s,u,q,r);if(!route.length)return false;
- let reacted=false;
+ const u=s.units.find(v=>v.id===id);if(!u||u.side!==s.turn||s.winner||!canCommand(s,u))return false;const route=movementRoute(s,u,q,r);if(!route.length)return false;
+ commitCommand(s,u);let reacted=false;
  for(const cell of route){u.mp-=movementCost(u,cell,s.rules?.ascentStepCost??1);u.q=cell.q;u.r=cell.r;if(!reacted)reacted=opportunityFire(s,id,rng,onCombat);if(s.winner||!s.units.some(v=>v.id===id)||u.q!==cell.q||u.r!==cell.r)break;}
  return true;
 }
 export function attack(s:Game,id:string,target:string,rng=Math.random,onCombat?:CombatObserver):AttackResult|null{
- let u=s.units.find(v=>v.id===id),v=s.units.find(v=>v.id===target);if(!u||!v||s.winner||u.side!==s.turn||!canAttack(u,v))return null;
+ let u=s.units.find(v=>v.id===id),v=s.units.find(v=>v.id===target);if(!u||!v||s.winner||u.side!==s.turn||!canCommand(s,u)||!canAttack(u,v))return null;
+ commitCommand(s,u);
  if(!isIndirect(u)&&canReact(s,v,u)){resolveCombat(s,v,u,rng,true,onCombat);u=s.units.find(v=>v.id===id);if(!u||s.winner)return{die:0,damage:0,counter:0,interrupted:true};v=s.units.find(v=>v.id===target)!;}
  if(!canAttack(u,v))return{die:0,damage:0,counter:0,interrupted:true};
  return resolveCombat(s,u,v,rng,false,onCombat);
@@ -215,12 +239,14 @@ export function checkWinner(s:Game,completedRound?:number){
 }
 export function endTurn(s:Game){
  if(checkWinner(s))return;const outgoing=s.turn;
+ if(scaleOf(s)==='company'&&outgoing==='br')s.reactionCommands={};
  for(const u of s.units.filter(u=>u.side===outgoing))u.reactionSpent=false;
  if(outgoing==='br')s.turn='de';else{const points=objectives.reduce((n,o)=>n+(s.units.some(u=>u.side==='br'&&canCaptureObjective(u)&&u.q===o.q&&u.r===o.r)?o.points:0),0);s.score+=points;s.summitSecured=summitOccupied(s);s.log.unshift(`Fim da rodada ${s.round}: +${points} pontos para a FEB.`);s.round++;s.turn='br';if(s.round===10)s.log.unshift('16:48 · Concentração de artilharia: ataques da bateria FEB recebem +1 nesta rodada.');}
- for(const u of s.units.filter(u=>u.side===s.turn)){u.mp=u.reactionSpent||u.reorganizing?0:maximumMovement(u);u.fired=!!(u.reactionSpent||u.reorganizing);u.reorganizing=false;u.suppressed=false;}
+ if(scaleOf(s)==='company')s.commanded=s.turn==='br'?{...s.reactionCommands}:{};
+ for(const u of s.units.filter(u=>u.side===s.turn)){if(u.reactionSpent||u.reorganizing)commitCommand(s,u);u.mp=u.reactionSpent||u.reorganizing?0:maximumMovement(u);u.fired=!!(u.reactionSpent||u.reorganizing);u.reorganizing=false;u.suppressed=false;}
  checkWinner(s,outgoing==='de'?s.round-1:undefined);
 }
-export function victoryAssessment(s:Game){const rounds=s.finishedRound??Math.min(s.round,roundLimit(s)),remaining=s.units.filter(u=>u.side==='br'),lostUnits=5-remaining.length,lostCohesion=15-remaining.reduce((n,u)=>n+u.hp,0),efficiency=Math.min(s.winner==='br'&&s.victoryReason!=='elimination'&&s.rules?.summitAtDeadlineWins&&s.score<targetScore(s)?44:100,Math.max(0,Math.round(100-(rounds-1)*3-lostUnits*8-lostCohesion*1.5)));return{rounds,lostUnits,lostCohesion,efficiency,grade:s.winner!=='br'?'Defesa bem-sucedida':efficiency>=70?'Vitória decisiva':efficiency>=45?'Vitória tática':efficiency>=20?'Vitória custosa':'Vitória pírrica'};}
+export function victoryAssessment(s:Game){const rounds=s.finishedRound??Math.min(s.round,roundLimit(s)),remaining=s.units.filter(u=>u.side==='br'),lostUnits=initialForce(s,'br')-remaining.length,lostCohesion=initialForce(s,'br')*3-remaining.reduce((n,u)=>n+u.hp,0),efficiency=Math.min(s.winner==='br'&&s.victoryReason!=='elimination'&&s.rules?.summitAtDeadlineWins&&s.score<targetScore(s)?44:100,Math.max(0,Math.round(100-(rounds-1)*3-lostUnits*8*5/initialForce(s,'br')-lostCohesion*1.5*5/initialForce(s,'br'))));return{rounds,lostUnits,lostCohesion,efficiency,grade:s.winner!=='br'?'Defesa bem-sucedida':efficiency>=70?'Vitória decisiva':efficiency>=45?'Vitória tática':efficiency>=20?'Vitória custosa':'Vitória pírrica'};}
 
 export function expectedReactionRisk(s:Game,u:Unit):number{
  let risk=0;for(const v of s.units){if(v.side===u.side||!canReact(s,v,u))continue;let damage=0,kills=0;for(let die=1;die<=6;die++){const power=v.atk+(v.hp-3)*.5+die-u.def-defenseBonus(v,u,s.rules?.fortificationStrength??1),hit=power>=1?1:0;damage+=hit;if(hit>=u.hp)kills++;}risk=Math.max(risk,damage/6*4+kills/6*10);}return risk;
@@ -269,6 +295,6 @@ export function missionInstruction(s:Game):string{
 
 
 export function battleLosses(s:Game){
- const forSide=(side:Side)=>{const initial=troopProfiles.filter(p=>p.side===side).length,remaining=s.units.filter(u=>u.side===side);return{initialUnits:initial,presentUnits:remaining.length,removedUnits:Math.max(0,initial-remaining.length),lostCohesion:Math.max(0,initial*3-remaining.reduce((n,u)=>n+u.hp,0)),initialCohesion:initial*3,withdrawnUnits:s.withdrawals?.[side]??null};};
+ const forSide=(side:Side)=>{const initial=initialForce(s,side),remaining=s.units.filter(u=>u.side===side);return{initialUnits:initial,presentUnits:remaining.length,removedUnits:Math.max(0,initial-remaining.length),lostCohesion:Math.max(0,initial*3-remaining.reduce((n,u)=>n+u.hp,0)),initialCohesion:initial*3,withdrawnUnits:s.withdrawals?.[side]??null};};
  return{br:forSide('br'),de:forSide('de')};
 }

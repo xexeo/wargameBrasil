@@ -1,7 +1,7 @@
 import {readFile,writeFile,mkdir,readdir,rm} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
 import {createHash} from 'node:crypto';
-export const simulationSources=['engine.ts','ai.ts','simulator.ts','learning.ts','geography.ts','geography-data.ts','troops.ts','scenario.ts','pretrained.ts','simple-learning.ts','scripts/round-robin.mjs','scripts/autoplay.mjs','scripts/train.mjs','scripts/evaluate-trained.mjs','scripts/calibrate-artillery.mjs','scripts/simulation-statistics.mjs','scripts/study-battalion-rules.mjs','fixed-learning.ts','fixed-training.ts','fixed-models.ts','scripts/train-fixed.mjs','scripts/evaluate-fixed.mjs'];
+export const simulationSources=['company-troops.ts','company-models.ts','company-pretrained.ts','scripts/cycle-scales.mjs','engine.ts','ai.ts','simulator.ts','learning.ts','geography.ts','geography-data.ts','troops.ts','scenario.ts','pretrained.ts','simple-learning.ts','scripts/round-robin.mjs','scripts/autoplay.mjs','scripts/train.mjs','scripts/evaluate-trained.mjs','scripts/calibrate-artillery.mjs','scripts/simulation-statistics.mjs','scripts/study-battalion-rules.mjs','fixed-learning.ts','fixed-training.ts','fixed-models.ts','scripts/train-fixed.mjs','scripts/evaluate-fixed.mjs'];
 const versionPattern=/^0\.(?:1|9)\.\d+$/;
 const newestFirst=(a,b)=>{const x=a.version.split(".").map(Number),y=b.version.split(".").map(Number);for(let i=0;i<3;i++)if(x[i]!==y[i])return y[i]-x[i];return 0;};
 export async function fingerprint(project=process.cwd()){

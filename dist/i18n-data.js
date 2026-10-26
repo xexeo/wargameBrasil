@@ -1,5 +1,8 @@
 // Presentation translations for immutable engine and historical source data.
 export const dataTranslations = {
+    "Companhia de fuzileiros": "Rifle company",
+    "Destacamento de cenário · referência companhia": "Scenario detachment · company reference",
+    "Companhia de fuzileiros do 1º RI. A/B/C são etiquetas de cenário, não números históricos confirmados. Três companhias por batalhão seguem a organização conhecida; posição e prontidão iniciais são hipóteses. Armas orgânicas integram o perfil. Só uma companhia deste batalhão recebe ordens no turno; o comando não multiplica os fogos ao dividir o escalão.": "Rifle company of the 1st Infantry Regiment. A/B/C are scenario labels, not verified historical numbers. Three companies per battalion follow the known organization; initial positions and readiness are assumptions. Organic weapons are included in the profile. Only one company in this battalion receives orders each turn; splitting the echelon does not multiply its fire.",
     "Batalhão": "Battalion",
     "Destacamento reduzido": "Reduced detachment",
     "Operacional": "Operational",

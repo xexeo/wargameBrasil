@@ -16,7 +16,7 @@ Consulta e implementação em 26/10/2026. Som opcional, desligado inicialmente, 
 
 - Infantaria: rajada curta com transientes e componente grave.
 - Apoio agregado do Sampaio: lançamento, trajetória e impacto de granada de morteiro.
-- Artilharia: disparo, passagem do projétil e explosão mais grave. O grupo brasileiro resume fogos de 105/155mm; o som não pretende identificar um calibre ou modelo exato. **Obuseiro** é a arma; **obus** é o projétil.
+- Artilharia: disparo, passagem do projétil e explosão mais grave. O grupo brasileiro resume fogos de 105/155 mm; o som não pretende identificar um calibre ou modelo exato. **Obuseiro** é a arma; **obus** é o projétil.
 
 A classificação é compartilhada com a animação visual. Os sons acompanham a fila dos eventos mostrados; desligar interrompe fontes ativas e futuras. Volume e habilitação são atualizados imediatamente. Desabilitar animações não precisa desabilitar o som, e ambos os controles são independentes.
 

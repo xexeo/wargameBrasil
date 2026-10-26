@@ -1,4 +1,6 @@
-# Defesa, subida e equilíbrio — 0.9.0
+# Registro da defesa, subida e equilíbrio — 0.9.0
+
+Documento da entrega anterior. A0.9.1 integra duas escalas; números da 0.9.0 referem-se àquela versão. Resultados atuais estão em [simulações](simulacoes/README.md).
 
 Decisões de 26/10/2026. Conservam o mapa, dez peças, três batalhões brasileiros, identidades, cota e janela de 06h–18h. O pedido foi estudar uma defesa mais convincente sem ignorar a dificuldade humana relatada pelo autor. As medições são de políticas automáticas; não medem as partidas particulares dele.
 
@@ -33,7 +35,7 @@ Estado-maior alemão guarda o cume nas duas posturas; a seleção do tiro usa a 
 
 O lote final arquivado usa50 jogos por dupla e candidato, sementes2600001–2600050. São1.800 jogos por candidato,5.400 no total. Como as mesmas50 sementes são reutilizadas nas36 células e nos candidatos, os agregados são descritivos; não tratar5.400 resultados como observações independentes para um intervalo binomial simples. Cada jogo registra vencedor, rodada, pontuação, chegada/ocupação do cume e perdas. O protocolo é copiado junto dos dados; os hashes verificam o programa.
 
-Treinamento, avaliação independente dos modelos e matriz9×9 são execuções separadas. A matriz solicitada usa10 partidas por dupla: útil para localizar tendências, imprecisa para afirmar uma chance exata ou dominância universal. Conferir a [pasta de simulações vigente](simulacoes/README.md).
+Treinamento, avaliação independente dos modelos e matriz 9×9 são execuções separadas. A matriz solicitada usa10 partidas por dupla: útil para localizar tendências, imprecisa para afirmar uma chance exata ou dominância universal. Conferir a [pasta de simulações vigente](simulacoes/README.md).
 
 ## Interpretação de jogo e história
 
@@ -45,4 +47,4 @@ Os coeficientes2/2/6 são decisões revisáveis em `scenario.ts` e `troops.ts`. 
 
 ## Relatórios finais
 
-[Comparação numérica dos candidatos e decisão](simulacoes/0.9.0/estudo-final-defesa/analise.md), [matriz e dominância observada](simulacoes/0.9.0/matriz-ias/analise.md), [avaliação independente dos modelos](simulacoes/0.9.0/avaliacao-ias-fixas/analise.md). Na comparação, a base usa regras antigas com a IA atual; não reproduz integralmente o executável anterior. A variante escolhida não atingiu50/50 em todas as políticas. A conclusão é de aproximação do portfólio e defesa mais fundamentada, com assimetria restante explicitamente medida.
+[Comparação numérica dos candidatos e decisão](https://github.com/xexeo/wargameBrasil/blob/894853c/docs/simulacoes/0.9.0/estudo-final-defesa/analise.md), [matriz e dominância observada](https://github.com/xexeo/wargameBrasil/blob/894853c/docs/simulacoes/0.9.0/matriz-ias/analise.md), [avaliação independente dos modelos](https://github.com/xexeo/wargameBrasil/blob/894853c/docs/simulacoes/0.9.0/avaliacao-ias-fixas/analise.md). Na comparação, a base usa regras antigas com a IA atual; não reproduz integralmente o executável anterior. A variante escolhida não atingiu50/50 em todas as políticas. A conclusão é de aproximação do portfólio e defesa mais fundamentada, com assimetria restante explicitamente medida.

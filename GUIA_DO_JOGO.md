@@ -1,6 +1,6 @@
 # Monte Castelo Vibed — guia de regras e decisões
 
-Referência vigente: **0.9.0 · 26/10/2026**. Substitui as descrições conflitantes acumuladas nos protótipos 0.1.X. O histórico do Git preserva as versões anteriores. Toda mudança de regra deve atualizar motor, testes, regras da interface e este guia.
+Referência vigente: **0.9.1 · 26/10/2026**. Substitui as descrições conflitantes acumuladas nos protótipos 0.1.X. O histórico do Git preserva as versões anteriores. Toda mudança de regra deve atualizar motor, testes, regras da interface e este guia.
 
 ## Plataforma e identidade
 
@@ -16,7 +16,17 @@ O relógio comprime 06h–18h em **dez rodadas de 72 minutos**. A rodada 10 come
 
 Tabuleiro axial **9 × 9**, seis vizinhos por hexágono, cerca de 180 m entre centros. Cume ancorado no ponto OSM de cota 977 m; amostra DEM próxima de 980 m. Altitudes Copernicus atuais: N1 <780 m; N2 780–849 m; N3 850–919 m; N4 ≥920 m. Curvas a cada 50 m são interpoladas. Vias, construções e matas OSM são modernas, não uma restituição de 1945. Posições militares são esquemáticas; objetivos secundários não recebem nomes históricos não comprovados. [Geografia](docs/GEOGRAFIA.md), [mapas oficiais](docs/MAPAS_OFICIAIS.md).
 
-## Tropas e símbolos
+## Escolha de escala
+
+O mesmo jogo tem duas opções. **Batalhão** conserva dez peças e regras originais. **Companhia** usa nove companhias FEB, três por batalhão, apoio e fogos; quatro destacamentos e fogos alemães:16 peças. Escala é selecionada no popup inicial ou em Escala das peças; mudar inicia nova partida, confirmada quando já houver ações. Partidas antigas sem escala são de batalhão. Novo jogo conserva a seleção. Formato salvo e WhatsApp incluem escala e comando.
+
+Companhia usa o mesmo motor, mapa, objetivos, prazo e turnos. Só uma companhia por batalhão brasileiro recebe ordens em cada turno. A primeira ação legal escolhe a companhia; ela pode mover e atirar em qualquer ordem. Seleção/inspeção não consome comando, nem ação inválida. Peças esmaecidas não podem receber novas ordens, mas defendem. Há uma reação por batalhão entre turnos. Reação/reorganização compromete o comando seguinte, mesmo se o contador for removido. Apoios e destacamentos alemães agem separadamente.
+
+A/B/C e posições são etiquetas/hipóteses de cenário; não se afirmam números históricos locais. A terceira companhia começa na retaguarda já no tabuleiro; não há chegada temporizada. Apoios ficam no mapa. Cada companhia tem A2/D2/M3/3PV; apoio A2/D1; fogos FEB A4/D1; granadeiros A2/D2; reserva alemã A1/D1; fogos alemães A3/D1. Alcance e mobilidade dos apoios são preservados. I indica companhia, II batalhão/grupo; A/I identifica a companhia A do batalhãoI. Valores completos na inspeção e em Forças.
+
+Modelos e memória são separados por escala. Importar experiência de outra escala é recusado. Perdas/resultados usam11 peças brasileiras/33PV iniciais na companhia,5/15 na Alemanha, sem números negativos ou equivalência com pessoas. O grau normaliza a penalização pela força inicial. A previsão otimista de chegada não resolve a concorrência futura por comando do batalhão. [Arquitetura](docs/DUAS_ESCALAS.md), [fontes](docs/PESQUISA_COMPANHIAS.md).
+
+## Tropas e símbolos — base batalhão
 
 Cinco peças por lado. FEB: três batalhões do 1º RI Sampaio, apoio agregado e grupo de fogos. Alemanha: três destacamentos defensivos, uma reserva reduzida e fogos alocados da 232ª DI, **Heer**. Não há SS ou tropa de elite inventada. Não se conhecem os escalões e posições alemães locais com precisão. [Perfis completos](docs/TROPAS.md).
 
@@ -94,7 +104,7 @@ O resultado informa a ocupação **no encerramento**, sem inferir que o cume nun
 
 Caçador prioriza maior ataque e proximidade; Oportunista menor defesa e proximidade. Postura agressiva aproxima; defensiva valoriza proteção. Estado-maior usa missão, custo real de rota, ameaças e apoio. A defesa tática guarda o cume nas duas posturas, intercepta infantaria e faz contrabateria quando não há ameaça imediata ao cume. Busca curta, sem servidor.
 
-Aprendiz simples e Veterana aprendem políticas online e conservam experiência no armazenamento local. Veterana recebe pré-treino reproduzível. **Aprendiz fixo** usa uma tabela independente por lado, 2.400 partidas cada, pesos congelados, exploração zero no jogo. Aprende seleção de seis políticas, não caminhos individuais. [Método e limites](docs/IA_POR_LADO.md). Limpar dados do navegador apaga experiência local; falha de armazenamento não impede jogar.
+Aprendiz simples e Veterana aprendem políticas online e conservam experiência no armazenamento local. Veterana recebe pré-treino reproduzível. **Aprendiz fixo** usa uma tabela independente por lado e escala, 2.400 partidas cada, pesos congelados, exploração zero no jogo. Aprende seleção de seis políticas, não caminhos individuais. [Método e limites](docs/IA_POR_LADO.md). Limpar dados do navegador apaga experiência local; falha de armazenamento não impede jogar.
 
 Modos: humano FEB × computador alemão; computador FEB × humano alemão; humanos locais; humanos remotos por arquivo/link enviado pelo WhatsApp. Não há sincronização em tempo real. Partida e progresso do turno computacional têm pontos de retomada. Aparência e idioma ficam separados das memórias de IA.
 
@@ -106,7 +116,7 @@ Zoom contínuo, Mapa inteiro, Visão tática e duplo toque. Todos os popups term
 
 ## Versão, validação e limites
 
-Trabalho publicado na **main**, escala batalhão. A proposta companhia permanece separada em `experimento/escala-companhia`. A pedido do autor, esta entrega passa de 0.1.23 para **0.9.0**; commits seguintes usam 0.9.X. Hook `.githooks/pre-commit` atualiza versão/data/hora de Brasília e executa testes; não ignorar.
+Trabalho publicado na **main**, com duas escalas do mesmo jogo. A proposta anterior permanece registrada em `experimento/escala-companhia`; a opção companhia integrada está na mesma main. A entrega0.9.0 iniciou a série0.9.X; a integração das duas escalas é0.9.1. Hook `.githooks/pre-commit` atualiza versão/data/hora de Brasília e executa testes; não ignorar.
 
 Motor, IA e treinamento funcionam sem interface. Dados e análises em [simulacoes](docs/simulacoes/README.md), com sementes, protocolos e hashes; mudanças incompatíveis removem os arquivos atuais, mantendo o histórico no Git. Resultados de treino não são avaliação independente. Equilíbrio de portfólio não prova 50/50 de cada política nem dificuldade humana.
 

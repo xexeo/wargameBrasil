@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.9.0 · 26/10/2026, 01:30:05 (Brasília)**
+**Versão 0.9.1 · 26/10/2026, 08:04:36 (Brasília)**
 <!-- release:end -->
 
 Wargame sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. HTML e TypeScript, somente no navegador, computador ou celular, sem conta ou servidor de jogo. Meta de duração humana: 5–10 minutos; ainda não medida com uma amostra de jogadores.
@@ -12,7 +12,17 @@ Wargame sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945.
 
 Para jogar offline, salve `jogo.html` e abra no navegador. `index.html` contém a mesma versão autocontida, com fontes, imagens, estilos e código incorporados. A visualização de código do GitHub não executa HTML. O Pages publica a `main`; tanto o workflow quanto a publicação nativa pela raiz recebem os mesmos arquivos.
 
-## Entrega 0.9
+## Duas escalas — 0.9.1
+
+O mesmo jogo agora oferece **Batalhões · jogo original** ou **Companhias · nove companhias FEB**, no popup inicial e no seletor Escala das peças. A opção companhia tem16 peças: nove companhias brasileiras, apoio e fogos; quatro destacamentos e fogos alemães. Usa o mesmo mapa, combate, turnos, objetivos, aparência e controles.
+
+Para evitar triplicar ataques, só uma companhia de cada batalhão brasileiro recebe ordens por turno. A primeira ação legal compromete o comando; selecionar/inspecionar não gasta. As outras companhias ficam esmaecidas e ainda defendem. Reação/reorganização compromete o próximo comando do batalhão. Apoios e destacamentos alemães têm ações próprias. Letras A/B/C são etiquetas de cenário, não uma ordem de batalha local comprovada.
+
+Modelos fixos e experiência online são independentes por escala; suas memórias antigas de batalhão são preservadas. Trocar escala inicia outra partida, com confirmação se a atual já começou; salvar/importar/WhatsApp mantém escala e ordens. Não converte uma partida iniciada. **Novo jogo** mantém a escala escolhida.
+
+[Arquitetura e decisões](docs/DUAS_ESCALAS.md) · [Pesquisa histórica](docs/PESQUISA_COMPANHIAS.md) · [Análises atuais por escala](docs/simulacoes/README.md). Um ciclo de estudo, uma passagem de treino por escala e avaliação independente; nenhuma promessa de 50/50 humano ou de duração medida.
+
+## Entrega 0.9.0 — recursos preservados
 
 - **Defesa e subida:** +2 PM por faixa de subida, proteção preparada +2 e fogos alemães com alcance 6; infantaria, mapa, identidades e prazo de dez rodadas preservados. Abrigos nos hex 6–2 (cume) e4–4, posições esquemáticas. Beneficiam qualquer ocupante. [Estudo, fontes e limites](docs/DEFESA_E_EQUILIBRIO_0_9.md).
 - **IA por lado:** Estado-maior alemão mantém o cume nas duas posturas e distingue interceptação de contrabateria. Rotas consideram a mobilidade real; não planejam passos mais caros que o máximo de PM. Aprendizes fixos e pré-treino online são refeitos para as regras atuais. [Método](docs/IA_POR_LADO.md).
@@ -53,27 +63,32 @@ A homenagem usa a fotografia enviada de Pedro Henrique de Figueiredo Bonorino, t
 
 ## IAs e dados de simulação
 
-Caçador, Oportunista e Estado-maior, nas posturas agressiva/defensiva; Aprendiz simples e Veterana com experiência local; **Aprendiz fixo por lado**, duas tabelas independentes de 2.400 partidas, pesos congelados e exploração zero durante o jogo. São seletores de políticas, não redes que aprendem cada movimento. Memória pode ser exportada; limpar dados do navegador apaga experiência local.
+Caçador, Oportunista e Estado-maior, nas posturas agressiva/defensiva; Aprendiz simples e Veterana com experiência local; **Aprendiz fixo por lado**, duas tabelas independentes por escala, de 2.400 partidas cada, pesos congelados e exploração zero durante o jogo. São seletores de políticas, não redes que aprendem cada movimento. Memória pode ser exportada; limpar dados do navegador apaga experiência local.
 
 [**Análises e dados válidos por versão**](docs/simulacoes/README.md). Cada pasta contém sementes, resultados individuais, protocolo e manifesto de hashes. Mudanças de motor/IA/modelos invalidam e removem as pastas incompatíveis; o Git conserva o histórico. Alterações visuais não invalidam autojogo. Treino com exploração não equivale a avaliação independente; taxa de um portfólio não garante50/50 de cada política nem mede dificuldade humana.
 
-<!-- simulation:0.9.0/matriz-ias:start -->
-## Medições da 0.9.0
 
-Matriz9×9, **10 jogos por dupla**:367 vitórias FEB em810 (**45,3%**),443 alemãs; média **7,76 rodadas**. Estado-maior agressivo teve a melhor média nos dois lados; há dominâncias empíricas na amostra, sem prova universal. [Matriz completa e análise](docs/simulacoes/0.9.0/matriz-ias/analise.md).
-<!-- simulation:0.9.0/matriz-ias:end -->
 
-<!-- simulation:0.9.0/avaliacao-ias-fixas:start -->
-Avaliação independente dos aprendizes: **1.300 jogos**. No confronto direto de100 jogos entre os modelos fixos, FEB33%, Alemanha67%; logo, **não se afirma equilíbrio50/50 entre eles**. [Resultados, adversários e intervalos](docs/simulacoes/0.9.0/avaliacao-ias-fixas/analise.md).
-<!-- simulation:0.9.0/avaliacao-ias-fixas:end -->
+
+<!-- simulation:0.9.1/matriz-ias:start -->
+**Matriz batalhões:**810 partidas (10 por dupla), **47,4% FEB /52,6% Alemanha**, média 7,93 rodadas. [Matriz e dados](docs/simulacoes/0.9.1/matriz-ias/analise.md).
+<!-- simulation:0.9.1/matriz-ias:end -->
+
+<!-- simulation:0.9.1/matriz-ias-companhias:start -->
+**Matriz companhias:**810 partidas (10 por dupla), **44,7% FEB /55,3% Alemanha**, média 9,09 rodadas. Estado-maior tem as melhores médias; existem dominâncias empíricas entre políticas nesta amostra. [Matriz e análise de estratégias](docs/simulacoes/0.9.1/matriz-ias-companhias/analise.md). Minutos de jogo humano não foram medidos.
+<!-- simulation:0.9.1/matriz-ias-companhias:end -->
+
+<!-- simulation:0.9.1/avaliacao-ias-fixas-companhias:start -->
+No confronto independente dos aprendizes fixos de companhia, **FEB 36% /Alemanha64%** em 100 jogos. Logo, média próxima de 50% do portfólio não significa equilíbrio de toda dupla ou superioridade do aprendiz. [Avaliação completa](docs/simulacoes/0.9.1/avaliacao-ias-fixas-companhias/analise.md).
+<!-- simulation:0.9.1/avaliacao-ias-fixas-companhias:end -->
 
 ```sh
-npm run train -- 2000
-npm run train:fixed
-npm run evaluate:fixed
-npm run simulate:matrix
-# Estudo comparativo; conta por dupla e primeira semente:
-node scripts/study-final.mjs 50 2600001 --archive
+# Uma passagem de estudo/treino para as duas escalas:
+npm run train:scales
+# Avaliação com sementes separadas:
+npm run evaluate:scales
+# Duas matrizes9×9,10 jogos por dupla:
+npm run simulate:matrices
 ```
 
 Scripts de treinamento substituem os próprios modelos e invalidam relatórios incompatíveis. Recompile antes de avaliar. Não misture resultados gerados antes e depois da substituição dos modelos.
@@ -82,7 +97,7 @@ Scripts de treinamento substituem os próprios modelos e invalidam relatórios i
 
 [**Guia vigente de regras e decisões**](GUIA_DO_JOGO.md) · [Plano da entrega0.9](docs/PLANO_0_9.md) · [Estudo de escala companhia](docs/ESCALA_DAS_PECAS.md)
 
-A escala batalhão permanece na **main**. A alternativa está em `experimento/escala-companhia`, separada da publicação. A pedido do autor, esta entrega avança de 0.1.23 para **0.9.0**; commits seguintes usam0.9.X. O hook atualiza versão/data/hora de Brasília e roda testes. Builds sem commit preservam a versão.
+As duas escalas estão integradas na **main** e na mesma página. A branch `experimento/escala-companhia` preserva o rascunho anterior, não é necessária para jogar. A entrega0.9.0 iniciou a série0.9.X; esta integração é0.9.1. O hook atualiza versão/data/hora de Brasília e roda testes. Builds sem commit preservam a versão.
 
 Requisitos para desenvolver: Node.js22+, npm; Python3 apenas para servidor estático opcional. Para jogar, basta navegador moderno.
 
@@ -97,7 +112,7 @@ npm start
 
 `template.html` é o fonte HTML, `app.ts` a interface; `engine.ts`, `ai.ts` e módulos de aprendizado funcionam sem DOM. `dist/`, `index.html` e `jogo.html` são gerados e versionados. Chromium fica em `/usr/bin/chromium` na configuração de testes deste ambiente; ajuste em outras máquinas.
 
-Validação da entrega: testes de motor, simulação, persistência e troca de turnos, além de fluxos Chromium em computador/celular, PT/EN, aparência, som, efeitos, encerramento e HTML offline. Contagens e resultados finais estão no [registro da revisão documental](docs/REVISAO_DOCUMENTACAO_0_9.md).
+Validação da entrega: testes de motor, simulação, persistência e troca de turnos, além de fluxos Chromium em computador/celular, PT/EN, aparência, som, efeitos, encerramento e HTML offline. A integração0.9.1 tem78 testes sem interface e124 casos de navegador; inclui partidas completas nas duas escalas e120 comparações de regressão com a 0.9.0. O [registro anterior](docs/REVISAO_DOCUMENTACAO_0_9.md) e a [arquitetura atual](docs/DUAS_ESCALAS.md) preservam as decisões.
 
 Limites que permanecem: restituição cartográfica local de 1945, mapas integrais de Mascarenhas, efetivos/baixas locais e boletim instrumental contemporâneo. ERA5 regional não prova neve ou lama em cada posição. Duração humana e dificuldade percebida exigem jogadores; autojogo mede rodadas e resultados de políticas.
 

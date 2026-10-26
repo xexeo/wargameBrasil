@@ -1,5 +1,5 @@
 import {createCombatAudio} from "./combat-audio.js";
-import {heightThreshold} from "./scenario.js";
+import {defaultRules,heightThreshold,type Scale} from "./scenario.js";
 import {operationPresentation as operationResult} from "./outcome-presentation.js";
 import {historyContent,openingContext,victoryEpilogue} from "./history-content.js";
 import {loadUISettings,applyUISettings,saveUISettings,defaultUISettings,winterUISettings,validatedUISettings,colorControls,numberControls,fontChoices,type ColorKey,type NumberKey} from "./ui-settings.js";
@@ -7,11 +7,11 @@ import { t, translateData, language, setLanguage, applyStaticTranslations, initi
 import {tributeAssets} from "./tribute-assets.js";
 import {createCombatEffects} from "./combat-effects.js";
 import {tributePhoto} from "./tribute-photo.js";
-import {chooseFixedPolicy} from "./fixed-learning.js";
-import {fixedModels} from "./fixed-models.js";
+import {chooseFixedPolicy,modelsForGame} from "./fixed-learning.js";
+import {companyPretrained} from "./company-pretrained.js";
 import {chooseSimplePolicy,updateSimplePolicy} from "./simple-learning.js";
 import {officialMap} from "./official-map.js";
-import {troopProfiles,troopProfile,troopLevels} from "./troops.js";
+import {profilesForScale,troopProfile,troopLevels} from "./troops.js";
 import { geography, altitude } from "./geography.js";
 import { weatherAt, weatherHours, weatherQuery } from "./weather.js";
 import { type Side } from "./engine.js";
@@ -44,7 +44,7 @@ import {
   fortification,
   elevation,
   clock,
-  createGame,
+  createGame, scaleOf, canCommand,
   reachable,
   canAttack,
   attackRange,
@@ -88,19 +88,22 @@ let game = createGame(),
   generation = 0,
   lastTap: { id: string | null; time: number } = { id: null, time: 0 },
   rewarded = false;
+const pretrainedForGame=()=>scaleOf(game)==='company'?companyPretrained:pretrained;
+const memoryKey=(kind:'trained'|'learning')=>`monte-castelo-${kind}${scaleOf(game)==='company'?'-company':''}-v1`;
+let memoryScale:Scale='battalion';
 let trained: LearningTable = structuredClone(pretrained),
   trainedContext: LearningContext = {},
   trainedUsed = false;
 try {
   const saved = JSON.parse(
-    browserStore.read("monte-castelo-trained-v1") || "null",
+    browserStore.read(memoryKey("trained")) || "null",
   );
   if (validLearning(saved)) trained = saved;
 } catch {}
 function saveTrained() {
   const ok = browserStore.write(
-    "monte-castelo-trained-v1",
-    JSON.stringify(trained),
+    memoryKey("trained"),
+    JSON.stringify({...trained,scale:scaleOf(game)}),
   );
   $("storageStatus").textContent = ok
     ? t("app.003")
@@ -113,11 +116,16 @@ let memory: {
 } = { games: 0, q: {}, visits: {} };
 try {
   const stored = JSON.parse(
-    browserStore.read("monte-castelo-learning-v1") || "null",
+    browserStore.read(memoryKey("learning")) || "null",
   );
   if (stored && Number.isFinite(stored.games) && stored.q && stored.visits)
     memory = stored;
 } catch {}
+function loadScaleMemories(){
+ memoryScale=scaleOf(game);trained=structuredClone(pretrainedForGame());memory={games:0,q:{},visits:{}};
+ try{const saved=JSON.parse(browserStore.read(memoryKey('trained'))||'null');if(validLearning(saved)&&(saved.scale??'battalion')===scaleOf(game))trained=saved;}catch{}
+ try{const saved=JSON.parse(browserStore.read(memoryKey('learning'))||'null');if(saved&&Number.isFinite(saved.games)&&saved.q&&saved.visits)memory=saved;}catch{}
+}
 let policy: string | null = null,
   episode: string[] = [];
 const esc = (s) =>
@@ -130,7 +138,7 @@ const esc = (s) =>
   );
 function persist() {
   try {
-    browserStore.write("monte-castelo-learning-v1", JSON.stringify(memory));
+    browserStore.write(memoryKey("learning"), JSON.stringify(memory));
     return true;
   } catch {
     return false;
@@ -297,6 +305,9 @@ function contourGlyph(): string {
 }
 let activeDialog:(()=>string)|null=null;
 function render() {
+  if(memoryScale!==scaleOf(game))loadScaleMemories();
+  $('unitScale').value=scaleOf(game);
+  $('scaleStatus').textContent=scaleOf(game)==='company'?t('scale.status',Object.entries(game.commanded??{}).map(([group,id])=>`${group.replace('br-','')}: ${troopProfile(id)?.name??id}`).join(' · ')||t('scale.available')):t('scale.battalionStatus');
   updateSoundUI();
   if(effectsGame!==game){combatAudio.mute();combatEffects.clear();effectsGame=game;}
   checkWinner(game);
@@ -333,10 +344,10 @@ function render() {
       target =
         u &&
         u.side === game.turn &&
-        canAttack(u, v) &&
+        canCommand(game,u) && canAttack(u, v) &&
         !busy &&
         myTurn();
-    svg += t("app.018", selected === v.id ? "selected" : "", target ? "target" : "", v.id, x, y, esc(v.name), v.side === "br" ? "FEB" : t("app.019"), v.hp, v.atk, v.def, esc(v.name), v.atk, v.def, v.hp, v.side === "br" ? "var(--ui-br)" : "var(--ui-de)", target?'<rect class="attack-bar" x="-24" y="-30" width="48" height="4" rx="1" fill="var(--ui-objective)" pointer-events="none"/>':'', troopProfile(v.id)?.mark??'II', unitLevel(v), symbol(v), v.side === "br" ? "FEB" : "DE", v.hp, v.atk, v.def, v.mp, Array.from({ length: v.hp }, (_, i) => `<circle cx="${-7 + i * 7}" cy="10" r="2" fill="var(--ui-cohesion)"/>`).join(""), "", v.suppressed?'<circle class="suppression-marker" cx="-23" cy="-23" r="6" fill="var(--ui-suppression)" stroke="var(--ui-panel)"/><text x="-23" y="-20" text-anchor="middle" style="font-size:calc(8px * var(--ui-counterFontScale))">S</text>':'', v.fired ? '<path d="M-22 -22L22 22" stroke="var(--ui-counterText)" opacity="var(--ui-firedOpacity)"/>' : "", v.side);
+    svg += t("app.018", (selected === v.id ? "selected" : "")+(!canCommand(game,v)?" command-locked":""), target ? "target" : "", v.id, x, y, esc(v.name), v.side === "br" ? "FEB" : t("app.019"), v.hp, v.atk, v.def, esc(v.name), v.atk, v.def, v.hp, v.side === "br" ? "var(--ui-br)" : "var(--ui-de)", target?'<rect class="attack-bar" x="-24" y="-30" width="48" height="4" rx="1" fill="var(--ui-objective)" pointer-events="none"/>':'', troopProfile(v.id)?.commandGroup?`I ${v.name.split('/1º')[0]}`:troopProfile(v.id)?.mark??'II', unitLevel(v), symbol(v), v.side === "br" ? "FEB" : "DE", v.hp, v.atk, v.def, v.mp, Array.from({ length: v.hp }, (_, i) => `<circle cx="${-7 + i * 7}" cy="10" r="2" fill="var(--ui-cohesion)"/>`).join(""), "", v.suppressed?'<circle class="suppression-marker" cx="-23" cy="-23" r="6" fill="var(--ui-suppression)" stroke="var(--ui-panel)"/><text x="-23" y="-20" text-anchor="middle" style="font-size:calc(8px * var(--ui-counterFontScale))">S</text>':'', v.fired ? '<path d="M-22 -22L22 22" stroke="var(--ui-counterText)" opacity="var(--ui-firedOpacity)"/>' : "", v.side);
   }
   svg+=`<g class="unit-condition-layer" pointer-events="none">${game.units.filter(v=>v.hp<3).map(v=>{const{x,y}=center(v.q,v.r),label=t("symbols.damageLabel",3-v.hp),offset=25*uiSettings.numbers.counterScale+12;return `<g class="damage-marker" data-damage-unit="${v.id}" transform="translate(${x},${y-offset})" role="img" aria-label="${esc(label)}"><title>${esc(label)}</title><circle r="8" fill="var(--ui-damage)" stroke="var(--ui-counterText)" stroke-width="1"/><text y="3" text-anchor="middle" fill="var(--ui-counterText)" style="font:700 9px var(--ui-font)">−${3-v.hp}</text></g>`;}).join('')}</g>`;
   $("map").innerHTML = svg;
@@ -345,6 +356,7 @@ function render() {
   const actionable =
     u && u.side === game.turn && myTurn() && !busy && !game.winner;
   $('actionHint').textContent=actionable?(u.fired?(u.mp>0?t("app.024", u.name, u.mp):t("app.025", u.name)):t("app.026", u.name, u.mp)):t("app.027");
+  if(actionable&&!canCommand(game,u))$('actionHint').textContent=t('scale.locked');
   if(actionable&&exposure.size)$('actionHint').textContent+=t("app.028", exposure.size);
   $("goals").innerHTML = objectives
     .map((o, i) => {
@@ -367,6 +379,7 @@ function render() {
     !!game.winner;
   $("yourSide").textContent = $("gameMode").value === "local" ? t("app.045", sideName(game.turn)) : t("app.046", sideName(humanSide()));
   $("ai").disabled = busy || !computerSide();
+  $("unitScale").disabled=busy;
   $("stance").disabled = busy || !computerSide() || $("ai").value === "trained-fixed";
   $("phase").textContent = game.winner
     ? t($("gameMode").value === "local" ? "phase.localWinner" : game.winner===humanSide()?"phase.playerWinner":"phase.playerDefeat",sideName(game.winner),operationResult(game).title)
@@ -380,11 +393,11 @@ function render() {
     .join("");
   $("unitName").textContent = u ? translateData(u.name) : t("app.056");
   $("unitInfo").innerHTML = u
-    ? t("app.057", esc(troopProfile(u.id)?.echelon??t("term.Agrupamento")), esc(troopProfile(u.id)?.formation??''), u.side === "br" ? t("app.058") : t("app.059"), { infantry: t("term.Infantaria"), armor: t("app.060"), artillery: t("term.Artilharia") }[u.type], u.atk, u.def, u.hp, u.mp, maximumMovement(u), unitLevel(u), troopLevels[unitLevel(u)], Math.round(altitude(u.q, u.r)), elevation(u.q, u.r), fortification(u.q, u.r)*(game.rules?.fortificationStrength??1), attackRange(u), u.heightRange&&!u.indirect?t("app.061"):'', ["hill", "forest"].includes(terrain(u.q, u.r)) ? "+1" : "0", u.fired ? (u.mp>0?t("app.062"):t("app.063")) : u.mp === 0 ? t("app.064") : (game.rules?.freeFireOrder?t("app.065"):t("app.066")), 3 - u.hp, u.atk - (3 - u.hp) * 0.5, u.reorganizing?t("app.067"):'', u.suppressed?t("app.068"):'', u.reactionSpent?t("app.069"):'', canCaptureObjective(u)?t("app.070"):t("app.071"), u.maxMp===undefined?t("app.072"):'', u.id==='b4'?sampaioSupport():'')
+    ? t("app.057", esc(troopProfile(u.id)?.echelon??t("term.Agrupamento")), esc(troopProfile(u.id)?.formation??''), u.side === "br" ? t("app.058") : t("app.059"), { infantry: t("term.Infantaria"), armor: t("app.060"), artillery: t("term.Artilharia") }[u.type], u.atk, u.def, u.hp, u.mp, maximumMovement(u), unitLevel(u), troopLevels[unitLevel(u)], Math.round(altitude(u.q, u.r)), elevation(u.q, u.r), fortification(u.q, u.r)*(game.rules?.fortificationStrength??1), attackRange(u), u.heightRange&&!u.indirect?t("app.061"):'', ["hill", "forest"].includes(terrain(u.q, u.r)) ? "+1" : "0", u.fired ? (u.mp>0?t("app.062"):t("app.063")) : u.mp === 0 ? t("app.064") : (game.rules?.freeFireOrder?t("app.065"):t("app.066")), 3 - u.hp, u.atk - (3 - u.hp) * 0.5, u.reorganizing?t("app.067"):'', u.suppressed?t("app.068"):'', u.reactionSpent?t("app.069"):'', canCaptureObjective(u)?t("app.070"):t("app.071"), u.maxMp===undefined?t("app.072"):'', u.id==='b4'||u.id==='c-b4'?sampaioSupport():'')
     : t("app.073", $("gameMode").value==="local"?(game.turn==="br"?t("term.azul"):t("app.074")):humanSide()==="br"?t("term.azul"):t("app.075"));
   $("learningStatus").textContent =
     $("ai").value === "trained-fixed"
-      ? t("fixed.status", sideName(computerSide()??"de"), fixedModels[computerSide()??"de"].episodes)
+      ? t("fixed.status", sideName(computerSide()??"de"), modelsForGame(game)[computerSide()??"de"].episodes)
       : t("app.076", trained.episodes, Object.keys(trained.q).length, memory.games, policy ? " · " + policy.replace(/^br:/, "").replace("/", " / ") : "");
   if (game.winner && !rewarded) {
     rewarded = true;
@@ -421,12 +434,12 @@ function refreshDialog(){
 }
 
 function inspect(u) {
-  show(() => t("app.079", esc(u.name), esc(troopProfile(u.id)?.echelon??t("term.Agrupamento")), unitLevel(u), troopLevels[unitLevel(u)], u.side, u.type === "infantry" ? "☒" : u.type === "armor" ? "▱" : "●", u.atk, u.def, u.mp, u.hp, 3 - u.hp, u.atk, u.def, u.hp, 3 - u.hp, attackRange(u), esc(troopProfile(u.id)?.description??t("app.080")), u.id==='b4'?sampaioSupport():'', canCaptureObjective(u)?t("app.081"):t("app.082"), maximumMovement(u),unitCurrentState(u)));
+  show(() => t("app.079", esc(u.name), esc(troopProfile(u.id)?.echelon??t("term.Agrupamento")), unitLevel(u), troopLevels[unitLevel(u)], u.side, u.type === "infantry" ? "☒" : u.type === "armor" ? "▱" : "●", u.atk, u.def, u.mp, u.hp, 3 - u.hp, u.atk, u.def, u.hp, 3 - u.hp, attackRange(u), esc(troopProfile(u.id)?.description??t("app.080")), u.id==='b4'||u.id==='c-b4'?sampaioSupport():'', canCaptureObjective(u)?t("app.081"):t("app.082"), maximumMovement(u),unitCurrentState(u)));
 }
 function unitCurrentState(u){
  const damage=3-u.hp,penalty=damage*.5,number=(n:number)=>new Intl.NumberFormat(language,{maximumFractionDigits:1}).format(n);
  const yes=(flag:boolean)=>t(flag?"unit.yes":"unit.no");
- return t("unit.current",u.hp,damage,u.mp,maximumMovement(u),number(u.atk-penalty),u.atk,number(penalty),u.def,yes(!!u.fired),yes(u.mp>0&&!u.reorganizing&&!game.winner&&u.side===game.turn),yes(!!u.suppressed),yes(!!u.reorganizing),yes(!!u.reactionSpent));
+ return t("unit.current",u.hp,damage,u.mp,maximumMovement(u),number(u.atk-penalty),u.atk,number(penalty),u.def,yes(!!u.fired),yes(canCommand(game,u)&&u.mp>0&&!u.reorganizing&&!game.winner&&u.side===game.turn),yes(!!u.suppressed),yes(!!u.reorganizing),yes(!!u.reactionSpent));
 }
 function selectUnit(id) {
   const now = Date.now(),
@@ -445,7 +458,7 @@ function selectUnit(id) {
   }
   const actor = game.units.find((v) => v.id === selected);
   if (actor && actor.side === game.turn && u.side !== actor.side) {
-    if (!canAttack(actor, u)) {
+    if (!canCommand(game,actor)||!canAttack(actor, u)) {
       $("actionHint").textContent =
         t("app.083");
       return;
@@ -537,7 +550,7 @@ $("new").onclick = () => {
     return;
   generation++;
   aiProgress=null;
-  game = createGame();
+  game = createGame({...defaultRules,scale:scaleOf(game)});
   localSide = computerSide()==="br"?"de":"br";
   selected = null;
   busy = false;
@@ -645,9 +658,10 @@ $("viewport").addEventListener("touchend", () => (pinch = null));
 $("close").onclick = () => $("modal").close();
 $("modal").addEventListener("close",()=>{void computerTurn();});
 $("rules").onclick = () =>
-  show(() => completeSymbolLegend()+t("app.085", commandDescription(), roundLimit(game), game.rules?.rangeHeightThreshold??90, game.rules?.freeFireOrder?t("app.086"):t("app.087"), objectivePointsPerRound(), missionInstruction(game), roundLimit(game), game.rules?.retreatOnLoss?t("app.088"):t("app.089"), game.rules?.freeFireOrder?t("app.090"):t("app.091"),terrainRulesTable(),t("rules.automatic"),game.rules?.ascentStepCost??1,game.rules?.fortificationStrength??1));
+  show(() => scaleRules()+completeSymbolLegend()+t("app.085", commandDescription(), roundLimit(game), game.rules?.rangeHeightThreshold??90, game.rules?.freeFireOrder?t("app.086"):t("app.087"), objectivePointsPerRound(), missionInstruction(game), roundLimit(game), game.rules?.retreatOnLoss?t("app.088"):t("app.089"), game.rules?.freeFireOrder?t("app.090"):t("app.091"),terrainRulesTable(),t("rules.automatic"),game.rules?.ascentStepCost??1,game.rules?.fortificationStrength??1));
 function narrative() {
-  show(() => t("app.092", gameLogo, commandDescription(), $("gameMode").value==="local"?t("app.093"):humanSide()==="br"?t("app.094"):t("app.095"), missionInstruction(game),openingContext(language)));
+  show(() => scalePicker()+scaleRules()+t("app.092", gameLogo, commandDescription(), $("gameMode").value==="local"?t("app.093"):humanSide()==="br"?t("app.094"):t("app.095"), missionInstruction(game),openingContext(language)));
+  $("openingScale").onchange=()=>switchScale($("openingScale").value);
   $("begin").onclick = () => { $("modal").close(); void computerTurn(); };
 }
 let resumed = loadSession(),
@@ -678,9 +692,9 @@ $("credits").onclick = () =>
   show(() => t("app.103", gameLogo, ludesLogo, release.version, localizedDate(release.builtAt), esc(language === "en-US" ? englishLicense() : licenseText)));
 
 $("memory").onclick = () => {
-  show(() => t("app.104", trained.episodes, trained.updates, Object.keys(trained.q).length, pretrained.episodes) + fixedModelSummary());
+  show(() => t("app.104", trained.episodes, trained.updates, Object.keys(trained.q).length, pretrainedForGame().episodes) + fixedModelSummary());
   $("exportMemory").onclick = () => {
-    const blob = new Blob([JSON.stringify(trained, null, 2)], {
+    const blob = new Blob([JSON.stringify({...trained,scale:scaleOf(game)}, null, 2)], {
         type: "application/json",
       }),
       url = URL.createObjectURL(blob),
@@ -696,7 +710,7 @@ $("memory").onclick = () => {
       if (!file || file.size > 2000000)
         throw new Error(t("app.105"));
       const data = JSON.parse(await file.text());
-      if (!validLearning(data))
+      if (!validLearning(data)||(data.scale??'battalion')!==scaleOf(game))
         throw new Error(t("app.106"));
       trained = data;
       trainedContext = {};
@@ -739,7 +753,7 @@ $("shareTurn").onclick = shareTurn;
 $("gameMode").onchange = () => {
   generation++;
   aiProgress=null;
-  game = createGame();
+  game = createGame({...defaultRules,scale:scaleOf(game)});
   localSide = computerSide()==="br"?"de":"br";
   busy = false;
   selected = null;
@@ -830,7 +844,7 @@ function geographicGlyph(): string {
 $("mapSources").onclick = () =>
   show(() => t("app.126", officialMap, historicalMap));
 
-$('forces').onclick=()=>show(() => t("app.127", sampaioSupport(), troopProfiles.map(p=>`<tr><th scope="row">${p.side==='br'?'FEB':'Heer'} · ${esc(p.name)}</th><td>${esc(p.echelon)}</td><td>${p.level}</td><td>${p.atk}</td><td>${p.def}</td><td>${p.mp}</td><td>${p.range}</td><td>${p.canCapture?t("term.sim"):t("app.129")}</td></tr>`).join('')));
+$('forces').onclick=()=>show(() => scaleRules()+t("app.127", sampaioSupport(), profilesForScale(scaleOf(game)).map(p=>`<tr><th scope="row">${p.side==='br'?'FEB':'Heer'} · ${esc(p.name)}</th><td>${esc(p.echelon)}</td><td>${p.level}</td><td>${p.atk}</td><td>${p.def}</td><td>${p.mp}</td><td>${p.range}</td><td>${p.canCapture?t("term.sim"):t("app.129")}</td></tr>`).join('')));
 
 function sampaioSupport() { return t("app.130"); }
 
@@ -853,7 +867,7 @@ $("tribute").onclick=()=>show(()=>t("tribute.dialog",tributeAssets.feb.src,trans
 
 function fixedModelSummary(){
  return t("fixed.dialog", ...(["br","de"] as const).map(side=>{
-  const model=fixedModels[side],p=model.parameters;
+  const model=modelsForGame(game)[side],p=model.parameters;
   return t("fixed.model",sideName(side),model.episodes,model.updates,Object.keys(model.q).length,model.seeds[0],model.seeds[1],p.alpha,p.gamma,p.epsilonTraining,p.epsilonInference);
  }));
 }
@@ -973,3 +987,15 @@ headerMenu.addEventListener("click",event=>{if((event.target as Element).closest
 document.addEventListener("pointerdown",event=>{if(!headerMenu.contains(event.target as Node)&&!menuToggle.contains(event.target as Node))closeHeaderMenu();});
 document.addEventListener("keydown",event=>{if(event.key==="Escape"&&menuToggle.getAttribute("aria-expanded")==="true"){closeHeaderMenu(true);}});
 matchMedia("(max-width:1000px)").addEventListener("change",()=>closeHeaderMenu());
+
+function scaleRules(){return t(scaleOf(game)==='company'?'scale.companyRules':'scale.battalionRules');}
+function scalePicker(){return `<div class="scale-picker"><label for="openingScale">${t('scale.label')}</label><select id="openingScale"><option value="battalion" ${scaleOf(game)==='battalion'?'selected':''}>${t('scale.battalion')}</option><option value="company" ${scaleOf(game)==='company'?'selected':''}>${t('scale.company')}</option></select></div>`;}
+function switchScale(value:string){
+ if(!['battalion','company'].includes(value)||value===scaleOf(game))return;
+ const started=game.round>1||game.units.some(u=>u.hp<3||u.fired||u.mp!==maximumMovement(u));
+ if(started&&!game.winner&&!confirm(t('scale.confirm'))){$('unitScale').value=scaleOf(game);if($('openingScale'))$('openingScale').value=scaleOf(game);return;}
+ saveTrained();persist();generation++;aiProgress=null;game=createGame({...defaultRules,scale:value as Scale});
+ loadScaleMemories();localSide=computerSide()==="br"?"de":"br";selected=null;busy=false;rewarded=false;policy=null;episode=[];trainedUsed=false;trainedContext={};
+ render();narrative();
+}
+$('unitScale').onchange=()=>switchScale($('unitScale').value);

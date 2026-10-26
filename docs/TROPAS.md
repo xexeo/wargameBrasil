@@ -1,5 +1,7 @@
 # Escala, tropas e níveis táticos
 
+Na0.9.1 há duas escalas na mesma interface. A tabela abaixo descreve a base de batalhão preservada. Para os16 perfis de companhia e comando compartilhado, consultar [DUAS_ESCALAS](DUAS_ESCALAS.md).
+
 Decisão de projeto registrada antes da implementação desta revisão, em 25/10/2026. A escala de referência será **batalhão** para infantaria e **grupo** para artilharia. Pelotões individuais exigiriam mais peças para cobrir a frente e prejudicariam a duração de 5–10 minutos.
 
 ## Base histórica e limites

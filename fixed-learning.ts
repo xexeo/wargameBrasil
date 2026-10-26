@@ -1,4 +1,5 @@
-import type {Game,Side} from './engine.js';
+import {companyFixedModels} from './company-models.js';
+import {scaleOf,type Game,type Side} from './engine.js';
 import {learningState,policies} from './learning.js';
 import {fixedModels} from './fixed-models.js';
 
@@ -28,5 +29,8 @@ export function choosePolicyFromFixedModel(game:Game,model:FixedModel):FixedPoli
  return policyFromKey(model.policyKeys[best]);
 }
 export function chooseFixedPolicy(game:Game,side:Side):FixedPolicy {
- return choosePolicyFromFixedModel(game,fixedModels[side]);
+ const model=modelsForGame(game)[side];
+ return model?choosePolicyFromFixedModel(game,model):policyFromKey(side==='br'?'tactical/aggressive':'tactical/defensive');
 }
+
+export const modelsForGame=(game:Game)=>scaleOf(game)==='company'?companyFixedModels:fixedModels;

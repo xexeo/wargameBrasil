@@ -1,6 +1,8 @@
+import {buildCompanyProfiles} from './company-troops.js';
+import type {Scale} from './scenario.js';
 import type {Side,UnitType} from './engine.js';
 export interface TroopProfile {
- id:string; side:Side; q:number; r:number; name:string; type:UnitType;
+ commandGroup?:string; id:string; side:Side; q:number; r:number; name:string; type:UnitType;
  level:1|2|3; echelon:string; mark:string; formation:string;
  atk:number; def:number; mp:number; range:number; indirect:boolean; canCapture:boolean;
  role:'assault'|'support'|'artillery'|'defense'|'reserve';
@@ -19,4 +21,6 @@ export const troopProfiles:TroopProfile[]=[
  {id:'g4',side:'de',q:4,r:1,name:'Reserva — 232ª DI',type:'infantry',level:1,echelon:'Destacamento reduzido de cenário',mark:'DEST',formation:'Reserva tática · 232ª DI',atk:2,def:2,mp:2,range:1,indirect:false,canCapture:true,role:'reserve',description:'Reserva de menor força disponível para o jogo. T1 representa o tamanho do destacamento agregado; não afirma que todos os reservistas fossem inexperientes. Sua identidade e posição exatas não foram confirmadas.'},
  {id:'g5',side:'de',q:7,r:2,name:'Fogos — Art.Rgt.232',type:'artillery',level:3,echelon:'Grupo de artilharia alocado',mark:'II',formation:'Artillerie-Regiment 232 · Heer',atk:4,def:1,mp:1,range:6,indirect:true,canCapture:false,role:'artillery',description:'Fogos de artilharia da formação defensora, sem atribuição de número de grupo ou localização de bateria não verificados. Não é uma unidade de artilharia de montanha inventada.'},
 ];
-export const troopProfile=(id:string)=>troopProfiles.find(p=>p.id===id);
+export const companyProfiles=buildCompanyProfiles(troopProfiles);
+export const profilesForScale=(scale:Scale='battalion')=>scale==='company'?companyProfiles:troopProfiles;
+export const troopProfile=(id:string)=>[...troopProfiles,...companyProfiles].find(p=>p.id===id);

@@ -1,3 +1,5 @@
+import { companyFixedModels } from './company-models.js';
+import { scaleOf } from './engine.js';
 import { learningState, policies } from './learning.js';
 import { fixedModels } from './fixed-models.js';
 export function policyFromKey(key) {
@@ -16,6 +18,8 @@ export function choosePolicyFromFixedModel(game, model) {
     return policyFromKey(model.policyKeys[best]);
 }
 export function chooseFixedPolicy(game, side) {
-    return choosePolicyFromFixedModel(game, fixedModels[side]);
+    const model = modelsForGame(game)[side];
+    return model ? choosePolicyFromFixedModel(game, model) : policyFromKey(side === 'br' ? 'tactical/aggressive' : 'tactical/defensive');
 }
+export const modelsForGame = (game) => scaleOf(game) === 'company' ? companyFixedModels : fixedModels;
 //# sourceMappingURL=fixed-learning.js.map

@@ -1,25 +1,26 @@
-import {type Game,type Side,objectives,canCaptureObjective,createGame,attack,endTurn} from './engine.js';
+import {defaultRules} from './scenario.js';
+import {relativeCohesion,scaleOf,type Game,type Side,objectives,canCaptureObjective,createGame,attack,endTurn} from './engine.js';
 import {activationOrder,takeAIAction} from './ai.js';
 import {seededRandom} from './simulator.js';
 
 export const policies=['strong/aggressive','strong/defensive','weak/aggressive','weak/defensive','tactical/aggressive','tactical/defensive'] as const;
-export interface LearningTable {schema:1;episodes:number;updates:number;q:Record<string,number[]>}
+export interface LearningTable {scale?:'battalion'|'company';schema:1;episodes:number;updates:number;q:Record<string,number[]>}
 export interface PendingExperience {state:string;action:number;utility:number}
 export type LearningContext=Partial<Record<Side,PendingExperience>>;
 export const emptyLearning=():LearningTable=>({schema:1,episodes:0,updates:0,q:{}});
 export function validLearning(value:unknown):value is LearningTable {
  const t=value as LearningTable;
- return !!t&&t.schema===1&&Number.isSafeInteger(t.episodes)&&t.episodes>=0&&Number.isSafeInteger(t.updates)&&t.updates>=0&&!!t.q&&typeof t.q==='object'&&Object.keys(t.q).length<10000&&Object.values(t.q).every(row=>Array.isArray(row)&&row.length===6&&row.every(v=>Number.isFinite(v)&&Math.abs(v)<100000));
+ return !!t&&(t.scale===undefined||t.scale==='battalion'||t.scale==='company')&&t.schema===1&&Number.isSafeInteger(t.episodes)&&t.episodes>=0&&Number.isSafeInteger(t.updates)&&t.updates>=0&&!!t.q&&typeof t.q==='object'&&Object.keys(t.q).length<10000&&Object.values(t.q).every(row=>Array.isArray(row)&&row.length===6&&row.every(v=>Number.isFinite(v)&&Math.abs(v)<100000));
 }
 export function learningState(g:Game,side:Side):string {
- const hp=(s:Side)=>g.units.filter(u=>u.side===s).reduce((n,u)=>n+u.hp,0);
+ const hp=(s:Side)=>relativeCohesion(g,s);
  const advantage=hp(side)-hp(side==='br'?'de':'br');
  const owned=objectives.filter(o=>g.units.some(u=>u.side===side&&canCaptureObjective(u)&&u.q===o.q&&u.r===o.r)).length;
  const summit=g.units.some(u=>u.side===side&&canCaptureObjective(u)&&u.q===5&&u.r===1)?1:0;
- return `${side}:${Math.min(2,Math.floor((g.round-1)/4))}:${advantage< -2?'behind':advantage>2?'ahead':'equal'}:${Math.min(2,Math.floor(g.score/3))}:${owned}:${summit}`;
+ return `${scaleOf(g)==='company'?'company:':''}${side}:${Math.min(2,Math.floor((g.round-1)/4))}:${advantage< -2?'behind':advantage>2?'ahead':'equal'}:${Math.min(2,Math.floor(g.score/3))}:${owned}:${summit}`;
 }
 function utility(g:Game,side:Side):number {
- const hp=g.units.reduce((n,u)=>n+(u.side===side?u.hp:-u.hp),0);
+ const hp=relativeCohesion(g,side)-relativeCohesion(g,side==='br'?'de':'br');
  const brControl=objectives.reduce((n,o)=>n+(g.units.some(u=>u.side==='br'&&canCaptureObjective(u)&&u.q===o.q&&u.r===o.r)?o.points:0),0);
  return hp*.6+(side==='br'?1:-1)*(g.score*.7+brControl*.4);
 }
@@ -45,8 +46,8 @@ export function finishLearningEpisode(t:LearningTable,context:LearningContext,g:
  for(const side of ['br','de'] as const){const pending=context[side];if(pending)update(t,pending,g,side,true);delete context[side];}
  t.episodes++;
 }
-export function trainEpisode(t:LearningTable,seed:number,epsilon=.2,opponent?:{side:Side;strategy:string;stance:string}):Game {
- const g=createGame(),rng=seededRandom(seed),context:LearningContext={};
+export function trainEpisode(t:LearningTable,seed:number,epsilon=.2,opponent?:{side:Side;strategy:string;stance:string},scale:'battalion'|'company'='battalion'):Game {
+ const g=createGame(scale==='company'?{...defaultRules,scale}:undefined),rng=seededRandom(seed),context:LearningContext={};
  while(!g.winner){const side=g.turn,policy=opponent?.side===side?opponent:beginLearningTurn(t,context,g,side,rng,epsilon);
   for(const id of activationOrder(g,side)){takeAIAction(g,id,policy.strategy,policy.stance,rng);if(g.winner)break;}
   if(!g.winner)endTurn(g);

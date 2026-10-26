@@ -14,7 +14,7 @@ export function seededRandom(seed) {
 }
 // No DOM, storage, timer or visual dependency. Both sides use exactly the same policy.
 export function simulate(options) {
-    const game = createGame({ ...defaultRules, ...options.rules });
+    const game = createGame({ ...defaultRules, ...options.rules, ...(options.scale ? { scale: options.scale } : {}) });
     options.setup?.(game);
     const random = seededRandom(options.seed), history = [];
     let attacks = 0, uphillAttacks = 0, turns = 0;

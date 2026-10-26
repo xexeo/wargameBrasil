@@ -1,4 +1,5 @@
-import {createGame,endTurn,objectives,canCaptureObjective,battleLosses,type Game,type Side} from './engine.js';
+import {defaultRules,type Scale} from './scenario.js';
+import {relativeCohesion,createGame,endTurn,objectives,canCaptureObjective,battleLosses,type Game,type Side} from './engine.js';
 import {activationOrder,takeAIAction} from './ai.js';
 import {learningState,policies} from './learning.js';
 import {seededRandom} from './simulator.js';
@@ -20,11 +21,11 @@ export interface FixedTrainingGame {
 interface Pending {state:string;action:number;utility:number}
 function utility(game:Game,side:Side):number {
  const p=fixedTrainingConfig.parameters;
- const hp=game.units.reduce((sum,unit)=>sum+(unit.side===side?unit.hp:-unit.hp),0);
+ const hp=relativeCohesion(game,side)-relativeCohesion(game,side==='br'?'de':'br');
  const control=objectives.reduce((sum,objective)=>sum+(game.units.some(unit=>unit.side==='br'&&canCaptureObjective(unit)&&unit.q===objective.q&&unit.r===objective.r)?objective.points:0),0);
  return hp*p.hpReward+(side==='br'?1:-1)*(game.score*p.scoreReward+control*p.controlReward);
 }
-export function trainFixedSide(side:Side,episodes:number=fixedTrainingConfig.episodesPerSide,firstSeed:number=fixedTrainingConfig.firstSeed[side],onProgress?:(completed:number)=>void):{model:FixedModel;games:FixedTrainingGame[]} {
+export function trainFixedSide(side:Side,episodes:number=fixedTrainingConfig.episodesPerSide,firstSeed:number=fixedTrainingConfig.firstSeed[side],onProgress?:((completed:number)=>void),scale:Scale='battalion'):{model:FixedModel;games:FixedTrainingGame[]} {
  if(!Number.isSafeInteger(episodes)||episodes<1||episodes>100000||!Number.isSafeInteger(firstSeed)||firstSeed<0||firstSeed+episodes>0xffffffff)throw Error('Invalid fixed-model training configuration.');
  const p=fixedTrainingConfig.parameters,q:Record<string,number[]>={},games:FixedTrainingGame[]=[];
  const values=(state:string)=>q[state]??(q[state]=Array(policies.length).fill(0));
@@ -35,7 +36,7 @@ export function trainFixedSide(side:Side,episodes:number=fixedTrainingConfig.epi
   const row=values(previous.state);row[previous.action]+=p.alpha*(reward+p.gamma*next-row[previous.action]);updates++;
  };
  for(let episode=0;episode<episodes;episode++){
-  const seed=firstSeed+episode,opponent=policies[episode%policies.length],game=createGame();
+  const seed=firstSeed+episode,opponent=policies[episode%policies.length],game=createGame(scale==='company'?{...defaultRules,scale}:undefined);
   const dice=seededRandom(seed),explore=seededRandom(seed^0x51f15e),policyTurns:Record<string,number>={};
   let previous:Pending|undefined,turns=0;
   while(!game.winner){

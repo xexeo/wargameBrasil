@@ -1,12 +1,14 @@
 # Aprendizes fixos por lado
 
-A opção de IA fixa usa dois modelos: um para a FEB e outro para a defesa alemã. Cada modelo escolhe entre as seis combinações existentes de Caçador, Oportunista e Estado-maior com postura agressiva ou defensiva. A execução das peças continua usando a IA tática do jogo, que considera o lado, a missão, apoio, terreno e ameaças. Este treino escolhe a política de cada turno; não aprende caminhos individuais nem altera regras.
+A opção de IA fixa usa dois modelos por escala: FEB e defesa alemã, quatro modelos ao todo. Cada modelo escolhe entre as seis combinações existentes de Caçador, Oportunista e Estado-maior com postura agressiva ou defensiva. A execução das peças continua usando a IA tática do jogo, que considera o lado, a missão, apoio, terreno e ameaças. Este treino escolhe a política de cada turno; não aprende caminhos individuais nem altera regras.
 
 Os modelos têm tabelas Q independentes. A FEB é treinada para cumprir sua missão e preservar suas peças; a defesa alemã recebe o sinal oposto para pontos e controle brasileiro. A tabela brasileira contém apenas estados `br:`; a alemã, apenas `de:`. Nenhuma experiência passa de um modelo ao outro.
 
 A Veterana existente continua sendo uma opção separada, com seu próprio aprendizado online. A Aprendiz simples e a experiência já salva no navegador também continuam disponíveis. A IA fixa não lê nem apaga essas memórias.
 
 ## Parâmetros definidos antes do treino
+
+Tabela da escala batalhão. Companhia mantém hiperparâmetros e quantidades, com sementes e tabelas separadas descritas ao final.
 
 | Parâmetro | Valor |
 | --- | --- |
@@ -48,3 +50,11 @@ Os hashes devem incluir o motor, IA, módulos fixos, modelos gerados e os dois s
 ## Revalidação 0.9.0
 
 Os modelos distribuídos são novamente treinados após a revisão da subida, abrigos, alcance dos fogos alemães e planejamento de rotas. Não reaproveitar taxas da 0.1.20. O Estado-maior alemão mantém o cume nas duas posturas e aplica as prioridades de missão também à seleção do alvo de um disparo legal. [Resultados atuais, treino e avaliação](simulacoes/README.md).
+
+## Separação por escala —0.9.1
+
+São quatro modelos fixos: FEB/Alemanha em batalhão e FEB/Alemanha em companhia. Algoritmo e hiperparâmetros são compartilhados, pesos separados. A Veterana também recebe uma tabela por escala. Estado companhia tem prefixo próprio e coesão relativa normalizada pela força inicial; não compara33PV brasileiros com 15 alemães como se fossem efetivos iguais. Chaves de armazenamento legadas do batalhão são mantidas e companhia usa outro namespace.
+
+O runner `scripts/cycle-scales.mjs` executa uma passagem de 2.400 jogos por lado e escala, mais 2.000 online por escala. Gera os quatro artefatos de dados antes de arquivar, permitindo registrar treino e estudo com hashes finais coerentes, sem repetir o treino para atualizar o manifesto. Recompile e execute a avaliação por escala; matrizes e resultados não são misturados.
+
+Sementes companhia: fixo FEB 3300001–3302400; fixo Alemanha3310001–3312400; Veterana3400001–3402000. Avaliação independente a partir de 3900001, confronto fixo3950001–3950100; estudo3100001–3100010; matriz 3600001–3600010. Nenhum intervalo de treino coincide com o de avaliação.

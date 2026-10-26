@@ -15,6 +15,7 @@ export type Strategy = "strong" | "weak" | "tactical";
 export type Stance = "aggressive" | "defensive";
 export interface SimulationOptions {
   seed: number;
+  scale?:'battalion'|'company';
   strategy?: Strategy;
   stance?: Stance;
   record?: boolean;
@@ -46,7 +47,7 @@ export function seededRandom(seed: number): () => number {
 }
 // No DOM, storage, timer or visual dependency. Both sides use exactly the same policy.
 export function simulate(options: SimulationOptions): MatchResult {
-  const game = createGame({...defaultRules,...options.rules});
+  const game = createGame({...defaultRules,...options.rules,...(options.scale?{scale:options.scale}:{})});
   options.setup?.(game);
   const random = seededRandom(options.seed),
     history: Game[] = [];

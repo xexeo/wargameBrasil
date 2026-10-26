@@ -1,13 +1,15 @@
 import {defaultRules} from '../dist/scenario.js';
 import {saveRun,fingerprint} from './simulation-store.mjs';
 // Browser policies, mirrored to let either side be evaluated; never modifies gameplay.
-import { createGame, endTurn, canCaptureObjective, summitOccupied, victoryAssessment } from '../dist/engine.js';
+import { createGame, endTurn, initialForce, canCaptureObjective, summitOccupied, victoryAssessment } from '../dist/engine.js';
 import { activationOrder, takeAIAction } from '../dist/ai.js';
 import { seededRandom, simulate } from '../dist/simulator.js';
 import { beginLearningTurn, finishLearningEpisode, policies } from '../dist/learning.js';
 import {chooseSimplePolicy,updateSimplePolicy} from '../dist/simple-learning.js';
 import { chooseFixedPolicy } from '../dist/fixed-learning.js';
 import { pretrained } from '../dist/pretrained.js';
+import {companyPretrained} from '../dist/company-pretrained.js';
+const company=process.argv.includes('--company');
 import { readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
@@ -27,7 +29,7 @@ const profiles=[
  {id:'VE',name:'Veterana · tabela distribuída + aprendizado na partida',kind:'trained'},
 ];
 const ownHP=(g,side)=>g.units.reduce((n,u)=>n+(u.side===side?u.hp:-u.hp),0);
-function controller(profile,seed){return{profile,rng:seededRandom(seed),memory:{q:{},visits:{}},table:profile.kind==='trained'?structuredClone(pretrained):null,context:{},policy:null};}
+function controller(profile,seed){return{profile,rng:seededRandom(seed),memory:{q:{},visits:{}},table:profile.kind==='trained'?structuredClone(company?companyPretrained:pretrained):null,context:{},policy:null};}
 // Same pure policy selection/update functions as the browser, with isolated memory per side.
 function banditUpdate(c,reward,terminal=false){updateSimplePolicy(c.memory,c.policy,reward,terminal);}
 function choose(c,g,side){if(!c.profile.kind)return c.profile;
@@ -46,13 +48,13 @@ function match(br,de,seed){
   if(c.profile.kind==='bandit'&&!game.winner)banditUpdate(c,ownHP(game,side)-before+(side==='br'?1:-1)*(game.score-oldScore));
  }
  for(const side of['br','de']){const c=controls[side];if(c.profile.kind==='trained')finishLearningEpisode(c.table,c.context,game);if(c.profile.kind==='bandit')banditUpdate(c,game.winner===side?8:-8,true);}
- const losses={};for(const side of['br','de']){const units=game.units.filter(u=>u.side===side);losses[side]={units:5-units.length,cohesion:15-units.reduce((n,u)=>n+u.hp,0)};}
+ const losses={};for(const side of['br','de']){const units=game.units.filter(u=>u.side===side);losses[side]={units:initialForce(game,side)-units.length,cohesion:initialForce(game,side)*3-units.reduce((n,u)=>n+u.hp,0)};}
  return{seed,winner:game.winner,round:game.finishedRound,score:game.score,reason:game.victoryReason==='elimination'?'elimination':game.winner==='br'?(game.score>=(game.rules?.targetScore??8)?'mission':'lateSummit'):game.units.some(u=>u.side==='br'&&canCaptureObjective(u))?'deadline':'noManeuverInfantry',summit:summitOccupied(game),losses,grade:victoryAssessment(game).grade,...metrics};
 }
 function wilson(w,n){const p=w/n,z=1.96,d=1+z*z/n,c=(p+z*z/(2*n))/d,h=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/d;return[c-h,c+h];}
 const count=Number(process.argv[2]??10),firstSeed=Number(process.argv[3]??200001);
-const rules={...defaultRules,retreatOnLoss:process.argv.includes('--no-retreat')?false:process.argv.includes('--retreat')?true:!!defaultRules.retreatOnLoss,summitAtDeadlineWins:process.argv.includes('--strict-points')?false:process.argv.includes('--deadline-summit')?true:!!defaultRules.summitAtDeadlineWins};
-const runName='matriz-ias'+(rules.retreatOnLoss!==!!defaultRules.retreatOnLoss?'-sem-retirada':'')+(rules.summitAtDeadlineWins!==!!defaultRules.summitAtDeadlineWins?'-pontos-obrigatorios':'');
+const rules={...defaultRules,...(company?{scale:'company'}:{}),retreatOnLoss:process.argv.includes('--no-retreat')?false:process.argv.includes('--retreat')?true:!!defaultRules.retreatOnLoss,summitAtDeadlineWins:process.argv.includes('--strict-points')?false:process.argv.includes('--deadline-summit')?true:!!defaultRules.summitAtDeadlineWins};
+const runName='matriz-ias'+(company?'-companhias':'')+(rules.retreatOnLoss!==!!defaultRules.retreatOnLoss?'-sem-retirada':'')+(rules.summitAtDeadlineWins!==!!defaultRules.summitAtDeadlineWins?'-pontos-obrigatorios':'');
 if(!Number.isInteger(count)||count<1||count>1000||!Number.isInteger(firstSeed))throw Error('Use: node scripts/round-robin.mjs [partidas por dupla: 1–1000] [primeira semente]');
 // Meaningful integration check: the fixed-policy runner must match the canonical
 // simulator on the same random stream, including win, score and final round.
@@ -63,7 +65,7 @@ const cells=[];for(const br of profiles)for(const de of profiles){const games=Ar
  console.log(`${br.id} × ${de.id}: FEB ${wins}/${count}`);
 }
 const hashes={};for(const f of['engine.ts','ai.ts','learning.ts','simple-learning.ts','troops.ts','scenario.ts','pretrained.ts','geography-data.ts'])hashes[f]=createHash('sha256').update(await readFile(f)).digest('hex');
-const report={rules,createdAt:new Date().toISOString(),gameVersion:JSON.parse(await readFile('version.json','utf8')).version,sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),sourceHashes:hashes,generator:'Mulberry32',countPerPair:count,totalGames:cells.length*count,seeds:[firstSeed,firstSeed+count-1],policyRandomness:'Separate deterministic stream per controller and side; combat RNG shared stream per match.',memory:'Independent per side, reset before each match. AP starts empty, VE starts from distributed pretrained table, epsilon 0.08. Both update within match. FX uses independently trained side-specific frozen models with zero exploration and no updates. No training is carried across cells or matches; browser user memory unavailable.',profiles,cells};
+const report={initialForces:company?{br:11,de:5}:{br:5,de:5},rules,createdAt:new Date().toISOString(),gameVersion:JSON.parse(await readFile('version.json','utf8')).version,sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),sourceHashes:hashes,generator:'Mulberry32',countPerPair:count,totalGames:cells.length*count,seeds:[firstSeed,firstSeed+count-1],policyRandomness:'Separate deterministic stream per controller and side; combat RNG shared stream per match.',memory:'Independent per side, reset before each match. AP starts empty, VE starts from distributed pretrained table, epsilon 0.08. Both update within match. FX uses independently trained side-specific frozen models with zero exploration and no updates. No training is carried across cells or matches; browser user memory unavailable.',profiles,cells};
 const folder=await saveRun(runName,{'dados-brutos.json':report,'analise.md':`# Matriz de IAs\n\n${report.totalGames} partidas, ${count} por dupla. Execute node scripts/report-round-robin.mjs para a análise detalhada.\n`},{expectedSources:initialSources,provenance:{sourceCommit:report.sourceCommit,seeds:report.seeds,count:report.totalGames}});
 console.log(`Resultados salvos em ${folder}`);
 console.log(`Concluído: ${report.totalGames} partidas; invariantes do simulador verificadas para os seis perfis fixos.`);

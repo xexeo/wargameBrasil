@@ -1,4 +1,5 @@
-import { createGame, endTurn, objectives, canCaptureObjective, battleLosses } from './engine.js';
+import { defaultRules } from './scenario.js';
+import { relativeCohesion, createGame, endTurn, objectives, canCaptureObjective, battleLosses } from './engine.js';
 import { activationOrder, takeAIAction } from './ai.js';
 import { learningState, policies } from './learning.js';
 import { seededRandom } from './simulator.js';
@@ -13,11 +14,11 @@ export const fixedTrainingConfig = Object.freeze({
 });
 function utility(game, side) {
     const p = fixedTrainingConfig.parameters;
-    const hp = game.units.reduce((sum, unit) => sum + (unit.side === side ? unit.hp : -unit.hp), 0);
+    const hp = relativeCohesion(game, side) - relativeCohesion(game, side === 'br' ? 'de' : 'br');
     const control = objectives.reduce((sum, objective) => sum + (game.units.some(unit => unit.side === 'br' && canCaptureObjective(unit) && unit.q === objective.q && unit.r === objective.r) ? objective.points : 0), 0);
     return hp * p.hpReward + (side === 'br' ? 1 : -1) * (game.score * p.scoreReward + control * p.controlReward);
 }
-export function trainFixedSide(side, episodes = fixedTrainingConfig.episodesPerSide, firstSeed = fixedTrainingConfig.firstSeed[side], onProgress) {
+export function trainFixedSide(side, episodes = fixedTrainingConfig.episodesPerSide, firstSeed = fixedTrainingConfig.firstSeed[side], onProgress, scale = 'battalion') {
     if (!Number.isSafeInteger(episodes) || episodes < 1 || episodes > 100000 || !Number.isSafeInteger(firstSeed) || firstSeed < 0 || firstSeed + episodes > 0xffffffff)
         throw Error('Invalid fixed-model training configuration.');
     const p = fixedTrainingConfig.parameters, q = {}, games = [];
@@ -31,7 +32,7 @@ export function trainFixedSide(side, episodes = fixedTrainingConfig.episodesPerS
         updates++;
     };
     for (let episode = 0; episode < episodes; episode++) {
-        const seed = firstSeed + episode, opponent = policies[episode % policies.length], game = createGame();
+        const seed = firstSeed + episode, opponent = policies[episode % policies.length], game = createGame(scale === 'company' ? { ...defaultRules, scale } : undefined);
         const dice = seededRandom(seed), explore = seededRandom(seed ^ 0x51f15e), policyTurns = {};
         let previous, turns = 0;
         while (!game.winner) {

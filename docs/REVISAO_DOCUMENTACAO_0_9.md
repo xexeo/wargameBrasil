@@ -1,4 +1,6 @@
-# Revisão documental — 0.9.0
+# Registro da revisão documental — 0.9.0
+
+Esta nota registra a entrega0.9.0. A integração seguinte é descrita em [DUAS_ESCALAS](DUAS_ESCALAS.md); suas novas simulações substituem na árvore os dados incompatíveis anteriores.
 
 Revisão de 26/10/2026, depois das alterações de código. Escopo: README, guia, todos os documentos Markdown de primeiro nível em `docs/`, índice e análises de simulações; HTML/Markdown de UX são regenerados da fonte única. Imagens e respostas originais de acervos/DEM/OSM/ERA5 permanecem registros de procedência, sem reescrever evidência para combinar com o cenário.
 

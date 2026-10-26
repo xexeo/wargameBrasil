@@ -1,6 +1,6 @@
 # Estudo de escala: batalhão ou companhia?
 
-Proposta para discussão em 25/10/2026. **Não implementada.** As regras e as simulações existentes continuam usando os perfis atuais de tropas.
+Estudo original de 25/10/2026. **Atualização0.9.1:** a escala companhia foi integrada como opção do mesmo jogo. Abaixo permanece o raciocínio e a proposta original; a implementação vigente usa16 peças com apoios no tabuleiro e comando por batalhão, conforme [DUAS_ESCALAS](DUAS_ESCALAS.md). Apoio fora do mapa e reserva temporizada não foram adotados nesta integração.
 
 ## O que representam as dez peças atuais
 

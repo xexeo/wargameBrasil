@@ -1,4 +1,5 @@
-import {maximumMovement,type CombatObserver,type Game,type Unit,distance,objectives,terrain,reachable,canAttack,attackRange,move,canCaptureObjective,advance,attack,hasHeightAdvantage,effectiveAttackRange,expectedReactionRisk,travelCostsTo,key,roundLimit} from './engine.js';
+import {canCommand,scaleOf,maximumMovement,type CombatObserver,type Game,type Unit,distance,objectives,terrain,reachable,canAttack,attackRange,move,canCaptureObjective,advance,attack,hasHeightAdvantage,effectiveAttackRange,expectedReactionRisk,travelCostsTo,key,roundLimit} from './engine.js';
+import {troopProfile} from './troops.js';
 
 export function chooseTarget(s:Game,u:Unit,mode:string){
  return s.units.filter(v=>v.side!==u.side).sort((a,b)=>{
@@ -20,7 +21,7 @@ function strategicGoal(s:Game,u:Unit){
  return available.sort((a,b)=>(distance(u,a)-(a===objectives[0]?2:0))-(distance(u,b)-(b===objectives[0]?2:0)))[0]??objectives[0];
 }
 export function aiAction(s:Game,id:string,mode='tactical',stance='defensive'){
- const u=s.units.find(v=>v.id===id);if(!u||s.winner||u.side!==s.turn)return null;
+ const u=s.units.find(v=>v.id===id);if(!u||s.winner||u.side!==s.turn||!canCommand(s,u))return null;
  const enemies=s.units.filter(v=>v.side!==u.side),enemy=chooseTarget(s,u,mode),support=!canCaptureObjective(u);
  if(!enemy&&support)return null;
  const goal=strategicGoal(s,u),travel=travelCostsTo(goal,s.rules?.ascentStepCost??1,maximumMovement(u)),mission=!!s.rules?.requireSummit;
@@ -61,15 +62,24 @@ export function aiAction(s:Game,id:string,mode='tactical',stance='defensive'){
  return target?{attacker:id,target:target.id}:null;
 }
 export function selectAttackTarget(s:Game,u:Unit,mode='tactical'):Unit|undefined{
+ if(!canCommand(s,u))return undefined;
  const targets=s.units.filter(v=>canAttack(u,v));
  if(mode==='tactical'&&u.side==='de')return chooseTarget({...s,units:[u,...targets]},u,mode);
  targets.sort((a,b)=>mode==='strong'?b.atk-a.atk||distance(u,a)-distance(u,b):mode==='weak'?a.def-b.def||distance(u,a)-distance(u,b):(a.hp+a.def-a.atk*.5-(canCaptureObjective(a)?1:0))-(b.hp+b.def-b.atk*.5-(canCaptureObjective(b)?1:0)));
  return targets[0];
 }
 
-export function activationOrder(s:Game,side=s.turn):string[]{return s.units.filter(u=>u.side===side).sort((a,b)=>Number(canCaptureObjective(a))-Number(canCaptureObjective(b))||attackRange(b)-attackRange(a)||a.id.localeCompare(b.id)).map(u=>u.id);}
+export function activationOrder(s:Game,side=s.turn):string[]{
+ const priority=new Map<string,number>();
+ if(scaleOf(s)==='company')for(const u of s.units.filter(u=>u.side===side&&troopProfile(u.id)?.commandGroup)){
+  const cost=travelCostsTo(strategicGoal(s,u),s.rules?.ascentStepCost??1,maximumMovement(u)).get(key(u.q,u.r))??1000;
+  const onSummit=u.q===objectives[0].q&&u.r===objectives[0].r;
+  priority.set(u.id,(onSummit?100:0)+(selectAttackTarget(s,u)?8:0)+u.hp*2-cost*.7-(u.fired&&u.mp===0?1000:0));
+ }
+ return s.units.filter(u=>u.side===side).sort((a,b)=>Number(canCaptureObjective(a))-Number(canCaptureObjective(b))||attackRange(b)-attackRange(a)||(priority.get(b.id)??0)-(priority.get(a.id)??0)||a.id.localeCompare(b.id)).map(u=>u.id);
+}
 export function takeAIAction(s:Game,id:string,mode='tactical',stance='defensive',rng=Math.random,onCombat?:CombatObserver){
- const source=s.units.find(u=>u.id===id);if(!source||s.winner||source.side!==s.turn)return null;
+ const source=s.units.find(u=>u.id===id);if(!source||s.winner||source.side!==s.turn||!canCommand(s,source))return null;
  const first=s.rules?.freeFireOrder?selectAttackTarget(s,source,mode):undefined;
  let shot:ReturnType<typeof attack>=null,uphill=first?hasHeightAdvantage(first,source):false;
  if(first)shot=attack(s,id,first.id,rng,onCombat);

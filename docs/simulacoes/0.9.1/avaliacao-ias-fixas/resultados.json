@@ -1,4 +1,5 @@
 {
+  "scale": "battalion",
   "protocol": "Held-out seeds outside both training intervals; deterministic greedy inference, no exploration, no updates. Each side faces all six fixed opposing policies; separate fixed-vs-fixed games.",
   "config": {
     "episodesPerSide": 2400,

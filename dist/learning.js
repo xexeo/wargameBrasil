@@ -1,21 +1,22 @@
-import { objectives, canCaptureObjective, createGame, endTurn } from './engine.js';
+import { defaultRules } from './scenario.js';
+import { relativeCohesion, scaleOf, objectives, canCaptureObjective, createGame, endTurn } from './engine.js';
 import { activationOrder, takeAIAction } from './ai.js';
 import { seededRandom } from './simulator.js';
 export const policies = ['strong/aggressive', 'strong/defensive', 'weak/aggressive', 'weak/defensive', 'tactical/aggressive', 'tactical/defensive'];
 export const emptyLearning = () => ({ schema: 1, episodes: 0, updates: 0, q: {} });
 export function validLearning(value) {
     const t = value;
-    return !!t && t.schema === 1 && Number.isSafeInteger(t.episodes) && t.episodes >= 0 && Number.isSafeInteger(t.updates) && t.updates >= 0 && !!t.q && typeof t.q === 'object' && Object.keys(t.q).length < 10000 && Object.values(t.q).every(row => Array.isArray(row) && row.length === 6 && row.every(v => Number.isFinite(v) && Math.abs(v) < 100000));
+    return !!t && (t.scale === undefined || t.scale === 'battalion' || t.scale === 'company') && t.schema === 1 && Number.isSafeInteger(t.episodes) && t.episodes >= 0 && Number.isSafeInteger(t.updates) && t.updates >= 0 && !!t.q && typeof t.q === 'object' && Object.keys(t.q).length < 10000 && Object.values(t.q).every(row => Array.isArray(row) && row.length === 6 && row.every(v => Number.isFinite(v) && Math.abs(v) < 100000));
 }
 export function learningState(g, side) {
-    const hp = (s) => g.units.filter(u => u.side === s).reduce((n, u) => n + u.hp, 0);
+    const hp = (s) => relativeCohesion(g, s);
     const advantage = hp(side) - hp(side === 'br' ? 'de' : 'br');
     const owned = objectives.filter(o => g.units.some(u => u.side === side && canCaptureObjective(u) && u.q === o.q && u.r === o.r)).length;
     const summit = g.units.some(u => u.side === side && canCaptureObjective(u) && u.q === 5 && u.r === 1) ? 1 : 0;
-    return `${side}:${Math.min(2, Math.floor((g.round - 1) / 4))}:${advantage < -2 ? 'behind' : advantage > 2 ? 'ahead' : 'equal'}:${Math.min(2, Math.floor(g.score / 3))}:${owned}:${summit}`;
+    return `${scaleOf(g) === 'company' ? 'company:' : ''}${side}:${Math.min(2, Math.floor((g.round - 1) / 4))}:${advantage < -2 ? 'behind' : advantage > 2 ? 'ahead' : 'equal'}:${Math.min(2, Math.floor(g.score / 3))}:${owned}:${summit}`;
 }
 function utility(g, side) {
-    const hp = g.units.reduce((n, u) => n + (u.side === side ? u.hp : -u.hp), 0);
+    const hp = relativeCohesion(g, side) - relativeCohesion(g, side === 'br' ? 'de' : 'br');
     const brControl = objectives.reduce((n, o) => n + (g.units.some(u => u.side === 'br' && canCaptureObjective(u) && u.q === o.q && u.r === o.r) ? o.points : 0), 0);
     return hp * .6 + (side === 'br' ? 1 : -1) * (g.score * .7 + brControl * .4);
 }
@@ -49,8 +50,8 @@ export function finishLearningEpisode(t, context, g) {
     }
     t.episodes++;
 }
-export function trainEpisode(t, seed, epsilon = .2, opponent) {
-    const g = createGame(), rng = seededRandom(seed), context = {};
+export function trainEpisode(t, seed, epsilon = .2, opponent, scale = 'battalion') {
+    const g = createGame(scale === 'company' ? { ...defaultRules, scale } : undefined), rng = seededRandom(seed), context = {};
     while (!g.winner) {
         const side = g.turn, policy = opponent?.side === side ? opponent : beginLearningTurn(t, context, g, side, rng, epsilon);
         for (const id of activationOrder(g, side)) {
