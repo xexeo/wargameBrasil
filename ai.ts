@@ -24,7 +24,7 @@ export function aiAction(s:Game,id:string,mode='tactical',stance='defensive'){
  const u=s.units.find(v=>v.id===id);if(!u||s.winner||u.side!==s.turn||!canCommand(s,u))return null;
  const enemies=s.units.filter(v=>v.side!==u.side),enemy=chooseTarget(s,u,mode),support=!canCaptureObjective(u);
  if(!enemy&&support)return null;
- const goal=strategicGoal(s,u),travel=travelCostsTo(goal,s.rules?.ascentStepCost??1,maximumMovement(u)),mission=!!s.rules?.requireSummit;
+ const goal=strategicGoal(s,u),travel=travelCostsTo(goal,s.rules?.ascentStepCost??1,maximumMovement(u),s.rules?.minimumStep!==false),mission=!!s.rules?.requireSummit;
  const onSummit=u.q===objectives[0].q&&u.r===objectives[0].r;
  const guardDuty=u.side==='de'&&(stance==='defensive'||s.round>=7||enemies.some(v=>canCaptureObjective(v)&&distance(v,objectives[0])<=2));
  const hold=!support&&onSummit&&(u.side==='br'||mode==='tactical');
@@ -72,7 +72,7 @@ export function selectAttackTarget(s:Game,u:Unit,mode='tactical'):Unit|undefined
 export function activationOrder(s:Game,side=s.turn):string[]{
  const priority=new Map<string,number>();
  if(scaleOf(s)==='company')for(const u of s.units.filter(u=>u.side===side&&troopProfile(u.id)?.commandGroup)){
-  const cost=travelCostsTo(strategicGoal(s,u),s.rules?.ascentStepCost??1,maximumMovement(u)).get(key(u.q,u.r))??1000;
+  const cost=travelCostsTo(strategicGoal(s,u),s.rules?.ascentStepCost??1,maximumMovement(u),s.rules?.minimumStep!==false).get(key(u.q,u.r))??1000;
   const onSummit=u.q===objectives[0].q&&u.r===objectives[0].r;
   priority.set(u.id,(onSummit?100:0)+(selectAttackTarget(s,u)?8:0)+u.hp*2-cost*.7-(u.fired&&u.mp===0?1000:0));
  }

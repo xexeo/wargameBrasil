@@ -23,7 +23,7 @@ Conversão deliberadamente simples para as regras:
 | N3 | 850–919 m | encostas/cristas intermediárias |
 | N4 | a partir de 920 m | terrenos mais altos, incluindo o cume |
 
-Na 0.9.0, subir uma faixa adiciona 2 PM (1 nas regras legadas); defender pelo menos 30 m acima do atacante acrescenta 1 de proteção. O valor em metros aparece como aproximado. Essas faixas não devem ser confundidas com uma classificação geomorfológica precisa.
+Na 0.9.0, subir uma faixa adiciona nominalmente2PM (1 nas regras legadas); defender pelo menos 30 m acima do atacante acrescenta 1 de proteção. O valor em metros aparece como aproximado. Essas faixas não devem ser confundidas com uma classificação geomorfológica precisa.
 
 As linhas de 50 em 50 metros são **curvas interpoladas entre amostras**, obtidas por triangulação da grade de centros e interseção das cotas com as arestas dos triângulos. Não são curvas oficiais contínuas de um levantamento de precisão. A altimetria atual representa melhor o relevo local do que o mapa inicial; não restitui automaticamente o terreno de 1945.
 
@@ -68,3 +68,5 @@ Elevação: Copernicus DEM 2021 GLO-90 via Open-Meteo; [documentação e referê
 ## História oficial
 
 O popup também incorpora o mapa 10 da história oficial americana Cassino to the Alps. Ver [MAPAS_OFICIAIS.md](MAPAS_OFICIAIS.md), incluindo a distinção entre mapa operacional e posições táticas não confirmadas. O tabuleiro atual tem 9 × 9 hexágonos; topografia não foi alterada para balanceamento.
+
+Na0.9.2, a regra compartilhada de deslocamento mínimo permite a toda peça com orçamento completo entrar em vizinho livre subindo até um nível, mesmo se o custo nominal superar seu máximo. Terreno e cotas não foram alterados; o custo efetivo é limitado ao máximo de movimento da peça. Desníveis maiores conservam o custo nominal. Ver [MOVIMENTO_MINIMO](MOVIMENTO_MINIMO.md).

@@ -10,7 +10,7 @@ O rascunho da branch companhia servirá de referência, não será mesclado inte
 
 Uma companhia brasileira por batalhão pode receber ordens no turno (movimento e ataque em qualquer ordem). Seleção não gasta comando; a primeira ação legal escolhe a companhia. Assim nove peças não triplicam os ataques dos três batalhões. Reação/reorganização de uma companhia ocupa o comando do batalhão no próximo turno; reação limitada a uma companhia por batalhão entre turnos. Apoios têm suas ações próprias. Destacamentos alemães permanecem independentes. Três PV significam coesão de cada escalão, não pessoas iguais.
 
-Candidato: companhias A2/D2, apoio A2/D1, fogos FEB A4/D1; destacamentos alemães A2/D2, reserva A1/D1, fogos A3/D1. Movimento, alcance, dez rodadas, meta8+cume e geografia permanecem da 0.9.0. Comparar parâmetros de proteção/subida em uma só rodada de estudo, escolher uma vez, então treinar modelos por escala/lado e avaliar com sementes separadas. Não iterar até obter uma porcentagem desejada.
+Candidato: companhias A 2/D2, apoio A 2/D1, fogos FEB A 4/D1; destacamentos alemães A 2/D2, reserva A 1/D1, fogos A 3/D1. Movimento, alcance, dez rodadas, meta8+cume e geografia permanecem da 0.9.0. Comparar parâmetros de proteção/subida em uma só rodada de estudo, escolher uma vez, então treinar modelos por escala/lado e avaliar com sementes separadas. Não iterar até obter uma porcentagem desejada.
 
 ## Pesquisa e verificação
 
@@ -35,8 +35,12 @@ A versão integrada substitui o rascunho como comportamento executável; o exper
 
 ## Verificação da entrega
 
-Suíte:78 testes sem interface e124 casos em Chromium, computador/celular. Inclui partida completa de companhia pelos controles humanos e turno computacional, ordens por batalhão, dívida de reação após remoção da peça, retomada, inglês americano, troca de escala, memória separada e arquivo remoto. Comparação de 120 partidas com módulos compilados da 0.9.0 confirma vencedor, rodada, pontos, motivo e contagens de ataques na escala original para os casos testados.
+A integração0.9.1 passou 78 testes sem interface e124 casos em Chromium, computador/celular. A 0.9.2 acrescenta a correção de movimento:80 testes sem interface e132 casos de navegador. Inclui partida completa de companhia pelos controles humanos e turno computacional, ordens por batalhão, dívida de reação após remoção da peça, retomada, inglês americano, troca de escala, memória separada e arquivo remoto. Na integração0.9.1, comparação de 120 partidas com módulos compilados da 0.9.0 confirmou vencedor, rodada, pontos, motivo e contagens de ataques na escala original para os casos testados.
 
 Um ciclo completo:1.440 partidas de estudo de quatro candidatos, quatro modelos fixos com 2.400 jogos cada e duas Veteranas com 2.000 jogos cada. Avaliação independente:1.300 jogos por escala; matrizes:810 por escala. Não somar esses conjuntos como uma taxa única. [Índice, dados brutos, sementes e hashes](simulacoes/README.md). O tempo de cálculo foi medido separadamente das pausas visuais e não promete o mesmo desempenho em todos os celulares.
 
 O mapa e os objetivos foram preservados. A companhia exige mais escolhas e pode ocupar mais rodadas, mesmo com o limite de comando; não se afirmou duração humana medida. A avaliação mostra diferenças importantes entre políticas e aprendizes, não equilíbrio perfeito nem ausência de estratégias dominantes. Isso foi registrado sem abrir outro ciclo de ajuste ou treino seletivo.
+
+## Correção solicitada após a integração —0.9.2
+
+O autor identificou que perfis de 1/2 PM e mata subindo por 4 PM podiam bloquear a progressão. A correção garante um passo com orçamento completo para vizinho livre plano, descendo ou subindo um nível, nas duas escalas e ao retomar partidas antigas. Desníveis maiores conservam o custo integral. Esse pedido altera deliberadamente o movimento da base; a regressão anterior é registro da 0.9.1, não afirma equivalência da regra nova. Resultados e modelos anteriores foram invalidados e substituídos por uma nova passagem para a regra final. [Verificação exaustiva](MOVIMENTO_MINIMO.md).

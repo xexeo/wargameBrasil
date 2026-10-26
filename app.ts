@@ -367,7 +367,7 @@ function render() {
   $("round").textContent = `${game.finishedRound??Math.min(game.round,roundLimit(game))} / ${roundLimit(game)}`;
   $('missionTitle').textContent=game.rules?.requireSummit?t("app.033"):t("app.034");
   $('missionDetail').textContent=t("app.035", game.rules?.requireSummit?t("app.036"):'', missionInstruction(game), objectivePointsPerRound());
-  document.querySelector('#heightMovement')?.replaceChildren(t("ui.160",game.rules?.ascentStepCost??1));
+  document.querySelector('#heightMovement')?.replaceChildren(t("ui.160",game.rules?.ascentStepCost??1)+(game.rules?.minimumStep!==false?t("movement.short"):""));
   const forecast=missionForecast(game);
   $('missionForecast').textContent=game.winner?translateData(operationResult(game).detail):t("app.037", forecast.missing, forecast.income, forecast.remaining, forecast.missing===0?t("app.038"):forecast.income?t("app.039", forecast.roundsAtCurrentIncome):t("app.040"), !forecast.pointsPossible?t("app.041"):forecast.missing?t("app.042", forecast.lastSummitOnlyRound):'', game.rules?.summitAtDeadlineWins?t("app.043"):'', forecast.earliestSummitRound!==null&&!forecast.summit?t("app.044", forecast.earliestSummitRound):'');
   $('missionForecast').classList.toggle('urgent',!game.winner&&(!forecast.pointsPossible||(forecast.roundsAtCurrentIncome!==null&&forecast.roundsAtCurrentIncome>forecast.remaining)||game.round>=8));
@@ -972,7 +972,7 @@ $("modal").addEventListener("cancel",event=>{event.preventDefault();dismissCurre
 
 $("history").onclick=()=>show(()=>historyContent(language));
 
-function terrainRulesTable(){return t("terrain.rulesTable",heightThreshold,game.rules?.rangeHeightThreshold??90,game.rules?.ascentStepCost??1,game.rules?.fortificationStrength??1,2+(game.rules?.ascentStepCost??1),2*(game.rules?.ascentStepCost??1));}
+function terrainRulesTable(){return t("terrain.rulesTable",heightThreshold,game.rules?.rangeHeightThreshold??90,game.rules?.ascentStepCost??1,game.rules?.fortificationStrength??1,2+(game.rules?.ascentStepCost??1),2*(game.rules?.ascentStepCost??1),t(game.rules?.minimumStep===false?"movement.legacy":"movement.minimum"));}
 
 function updateSoundUI(){const button=$("soundToggle");button.textContent=t(uiSettings.soundEnabled?"sound.on":"sound.off");button.setAttribute("aria-pressed",String(uiSettings.soundEnabled));button.title=t("sound.tooltip");if($("uiSound"))$("uiSound").checked=uiSettings.soundEnabled;}
 function setSoundEnabled(enabled:boolean){uiSettings.soundEnabled=enabled;uiSettings.preset="custom";if(enabled)void combatAudio.unlock();else combatAudio.mute();commitAppearance();}

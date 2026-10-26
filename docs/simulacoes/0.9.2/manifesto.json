@@ -1,0 +1,269 @@
+{
+  "schema": 1,
+  "version": "0.9.2",
+  "sources": {
+    "scripts/verify-movement.mjs": "b857f07c016077399ef8b1d7d171622b2f49241c1f2a47f3e880fe5cbcb50fd9",
+    "company-troops.ts": "bef629ab89de7ce1e4a4798ef674b3a724a72c2e9a313050a6fab288405c991d",
+    "company-models.ts": "163218ca35b7f1d07d4b8fd0155e0de4ab7d80715acd7299e8fe205f79336537",
+    "company-pretrained.ts": "903def822593f06eeaaefc3d5f06093873ed6ffe3efe0330d03c54925f5d1267",
+    "scripts/cycle-scales.mjs": "4b005f3a34449433bfda51aa062b89b9603c0e6415d6c267f11c3fe4188cef0a",
+    "engine.ts": "4006040d8de55b4f33e3c3f0b7ad05a89021f9dccab150b0992542912cf76166",
+    "ai.ts": "7320e418063e0756bc16c5bb763a4a023069bf68c5a7fb9ebda7b724c862b364",
+    "simulator.ts": "ab8a323bdc1f9029e37f6954ec7a8cc93129825c269d031e93b66071afd877d0",
+    "learning.ts": "688d637c54cc632400dbfa214d6174c016b35ebff126b994652acc0c5a266265",
+    "geography.ts": "570ac8e2c6448062afb834469a2c895d8cf86859d83beb0243c0add48476078f",
+    "geography-data.ts": "b385433cfb4f54b22b19c06b339458214e971218b6be858f0cdb7b599fbfc7c4",
+    "troops.ts": "25b4ff7f3725429f7e668172268a5deb7f4a26a93ad11dac6411a9eae0ec3ae6",
+    "scenario.ts": "08b48c0e64b17d2d8b8d8031bc5ab630345848503a3f651f65f21854f168dbbd",
+    "pretrained.ts": "4d6f9640d5e0c233358ec4178307c7fe4a6ae6842481374a0acb894b6be6fe95",
+    "simple-learning.ts": "861679d12c2bbe1c608032597f16bd0b99772bfd78ad5514243f4eda5a7af98f",
+    "scripts/round-robin.mjs": "f8d68b26e421e02404c4ef3910b6a081e2db0b6b264df1bf3793d8266e38bf86",
+    "scripts/autoplay.mjs": "7d66732fee2e7e04de71695276501d99b440f8bd9f9f64e8ea24337538555775",
+    "scripts/train.mjs": "a0f2ab2e726d93d37d7c1528245387021e6882969e555e79541f45ef6c279fe7",
+    "scripts/evaluate-trained.mjs": "4a2808328a47c8eccbba47f5167d394224eefdc7c667b9c831235eae527e7eb3",
+    "scripts/calibrate-artillery.mjs": "dc09ff9f40062a27613d4c692aeb6ebc599c076f0457101b59a8c8d8a501b533",
+    "scripts/simulation-statistics.mjs": "8bba49df47a31c37538959214355e3c96d369716a31006a54143ce17899be1f2",
+    "scripts/study-battalion-rules.mjs": "b81f6b36b6261f9923ab9e4022f8a9efc63a581d1b0cadabc4fb649063094e2a",
+    "fixed-learning.ts": "51de7fc9a4b2fd23b08a7821dfb1a454ea1f40637316f14f6c26c53d542dae3e",
+    "fixed-training.ts": "81ce0e514cc545a9ce5f77e14273cb55870ce392e735b01c3fcc41e8c30f5666",
+    "fixed-models.ts": "220455f87efcfd067851450c2d4d43467be9a8c81227ce8d823fd311bf3f2591",
+    "scripts/train-fixed.mjs": "fdcaa5a7158ee069c4ae40d961b38c77511aab199535f696dec85bd37b022987",
+    "scripts/evaluate-fixed.mjs": "e85bcae189f48ad99b23ee6753aa2495abb86683a312415526bb2a5fcdc54f34"
+  },
+  "runs": {
+    "estudo-duas-escalas": {
+      "seeds": [
+        3100001,
+        3100010
+      ],
+      "count": 1440,
+      "selected": "companhias",
+      "trainingArtifactsOnlyChanged": true,
+      "files": [
+        "dados-brutos.json",
+        "protocolo.mjs",
+        "analise.md"
+      ]
+    },
+    "treino-batalhoes": {
+      "scale": "battalion",
+      "episodesFixedPerSide": 2400,
+      "episodesOnline": 2000,
+      "training": true,
+      "files": [
+        "fixos-dados-brutos.json",
+        "fixos-modelos.json",
+        "online-dados-brutos.json",
+        "online-modelo.json",
+        "analise.md"
+      ]
+    },
+    "treino-companhias": {
+      "scale": "company",
+      "episodesFixedPerSide": 2400,
+      "episodesOnline": 2000,
+      "training": true,
+      "files": [
+        "fixos-dados-brutos.json",
+        "fixos-modelos.json",
+        "online-dados-brutos.json",
+        "online-modelo.json",
+        "analise.md"
+      ]
+    },
+    "movimento-exaustivo": {
+      "exhaustive": true,
+      "summary": {
+        "profiles": 26,
+        "origins": 2106,
+        "destinations": 170586,
+        "directEdges": 10816,
+        "oneLevelClimbs": 2080,
+        "steepClimbs": 52,
+        "partialBudgets": 24960,
+        "blockedEntries": 21632,
+        "longTermPairs": 170586,
+        "seconds": 7.246183103
+      },
+      "files": [
+        "dados-brutos.json",
+        "protocolo.mjs",
+        "analise.md"
+      ]
+    },
+    "regressao-controlada": {
+      "baselineCommit": "894853c",
+      "count": 120,
+      "controlled": true,
+      "files": [
+        "dados-brutos.json",
+        "analise.md"
+      ]
+    },
+    "avaliacao-ias-fixas": {
+      "heldOut": true,
+      "totalGames": 1300,
+      "seeds": {
+        "portfolio": [
+          [
+            1900001,
+            1900100
+          ],
+          [
+            1901001,
+            1901100
+          ],
+          [
+            1902001,
+            1902100
+          ],
+          [
+            1903001,
+            1903100
+          ],
+          [
+            1904001,
+            1904100
+          ],
+          [
+            1905001,
+            1905100
+          ],
+          [
+            1910001,
+            1910100
+          ],
+          [
+            1911001,
+            1911100
+          ],
+          [
+            1912001,
+            1912100
+          ],
+          [
+            1913001,
+            1913100
+          ],
+          [
+            1914001,
+            1914100
+          ],
+          [
+            1915001,
+            1915100
+          ]
+        ],
+        "headToHead": [
+          1950001,
+          1950100
+        ]
+      },
+      "files": [
+        "dados-brutos.json",
+        "resultados.json",
+        "analise.md"
+      ]
+    },
+    "avaliacao-ias-fixas-companhias": {
+      "heldOut": true,
+      "totalGames": 1300,
+      "seeds": {
+        "portfolio": [
+          [
+            3900001,
+            3900100
+          ],
+          [
+            3901001,
+            3901100
+          ],
+          [
+            3902001,
+            3902100
+          ],
+          [
+            3903001,
+            3903100
+          ],
+          [
+            3904001,
+            3904100
+          ],
+          [
+            3905001,
+            3905100
+          ],
+          [
+            3910001,
+            3910100
+          ],
+          [
+            3911001,
+            3911100
+          ],
+          [
+            3912001,
+            3912100
+          ],
+          [
+            3913001,
+            3913100
+          ],
+          [
+            3914001,
+            3914100
+          ],
+          [
+            3915001,
+            3915100
+          ]
+        ],
+        "headToHead": [
+          3950001,
+          3950100
+        ]
+      },
+      "files": [
+        "dados-brutos.json",
+        "resultados.json",
+        "analise.md"
+      ]
+    },
+    "matriz-ias": {
+      "sourceCommit": "58a93cc5171d2fadbd14e9d33a3ecb0fa0f89e8e",
+      "seeds": [
+        3600001,
+        3600010
+      ],
+      "count": 810,
+      "files": [
+        "dados-brutos.json",
+        "analise.md"
+      ]
+    },
+    "matriz-ias-companhias": {
+      "sourceCommit": "58a93cc5171d2fadbd14e9d33a3ecb0fa0f89e8e",
+      "seeds": [
+        3600001,
+        3600010
+      ],
+      "count": 810,
+      "files": [
+        "dados-brutos.json",
+        "analise.md"
+      ]
+    },
+    "latencia-companhias": {
+      "seeds": [
+        3700001,
+        3700005
+      ],
+      "maxMilliseconds": 32.278053,
+      "files": [
+        "dados-brutos.json",
+        "analise.md"
+      ]
+    }
+  }
+}

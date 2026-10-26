@@ -1,6 +1,6 @@
 # Monte Castelo Vibed — guia de regras e decisões
 
-Referência vigente: **0.9.1 · 26/10/2026**. Substitui as descrições conflitantes acumuladas nos protótipos 0.1.X. O histórico do Git preserva as versões anteriores. Toda mudança de regra deve atualizar motor, testes, regras da interface e este guia.
+Referência vigente: **0.9.2 · 26/10/2026**. Substitui as descrições conflitantes acumuladas nos protótipos 0.1.X. O histórico do Git preserva as versões anteriores. Toda mudança de regra deve atualizar motor, testes, regras da interface e este guia.
 
 ## Plataforma e identidade
 
@@ -22,7 +22,7 @@ O mesmo jogo tem duas opções. **Batalhão** conserva dez peças e regras origi
 
 Companhia usa o mesmo motor, mapa, objetivos, prazo e turnos. Só uma companhia por batalhão brasileiro recebe ordens em cada turno. A primeira ação legal escolhe a companhia; ela pode mover e atirar em qualquer ordem. Seleção/inspeção não consome comando, nem ação inválida. Peças esmaecidas não podem receber novas ordens, mas defendem. Há uma reação por batalhão entre turnos. Reação/reorganização compromete o comando seguinte, mesmo se o contador for removido. Apoios e destacamentos alemães agem separadamente.
 
-A/B/C e posições são etiquetas/hipóteses de cenário; não se afirmam números históricos locais. A terceira companhia começa na retaguarda já no tabuleiro; não há chegada temporizada. Apoios ficam no mapa. Cada companhia tem A2/D2/M3/3PV; apoio A2/D1; fogos FEB A4/D1; granadeiros A2/D2; reserva alemã A1/D1; fogos alemães A3/D1. Alcance e mobilidade dos apoios são preservados. I indica companhia, II batalhão/grupo; A/I identifica a companhia A do batalhãoI. Valores completos na inspeção e em Forças.
+A/B/C e posições são etiquetas/hipóteses de cenário; não se afirmam números históricos locais. A terceira companhia começa na retaguarda já no tabuleiro; não há chegada temporizada. Apoios ficam no mapa. Cada companhia tem A 2/D2/M3/3PV; apoio A 2/D1; fogos FEB A 4/D1; granadeiros A 2/D2; reserva alemã A 1/D1; fogos alemães A 3/D1. Alcance e mobilidade dos apoios são preservados. I indica companhia, II batalhão/grupo; A/I identifica a companhia A do batalhãoI. Valores completos na inspeção e em Forças.
 
 Modelos e memória são separados por escala. Importar experiência de outra escala é recusado. Perdas/resultados usam11 peças brasileiras/33PV iniciais na companhia,5/15 na Alemanha, sem números negativos ou equivalência com pessoas. O grau normaliza a penalização pela força inicial. A previsão otimista de chegada não resolve a concorrência futura por comando do batalhão. [Arquitetura](docs/DUAS_ESCALAS.md), [fontes](docs/PESQUISA_COMPANHIAS.md).
 
@@ -50,13 +50,13 @@ Cinco peças por lado. FEB: três batalhões do 1º RI Sampaio, apoio agregado e
 | Abrigos/trincheiras | posição preparada esquemática |
 | Árvores, morros, vias, N e curvas | terreno e relevo; números em metros são aproximados |
 
-Duplo clique/toque abre os atributos **atuais**, potência após dano, cobertura, fortificação, alcance e estado. Infantaria Sampaio: A3/D3/M3/alcance 1. Apoio: A3/D2/M2/alcance 2 indireto. FEB fogos: A5/D1/M1/alcance 5. Granadeiros: A3/D3/M2/alcance 1. Reserva: A2/D2/M2/alcance 1. Fogos alemães: A4/D1/M1/**alcance 6**. Alcances de apoio/artilharia representam disponibilidade tática, não alcance balístico literal.
+Duplo clique/toque abre os atributos **atuais**, potência após dano, cobertura, fortificação, alcance e estado. Infantaria Sampaio: A 3/D3/M3/alcance 1. Apoio: A 3/D2/M2/alcance 2 indireto. FEB fogos: A 5/D1/M1/alcance 5. Granadeiros: A 3/D3/M2/alcance 1. Reserva: A 2/D2/M2/alcance 1. Fogos alemães: A 4/D1/M1/**alcance 6**. Alcances de apoio/artilharia representam disponibilidade tática, não alcance balístico literal.
 
 ## Turnos, movimento e terreno
 
 Brasil age primeiro; Alemanha depois. Humanos e computadores obedecem ao mesmo motor. O humano escolhe uma peça e toca no destino ou inimigo: não precisa escolher modo de ação. Pode **mover, atirar e continuar movendo**, em qualquer ordem, com um ataque normal e o mesmo orçamento de PM. Encerrar turno fica na barra do mapa. Não há empilhamento ou passagem através de peças, mesmo aliadas.
 
-| Condição | Custo de entrada / efeito | Defesa |
+| Condição | Custo nominal de entrada / efeito | Defesa |
 | --- | --- | --- |
 | Campo ou estrada | 1 PM | sem cobertura própria |
 | Mata | 2 PM | +1 cobertura |
@@ -71,7 +71,9 @@ Brasil age primeiro; Alemanha depois. Humanos e computadores obedecem ao mesmo m
 
 As coberturas naturais e preparadas **não somam**: usa-se a maior, depois se soma a vantagem de altura. Os abrigos estão em **hex 6–2 (Monte Castelo)** e **hex 4–4**, coordenadas de tela contadas a partir de 1; no motor são (5,1) e (3,3). Protegem qualquer lado que os ocupe, não aumentam D nominal da unidade.
 
-Um passo de mata com subida custa 4 PM, acima dos 3 PM máximos de um batalhão: procure outro caminho. Não se acumulam PM entre turnos. Planejamento de IA e previsão descartam passos impossíveis para a mobilidade da peça. A projeção continua otimista: ignora bloqueios de peças e fogo futuro. Não há penalidade meteorológica adicional automática. A subida mais custosa representa esforço tático abstrato; não mapeia lama local como fato.
+O custo nominal de mata com subida de um nível é4PM. Pela correção 0.9.2, uma peça com movimento completo pode entrar em qualquer vizinho livre plano, descendo ou subindo um nível, pagando o menor entre custo nominal e seu máximo:3 PM para batalhão/companhia brasileira,2 para destacamento e1 para artilharia. Não se usa o saldo restante para reduzir custo: quem já gastou parte do movimento pode precisar esperar outro turno. Dois ou mais níveis de subida mantêm custo integral e podem ser impossíveis. Não se acumulam PM entre turnos.
+
+A mesma regra vale em rotas, prévias, desconto real, IA e previsão. Também se aplica a partidas antigas sem a nova flag; apenas arquivos que desativem explicitamente `minimumStep` usam o bloqueio anterior. Ocupação, comando, supressão/reorganização e reação continuam limitando ações. A previsão ignora conflitos futuros de comando, peças e fogo futuro; não promete chegada segura. [Teste de todos os perfis e lugares](docs/MOVIMENTO_MINIMO.md).
 
 ## Ataque, reação e retirada
 
@@ -116,7 +118,7 @@ Zoom contínuo, Mapa inteiro, Visão tática e duplo toque. Todos os popups term
 
 ## Versão, validação e limites
 
-Trabalho publicado na **main**, com duas escalas do mesmo jogo. A proposta anterior permanece registrada em `experimento/escala-companhia`; a opção companhia integrada está na mesma main. A entrega0.9.0 iniciou a série0.9.X; a integração das duas escalas é0.9.1. Hook `.githooks/pre-commit` atualiza versão/data/hora de Brasília e executa testes; não ignorar.
+Trabalho publicado na **main**, com duas escalas do mesmo jogo. A proposta anterior permanece registrada em `experimento/escala-companhia`; a opção companhia integrada está na mesma main. A entrega0.9.0 iniciou a série0.9.X; a integração das duas escalas é0.9.1 e a correção de movimento,0.9.2. Hook `.githooks/pre-commit` atualiza versão/data/hora de Brasília e executa testes; não ignorar.
 
 Motor, IA e treinamento funcionam sem interface. Dados e análises em [simulacoes](docs/simulacoes/README.md), com sementes, protocolos e hashes; mudanças incompatíveis removem os arquivos atuais, mantendo o histórico no Git. Resultados de treino não são avaliação independente. Equilíbrio de portfólio não prova 50/50 de cada política nem dificuldade humana.
 

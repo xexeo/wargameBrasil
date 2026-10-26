@@ -15,7 +15,7 @@ test('destino exposto usa reação válida no percurso e respeita supressão',()
 });
 
 test('todos os modos progridem ao cume quando não existem inimigos, inclusive defensivos',()=>{
- for(const mode of['strong','weak','tactical']){const s=createGame();s.units=s.units.filter(u=>u.id==='b1');Object.assign(s.units[0],{q:3,r:3});const before=travelCostsTo(objectives[0],s.rules.ascentStepCost,3).get(key(3,3));aiAction(s,'b1',mode,'defensive');const u=s.units[0];assert.ok(travelCostsTo(objectives[0],s.rules.ascentStepCost,3).get(key(u.q,u.r))<before,mode);}
+ for(const mode of['strong','weak','tactical']){const s=createGame();s.units=s.units.filter(u=>u.id==='b1');Object.assign(s.units[0],{q:3,r:3});const before=travelCostsTo(objectives[0],s.rules.ascentStepCost,3,!!s.rules.minimumStep).get(key(3,3));aiAction(s,'b1',mode,'defensive');const u=s.units[0];assert.ok(travelCostsTo(objectives[0],s.rules.ascentStepCost,3,!!s.rules.minimumStep).get(key(u.q,u.r))<before,mode);}
 });
 
 test('ocupante brasileiro e defensor tático não abandonam o cume para perseguir alvo',()=>{

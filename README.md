@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.9.1 · 26/10/2026, 08:04:36 (Brasília)**
+**Versão 0.9.2 · 26/10/2026, 08:34:24 (Brasília)**
 <!-- release:end -->
 
 Wargame sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. HTML e TypeScript, somente no navegador, computador ou celular, sem conta ou servidor de jogo. Meta de duração humana: 5–10 minutos; ainda não medida com uma amostra de jogadores.
@@ -12,9 +12,15 @@ Wargame sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945.
 
 Para jogar offline, salve `jogo.html` e abra no navegador. `index.html` contém a mesma versão autocontida, com fontes, imagens, estilos e código incorporados. A visualização de código do GitHub não executa HTML. O Pages publica a `main`; tanto o workflow quanto a publicação nativa pela raiz recebem os mesmos arquivos.
 
-## Duas escalas — 0.9.1
+## Movimento corrigido — 0.9.2
 
-O mesmo jogo agora oferece **Batalhões · jogo original** ou **Companhias · nove companhias FEB**, no popup inicial e no seletor Escala das peças. A opção companhia tem16 peças: nove companhias brasileiras, apoio e fogos; quatro destacamentos e fogos alemães. Usa o mesmo mapa, combate, turnos, objetivos, aparência e controles.
+Com o movimento completo, **toda peça pode entrar num vizinho livre de mesmo nível, descendo ou subindo um nível**, inclusive artilharia e mata. Paga o custo nominal ou seu máximo de PM, o menor dos dois. A redução usa o máximo da peça, não o saldo restante; subir dois ou mais níveis conserva o custo integral e pode ser impossível. Ocupação, reação e comando continuam valendo. A correção também se aplica a partidas antigas sem a nova opção registrada.
+
+Verificação exaustiva:26 perfis nas duas escalas,81 posições iniciais cada e170.586 destinos testados; custos, desconto de PM, orçamento parcial, bloqueios e rotas da IA. Todo perfil também tem caminho para todos os hexágonos ao longo de vários turnos, sem ocupação ou fogo. [Método e resultados](docs/MOVIMENTO_MINIMO.md).
+
+## Duas escalas — integradas na 0.9.1
+
+O mesmo jogo agora oferece **Batalhões · jogo original** ou **Companhias · nove companhias FEB**, no popup inicial e no seletor Escala das peças. A opção companhia tem 16 peças: nove companhias brasileiras, apoio e fogos; quatro destacamentos e fogos alemães. Usa o mesmo mapa, combate, turnos, objetivos, aparência e controles.
 
 Para evitar triplicar ataques, só uma companhia de cada batalhão brasileiro recebe ordens por turno. A primeira ação legal compromete o comando; selecionar/inspecionar não gasta. As outras companhias ficam esmaecidas e ainda defendem. Reação/reorganização compromete o próximo comando do batalhão. Apoios e destacamentos alemães têm ações próprias. Letras A/B/C são etiquetas de cenário, não uma ordem de batalha local comprovada.
 
@@ -70,17 +76,21 @@ Caçador, Oportunista e Estado-maior, nas posturas agressiva/defensiva; Aprendiz
 
 
 
-<!-- simulation:0.9.1/matriz-ias:start -->
-**Matriz batalhões:**810 partidas (10 por dupla), **47,4% FEB /52,6% Alemanha**, média 7,93 rodadas. [Matriz e dados](docs/simulacoes/0.9.1/matriz-ias/analise.md).
-<!-- simulation:0.9.1/matriz-ias:end -->
 
-<!-- simulation:0.9.1/matriz-ias-companhias:start -->
-**Matriz companhias:**810 partidas (10 por dupla), **44,7% FEB /55,3% Alemanha**, média 9,09 rodadas. Estado-maior tem as melhores médias; existem dominâncias empíricas entre políticas nesta amostra. [Matriz e análise de estratégias](docs/simulacoes/0.9.1/matriz-ias-companhias/analise.md). Minutos de jogo humano não foram medidos.
-<!-- simulation:0.9.1/matriz-ias-companhias:end -->
 
-<!-- simulation:0.9.1/avaliacao-ias-fixas-companhias:start -->
-No confronto independente dos aprendizes fixos de companhia, **FEB 36% /Alemanha64%** em 100 jogos. Logo, média próxima de 50% do portfólio não significa equilíbrio de toda dupla ou superioridade do aprendiz. [Avaliação completa](docs/simulacoes/0.9.1/avaliacao-ias-fixas-companhias/analise.md).
-<!-- simulation:0.9.1/avaliacao-ias-fixas-companhias:end -->
+
+
+<!-- simulation:0.9.2/matriz-ias:start -->
+**Batalhões com movimento corrigido:** 810 jogos,10 por dupla. FEB **48,1%**, Alemanha **51,9%**; média 6,48 rodadas. [Matriz, dominâncias e dados](docs/simulacoes/0.9.2/matriz-ias/analise.md).
+<!-- simulation:0.9.2/matriz-ias:end -->
+
+<!-- simulation:0.9.2/matriz-ias-companhias:start -->
+**Companhias com movimento corrigido:** 810 jogos,10 por dupla. FEB **42,7%**, Alemanha **57,3%**; média 8,91 rodadas. [Matriz, dominâncias e dados](docs/simulacoes/0.9.2/matriz-ias-companhias/analise.md).
+<!-- simulation:0.9.2/matriz-ias-companhias:end -->
+
+<!-- simulation:0.9.2/avaliacao-ias-fixas-companhias:start -->
+Entre aprendizes fixos de companhia, a FEB venceu 58/100 jogos independentes. Uma média do portfólio não garante50/50 para cada dupla ou jogador. [Avaliação e intervalos](docs/simulacoes/0.9.2/avaliacao-ias-fixas-companhias/analise.md).
+<!-- simulation:0.9.2/avaliacao-ias-fixas-companhias:end -->
 
 ```sh
 # Uma passagem de estudo/treino para as duas escalas:
@@ -97,7 +107,7 @@ Scripts de treinamento substituem os próprios modelos e invalidam relatórios i
 
 [**Guia vigente de regras e decisões**](GUIA_DO_JOGO.md) · [Plano da entrega0.9](docs/PLANO_0_9.md) · [Estudo de escala companhia](docs/ESCALA_DAS_PECAS.md)
 
-As duas escalas estão integradas na **main** e na mesma página. A branch `experimento/escala-companhia` preserva o rascunho anterior, não é necessária para jogar. A entrega0.9.0 iniciou a série0.9.X; esta integração é0.9.1. O hook atualiza versão/data/hora de Brasília e roda testes. Builds sem commit preservam a versão.
+As duas escalas estão integradas na **main** e na mesma página. A branch `experimento/escala-companhia` preserva o rascunho anterior, não é necessária para jogar. A entrega0.9.0 iniciou a série0.9.X; esta atualização é0.9.2. O hook atualiza versão/data/hora de Brasília e roda testes. Builds sem commit preservam a versão.
 
 Requisitos para desenvolver: Node.js22+, npm; Python3 apenas para servidor estático opcional. Para jogar, basta navegador moderno.
 
@@ -112,7 +122,7 @@ npm start
 
 `template.html` é o fonte HTML, `app.ts` a interface; `engine.ts`, `ai.ts` e módulos de aprendizado funcionam sem DOM. `dist/`, `index.html` e `jogo.html` são gerados e versionados. Chromium fica em `/usr/bin/chromium` na configuração de testes deste ambiente; ajuste em outras máquinas.
 
-Validação da entrega: testes de motor, simulação, persistência e troca de turnos, além de fluxos Chromium em computador/celular, PT/EN, aparência, som, efeitos, encerramento e HTML offline. A integração0.9.1 tem78 testes sem interface e124 casos de navegador; inclui partidas completas nas duas escalas e120 comparações de regressão com a 0.9.0. O [registro anterior](docs/REVISAO_DOCUMENTACAO_0_9.md) e a [arquitetura atual](docs/DUAS_ESCALAS.md) preservam as decisões.
+Validação da entrega:80 testes sem interface e132 casos de navegador, incluindo partidas completas nas duas escalas, idiomas, aparência, som, retomada e HTML offline. A verificação de movimento cobre170.586 combinações de origem/destino. [Método atual](docs/MOVIMENTO_MINIMO.md) e [arquitetura das escalas](docs/DUAS_ESCALAS.md). A regressão que preservou a 0.9.0 é registro da integração0.9.1; a correção posterior muda deliberadamente o movimento.
 
 Limites que permanecem: restituição cartográfica local de 1945, mapas integrais de Mascarenhas, efetivos/baixas locais e boletim instrumental contemporâneo. ERA5 regional não prova neve ou lama em cada posição. Duração humana e dificuldade percebida exigem jogadores; autojogo mede rodadas e resultados de políticas.
 

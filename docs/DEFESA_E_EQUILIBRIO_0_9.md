@@ -1,12 +1,12 @@
 # Registro da defesa, subida e equilíbrio — 0.9.0
 
-Documento da entrega anterior. A0.9.1 integra duas escalas; números da 0.9.0 referem-se àquela versão. Resultados atuais estão em [simulações](simulacoes/README.md).
+Documento da entrega anterior. A 0.9.1 integra duas escalas; números da 0.9.0 referem-se àquela versão. Resultados atuais estão em [simulações](simulacoes/README.md).
 
 Decisões de 26/10/2026. Conservam o mapa, dez peças, três batalhões brasileiros, identidades, cota e janela de 06h–18h. O pedido foi estudar uma defesa mais convincente sem ignorar a dificuldade humana relatada pelo autor. As medições são de políticas automáticas; não medem as partidas particulares dele.
 
 ## Evidência consultada
 
-- **Fisher, _Cassino to the Alps_, capítulo XXIV, pp.428 e431**, [reprodução da história oficial americana](https://www.ibiblio.org/hyperwar/USA/USA-MTO-Cassino/USA-MTO-Cassino-24.html). A232ª DI cobria uma frente de cerca de 18 milhas, com composição heterogênea e muitos homens mais velhos/convalescentes. Reservas de fuzileiros e elementos de montanha na frente ampla não comprovam uma unidade de elite no cume. O avanço americano precipitou retirada alemã; a pequena retaguarda não equivale aos quatro destacamentos completos do jogo nem a sua eliminação física.
+- **Fisher, _Cassino to the Alps_, capítulo XXIV, pp.428 e431**, [reprodução da história oficial americana](https://www.ibiblio.org/hyperwar/USA/USA-MTO-Cassino/USA-MTO-Cassino-24.html). A 232ª DI cobria uma frente de cerca de 18 milhas, com composição heterogênea e muitos homens mais velhos/convalescentes. Reservas de fuzileiros e elementos de montanha na frente ampla não comprovam uma unidade de elite no cume. O avanço americano precipitou retirada alemã; a pequena retaguarda não equivale aos quatro destacamentos completos do jogo nem a sua eliminação física.
 - **U.S. War Department, TM-E30-451, _Handbook on German Military Forces_ (1945), [capítulo IV, Tactics](https://www.ibiblio.org/hyperwar/Germany/HB/HB-4.html)**. Referência geral para posições preparadas, observação, defesa em profundidade e combinação de fogos diretos e curvos. Não é uma carta tática de Monte Castelo.
 - Mesmo manual, [capítulo VII, Weapons](https://www.ibiblio.org/hyperwar/Germany/HB/HB-7.html): emprego de metralhadoras em bipé/tripé, MG34/MG42 e morteiros. Alcances técnicos podem exceder muito um hexágono. Isso não prova o modelo ou a dotação de cada posição da 232ª DI no dia 21. Alcance balístico não pode ser convertido diretamente em alcance de um contador de batalhão.
 - As fontes brasileiras de narrativa e organização permanecem em [HISTORIA](HISTORIA.md), [acervos](PESQUISA_ACERVOS_NARRATIVA.md) e [TROPAS](TROPAS.md). Não se afirma leitura integral de Mascarenhas ou boletim local ainda não obtido.

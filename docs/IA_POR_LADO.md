@@ -58,3 +58,7 @@ São quatro modelos fixos: FEB/Alemanha em batalhão e FEB/Alemanha em companhia
 O runner `scripts/cycle-scales.mjs` executa uma passagem de 2.400 jogos por lado e escala, mais 2.000 online por escala. Gera os quatro artefatos de dados antes de arquivar, permitindo registrar treino e estudo com hashes finais coerentes, sem repetir o treino para atualizar o manifesto. Recompile e execute a avaliação por escala; matrizes e resultados não são misturados.
 
 Sementes companhia: fixo FEB 3300001–3302400; fixo Alemanha3310001–3312400; Veterana3400001–3402000. Avaliação independente a partir de 3900001, confronto fixo3950001–3950100; estudo3100001–3100010; matriz 3600001–3600010. Nenhum intervalo de treino coincide com o de avaliação.
+
+## Regra final de movimento —0.9.2
+
+A solicitação posterior de deslocamento mínimo alterou o motor das duas escalas. Os relatórios e modelos da 0.9.1 foram invalidados; a passagem de treino/avaliação foi refeita para a regra corrigida, sem ciclos sucessivos de ajuste. Chaves e experiência pessoal continuam separadas/preservadas. A comparação que manteve tabelas de batalhão idênticas à0.9.0 pertence à0.9.1, anterior a essa correção.
