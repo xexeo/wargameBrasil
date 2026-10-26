@@ -118,6 +118,9 @@ export function createCombatEffects(map, announcement, describe, getOptions = ()
         idleCallbacks.push(callback);
     else
         callback(); }
-    return { enqueue, redraw, clear, whenIdle };
+    // Only presentation events are discarded; game state and combat logs are untouched.
+    function limitPending(count) { const keep = Math.max(0, Math.floor(count)); if (queue.length > keep)
+        queue.splice(0, queue.length - keep); }
+    return { enqueue, redraw, clear, whenIdle, limitPending };
 }
 //# sourceMappingURL=combat-effects.js.map

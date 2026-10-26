@@ -62,5 +62,7 @@ export function createCombatEffects(map:SVGElement,announcement:HTMLElement,desc
  function enqueue(event:CombatEvent){queue.push(event);if(!current)next();}
  function clear(){if(timer!==undefined)clearTimeout(timer);if(frame!==undefined)cancelAnimationFrame(frame);frame=undefined;timer=undefined;queue.length=0;idleCallbacks.length=0;current=null;last=null;announcement.textContent='';redraw();}
  function whenIdle(callback:()=>void){if(current||queue.length)idleCallbacks.push(callback);else callback();}
- return {enqueue,redraw,clear,whenIdle};
+ // Only presentation events are discarded; game state and combat logs are untouched.
+ function limitPending(count:number){const keep=Math.max(0,Math.floor(count));if(queue.length>keep)queue.splice(0,queue.length-keep);}
+ return {enqueue,redraw,clear,whenIdle,limitPending};
 }

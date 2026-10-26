@@ -18,13 +18,13 @@ A correção vale nas duas escalas e para partidas antigas sem a nova flag. `min
 
 ## Testes exaustivos
 
-`scripts/verify-movement.mjs` enumera os26 perfis existentes:10 de batalhão e16 de companhia. Para cada perfil, testa as81 posições iniciais e todos os81 destinos. Compara o motor com uma enumeração independente de caminhos limitada pelo orçamento e executa os movimentos, não apenas o cálculo nominal.
+`scripts/verify-movement.mjs` enumera os29 perfis atuais:10 de batalhão e19 de companhia. Para cada perfil, testa as81 posições iniciais e todos os81 destinos. Compara o motor com uma enumeração independente de caminhos limitada pelo orçamento e executa os movimentos, não apenas o cálculo nominal.
 
-- 170.586 combinações de origem/destino;
-- 10.816 passagens adjacentes, incluindo2.080 subidas de um nível e52 subidas maiores bloqueadas;
-- 24.960 verificações de orçamentos parciais;
-- 21.632 tentativas de entrada ocupada por aliado/inimigo;
-- 170.586 pares com verificação de alcance ao longo de vários turnos, sem ocupação ou fogo: todos têm rota.
+- 190.269 combinações de origem/destino;
+- 12.064 passagens adjacentes, incluindo2.320 subidas de um nível e58 subidas maiores bloqueadas;
+- 27.456 verificações de orçamentos parciais;
+- 24.128 tentativas de entrada ocupada por aliado/inimigo;
+- 190.269 pares com verificação de alcance ao longo de vários turnos, sem ocupação ou fogo: todos têm rota.
 
 Os testes conferem prévia, percurso, custo cobrado, PM restantes, falhas sem gasto e distância usada pela IA. A matriz de dados registra custos por perfil/origem e o protocolo é copiado no diretório de resultados. O teste automatizado executa a mesma verificação na suíte; há também casos de navegador para artilharia brasileira/alemã em ambas as escalas, inclusive retomando arquivo antigo sem a flag.
 
@@ -33,3 +33,5 @@ Os testes conferem prévia, percurso, custo cobrado, PM restantes, falhas sem ga
 ## Efeito nas análises
 
 A mudança altera trajetos, exposição e escolhas de IA. Resultados e modelos anteriores foram invalidados pelo manifesto de hashes. Uma nova passagem de treinamento e avaliação é necessária para apresentar números da regra final. Não se afirmou equivalência da 0.9.2 com o movimento da 0.9.0; a comparação histórica pode desativar a exceção explicitamente como controle.
+
+Atualização0.9.3: os três novos destacamentos alemães também foram incluídos. A regra de movimento e os dez perfis de batalhão não mudaram.

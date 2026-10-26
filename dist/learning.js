@@ -6,14 +6,14 @@ export const policies = ['strong/aggressive', 'strong/defensive', 'weak/aggressi
 export const emptyLearning = () => ({ schema: 1, episodes: 0, updates: 0, q: {} });
 export function validLearning(value) {
     const t = value;
-    return !!t && (t.scale === undefined || t.scale === 'battalion' || t.scale === 'company') && t.schema === 1 && Number.isSafeInteger(t.episodes) && t.episodes >= 0 && Number.isSafeInteger(t.updates) && t.updates >= 0 && !!t.q && typeof t.q === 'object' && Object.keys(t.q).length < 10000 && Object.values(t.q).every(row => Array.isArray(row) && row.length === 6 && row.every(v => Number.isFinite(v) && Math.abs(v) < 100000));
+    return !!t && (t.companyRevision === undefined || t.companyRevision === 1 || t.companyRevision === 2) && (t.scale === undefined || t.scale === 'battalion' || t.scale === 'company') && t.schema === 1 && Number.isSafeInteger(t.episodes) && t.episodes >= 0 && Number.isSafeInteger(t.updates) && t.updates >= 0 && !!t.q && typeof t.q === 'object' && Object.keys(t.q).length < 10000 && Object.values(t.q).every(row => Array.isArray(row) && row.length === 6 && row.every(v => Number.isFinite(v) && Math.abs(v) < 100000));
 }
 export function learningState(g, side) {
     const hp = (s) => relativeCohesion(g, s);
     const advantage = hp(side) - hp(side === 'br' ? 'de' : 'br');
     const owned = objectives.filter(o => g.units.some(u => u.side === side && canCaptureObjective(u) && u.q === o.q && u.r === o.r)).length;
     const summit = g.units.some(u => u.side === side && canCaptureObjective(u) && u.q === 5 && u.r === 1) ? 1 : 0;
-    return `${scaleOf(g) === 'company' ? 'company:' : ''}${side}:${Math.min(2, Math.floor((g.round - 1) / 4))}:${advantage < -2 ? 'behind' : advantage > 2 ? 'ahead' : 'equal'}:${Math.min(2, Math.floor(g.score / 3))}:${owned}:${summit}`;
+    return `${scaleOf(g) === 'company' ? (g.rules?.companyRevision === 2 ? 'company2:' : 'company:') : ''}${side}:${Math.min(2, Math.floor((g.round - 1) / 4))}:${advantage < -2 ? 'behind' : advantage > 2 ? 'ahead' : 'equal'}:${Math.min(2, Math.floor(g.score / 3))}:${owned}:${summit}`;
 }
 function utility(g, side) {
     const hp = relativeCohesion(g, side) - relativeCohesion(g, side === 'br' ? 'de' : 'br');

@@ -62,3 +62,9 @@ Sementes companhia: fixo FEB 3300001–3302400; fixo Alemanha3310001–3312400; 
 ## Regra final de movimento —0.9.2
 
 A solicitação posterior de deslocamento mínimo alterou o motor das duas escalas. Os relatórios e modelos da 0.9.1 foram invalidados; a passagem de treino/avaliação foi refeita para a regra corrigida, sem ciclos sucessivos de ajuste. Chaves e experiência pessoal continuam separadas/preservadas. A comparação que manteve tabelas de batalhão idênticas à0.9.0 pertence à0.9.1, anterior a essa correção.
+
+## Revisão0.9.3 restrita à companhia
+
+Somente modelos de companhia foram treinados novamente (duas tabelas fixas de 2.400 episódios e uma Veterana de 2.000). Os arquivos de modelos e a experiência de batalhão são preservados. Companhia revisada usa prefixo de estado company2 e namespace de armazenamento próprio; arquivos de experiência antigos não são misturados silenciosamente. Salvos antigos mantêm o conjunto de peças original; Novo jogo cria a composição revisada.
+
+Comparação contra a 0.9.2 verifica120 históricos completos de batalhão e os dois arquivos de modelos, byte a byte. Relatórios antigos incompatíveis foram retirados da árvore e permanecem no Git. A referência numérica anterior de batalhão não é apresentada como nova execução.

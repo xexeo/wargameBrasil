@@ -1,4 +1,6 @@
-# Duas escalas no mesmo jogo — plano da 0.9.1
+# Registro da integração original — 0.9.1
+
+**Documento histórico.** A regra de uma companhia por batalhão e a composição de 16 peças abaixo foram substituídas na 0.9.3. A arquitetura compartilhada permanece; regras vigentes em [GUIA_DO_JOGO](../GUIA_DO_JOGO.md), [revisão de companhia](REVISAO_COMPANHIAS_0_9_3.md) e [legenda](SIMBOLOS.md). Batalhão permanece preservado.
 
 Pedido de 26/10/2026: integrar batalhão e companhia como duas opções do mesmo jogo, em um único ciclo de implementação, calibração e treinamento. Não criar outro jogo, outra interface ou duplicar o motor.
 

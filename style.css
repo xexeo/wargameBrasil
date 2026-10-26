@@ -1159,3 +1159,5 @@ header{position:relative}.header-actions{display:flex;flex-wrap:wrap;justify-con
 .scale-picker{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0}.scale-picker select{flex:1;min-width:200px}.scale-status{font-size:12px;line-height:1.5;color:var(--ui-text)}.scale-notice{padding:12px;border:1px solid var(--ui-border);border-left:4px solid var(--ui-accent);border-radius:6px;background:var(--ui-softPanel);margin:12px 0}
 
 .unit.command-locked .counter-content{opacity:.48}.unit.command-locked.selected .counter-content{opacity:.8}
+
+.unit .company-echelon{font-size:calc(13px * var(--ui-counterFontScale));font-weight:800;stroke:var(--ui-br);stroke-width:2px;paint-order:stroke}

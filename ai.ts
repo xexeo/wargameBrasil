@@ -1,6 +1,16 @@
 import {canCommand,scaleOf,maximumMovement,type CombatObserver,type Game,type Unit,distance,objectives,terrain,reachable,canAttack,attackRange,move,canCaptureObjective,advance,attack,hasHeightAdvantage,effectiveAttackRange,expectedReactionRisk,travelCostsTo,key,roundLimit} from './engine.js';
 import {troopProfile} from './troops.js';
 
+// Company plans reuse terrain-only distance maps; occupied cells are still
+// handled by reachable(). The battalion path remains unchanged.
+const companyTravelCache=new Map<string,Map<string,number>>();
+function travelFor(s:Game,u:Unit,goal:{q:number;r:number}){
+ const ascent=s.rules?.ascentStepCost??1,allowance=maximumMovement(u),minimum=s.rules?.minimumStep!==false;
+ if(scaleOf(s)!=='company')return travelCostsTo(goal,ascent,allowance,minimum);
+ const k=`${goal.q},${goal.r}:${ascent}:${allowance}:${minimum}`;
+ let costs=companyTravelCache.get(k);if(!costs){costs=travelCostsTo(goal,ascent,allowance,minimum);if(companyTravelCache.size>=128)companyTravelCache.clear();companyTravelCache.set(k,costs);}return costs;
+}
+
 export function chooseTarget(s:Game,u:Unit,mode:string){
  return s.units.filter(v=>v.side!==u.side).sort((a,b)=>{
   const da=distance(u,a),db=distance(u,b);
@@ -24,7 +34,7 @@ export function aiAction(s:Game,id:string,mode='tactical',stance='defensive'){
  const u=s.units.find(v=>v.id===id);if(!u||s.winner||u.side!==s.turn||!canCommand(s,u))return null;
  const enemies=s.units.filter(v=>v.side!==u.side),enemy=chooseTarget(s,u,mode),support=!canCaptureObjective(u);
  if(!enemy&&support)return null;
- const goal=strategicGoal(s,u),travel=travelCostsTo(goal,s.rules?.ascentStepCost??1,maximumMovement(u),s.rules?.minimumStep!==false),mission=!!s.rules?.requireSummit;
+ const goal=strategicGoal(s,u),travel=travelFor(s,u,goal),mission=!!s.rules?.requireSummit;
  const onSummit=u.q===objectives[0].q&&u.r===objectives[0].r;
  const guardDuty=u.side==='de'&&(stance==='defensive'||s.round>=7||enemies.some(v=>canCaptureObjective(v)&&distance(v,objectives[0])<=2));
  const hold=!support&&onSummit&&(u.side==='br'||mode==='tactical');
@@ -72,7 +82,7 @@ export function selectAttackTarget(s:Game,u:Unit,mode='tactical'):Unit|undefined
 export function activationOrder(s:Game,side=s.turn):string[]{
  const priority=new Map<string,number>();
  if(scaleOf(s)==='company')for(const u of s.units.filter(u=>u.side===side&&troopProfile(u.id)?.commandGroup)){
-  const cost=travelCostsTo(strategicGoal(s,u),s.rules?.ascentStepCost??1,maximumMovement(u),s.rules?.minimumStep!==false).get(key(u.q,u.r))??1000;
+  const cost=travelFor(s,u,strategicGoal(s,u)).get(key(u.q,u.r))??1000;
   const onSummit=u.q===objectives[0].q&&u.r===objectives[0].r;
   priority.set(u.id,(onSummit?100:0)+(selectAttackTarget(s,u)?8:0)+u.hp*2-cost*.7-(u.fired&&u.mp===0?1000:0));
  }

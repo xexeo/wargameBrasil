@@ -1,5 +1,5 @@
 import { defaultRules, heightThreshold } from "./scenario.js";
-import { profilesForScale, troopProfile } from "./troops.js";
+import { profilesForScale } from "./troops.js";
 import { geographicTerrain, terrainLevel, altitude, geography } from "./geography.js";
 // Prepared positions are scenario abstractions, not surveyed bunker locations.
 export const fortifications = [
@@ -72,27 +72,9 @@ export function defenseBonus(a, b, fortificationStrength = 1) {
     return (Math.max(["hill", "forest"].includes(terrain(b.q, b.r)) ? 1 : 0, fortification(b.q, b.r) * fortificationStrength) + (hasHeightAdvantage(b, a) ? 1 : 0));
 }
 export const scaleOf = (s) => s.rules?.scale ?? 'battalion';
-export function canCommand(s, u) {
-    if (scaleOf(s) !== 'company')
-        return true;
-    const group = troopProfile(u.id)?.commandGroup;
-    return !group || !s.commanded?.[group] || s.commanded[group] === u.id;
-}
-function commitCommand(s, u) {
-    const group = scaleOf(s) === 'company' ? troopProfile(u.id)?.commandGroup : undefined;
-    if (group)
-        (s.commanded ??= {})[group] = u.id;
-}
-function commitReaction(s, u) {
-    const group = scaleOf(s) === 'company' ? troopProfile(u.id)?.commandGroup : undefined;
-    if (group)
-        (s.reactionCommands ??= {})[group] = u.id;
-}
-function groupCanReact(s, u) {
-    const group = scaleOf(s) === 'company' ? troopProfile(u.id)?.commandGroup : undefined;
-    return !group || (!s.reactionCommands?.[group] && !s.units.some(v => v.id !== u.id && v.reactionSpent && troopProfile(v.id)?.commandGroup === group));
-}
-export function initialForce(s, side) { return profilesForScale(scaleOf(s)).filter(p => p.side === side).length; }
+// Compatibility API: companies now receive orders independently, like battalions.
+export function canCommand(_s, _u) { return true; }
+export function initialForce(s, side) { return profilesForScale(scaleOf(s), s.rules?.companyRevision ?? 1).filter(p => p.side === side).length; }
 export function relativeCohesion(s, side) { const hp = s.units.filter(u => u.side === side).reduce((n, u) => n + u.hp, 0); return scaleOf(s) === 'company' ? hp * 5 / initialForce(s, side) : hp; }
 export const maximumMovement = (u) => u.maxMp ?? (u.type === 'armor' ? 4 : 3);
 export const canCaptureObjective = (u) => u.canCapture ?? true;
@@ -101,8 +83,10 @@ export const targetScore = (s) => s.rules?.targetScore ?? 8;
 export const roundLimit = (s) => s.rules?.roundLimit ?? LIMIT;
 export const unitLevel = (u) => u.level ?? 2;
 export function createGame(rules = defaultRules) {
+    if (rules.scale === 'company' && rules.companyRevision === undefined)
+        rules = { ...rules, companyRevision: 2 };
     return { withdrawals: { br: 0, de: 0 }, rules: { ...rules }, summitSecured: false, round: 1, turn: 'br', score: 0, winner: null,
-        units: profilesForScale(rules.scale).map(p => ({ id: p.id, side: p.side, q: p.q, r: p.r, name: p.name, type: p.type, atk: p.atk, def: p.def, hp: 3, mp: p.mp, maxMp: p.mp, range: p.range, indirect: p.indirect, canCapture: p.canCapture, level: p.level, heightRange: rules.highGroundRange, rangeHeightThreshold: rules.rangeHeightThreshold, reactionSpent: false, suppressed: false, fired: false })),
+        units: profilesForScale(rules.scale, rules.companyRevision).map(p => ({ id: p.id, side: p.side, q: p.q, r: p.r, name: p.name, type: p.type, atk: p.atk, def: p.def, hp: 3, mp: p.mp, maxMp: p.mp, range: p.range, indirect: p.indirect, canCapture: p.canCapture, level: p.level, heightRange: rules.highGroundRange, rangeHeightThreshold: rules.rangeHeightThreshold, reactionSpent: false, suppressed: false, fired: false })),
         log: ['21 de fevereiro de 1945. Os batalhões do Sampaio avançam com apoio da artilharia.'] };
 }
 function movementSearch(s, u) {
@@ -150,7 +134,6 @@ export function move(s, id, q, r) {
     const n = reachable(s, u).get(key(q, r));
     if (n === undefined)
         return false;
-    commitCommand(s, u);
     u.q = q;
     u.r = r;
     u.mp -= n;
@@ -164,10 +147,9 @@ function resolveCombat(s, u, v, rng, reaction = false, onCombat) {
     const from = onCombat ? { id: u.id, name: u.name, side: u.side, q: u.q, r: u.r } : undefined, to = onCombat ? { id: v.id, name: v.name, side: v.side, q: v.q, r: v.r } : undefined;
     const cover = defenseBonus(u, v, s.rules?.fortificationStrength ?? 1), barrage = u.side === 'br' && u.type === 'artillery' && s.round === 10 ? 1 : 0;
     const die = 1 + Math.floor(rng() * 6), power = u.atk + barrage + (u.hp - 3) * .5 + die - v.def - cover;
-    const previousHP = v.hp, hit = power >= 5 ? 2 : power >= 1 ? 1 : 0, damage = reaction ? Math.min(1, hit) : hit;
+    const previousHP = v.hp, hit = power >= 5 ? 2 : power >= 1 ? 1 : 0, damage = reaction || scaleOf(s) === 'company' ? Math.min(1, hit) : hit;
     v.hp -= damage;
     if (reaction) {
-        commitReaction(s, u);
         u.reactionSpent = true;
         u.fired = true;
         u.mp = 0;
@@ -178,11 +160,10 @@ function resolveCombat(s, u, v, rng, reaction = false, onCombat) {
             u.mp = 0;
     }
     let counter = 0;
-    if (!reaction && !v.reactionSpent && groupCanReact(s, v) && !v.suppressed && v.hp > 0 && distance(u, v) === 1 && power <= 0) {
+    if (!reaction && !v.reactionSpent && !v.suppressed && v.hp > 0 && distance(u, v) === 1 && power <= 0) {
         u.hp--;
         counter = 1;
         if (s.rules?.opportunityFire) {
-            commitReaction(s, v);
             v.reactionSpent = true;
             v.fired = true;
             v.mp = 0;
@@ -201,7 +182,6 @@ function resolveCombat(s, u, v, rng, reaction = false, onCombat) {
         if (candidates[0]) {
             v.q = candidates[0].q;
             v.r = candidates[0].r;
-            commitReaction(s, v);
             v.mp = 0;
             v.fired = true;
             v.reactionSpent = true;
@@ -216,7 +196,7 @@ function resolveCombat(s, u, v, rng, reaction = false, onCombat) {
     checkWinner(s);
     return { die, damage, counter };
 }
-function canReact(s, defender, target) { return !!s.rules?.opportunityFire && groupCanReact(s, defender) && !defender.reactionSpent && !defender.suppressed && !defender.reorganizing && !isIndirect(defender) && hasHeightAdvantage(defender, target) && canAttack({ ...defender, fired: false }, target); }
+function canReact(s, defender, target) { return !!s.rules?.opportunityFire && !defender.reactionSpent && !defender.suppressed && !defender.reorganizing && !isIndirect(defender) && hasHeightAdvantage(defender, target) && canAttack({ ...defender, fired: false }, target); }
 export function opportunityFire(s, targetId, rng = Math.random, onCombat) {
     if (s.winner)
         return false;
@@ -236,7 +216,6 @@ export function advance(s, id, q, r, rng = Math.random, onCombat) {
     const route = movementRoute(s, u, q, r);
     if (!route.length)
         return false;
-    commitCommand(s, u);
     let reacted = false;
     for (const cell of route) {
         u.mp -= unitMovementCost(s, u, u, cell);
@@ -253,7 +232,6 @@ export function attack(s, id, target, rng = Math.random, onCombat) {
     let u = s.units.find(v => v.id === id), v = s.units.find(v => v.id === target);
     if (!u || !v || s.winner || u.side !== s.turn || !canCommand(s, u) || !canAttack(u, v))
         return null;
-    commitCommand(s, u);
     if (!isIndirect(u) && canReact(s, v, u)) {
         resolveCombat(s, v, u, rng, true, onCombat);
         u = s.units.find(v => v.id === id);
@@ -307,8 +285,10 @@ export function endTurn(s) {
     if (checkWinner(s))
         return;
     const outgoing = s.turn;
-    if (scaleOf(s) === 'company' && outgoing === 'br')
-        s.reactionCommands = {};
+    if (scaleOf(s) === 'company') {
+        delete s.commanded;
+        delete s.reactionCommands;
+    }
     for (const u of s.units.filter(u => u.side === outgoing))
         u.reactionSpent = false;
     if (outgoing === 'br')
@@ -323,11 +303,7 @@ export function endTurn(s) {
         if (s.round === 10)
             s.log.unshift('16:48 · Concentração de artilharia: ataques da bateria FEB recebem +1 nesta rodada.');
     }
-    if (scaleOf(s) === 'company')
-        s.commanded = s.turn === 'br' ? { ...s.reactionCommands } : {};
     for (const u of s.units.filter(u => u.side === s.turn)) {
-        if (u.reactionSpent || u.reorganizing)
-            commitCommand(s, u);
         u.mp = u.reactionSpent || u.reorganizing ? 0 : maximumMovement(u);
         u.fired = !!(u.reactionSpent || u.reorganizing);
         u.reorganizing = false;

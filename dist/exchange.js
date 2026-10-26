@@ -1,9 +1,9 @@
-import { troopProfile } from './troops.js';
+import { profilesForScale, troopProfile } from './troops.js';
 import { validRules } from "./scenario.js";
-import { inside } from './engine.js';
+import { initialForce, inside } from './engine.js';
 export function validGame(value) {
     const g = value;
-    if (!g || !Number.isInteger(g.round) || g.round < 1 || g.round > 11 || !['br', 'de'].includes(g.turn) || !Number.isInteger(g.score) || g.score < 0 || g.score > 100 || ![null, 'br', 'de'].includes(g.winner) || !Array.isArray(g.units) || g.units.length > (g.rules?.scale === 'company' ? 16 : 10) || !Array.isArray(g.log) || g.log.length > 400 || !g.log.every(l => typeof l === 'string' && l.length < 1000))
+    if (!g || !Number.isInteger(g.round) || g.round < 1 || g.round > 11 || !['br', 'de'].includes(g.turn) || !Number.isInteger(g.score) || g.score < 0 || g.score > 100 || ![null, 'br', 'de'].includes(g.winner) || !Array.isArray(g.units) || g.units.length > (g.rules?.scale === 'company' ? profilesForScale('company', g.rules.companyRevision ?? 1).length : 10) || !Array.isArray(g.log) || g.log.length > 400 || !g.log.every(l => typeof l === 'string' && l.length < 1000))
         return false;
     if (g.rules !== undefined && !validRules(g.rules))
         return false;
@@ -11,7 +11,7 @@ export function validGame(value) {
         return false;
     if (g.victoryReason !== undefined && !['elimination', 'mission', 'late-summit', 'no-infantry', 'deadline'].includes(g.victoryReason))
         return false;
-    if (g.withdrawals !== undefined && (!g.withdrawals || !['br', 'de'].every(side => Number.isInteger(g.withdrawals[side]) && g.withdrawals[side] >= 0 && g.withdrawals[side] <= (g.rules?.scale === 'company' && side === 'br' ? 11 : 5))))
+    if (g.withdrawals !== undefined && (!g.withdrawals || !['br', 'de'].every(side => Number.isInteger(g.withdrawals[side]) && g.withdrawals[side] >= 0 && g.withdrawals[side] <= initialForce(g, side))))
         return false;
     if (g.summitSecured !== undefined && typeof g.summitSecured !== 'boolean')
         return false;

@@ -4,20 +4,20 @@ import {activationOrder,takeAIAction} from './ai.js';
 import {seededRandom} from './simulator.js';
 
 export const policies=['strong/aggressive','strong/defensive','weak/aggressive','weak/defensive','tactical/aggressive','tactical/defensive'] as const;
-export interface LearningTable {scale?:'battalion'|'company';schema:1;episodes:number;updates:number;q:Record<string,number[]>}
+export interface LearningTable {scale?:'battalion'|'company';companyRevision?:1|2;schema:1;episodes:number;updates:number;q:Record<string,number[]>}
 export interface PendingExperience {state:string;action:number;utility:number}
 export type LearningContext=Partial<Record<Side,PendingExperience>>;
 export const emptyLearning=():LearningTable=>({schema:1,episodes:0,updates:0,q:{}});
 export function validLearning(value:unknown):value is LearningTable {
  const t=value as LearningTable;
- return !!t&&(t.scale===undefined||t.scale==='battalion'||t.scale==='company')&&t.schema===1&&Number.isSafeInteger(t.episodes)&&t.episodes>=0&&Number.isSafeInteger(t.updates)&&t.updates>=0&&!!t.q&&typeof t.q==='object'&&Object.keys(t.q).length<10000&&Object.values(t.q).every(row=>Array.isArray(row)&&row.length===6&&row.every(v=>Number.isFinite(v)&&Math.abs(v)<100000));
+ return !!t&&(t.companyRevision===undefined||t.companyRevision===1||t.companyRevision===2)&&(t.scale===undefined||t.scale==='battalion'||t.scale==='company')&&t.schema===1&&Number.isSafeInteger(t.episodes)&&t.episodes>=0&&Number.isSafeInteger(t.updates)&&t.updates>=0&&!!t.q&&typeof t.q==='object'&&Object.keys(t.q).length<10000&&Object.values(t.q).every(row=>Array.isArray(row)&&row.length===6&&row.every(v=>Number.isFinite(v)&&Math.abs(v)<100000));
 }
 export function learningState(g:Game,side:Side):string {
  const hp=(s:Side)=>relativeCohesion(g,s);
  const advantage=hp(side)-hp(side==='br'?'de':'br');
  const owned=objectives.filter(o=>g.units.some(u=>u.side===side&&canCaptureObjective(u)&&u.q===o.q&&u.r===o.r)).length;
  const summit=g.units.some(u=>u.side===side&&canCaptureObjective(u)&&u.q===5&&u.r===1)?1:0;
- return `${scaleOf(g)==='company'?'company:':''}${side}:${Math.min(2,Math.floor((g.round-1)/4))}:${advantage< -2?'behind':advantage>2?'ahead':'equal'}:${Math.min(2,Math.floor(g.score/3))}:${owned}:${summit}`;
+ return `${scaleOf(g)==='company'?(g.rules?.companyRevision===2?'company2:':'company:'):''}${side}:${Math.min(2,Math.floor((g.round-1)/4))}:${advantage< -2?'behind':advantage>2?'ahead':'equal'}:${Math.min(2,Math.floor(g.score/3))}:${owned}:${summit}`;
 }
 function utility(g:Game,side:Side):number {
  const hp=relativeCohesion(g,side)-relativeCohesion(g,side==='br'?'de':'br');

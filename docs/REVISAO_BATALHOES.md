@@ -13,7 +13,7 @@ Plano registrado antes da implementação em 25/10/2026. A alternativa de compan
 
 ## Experimentos de regra, inicialmente desligados
 
-1. Retirada sob perdas: quando infantaria sobrevive a um ataque caindo de 2/3 para 1PV, tenta um hexágono livre mais distante do atacante. Se não houver, permanece. A retirada suprime reação e compromete a próxima ação; não recupera PV e não evita uma perda fatal. Regra simétrica, sem alegar que reproduz uma ordem real de retirada.
+1. Retirada sob perdas: quando infantaria sobrevive a um ataque caindo de 2/3 para 1 PV, tenta um hexágono livre mais distante do atacante. Se não houver, permanece. A retirada suprime reação e compromete a próxima ação; não recupera PV e não evita uma perda fatal. Regra simétrica, sem alegar que reproduz uma ordem real de retirada.
 2. Cume no prazo: aceitar cume assegurado no fechamento final mesmo faltando pontos, classificando como conquista no limite. Não permite vitória por eliminação nem muda prazo ou mapa.
 
 Comparar quatro combinações com a mesma IA e sementes, guardando cada resultado. Não transformar um candidato em regra padrão apenas para obter50%. Julgar também duração, ocupação, perdas e derrotas sem defensores. Regras de partidas antigas e memória local continuam preservadas.

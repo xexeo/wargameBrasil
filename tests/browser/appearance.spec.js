@@ -52,10 +52,10 @@ test('damage badge sits above the square, paints above labels, and the complete 
  const badge=page.locator('[data-damage-unit="b1"]');await expect(badge).toContainText('−1');await expect(badge).toHaveAttribute('aria-label','Dano acumulado: 1 PV');
  const geometry=await page.evaluate(()=>{const badge=document.querySelector('[data-damage-unit="b1"]'),counter=document.querySelector('[data-id="b1"] .counter');return {badge:badge.getBoundingClientRect().bottom,counter:counter.getBoundingClientRect().top,after:!!(document.querySelector('.unit-condition-layer').compareDocumentPosition(document.querySelector('.unit'))&Node.DOCUMENT_POSITION_PRECEDING)};});
  expect(geometry.badge).toBeLessThan(geometry.counter);expect(geometry.after).toBeTruthy();
- await clickNavigation(page,"rules");await page.locator('.symbol-legend summary').click();
- for(const text of ['II','AP','DEST','T1–T3','Bolinhas','S:','Curvas','Grupos de árvores','Fortificação','500 m','Fogo defensivo'])await expect(page.locator('.symbol-legend')).toContainText(text,{ignoreCase:true});
+ await clickNavigation(page,"rules");if(!await page.locator('.symbol-legend').evaluate(el=>el.open))await page.locator('.symbol-legend summary').click();
+ for(const text of ['II','AP','DEST','T1–T3','Bolinhas','suprimida','Curvas','Grupos de árvores','Fortificação','500 m','Fogo defensivo'])await expect(page.locator('.symbol-legend')).toContainText(text,{ignoreCase:true});
  await page.evaluate(()=>{const el=document.querySelector('#language');el.value='en-US';el.dispatchEvent(new Event('change'));});
- await page.locator('.symbol-legend summary').click();await expect(page.locator('.symbol-legend')).toContainText('Complete symbol legend');
+ if(!await page.locator('.symbol-legend').evaluate(el=>el.open))await page.locator('.symbol-legend summary').click();await expect(page.locator('.symbol-legend')).toContainText('Complete symbol legend');
  expect(await page.locator('.symbol-legend').innerText()).not.toMatch(/\b(árvores|defensivo|fortificação|coesão|ataque)\b/i);
 });
 

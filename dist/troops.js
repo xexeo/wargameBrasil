@@ -13,6 +13,7 @@ export const troopProfiles = [
     { id: 'g5', side: 'de', q: 7, r: 2, name: 'Fogos — Art.Rgt.232', type: 'artillery', level: 3, echelon: 'Grupo de artilharia alocado', mark: 'II', formation: 'Artillerie-Regiment 232 · Heer', atk: 4, def: 1, mp: 1, range: 6, indirect: true, canCapture: false, role: 'artillery', description: 'Fogos de artilharia da formação defensora, sem atribuição de número de grupo ou localização de bateria não verificados. Não é uma unidade de artilharia de montanha inventada.' },
 ];
 export const companyProfiles = buildCompanyProfiles(troopProfiles);
-export const profilesForScale = (scale = 'battalion') => scale === 'company' ? companyProfiles : troopProfiles;
+export const legacyCompanyProfiles = buildCompanyProfiles(troopProfiles, 1);
+export const profilesForScale = (scale = 'battalion', revision = 2) => scale === 'company' ? (revision === 1 ? legacyCompanyProfiles : companyProfiles) : troopProfiles;
 export const troopProfile = (id) => [...troopProfiles, ...companyProfiles].find(p => p.id === id);
 //# sourceMappingURL=troops.js.map

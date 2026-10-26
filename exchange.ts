@@ -1,13 +1,13 @@
-import {troopProfile} from './troops.js';
+import {profilesForScale,troopProfile} from './troops.js';
 import {validRules} from "./scenario.js";
-import {inside,type Game} from './engine.js';
+import {initialForce,inside,type Game} from './engine.js';
 export function validGame(value:unknown):value is Game {
  const g=value as Game;
- if(!g||!Number.isInteger(g.round)||g.round<1||g.round>11||!['br','de'].includes(g.turn)||!Number.isInteger(g.score)||g.score<0||g.score>100||![null,'br','de'].includes(g.winner)||!Array.isArray(g.units)||g.units.length>(g.rules?.scale==='company'?16:10)||!Array.isArray(g.log)||g.log.length>400||!g.log.every(l=>typeof l==='string'&&l.length<1000))return false;
+ if(!g||!Number.isInteger(g.round)||g.round<1||g.round>11||!['br','de'].includes(g.turn)||!Number.isInteger(g.score)||g.score<0||g.score>100||![null,'br','de'].includes(g.winner)||!Array.isArray(g.units)||g.units.length>(g.rules?.scale==='company'?profilesForScale('company',g.rules.companyRevision??1).length:10)||!Array.isArray(g.log)||g.log.length>400||!g.log.every(l=>typeof l==='string'&&l.length<1000))return false;
  if(g.rules!==undefined&&!validRules(g.rules))return false;
  if(g.finishedRound!==undefined&&(!Number.isInteger(g.finishedRound)||g.finishedRound<1||g.finishedRound>10))return false;
  if(g.victoryReason!==undefined&&!['elimination','mission','late-summit','no-infantry','deadline'].includes(g.victoryReason))return false;
- if(g.withdrawals!==undefined&&(!g.withdrawals||!['br','de'].every(side=>Number.isInteger(g.withdrawals![side])&&g.withdrawals![side]>=0&&g.withdrawals![side]<=(g.rules?.scale==='company'&&side==='br'?11:5))))return false;
+ if(g.withdrawals!==undefined&&(!g.withdrawals||!['br','de'].every(side=>Number.isInteger(g.withdrawals![side])&&g.withdrawals![side]>=0&&g.withdrawals![side]<=initialForce(g,side as 'br'|'de'))))return false;
  if(g.summitSecured!==undefined&&typeof g.summitSecured!=='boolean')return false;
  for(const commands of [g.commanded,g.reactionCommands])if(commands!==undefined&&(!commands||typeof commands!=='object'||Array.isArray(commands)||Object.entries(commands).some(([group,id])=>!['br-I','br-II','br-III'].includes(group)||typeof id!=='string'||troopProfile(id)?.commandGroup!==group)))return false;
  const ids=new Set(),positions=new Set();

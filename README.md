@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.9.2 · 26/10/2026, 08:34:24 (Brasília)**
+**Versão 0.9.3 · 26/10/2026, 10:45:10 (Brasília)**
 <!-- release:end -->
 
 Wargame sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. HTML e TypeScript, somente no navegador, computador ou celular, sem conta ou servidor de jogo. Meta de duração humana: 5–10 minutos; ainda não medida com uma amostra de jogadores.
@@ -12,19 +12,25 @@ Wargame sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945.
 
 Para jogar offline, salve `jogo.html` e abra no navegador. `index.html` contém a mesma versão autocontida, com fontes, imagens, estilos e código incorporados. A visualização de código do GitHub não executa HTML. O Pages publica a `main`; tanto o workflow quanto a publicação nativa pela raiz recebem os mesmos arquivos.
 
+## Revisão0.9.3 — companhia e legenda
+
+**Batalhão preservado:** regras, atributos e modelos não foram alterados. A opção companhia passa a ter ações independentes, nove companhias FEB com apoios (11 peças) e sete destacamentos alemães com fogos (8). Não há mais bloqueio das outras companhias. Fatores e limite de dano foram revisados juntos: cada disparo de companhia causa no máximo1PV, contra 2 possíveis no batalhão. Inicie Novo jogo para o novo desdobramento; salvos anteriores mantêm suas peças e denominadores.
+
+**S no círculo amarelo/âmbar = suprimida.** Impede reação/contra-ataque enquanto durar; não é dano nem bônus de defesa. Pode surgir por fogo indireto ou retirada para reorganização e desaparece no começo do próximo turno próprio. Reorganização pode continuar comprometendo a própria unidade. A legenda ilustrada fica aberta em Regras & símbolos, com o significado de todas as marcas nos dois idiomas. [Legenda completa](docs/SIMBOLOS.md) · [Revisão de companhia e limites históricos](docs/REVISAO_COMPANHIAS_0_9_3.md).
+
 ## Movimento corrigido — 0.9.2
 
 Com o movimento completo, **toda peça pode entrar num vizinho livre de mesmo nível, descendo ou subindo um nível**, inclusive artilharia e mata. Paga o custo nominal ou seu máximo de PM, o menor dos dois. A redução usa o máximo da peça, não o saldo restante; subir dois ou mais níveis conserva o custo integral e pode ser impossível. Ocupação, reação e comando continuam valendo. A correção também se aplica a partidas antigas sem a nova opção registrada.
 
-Verificação exaustiva:26 perfis nas duas escalas,81 posições iniciais cada e170.586 destinos testados; custos, desconto de PM, orçamento parcial, bloqueios e rotas da IA. Todo perfil também tem caminho para todos os hexágonos ao longo de vários turnos, sem ocupação ou fogo. [Método e resultados](docs/MOVIMENTO_MINIMO.md).
+Verificação exaustiva atualizada:29 perfis nas duas escalas,81 posições iniciais cada e190.269 destinos testados; custos, desconto de PM, orçamento parcial, bloqueios e rotas da IA. Todo perfil também tem caminho para todos os hexágonos ao longo de vários turnos, sem ocupação ou fogo. [Método e resultados](docs/MOVIMENTO_MINIMO.md).
 
 ## Duas escalas — integradas na 0.9.1
 
-O mesmo jogo agora oferece **Batalhões · jogo original** ou **Companhias · nove companhias FEB**, no popup inicial e no seletor Escala das peças. A opção companhia tem 16 peças: nove companhias brasileiras, apoio e fogos; quatro destacamentos e fogos alemães. Usa o mesmo mapa, combate, turnos, objetivos, aparência e controles.
+O mesmo jogo agora oferece **Batalhões · jogo original** ou **Companhias · nove companhias FEB**, no popup inicial e no seletor Escala das peças. A opção companhia revisada tem 19 peças: nove companhias brasileiras, apoio e fogos; sete destacamentos e fogos alemães. Usa o mesmo mapa, combate, turnos, objetivos, aparência e controles.
 
-Para evitar triplicar ataques, só uma companhia de cada batalhão brasileiro recebe ordens por turno. A primeira ação legal compromete o comando; selecionar/inspecionar não gasta. As outras companhias ficam esmaecidas e ainda defendem. Reação/reorganização compromete o próximo comando do batalhão. Apoios e destacamentos alemães têm ações próprias. Letras A/B/C são etiquetas de cenário, não uma ordem de batalha local comprovada.
+Cada companhia tem suas próprias ações. Agir com uma não bloqueia as outras. A potência e o dano foram recalibrados para a escala menor, e a defesa alemã também foi desdobrada. Reação/reorganização compromete somente a unidade envolvida. A/B/C são etiquetas de cenário, não numeração histórica comprovada.
 
-Modelos fixos e experiência online são independentes por escala; suas memórias antigas de batalhão são preservadas. Trocar escala inicia outra partida, com confirmação se a atual já começou; salvar/importar/WhatsApp mantém escala e ordens. Não converte uma partida iniciada. **Novo jogo** mantém a escala escolhida.
+Modelos fixos e experiência online são independentes por escala; suas memórias antigas de batalhão são preservadas. Trocar escala inicia outra partida, com confirmação se a atual já começou; salvar/importar/WhatsApp mantém escala e estado das unidades. Não converte uma partida iniciada. **Novo jogo** mantém a escala escolhida.
 
 [Arquitetura e decisões](docs/DUAS_ESCALAS.md) · [Pesquisa histórica](docs/PESQUISA_COMPANHIAS.md) · [Análises atuais por escala](docs/simulacoes/README.md). Um ciclo de estudo, uma passagem de treino por escala e avaliação independente; nenhuma promessa de 50/50 humano ou de duração medida.
 
@@ -80,21 +86,24 @@ Caçador, Oportunista e Estado-maior, nas posturas agressiva/defensiva; Aprendiz
 
 
 
-<!-- simulation:0.9.2/matriz-ias:start -->
-**Batalhões com movimento corrigido:** 810 jogos,10 por dupla. FEB **48,1%**, Alemanha **51,9%**; média 6,48 rodadas. [Matriz, dominâncias e dados](docs/simulacoes/0.9.2/matriz-ias/analise.md).
-<!-- simulation:0.9.2/matriz-ias:end -->
 
-<!-- simulation:0.9.2/matriz-ias-companhias:start -->
-**Companhias com movimento corrigido:** 810 jogos,10 por dupla. FEB **42,7%**, Alemanha **57,3%**; média 8,91 rodadas. [Matriz, dominâncias e dados](docs/simulacoes/0.9.2/matriz-ias-companhias/analise.md).
-<!-- simulation:0.9.2/matriz-ias-companhias:end -->
 
-<!-- simulation:0.9.2/avaliacao-ias-fixas-companhias:start -->
-Entre aprendizes fixos de companhia, a FEB venceu 58/100 jogos independentes. Uma média do portfólio não garante50/50 para cada dupla ou jogador. [Avaliação e intervalos](docs/simulacoes/0.9.2/avaliacao-ias-fixas-companhias/analise.md).
-<!-- simulation:0.9.2/avaliacao-ias-fixas-companhias:end -->
+
+<!-- simulation:0.9.3/matriz-ias-companhias:start -->
+Na matriz revisada de companhia,810 jogos (10 por dupla), a FEB venceu 56,3% e a Alemanha43,7%; média 8,82 rodadas. É resultado deste portfólio automático, não garantia para todo jogador/IA. [Matriz, estratégias e dados](docs/simulacoes/0.9.3/matriz-ias-companhias/analise.md).
+<!-- simulation:0.9.3/matriz-ias-companhias:end -->
+
+<!-- simulation:0.9.3/avaliacao-ias-fixas-companhias:start -->
+Os modelos fixos de companhia tiveram73% FEB/27% Alemanha em 100 confrontos independentes; não se afirma equilíbrio50/50 nem superioridade do aprendiz. [Avaliação completa](docs/simulacoes/0.9.3/avaliacao-ias-fixas-companhias/analise.md).
+<!-- simulation:0.9.3/avaliacao-ias-fixas-companhias:end -->
 
 ```sh
-# Uma passagem de estudo/treino para as duas escalas:
-npm run train:scales
+# Treino completo das duas escalas (não necessário para esta revisão):
+# npm run train:scales
+# Nesta revisão, treinar somente companhia:
+npm run build
+node scripts/train-companies.mjs
+npm run build
 # Avaliação com sementes separadas:
 npm run evaluate:scales
 # Duas matrizes9×9,10 jogos por dupla:
@@ -122,7 +131,7 @@ npm start
 
 `template.html` é o fonte HTML, `app.ts` a interface; `engine.ts`, `ai.ts` e módulos de aprendizado funcionam sem DOM. `dist/`, `index.html` e `jogo.html` são gerados e versionados. Chromium fica em `/usr/bin/chromium` na configuração de testes deste ambiente; ajuste em outras máquinas.
 
-Validação da entrega:80 testes sem interface e132 casos de navegador, incluindo partidas completas nas duas escalas, idiomas, aparência, som, retomada e HTML offline. A verificação de movimento cobre170.586 combinações de origem/destino. [Método atual](docs/MOVIMENTO_MINIMO.md) e [arquitetura das escalas](docs/DUAS_ESCALAS.md). A regressão que preservou a 0.9.0 é registro da integração0.9.1; a correção posterior muda deliberadamente o movimento.
+Validação 0.9.3:82 testes sem interface e138 casos de navegador. Inclui legenda PT/EN, S com descrição acessível, ações independentes de companhia, composição revisada, partidas completas e movimento em 190.269 combinações. A regressão compara120 históricos completos de batalhão com a 0.9.2 e confirma os modelos preservados byte a byte. [Símbolos](docs/SIMBOLOS.md) · [Revisão restrita à companhia](docs/REVISAO_COMPANHIAS_0_9_3.md).
 
 Limites que permanecem: restituição cartográfica local de 1945, mapas integrais de Mascarenhas, efetivos/baixas locais e boletim instrumental contemporâneo. ERA5 regional não prova neve ou lama em cada posição. Duração humana e dificuldade percebida exigem jogadores; autojogo mede rodadas e resultados de políticas.
 

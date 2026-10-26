@@ -1,0 +1,1082 @@
+[
+  {
+    "seed": 4201,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4202,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4203,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4204,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 8,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4205,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4206,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 4,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4207,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4208,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4209,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4210,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4211,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4212,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4213,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4214,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4215,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4216,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4217,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4218,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4219,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4220,
+    "strategy": "strong",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 1,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4201,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4202,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4203,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4204,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4205,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4206,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4207,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4208,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 8,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4209,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4210,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4211,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4212,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4213,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4214,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4215,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4216,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4217,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4218,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4219,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4220,
+    "strategy": "strong",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4201,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4202,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4203,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 1,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4204,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4205,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 8,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4206,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4207,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4208,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 7,
+    "score": 2,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4209,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4210,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4211,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 10,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4212,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 4,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4213,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 8,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4214,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 8,
+    "score": 1,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4215,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 8,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4216,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 1,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4217,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4218,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4219,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4220,
+    "strategy": "weak",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4201,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4202,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4203,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4204,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4205,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 10,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4206,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4207,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 10,
+    "score": 1,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4208,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4209,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4210,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4211,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4212,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 9,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4213,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4214,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4215,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4216,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4217,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 9,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4218,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4219,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4220,
+    "strategy": "weak",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 10,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4201,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 8,
+    "score": 1,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4202,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 8,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4203,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 4,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4204,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4205,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 1,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4206,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 2,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4207,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4208,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4209,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 7,
+    "score": 3,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4210,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 10,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4211,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 4,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4212,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4213,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4214,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 8,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4215,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "de",
+    "round": 10,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4216,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 2,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4217,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 8,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4218,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 8,
+    "score": 1,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4219,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 5,
+    "score": 2,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4220,
+    "strategy": "tactical",
+    "stance": "aggressive",
+    "winner": "br",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4201,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 7,
+    "score": 2,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4202,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 6,
+    "score": 1,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4203,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4204,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4205,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4206,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 5,
+    "score": 2,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4207,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 2,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4208,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 10,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4209,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 7,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4210,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 4,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4211,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 8,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4212,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 5,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4213,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 9,
+    "score": 10,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4214,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "de",
+    "round": 8,
+    "score": 2,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4215,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 9,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4216,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 5,
+    "score": 2,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4217,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 8,
+    "score": 0,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4218,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 7,
+    "score": 3,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4219,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 5,
+    "score": 2,
+    "matchedFullHistory": true
+  },
+  {
+    "seed": 4220,
+    "strategy": "tactical",
+    "stance": "defensive",
+    "winner": "br",
+    "round": 6,
+    "score": 0,
+    "matchedFullHistory": true
+  }
+]

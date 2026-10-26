@@ -1,6 +1,6 @@
 # Monte Castelo Vibed — guia de regras e decisões
 
-Referência vigente: **0.9.2 · 26/10/2026**. Substitui as descrições conflitantes acumuladas nos protótipos 0.1.X. O histórico do Git preserva as versões anteriores. Toda mudança de regra deve atualizar motor, testes, regras da interface e este guia.
+Referência vigente: **0.9.3 · 26/10/2026**. Substitui as descrições conflitantes acumuladas nos protótipos 0.1.X. O histórico do Git preserva as versões anteriores. Toda mudança de regra deve atualizar motor, testes, regras da interface e este guia.
 
 ## Plataforma e identidade
 
@@ -18,13 +18,11 @@ Tabuleiro axial **9 × 9**, seis vizinhos por hexágono, cerca de 180 m entre ce
 
 ## Escolha de escala
 
-O mesmo jogo tem duas opções. **Batalhão** conserva dez peças e regras originais. **Companhia** usa nove companhias FEB, três por batalhão, apoio e fogos; quatro destacamentos e fogos alemães:16 peças. Escala é selecionada no popup inicial ou em Escala das peças; mudar inicia nova partida, confirmada quando já houver ações. Partidas antigas sem escala são de batalhão. Novo jogo conserva a seleção. Formato salvo e WhatsApp incluem escala e comando.
+Batalhão conserva dez peças, regras, atributos e modelos da 0.9.2. Companhia revisada usa nove companhias FEB, apoio e fogos (11), contra sete destacamentos alemães e fogos (8):19 peças. O desdobramento alemão é hipótese de cenário, não sete companhias históricas identificadas.
 
-Companhia usa o mesmo motor, mapa, objetivos, prazo e turnos. Só uma companhia por batalhão brasileiro recebe ordens em cada turno. A primeira ação legal escolhe a companhia; ela pode mover e atirar em qualquer ordem. Seleção/inspeção não consome comando, nem ação inválida. Peças esmaecidas não podem receber novas ordens, mas defendem. Há uma reação por batalhão entre turnos. Reação/reorganização compromete o comando seguinte, mesmo se o contador for removido. Apoios e destacamentos alemães agem separadamente.
+Cada companhia move e ataca independentemente. Não há limite por batalhão nem bloqueio das companhias irmãs. Reação ou reorganização compromete só a própria unidade. Movimento mínimo, mapa, prazo, objetivos e controles são compartilhados. Companhias FEB A 1/D2; destacamentos alemães A 2/D2; reserva A 1/D1; apoio A 2/D1; fogos A 3/D1. Na companhia, cada disparo causa no máximo1PV, inclusive apoio/artilharia. Batalhão mantém o máximo2. Três PV são coesão relativa, não efetivo igual entre escalas.
 
-A/B/C e posições são etiquetas/hipóteses de cenário; não se afirmam números históricos locais. A terceira companhia começa na retaguarda já no tabuleiro; não há chegada temporizada. Apoios ficam no mapa. Cada companhia tem A 2/D2/M3/3PV; apoio A 2/D1; fogos FEB A 4/D1; granadeiros A 2/D2; reserva alemã A 1/D1; fogos alemães A 3/D1. Alcance e mobilidade dos apoios são preservados. I indica companhia, II batalhão/grupo; A/I identifica a companhia A do batalhãoI. Valores completos na inspeção e em Forças.
-
-Modelos e memória são separados por escala. Importar experiência de outra escala é recusado. Perdas/resultados usam11 peças brasileiras/33PV iniciais na companhia,5/15 na Alemanha, sem números negativos ou equivalência com pessoas. O grau normaliza a penalização pela força inicial. A previsão otimista de chegada não resolve a concorrência futura por comando do batalhão. [Arquitetura](docs/DUAS_ESCALAS.md), [fontes](docs/PESQUISA_COMPANHIAS.md).
+I aparece acima da companhia; A/I abaixo identifica companhia A do batalhão I. Letras A/B/C e posições são etiquetas/hipóteses. DEST não afirma escalão histórico confirmado. Salvos anteriores conservam suas peças e denominadores, recebem ações independentes e exibem aviso; Novo jogo é necessário para o desdobramento revisto. Modelos/experiência novos de companhia usam namespace próprio; os de batalhão são preservados. [Revisão](docs/REVISAO_COMPANHIAS_0_9_3.md).
 
 ## Tropas e símbolos — base batalhão
 
@@ -41,7 +39,7 @@ Cinco peças por lado. FEB: três batalhões do 1º RI Sampaio, apoio agregado e
 | II / AP / DEST | batalhão ou grupo / apoio agregado / destacamento de cenário |
 | T1 / T2 / T3 | reduzido / operacional / especializado em fogos; não soma bônus oculto |
 | Traço diagonal | ataque normal já usado |
-| S | reação suprimida |
+| S no círculo amarelo/âmbar | suprimida: sem fogo de oportunidade ou contra-ataque; não é dano nem bônus. Some no início do próximo turno próprio; reorganização/reação gasta pode continuar comprometendo a ação |
 | Indicadores de reorganização/reação | ações seguintes comprometidas, conforme inspeção |
 | Estrela vermelha no centro | objetivo; Monte Castelo vale 2, cada secundário 1 |
 | Halo e contornos de movimento | seleção e destinos legais |
@@ -49,6 +47,8 @@ Cinco peças por lado. FEB: três batalhões do 1º RI Sampaio, apoio agregado e
 | Borda tracejada de destino | risco de reação no percurso, não bloqueio ou dano garantido |
 | Abrigos/trincheiras | posição preparada esquemática |
 | Árvores, morros, vias, N e curvas | terreno e relevo; números em metros são aproximados |
+
+**[Legenda completa de todos os símbolos](docs/SIMBOLOS.md)**, também ilustrada e aberta em Regras & símbolos. Inclui S, bolinhas de coesão, dano acumulado, escalões, identificações, estados, terrenos, munições, clima e controles.
 
 Duplo clique/toque abre os atributos **atuais**, potência após dano, cobertura, fortificação, alcance e estado. Infantaria Sampaio: A 3/D3/M3/alcance 1. Apoio: A 3/D2/M2/alcance 2 indireto. FEB fogos: A 5/D1/M1/alcance 5. Granadeiros: A 3/D3/M2/alcance 1. Reserva: A 2/D2/M2/alcance 1. Fogos alemães: A 4/D1/M1/**alcance 6**. Alcances de apoio/artilharia representam disponibilidade tática, não alcance balístico literal.
 
@@ -84,7 +84,7 @@ potência = A + d6 − D − maior cobertura − vantagem de altura
            − 0,5 × PV perdidos pelo atacante + barragem
 ```
 
-Resultado ≥5 causa 2 danos; ≥1 causa 1; ≤0 falha. Falha adjacente pode provocar 1 dano de contra-ataque se o defensor não estiver suprimido nem tiver reagido. Perda do último PV remove a peça; isso representa neutralização, não todos os soldados mortos.
+No batalhão, resultado ≥5 causa2 danos; ≥1 causa1; ≤0 falha. Na companhia revisada, resultado ≥1 causa apenas1 dano, nunca2. Falha adjacente pode provocar 1 dano de contra-ataque se o defensor não estiver suprimido nem tiver reagido. Perda do último PV remove a peça; isso representa neutralização, não todos os soldados mortos.
 
 Ao mover por rota exposta, um defensor de tiro direto ≥30 m acima pode reagir primeiro. Há no máximo uma reação por movimento completo e uma do alvo antes de um assalto. Reação causa no máximo 1 dano e compromete movimento e ataque do próximo turno da peça que reagiu. **É automática para humanos e computadores de ambos os lados**; não há botão especial de contra-ataque. Ataques normais seguem as mesmas regras para os dois lados, exceto perfis e barragem FEB descritos.
 

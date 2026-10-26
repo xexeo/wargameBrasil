@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "version": "0.9.3",
+  "sources": {
+    "scripts/train-companies.mjs": "a63711bbf3dad6453ea7ce959d98c38fefbcc8f6c0ce74ccb92f9600d15f27ec",
+    "scripts/verify-movement.mjs": "b857f07c016077399ef8b1d7d171622b2f49241c1f2a47f3e880fe5cbcb50fd9",
+    "company-troops.ts": "880c122224e3f3754e93d4de63475ba91468e3f4f4e149f501206c74f4a7f6de",
+    "company-models.ts": "dd65e946b4809a035dfaf5edfb1467dadfaa382f915cbcf2ac993d730e139bc6",
+    "company-pretrained.ts": "65aaf1228c7367f1047022198a077eeaba06e05658163d4497ab59ac597d47cf",
+    "scripts/cycle-scales.mjs": "4b005f3a34449433bfda51aa062b89b9603c0e6415d6c267f11c3fe4188cef0a",
+    "engine.ts": "4eba4f2904ffedb3c44b194091fe4e592d89b2c05eeea17714c0f19723b62693",
+    "ai.ts": "a1c0611c8dbb0a9163b548cdb6d6a06666012b6c232074aea13b08e62d8c6efc",
+    "simulator.ts": "ab8a323bdc1f9029e37f6954ec7a8cc93129825c269d031e93b66071afd877d0",
+    "learning.ts": "9b9be8e2f5a269a6a1a3dd948e10de277897987a31610b94c73a3deaa1897d86",
+    "geography.ts": "570ac8e2c6448062afb834469a2c895d8cf86859d83beb0243c0add48476078f",
+    "geography-data.ts": "b385433cfb4f54b22b19c06b339458214e971218b6be858f0cdb7b599fbfc7c4",
+    "troops.ts": "7dd4681a767e6e147b5aee82c6e131c3b2041016520973e851d8d8f04c59b57a",
+    "scenario.ts": "4cb2cdd134ca3485fd71c9c8b5bc6d87f045bccc6f601873114492ba41e7bd2c",
+    "pretrained.ts": "4d6f9640d5e0c233358ec4178307c7fe4a6ae6842481374a0acb894b6be6fe95",
+    "simple-learning.ts": "861679d12c2bbe1c608032597f16bd0b99772bfd78ad5514243f4eda5a7af98f",
+    "scripts/round-robin.mjs": "a2968406ba571dd2ac8c423be36133e5b7fc06393f608bc4715cbcec17239649",
+    "scripts/autoplay.mjs": "7d66732fee2e7e04de71695276501d99b440f8bd9f9f64e8ea24337538555775",
+    "scripts/train.mjs": "a0f2ab2e726d93d37d7c1528245387021e6882969e555e79541f45ef6c279fe7",
+    "scripts/evaluate-trained.mjs": "4a2808328a47c8eccbba47f5167d394224eefdc7c667b9c831235eae527e7eb3",
+    "scripts/calibrate-artillery.mjs": "dc09ff9f40062a27613d4c692aeb6ebc599c076f0457101b59a8c8d8a501b533",
+    "scripts/simulation-statistics.mjs": "8bba49df47a31c37538959214355e3c96d369716a31006a54143ce17899be1f2",
+    "scripts/study-battalion-rules.mjs": "b81f6b36b6261f9923ab9e4022f8a9efc63a581d1b0cadabc4fb649063094e2a",
+    "fixed-learning.ts": "51de7fc9a4b2fd23b08a7821dfb1a454ea1f40637316f14f6c26c53d542dae3e",
+    "fixed-training.ts": "81ce0e514cc545a9ce5f77e14273cb55870ce392e735b01c3fcc41e8c30f5666",
+    "fixed-models.ts": "220455f87efcfd067851450c2d4d43467be9a8c81227ce8d823fd311bf3f2591",
+    "scripts/train-fixed.mjs": "fdcaa5a7158ee069c4ae40d961b38c77511aab199535f696dec85bd37b022987",
+    "scripts/evaluate-fixed.mjs": "e85bcae189f48ad99b23ee6753aa2495abb86683a312415526bb2a5fcdc54f34"
+  },
+  "runs": {
+    "treino-companhias": {
+      "scale": "company",
+      "episodesFixedPerSide": 2400,
+      "episodesOnline": 2000,
+      "training": true,
+      "files": [
+        "fixos-dados-brutos.json",
+        "fixos-modelos.json",
+        "online-dados-brutos.json",
+        "online-modelo.json",
+        "analise.md"
+      ]
+    },
+    "avaliacao-ias-fixas-companhias": {
+      "heldOut": true,
+      "totalGames": 1300,
+      "seeds": {
+        "portfolio": [
+          [
+            3900001,
+            3900100
+          ],
+          [
+            3901001,
+            3901100
+          ],
+          [
+            3902001,
+            3902100
+          ],
+          [
+            3903001,
+            3903100
+          ],
+          [
+            3904001,
+            3904100
+          ],
+          [
+            3905001,
+            3905100
+          ],
+          [
+            3910001,
+            3910100
+          ],
+          [
+            3911001,
+            3911100
+          ],
+          [
+            3912001,
+            3912100
+          ],
+          [
+            3913001,
+            3913100
+          ],
+          [
+            3914001,
+            3914100
+          ],
+          [
+            3915001,
+            3915100
+          ]
+        ],
+        "headToHead": [
+          3950001,
+          3950100
+        ]
+      },
+      "files": [
+        "dados-brutos.json",
+        "resultados.json",
+        "analise.md"
+      ]
+    },
+    "matriz-ias-companhias": {
+      "sourceCommit": "3ced911d3586fe8354314c842bf36b74bb7e783c",
+      "seeds": [
+        6100001,
+        6100010
+      ],
+      "count": 810,
+      "files": [
+        "dados-brutos.json",
+        "analise.md"
+      ]
+    },
+    "movimento-exaustivo": {
+      "exhaustive": true,
+      "summary": {
+        "profiles": 29,
+        "origins": 2349,
+        "destinations": 190269,
+        "directEdges": 12064,
+        "oneLevelClimbs": 2320,
+        "steepClimbs": 58,
+        "partialBudgets": 27456,
+        "blockedEntries": 24128,
+        "longTermPairs": 190269,
+        "seconds": 21.006265425
+      },
+      "files": [
+        "dados-brutos.json",
+        "protocolo.mjs",
+        "analise.md"
+      ]
+    },
+    "batalhoes-preservados": {
+      "baseline": "3ced911",
+      "count": 120,
+      "fullHistory": true,
+      "battalionModelsUnchanged": true,
+      "files": [
+        "dados-brutos.json",
+        "analise.md"
+      ]
+    }
+  }
+}

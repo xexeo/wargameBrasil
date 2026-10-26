@@ -22,3 +22,7 @@ A participação e organização dos batalhões do Sampaio permanecem nas refer�
 - Geografia, cronologia, objetivos e identidades não foram alterados para perseguir50%. Parâmetros A/D são abstrações por escalão; não significam frações lineares de homens.
 
 O estudo foi limitado a um ciclo com sementes definidas, seguido por uma passagem de treino por escala/lado e avaliação separada. Não se selecionaram sucessivos treinos favoráveis. Números ficam nos [relatórios válidos por versão](simulacoes/README.md); estes não medem a dificuldade de um jogador humano nem comprovam uma reconstrução exata.
+
+## Revisão0.9.3
+
+O limite artificial de uma companhia por batalhão foi rejeitado pelo autor e retirado. A defesa também foi desdobrada: três núcleos em dois destacamentos cada, mais reserva e fogos. Sete é quantidade de cenário, não sete companhias históricas demonstradas. Os destacamentos adicionais ficam junto aos núcleos anteriores, sem novos topônimos ou objetivos. Preservam-se Heer/232ª DI e a incerteza dos efetivos locais. O volume abstrato de fogo alemão A 2 permanece o anterior, sem atribuição nova de elite; o dano máximo cai a 1 PV na companhia. Na FEB, A cai a 1 e o dano máximo também a 1. Batalhão conserva fatores e máximo2PV.

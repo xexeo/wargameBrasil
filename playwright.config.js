@@ -3,6 +3,9 @@ const port=Number(process.env.PLAYWRIGHT_TEST_PORT??8031);
 const baseURL=`http://127.0.0.1:${port}`;
 export default defineConfig({
   testDir: "./tests/browser",
+  // SVG animations and mobile gestures share CPU; keep timing checks deterministic.
+  workers: 1,
+  timeout: 60000,
   use: {
     baseURL,
     launchOptions: {
