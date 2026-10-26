@@ -1,3 +1,7 @@
+# Estado atual — v0.1.22
+
+Por orientação do autor, o distintivo atual do Regimento Ipiranga e sua legenda foram removidos da homenagem e do conteúdo incorporado ao jogo. A homenagem conserva a fotografia de Pedro Bonorino e o distintivo da FEB. As informações abaixo sobre o emblema regimental ficam apenas como registro da pesquisa anterior.
+
 # Fontes da homenagem e dos emblemas
 
 Consulta e downloads: 25/10/2026. O usuário confirmou a correção da unidade do homenageado para **6º Regimento de Infantaria**, Regimento Ipiranga. A homenagem usa o distintivo da FEB e o emblema atual da unidade sucessora do 6º RI.

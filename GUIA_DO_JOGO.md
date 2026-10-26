@@ -303,3 +303,7 @@ A descrição de eliminação consulta a posição final do cume, distinguindo i
 Mapa inteiro passa a ajustar a largura e a altura proporcionalmente ao SVG, sem faixa vazia; a página pode ser rolada. Zoom livre, pinça e visão tática são preservados. Fontes e limites históricos permanecem em PESQUISA_ACERVOS_NARRATIVA.md. O plano consolidado está entregue, com pendências documentais explicitadas e o equilíbrio50/50 ainda não alcançado.
 
 Sons de combate opcionais, desligados inicialmente, com volume e preferência persistente. São sintetizados localmente; não gravações de armas históricas. O gerador de ruído é independente do RNG de combate. A tabela das regras resume movimento, cobertura, subida/descida, vantagem de altura e tiro indireto, sem mudar os valores do motor.
+
+## Homenagem — v0.1.22
+
+Removidos o distintivo atual do Regimento Ipiranga e sua legenda, por orientação do autor. A homenagem conserva a fotografia de Pedro Bonorino, a referência ao6ºRI e o distintivo da FEB.

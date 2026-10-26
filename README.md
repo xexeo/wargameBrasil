@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.21 · 26/10/2026, 00:31:50 (Brasília)**
+**Versão 0.1.22 · 26/10/2026, 00:42:48 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -20,7 +20,7 @@ O código-fonte é **TypeScript**. O JavaScript compilado é o que roda no naveg
 
 ## Novidades da interface
 
-**Aparência configurável:** botão no topo abre as três paletas A/B/C, com A como padrão. É possível editar separadamente 45 cores semânticas, fontes, tamanhos, linhas e opacidades, além de ativar/desativar animações e ajustar sua duração. As preferências ficam neste navegador; importação/exportação e restauração estão no popup. Os valores visuais são centralizados em `ui-settings.ts` e variáveis CSS compartilhadas pelo SVG, efeitos, exemplos das regras e painéis. Não exige conexão nem reinicia a partida, o zoom ou o aprendizado.
+**Aparência configurável:** botão no topo abre as três paletas A/B/C, com A como padrão. É possível editar separadamente 47 cores semânticas, fontes, tamanhos, linhas e opacidades, além de ativar/desativar animações e ajustar sua duração. As preferências ficam neste navegador; importação/exportação e restauração estão no popup. Os valores visuais são centralizados em `ui-settings.ts` e variáveis CSS compartilhadas pelo SVG, efeitos, exemplos das regras e painéis. Não exige conexão nem reinicia a partida, o zoom ou o aprendizado.
 
 O botão **Som** permite ligar/desligar efeitos; o popup Aparência inclui volume. Som começa desligado e usa síntese local para rajadas, morteiro e artilharia, sem gravações históricas ou downloads. [Pesquisa e implementação sonora](docs/SONS.md).
 
@@ -37,7 +37,7 @@ Português é o idioma padrão; **English (US)** é opcional e persistente, incl
 
 **Encerrar turno** fica no mapa em barra fixa. Estrelas vermelhas centrais marcam objetivos; bordas tracejadas marrons/laranja indicam risco de fogo defensivo no percurso. Novas partidas permitem mover e disparar em qualquer ordem com um ataque normal por turno. A eliminação da última peça adversária encerra a partida imediatamente.
 
-Modos: humano FEB × computador alemão; computador FEB × humano alemão; dois humanos no mesmo aparelho; dois humanos à distância. Popup Homenagem a Pedro Henrique de Figueiredo Bonorino, tenente do **6º RI**, com a nova fotografia fornecida pelo usuário, preservada sem tratamento adicional e emblemas da FEB e Regimento Ipiranga. O brasão atual é identificado como atual, sem afirmar seu uso em1945.
+Modos: humano FEB × computador alemão; computador FEB × humano alemão; dois humanos no mesmo aparelho; dois humanos à distância. Popup Homenagem a Pedro Henrique de Figueiredo Bonorino, tenente do **6º RI**, com a nova fotografia fornecida pelo usuário, preservada sem tratamento adicional e distintivo da FEB. O distintivo atual do Regimento Ipiranga e sua legenda foram removidos da homenagem por orientação do autor.
 
 [**Ver as três paletas**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.svg) · [**Abrir a análise de UX**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.html). As três propostas estão disponíveis no popup Aparência; A, azul/carvão, é o padrão recomendado. A análise inclui terreno de inverno, iluminação do dia, neve, lama e pedra, distinguindo evidência de hipótese. [Ver estudo visual do terreno de inverno](https://xexeo.github.io/wargameBrasil/ux/terreno-inverno.svg).
 
@@ -196,3 +196,5 @@ Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional
 Consulte o arquivo [LICENSE](LICENSE).
 
 Dados OSM mantêm ODbL 1.0; Copernicus DEM e outros recursos de terceiros mantêm suas condições próprias. Marcas e logotipos institucionais não são relicenciados por este aviso. Consulte os avisos em LICENSE e docs/GEOGRAFIA.md.
+
+Na v0.1.22, textos e símbolos militares usam cores independentes por exército: FEB branca e Alemanha creme claro por padrão, ajustáveis em Aparência → Peças e estados.

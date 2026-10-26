@@ -97,7 +97,7 @@ function symbol(u) {
         ? '<path d="M-14 -13L14 5M14 -13L-14 5"/>'
         : u.type === "armor"
             ? '<ellipse cx="0" cy="-4" rx="11" ry="6"/>'
-            : '<circle cx="0" cy="-4" r="5" fill="var(--ui-counterText)"/>';
+            : '<circle cx="0" cy="-4" r="5" fill="var(--unit-ink)"/>';
 }
 let localSide = "br";
 function computerSide() {
@@ -252,7 +252,7 @@ function render() {
             canAttack(u, v) &&
             !busy &&
             myTurn();
-        svg += t("app.018", selected === v.id ? "selected" : "", target ? "target" : "", v.id, x, y, esc(v.name), v.side === "br" ? "FEB" : t("app.019"), v.hp, v.atk, v.def, esc(v.name), v.atk, v.def, v.hp, v.side === "br" ? "var(--ui-br)" : "var(--ui-de)", target ? '<rect class="attack-bar" x="-24" y="-30" width="48" height="4" rx="1" fill="var(--ui-objective)" pointer-events="none"/>' : '', troopProfile(v.id)?.mark ?? 'II', unitLevel(v), symbol(v), v.side === "br" ? "FEB" : "DE", v.hp, v.atk, v.def, v.mp, Array.from({ length: v.hp }, (_, i) => `<circle cx="${-7 + i * 7}" cy="10" r="2" fill="var(--ui-cohesion)"/>`).join(""), "", v.suppressed ? '<circle class="suppression-marker" cx="-23" cy="-23" r="6" fill="var(--ui-suppression)" stroke="var(--ui-panel)"/><text x="-23" y="-20" text-anchor="middle" style="font-size:calc(8px * var(--ui-counterFontScale))">S</text>' : '', v.fired ? '<path d="M-22 -22L22 22" stroke="var(--ui-counterText)" opacity="var(--ui-firedOpacity)"/>' : "");
+        svg += t("app.018", selected === v.id ? "selected" : "", target ? "target" : "", v.id, x, y, esc(v.name), v.side === "br" ? "FEB" : t("app.019"), v.hp, v.atk, v.def, esc(v.name), v.atk, v.def, v.hp, v.side === "br" ? "var(--ui-br)" : "var(--ui-de)", target ? '<rect class="attack-bar" x="-24" y="-30" width="48" height="4" rx="1" fill="var(--ui-objective)" pointer-events="none"/>' : '', troopProfile(v.id)?.mark ?? 'II', unitLevel(v), symbol(v), v.side === "br" ? "FEB" : "DE", v.hp, v.atk, v.def, v.mp, Array.from({ length: v.hp }, (_, i) => `<circle cx="${-7 + i * 7}" cy="10" r="2" fill="var(--ui-cohesion)"/>`).join(""), "", v.suppressed ? '<circle class="suppression-marker" cx="-23" cy="-23" r="6" fill="var(--ui-suppression)" stroke="var(--ui-panel)"/><text x="-23" y="-20" text-anchor="middle" style="font-size:calc(8px * var(--ui-counterFontScale))">S</text>' : '', v.fired ? '<path d="M-22 -22L22 22" stroke="var(--ui-counterText)" opacity="var(--ui-firedOpacity)"/>' : "", v.side);
     }
     svg += `<g class="unit-condition-layer" pointer-events="none">${game.units.filter(v => v.hp < 3).map(v => { const { x, y } = center(v.q, v.r), label = t("symbols.damageLabel", 3 - v.hp), offset = 25 * uiSettings.numbers.counterScale + 12; return `<g class="damage-marker" data-damage-unit="${v.id}" transform="translate(${x},${y - offset})" role="img" aria-label="${esc(label)}"><title>${esc(label)}</title><circle r="8" fill="var(--ui-damage)" stroke="var(--ui-counterText)" stroke-width="1"/><text y="3" text-anchor="middle" fill="var(--ui-counterText)" style="font:700 9px var(--ui-font)">−${3 - v.hp}</text></g>`; }).join('')}</g>`;
     $("map").innerHTML = svg;
@@ -747,7 +747,7 @@ $("language").onchange = () => {
     render();
     refreshDialog();
 };
-$("tribute").onclick = () => show(() => t("tribute.dialog", tributeAssets.regiment.src, translateData(tributeAssets.regiment.label), tributeAssets.regiment.sourceUrl, translateData(tributeAssets.regiment.credit), tributeAssets.feb.src, translateData(tributeAssets.feb.label), tributeAssets.feb.sourceUrl, translateData(tributeAssets.feb.credit), tributePhoto.src));
+$("tribute").onclick = () => show(() => t("tribute.dialog", tributeAssets.feb.src, translateData(tributeAssets.feb.label), tributeAssets.feb.sourceUrl, translateData(tributeAssets.feb.credit), tributePhoto.src));
 function fixedModelSummary() {
     return t("fixed.dialog", ...["br", "de"].map(side => {
         const model = fixedModels[side], p = model.parameters;

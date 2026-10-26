@@ -71,3 +71,17 @@ test('expanded history and opening context are complete in both languages and re
  await page.locator('#briefing').click();await expect(page.locator('.opening-context')).toContainText('Months of fighting');
  await expect(page.locator('#begin')).toHaveText('Take command →');
 });
+
+test('each army has its own configurable text and military symbol color',async({page})=>{
+ await start(page);
+ await expect(page.locator('[data-id="b1"] .symbol').first()).toHaveCSS('stroke','rgb(255, 255, 255)');
+ await expect(page.locator('[data-id="g1"] .symbol').first()).toHaveCSS('stroke','rgb(255, 227, 161)');
+ await page.locator('#appearance').click();await group(page,'Peças e estados');
+ await page.locator('#ui-hex-deText').fill('#99CCFF');
+ await expect(page.locator('[data-id="g1"] text').first()).toHaveCSS('fill','rgb(153, 204, 255)');
+ await expect(page.locator('[data-id="g1"] .symbol').first()).toHaveCSS('stroke','rgb(153, 204, 255)');
+ await expect(page.locator('[data-id="b1"] text').first()).toHaveCSS('fill','rgb(255, 255, 255)');
+ await expect(page.locator('[data-id="g5"] .symbol circle')).toHaveCSS('fill','rgb(153, 204, 255)');
+ await page.locator('#closeBottom').click();await page.reload();await page.locator('#begin').click();
+ await expect(page.locator('[data-id="g1"] text').first()).toHaveCSS('fill','rgb(153, 204, 255)');
+});
