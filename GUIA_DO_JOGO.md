@@ -271,3 +271,11 @@ A combinação de retirada e cume suficiente no fechamento final foi validada co
 ## Ordem de ação, modos e fim imediato
 
 Novas partidas têm freeFireOrder: movimento e um ataque em qualquer ordem, sem PM cobrados pelo disparo. Reação/reorganização ainda comprometem ações. Flag ausente/falsa preserva ordem anterior. Neutralização completa de um lado encerra imediatamente por eliminação, identificada como tal sem afirmar ocupação do cume. Há modos computador FEB e humanos locais, além dos anteriores. O comando de encerrar turno fica na barra fixa do mapa. Estrelas vermelhas centrais são objetivos, tracejado indica exposição, não bloqueio. O apoio agregado é histórico na composição de armas, mas o contador/alcance são abstrações explicitadas no popup. PT padrão, EN-US opcional; estado da partida e memória não dependem do idioma.
+
+## Aprendizes fixos separados por lado — v0.1.19
+
+A opção Aprendiz fixo escolhe a política do turno consultando exclusivamente a tabela do lado controlado pelo computador: FEB ou Alemanha. Cada tabela é treinada em 2.400 partidas contra as seis combinações fixas de estratégia e postura, em 400 partidas por adversário. Durante o jogo publicado não há exploração, atualização de pesos nem uso da experiência pessoal do navegador. Os dados de combate continuam aleatórios. Alpha 0,18, gamma 0,9 e exploração de treino 0,20 são constantes; exploração de inferência é zero. Detalhes em [IA_POR_LADO.md](docs/IA_POR_LADO.md).
+
+A Veterana e a Aprendiz simples mantêm seu aprendizado online e são opções distintas. Alterar o idioma ou escolher o modelo fixo não apaga suas memórias. Regras e fatos históricos permanecem comuns a todas as IAs.
+
+A homenagem passa a mostrar a fotografia fornecida pelo usuário, restaurada com auxílio de IA e identificada como tal. Os emblemas conservam suas fontes e condições próprias.

@@ -11,12 +11,14 @@
     "simulate": "npm run build && node scripts/autoplay.mjs",
     "train": "npm run build && node scripts/train.mjs",
     "simulate:matrix": "npm run build && node scripts/round-robin.mjs 10 200001 && node scripts/report-round-robin.mjs",
-    "simulations:check": "node scripts/check-simulations.mjs"
+    "simulations:check": "node scripts/check-simulations.mjs",
+    "train:fixed": "npm run build && node scripts/train-fixed.mjs && npm run build",
+    "evaluate:fixed": "npm run build && node scripts/evaluate-fixed.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
     "esbuild": "^0.28.2",
     "typescript": "^7.0.2"
   },
-  "version": "0.1.18"
+  "version": "0.1.19"
 }

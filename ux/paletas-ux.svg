@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1080" viewBox="0 0 1200 1080" role="img" aria-labelledby="title desc">
+<title id="title">Três propostas de paleta para Monte Castelo Vibed</title>
+<desc id="desc">Comparação em fundo branco: A azul e papel, B petróleo e pedra, C violeta e areia. Todas mantêm peças alemãs carvão, quatro alturas identificadas por N1 a N4, objetivo em estrela vermelha e ações com formas redundantes. Apenas estudo, sem aplicação ao jogo.</desc>
+<rect width="1200" height="1080" fill="#FFFFFF"/>
+<g font-family="Arial, sans-serif" fill="#20262D">
+<text x="30" y="43" font-size="29" font-weight="bold" fill="#20262D" text-anchor="start">Monte Castelo Vibed · três paletas de UX</text>
+<text x="30" y="74" font-size="17" font-weight="normal" fill="#20262D" text-anchor="start">Propostas para avaliação. Página branca, alemães carvão e estrela vermelha preservados.</text>
+<rect x="30" y="101" width="360" height="800" fill="#FFFFFF" stroke="#CCD2D5" stroke-width="1"/>
+<text x="48" y="131" font-size="12" font-weight="bold" fill="#52606A" text-anchor="start">RECOMENDADA</text>
+<text x="48" y="165" font-size="23" font-weight="bold" fill="#20262D" text-anchor="start">A · Azul e papel</text>
+<text x="48" y="196" font-size="15" font-weight="normal" fill="#20262D" text-anchor="start">FEB #2166A3 · DE #252B31</text>
+<text x="48" y="223" font-size="14" font-weight="normal" fill="#20262D" text-anchor="start">Texto #20262D · peças: branco</text>
+<text x="48" y="260" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Altura: luminosidade + nível explícito</text>
+<rect x="48" y="278" width="76" height="53" fill="#F4F0E5" stroke="#20262D" stroke-width="1"/>
+<text x="86" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N1</text>
+<text x="86" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#F4F0E5</text>
+<rect x="130" y="278" width="76" height="53" fill="#DED3BB" stroke="#20262D" stroke-width="1"/>
+<text x="168" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N2</text>
+<text x="168" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#DED3BB</text>
+<rect x="212" y="278" width="76" height="53" fill="#C6B08D" stroke="#20262D" stroke-width="1"/>
+<text x="250" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N3</text>
+<text x="250" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#C6B08D</text>
+<rect x="294" y="278" width="76" height="53" fill="#B79B77" stroke="#20262D" stroke-width="1"/>
+<text x="332" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N4</text>
+<text x="332" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#B79B77</text>
+<text x="48" y="385" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Exemplos de forma e identidade</text>
+<polygon points="204.00,467.00 166.00,532.82 90.00,532.82 52.00,467.00 90.00,401.18 166.00,401.18" fill="#F4F0E5" stroke="#20262D" stroke-width="1.5"/>
+<text x="128" y="523" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N1</text>
+<polygon points="368.00,467.00 330.00,532.82 254.00,532.82 216.00,467.00 254.00,401.18 330.00,401.18" fill="#DED3BB" stroke="#20262D" stroke-width="1.5"/>
+<text x="292" y="523" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N2</text>
+<polygon points="204.00,624.00 166.00,689.82 90.00,689.82 52.00,624.00 90.00,558.18 166.00,558.18" fill="#C6B08D" stroke="#20262D" stroke-width="1.5"/>
+<text x="128" y="680" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N3</text>
+<polygon points="368.00,624.00 330.00,689.82 254.00,689.82 216.00,624.00 254.00,558.18 330.00,558.18" fill="#B79B77" stroke="#20262D" stroke-width="1.5"/>
+<text x="292" y="680" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N4</text>
+<rect x="86" y="425" width="84" height="84" fill="#20262D" stroke="none" stroke-width="1"/>
+<rect x="88" y="427" width="80" height="80" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<rect x="91" y="430" width="74" height="74" fill="#2166A3" stroke="none" stroke-width="1"/>
+<text x="128" y="446" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">FEB 3/3</text>
+<rect x="107" y="455" width="42" height="23" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+<path d="M107 455l42 23m0 -23l-42 23" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+<text x="128" y="496" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">A3 D3 M3</text>
+<polygon points="368.00,467.00 330.00,532.82 254.00,532.82 216.00,467.00 254.00,401.18 330.00,401.18" fill="none" stroke="#124E76" stroke-width="4"/>
+<circle cx="292" cy="467" r="9" fill="#124E76"/>
+<rect x="86" y="582" width="84" height="84" fill="#20262D" stroke="none" stroke-width="1"/>
+<rect x="88" y="584" width="80" height="80" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<rect x="91" y="587" width="74" height="74" fill="#252B31" stroke="none" stroke-width="1"/>
+<text x="128" y="603" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">DE 3/3</text>
+<rect x="107" y="612" width="42" height="23" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+<path d="M107 612l42 23m0 -23l-42 23" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+<text x="128" y="653" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">A3 D3 M3</text>
+<rect x="100" y="573" width="56" height="7" fill="#981B2A" stroke="#FFFFFF" stroke-width="2"/>
+<circle cx="176" cy="591" r="9" fill="#FFFFFF" stroke="#981B2A" stroke-width="2"/><path d="M163 591h26m-13 -13v26" stroke="#981B2A" stroke-width="2"/>
+<polygon points="292.00,597.00 299.05,614.29 317.68,615.66 303.41,627.71 307.87,645.84 292.00,636.00 276.13,645.84 280.59,627.71 266.32,615.66 284.95,614.29" fill="#981B2A"/>
+<text x="292" y="664" font-size="12" font-weight="bold" fill="#20262D" text-anchor="middle">Objetivo</text>
+<text x="48" y="733" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Branco / FEB: 6,01:1</text>
+<text x="48" y="761" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Sinais / pior terreno: ≥ 3,16:1</text>
+<text x="48" y="795" font-size="14" font-weight="normal" fill="#20262D" text-anchor="start">FEB/DE e N1–N4 são indispensáveis.</text>
+<text x="48" y="823" font-size="14" font-weight="normal" fill="#20262D" text-anchor="start">Não confiar só na diferença de cor.</text>
+<text x="48" y="864" font-size="14" font-weight="bold" fill="#20262D" text-anchor="start">Identidade atual; melhor equilíbrio.</text>
+<rect x="420" y="101" width="360" height="800" fill="#FFFFFF" stroke="#CCD2D5" stroke-width="1"/>
+<text x="438" y="131" font-size="12" font-weight="bold" fill="#52606A" text-anchor="start">ALTERNATIVA</text>
+<text x="438" y="165" font-size="23" font-weight="bold" fill="#20262D" text-anchor="start">B · Petróleo e pedra</text>
+<text x="438" y="196" font-size="15" font-weight="normal" fill="#20262D" text-anchor="start">FEB #007B78 · DE #252B31</text>
+<text x="438" y="223" font-size="14" font-weight="normal" fill="#20262D" text-anchor="start">Texto #20262D · peças: branco</text>
+<text x="438" y="260" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Altura: luminosidade + nível explícito</text>
+<rect x="438" y="278" width="76" height="53" fill="#F4F3EB" stroke="#20262D" stroke-width="1"/>
+<text x="476" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N1</text>
+<text x="476" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#F4F3EB</text>
+<rect x="520" y="278" width="76" height="53" fill="#DEDDD0" stroke="#20262D" stroke-width="1"/>
+<text x="558" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N2</text>
+<text x="558" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#DEDDD0</text>
+<rect x="602" y="278" width="76" height="53" fill="#C5C3AF" stroke="#20262D" stroke-width="1"/>
+<text x="640" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N3</text>
+<text x="640" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#C5C3AF</text>
+<rect x="684" y="278" width="76" height="53" fill="#ABA88B" stroke="#20262D" stroke-width="1"/>
+<text x="722" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N4</text>
+<text x="722" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#ABA88B</text>
+<text x="438" y="385" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Exemplos de forma e identidade</text>
+<polygon points="594.00,467.00 556.00,532.82 480.00,532.82 442.00,467.00 480.00,401.18 556.00,401.18" fill="#F4F3EB" stroke="#20262D" stroke-width="1.5"/>
+<text x="518" y="523" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N1</text>
+<polygon points="758.00,467.00 720.00,532.82 644.00,532.82 606.00,467.00 644.00,401.18 720.00,401.18" fill="#DEDDD0" stroke="#20262D" stroke-width="1.5"/>
+<text x="682" y="523" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N2</text>
+<polygon points="594.00,624.00 556.00,689.82 480.00,689.82 442.00,624.00 480.00,558.18 556.00,558.18" fill="#C5C3AF" stroke="#20262D" stroke-width="1.5"/>
+<text x="518" y="680" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N3</text>
+<polygon points="758.00,624.00 720.00,689.82 644.00,689.82 606.00,624.00 644.00,558.18 720.00,558.18" fill="#ABA88B" stroke="#20262D" stroke-width="1.5"/>
+<text x="682" y="680" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N4</text>
+<rect x="476" y="425" width="84" height="84" fill="#20262D" stroke="none" stroke-width="1"/>
+<rect x="478" y="427" width="80" height="80" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<rect x="481" y="430" width="74" height="74" fill="#007B78" stroke="none" stroke-width="1"/>
+<text x="518" y="446" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">FEB 3/3</text>
+<rect x="497" y="455" width="42" height="23" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+<path d="M497 455l42 23m0 -23l-42 23" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+<text x="518" y="496" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">A3 D3 M3</text>
+<polygon points="758.00,467.00 720.00,532.82 644.00,532.82 606.00,467.00 644.00,401.18 720.00,401.18" fill="none" stroke="#124E76" stroke-width="4"/>
+<circle cx="682" cy="467" r="9" fill="#124E76"/>
+<rect x="476" y="582" width="84" height="84" fill="#20262D" stroke="none" stroke-width="1"/>
+<rect x="478" y="584" width="80" height="80" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<rect x="481" y="587" width="74" height="74" fill="#252B31" stroke="none" stroke-width="1"/>
+<text x="518" y="603" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">DE 3/3</text>
+<rect x="497" y="612" width="42" height="23" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+<path d="M497 612l42 23m0 -23l-42 23" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+<text x="518" y="653" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">A3 D3 M3</text>
+<rect x="490" y="573" width="56" height="7" fill="#981B2A" stroke="#FFFFFF" stroke-width="2"/>
+<circle cx="566" cy="591" r="9" fill="#FFFFFF" stroke="#981B2A" stroke-width="2"/><path d="M553 591h26m-13 -13v26" stroke="#981B2A" stroke-width="2"/>
+<polygon points="682.00,597.00 689.05,614.29 707.68,615.66 693.41,627.71 697.87,645.84 682.00,636.00 666.13,645.84 670.59,627.71 656.32,615.66 674.95,614.29" fill="#981B2A"/>
+<text x="682" y="664" font-size="12" font-weight="bold" fill="#20262D" text-anchor="middle">Objetivo</text>
+<text x="438" y="733" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Branco / FEB: 5,12:1</text>
+<text x="438" y="761" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Sinais / pior terreno: ≥ 3,45:1</text>
+<text x="438" y="795" font-size="14" font-weight="normal" fill="#20262D" text-anchor="start">FEB/DE e N1–N4 são indispensáveis.</text>
+<text x="438" y="823" font-size="14" font-weight="normal" fill="#20262D" text-anchor="start">Não confiar só na diferença de cor.</text>
+<text x="438" y="864" font-size="14" font-weight="bold" fill="#20262D" text-anchor="start">Neutros claros; maior margem dos sinais.</text>
+<rect x="810" y="101" width="360" height="800" fill="#FFFFFF" stroke="#CCD2D5" stroke-width="1"/>
+<text x="828" y="131" font-size="12" font-weight="bold" fill="#52606A" text-anchor="start">ALTERNATIVA</text>
+<text x="828" y="165" font-size="23" font-weight="bold" fill="#20262D" text-anchor="start">C · Violeta e areia</text>
+<text x="828" y="196" font-size="15" font-weight="normal" fill="#20262D" text-anchor="start">FEB #64489A · DE #252B31</text>
+<text x="828" y="223" font-size="14" font-weight="normal" fill="#20262D" text-anchor="start">Texto #20262D · peças: branco</text>
+<text x="828" y="260" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Altura: luminosidade + nível explícito</text>
+<rect x="828" y="278" width="76" height="53" fill="#F4EFE8" stroke="#20262D" stroke-width="1"/>
+<text x="866" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N1</text>
+<text x="866" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#F4EFE8</text>
+<rect x="910" y="278" width="76" height="53" fill="#E0D2C1" stroke="#20262D" stroke-width="1"/>
+<text x="948" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N2</text>
+<text x="948" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#E0D2C1</text>
+<rect x="992" y="278" width="76" height="53" fill="#C7B39C" stroke="#20262D" stroke-width="1"/>
+<text x="1030" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N3</text>
+<text x="1030" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#C7B39C</text>
+<rect x="1074" y="278" width="76" height="53" fill="#B59A7D" stroke="#20262D" stroke-width="1"/>
+<text x="1112" y="310" font-size="17" font-weight="bold" fill="#20262D" text-anchor="middle">N4</text>
+<text x="1112" y="350" font-size="12" font-weight="normal" fill="#20262D" text-anchor="middle">#B59A7D</text>
+<text x="828" y="385" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Exemplos de forma e identidade</text>
+<polygon points="984.00,467.00 946.00,532.82 870.00,532.82 832.00,467.00 870.00,401.18 946.00,401.18" fill="#F4EFE8" stroke="#20262D" stroke-width="1.5"/>
+<text x="908" y="523" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N1</text>
+<polygon points="1148.00,467.00 1110.00,532.82 1034.00,532.82 996.00,467.00 1034.00,401.18 1110.00,401.18" fill="#E0D2C1" stroke="#20262D" stroke-width="1.5"/>
+<text x="1072" y="523" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N2</text>
+<polygon points="984.00,624.00 946.00,689.82 870.00,689.82 832.00,624.00 870.00,558.18 946.00,558.18" fill="#C7B39C" stroke="#20262D" stroke-width="1.5"/>
+<text x="908" y="680" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N3</text>
+<polygon points="1148.00,624.00 1110.00,689.82 1034.00,689.82 996.00,624.00 1034.00,558.18 1110.00,558.18" fill="#B59A7D" stroke="#20262D" stroke-width="1.5"/>
+<text x="1072" y="680" font-size="13" font-weight="bold" fill="#20262D" text-anchor="middle">N4</text>
+<rect x="866" y="425" width="84" height="84" fill="#20262D" stroke="none" stroke-width="1"/>
+<rect x="868" y="427" width="80" height="80" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<rect x="871" y="430" width="74" height="74" fill="#64489A" stroke="none" stroke-width="1"/>
+<text x="908" y="446" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">FEB 3/3</text>
+<rect x="887" y="455" width="42" height="23" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+<path d="M887 455l42 23m0 -23l-42 23" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+<text x="908" y="496" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">A3 D3 M3</text>
+<polygon points="1148.00,467.00 1110.00,532.82 1034.00,532.82 996.00,467.00 1034.00,401.18 1110.00,401.18" fill="none" stroke="#124E76" stroke-width="4"/>
+<circle cx="1072" cy="467" r="9" fill="#124E76"/>
+<rect x="866" y="582" width="84" height="84" fill="#20262D" stroke="none" stroke-width="1"/>
+<rect x="868" y="584" width="80" height="80" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<rect x="871" y="587" width="74" height="74" fill="#252B31" stroke="none" stroke-width="1"/>
+<text x="908" y="603" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">DE 3/3</text>
+<rect x="887" y="612" width="42" height="23" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+<path d="M887 612l42 23m0 -23l-42 23" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+<text x="908" y="653" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">A3 D3 M3</text>
+<rect x="880" y="573" width="56" height="7" fill="#981B2A" stroke="#FFFFFF" stroke-width="2"/>
+<circle cx="956" cy="591" r="9" fill="#FFFFFF" stroke="#981B2A" stroke-width="2"/><path d="M943 591h26m-13 -13v26" stroke="#981B2A" stroke-width="2"/>
+<polygon points="1072.00,597.00 1079.05,614.29 1097.68,615.66 1083.41,627.71 1087.87,645.84 1072.00,636.00 1056.13,645.84 1060.59,627.71 1046.32,615.66 1064.95,614.29" fill="#981B2A"/>
+<text x="1072" y="664" font-size="12" font-weight="bold" fill="#20262D" text-anchor="middle">Objetivo</text>
+<text x="828" y="733" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Branco / FEB: 7,15:1</text>
+<text x="828" y="761" font-size="15" font-weight="bold" fill="#20262D" text-anchor="start">Sinais / pior terreno: ≥ 3,12:1</text>
+<text x="828" y="795" font-size="14" font-weight="normal" fill="#20262D" text-anchor="start">FEB/DE e N1–N4 são indispensáveis.</text>
+<text x="828" y="823" font-size="14" font-weight="normal" fill="#20262D" text-anchor="start">Não confiar só na diferença de cor.</text>
+<text x="828" y="864" font-size="14" font-weight="bold" fill="#20262D" text-anchor="start">Mais distinto; menos familiar.</text>
+<text x="30" y="935" font-size="19" font-weight="bold" fill="#20262D" text-anchor="start">Sinais comuns às três propostas — sempre cor + forma + texto</text>
+<path d="M32 968h45" stroke="#124E76" stroke-width="4"/><circle cx="54" cy="968" r="5" fill="#124E76"/>
+<text x="89" y="973" font-size="15" font-weight="normal" fill="#20262D" text-anchor="start">Mover #124E76</text>
+<path d="M296 968h45" stroke="#793C00" stroke-width="4" stroke-dasharray="7 4"/><path d="M354 978l10 -20 10 20z" fill="#FFFFFF" stroke="#793C00" stroke-width="2"/>
+<text x="364" y="975" font-size="13" font-weight="bold" fill="#793C00" text-anchor="middle">!</text>
+<text x="386" y="973" font-size="15" font-weight="normal" fill="#20262D" text-anchor="start">Exposição #793C00</text>
+<polygon points="650.00,941.00 657.05,958.29 675.68,959.66 661.41,971.71 665.87,989.84 650.00,980.00 634.13,989.84 638.59,971.71 624.32,959.66 642.95,958.29" fill="#981B2A"/>
+<text x="687" y="973" font-size="15" font-weight="normal" fill="#20262D" text-anchor="start">Objetivo #981B2A</text>
+<rect x="923" y="962" width="37" height="8" fill="#981B2A" stroke="none" stroke-width="1"/>
+<text x="973" y="973" font-size="15" font-weight="normal" fill="#20262D" text-anchor="start">Atacar #981B2A</text>
+<text x="30" y="1025" font-size="15" font-weight="normal" fill="#20262D" text-anchor="start">Contrastes calculados para cores opacas. Propostas ainda requerem validação no jogo e com jogadores.</text>
+<text x="30" y="1052" font-size="14" font-weight="normal" fill="#52606A" text-anchor="start">Fonte e critérios: docs/PALETAS_UX.md · WCAG 2.2, 1.4.1 / 1.4.3 / 1.4.11 · 25/10/2026</text>
+</g></svg>

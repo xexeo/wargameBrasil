@@ -1,7 +1,7 @@
 import {readFile,writeFile,mkdir,readdir,rm} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
 import {createHash} from 'node:crypto';
-export const simulationSources=['engine.ts','ai.ts','simulator.ts','learning.ts','geography.ts','geography-data.ts','troops.ts','scenario.ts','pretrained.ts','app.ts','scripts/round-robin.mjs','scripts/autoplay.mjs','scripts/train.mjs','scripts/evaluate-trained.mjs','scripts/calibrate-artillery.mjs','scripts/simulation-statistics.mjs','scripts/study-battalion-rules.mjs'];
+export const simulationSources=['engine.ts','ai.ts','simulator.ts','learning.ts','geography.ts','geography-data.ts','troops.ts','scenario.ts','pretrained.ts','app.ts','scripts/round-robin.mjs','scripts/autoplay.mjs','scripts/train.mjs','scripts/evaluate-trained.mjs','scripts/calibrate-artillery.mjs','scripts/simulation-statistics.mjs','scripts/study-battalion-rules.mjs','fixed-learning.ts','fixed-training.ts','fixed-models.ts','scripts/train-fixed.mjs','scripts/evaluate-fixed.mjs'];
 const versionPattern=/^0\.1\.\d+$/;
 export async function fingerprint(project=process.cwd()){
  const hashes={};for(const file of simulationSources)hashes[file]=createHash('sha256').update(await readFile(join(project,file))).digest('hex');return hashes;

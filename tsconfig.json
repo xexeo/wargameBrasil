@@ -4,10 +4,22 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "dist",
-    "lib": ["ES2022", "DOM"],
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
     "strictNullChecks": true,
     "noImplicitAny": false,
     "sourceMap": true
   },
-  "include": ["engine.ts", "ai.ts", "simulator.ts", "learning.ts", "persistence.ts", "app.ts"]
+  "include": [
+    "engine.ts",
+    "ai.ts",
+    "simulator.ts",
+    "learning.ts",
+    "persistence.ts",
+    "app.ts",
+    "fixed-learning.ts",
+    "fixed-training.ts"
+  ]
 }

@@ -5,6 +5,7 @@ import { createGame, endTurn, canCaptureObjective, summitOccupied, victoryAssess
 import { activationOrder, takeAIAction } from '../dist/ai.js';
 import { seededRandom, simulate } from '../dist/simulator.js';
 import { beginLearningTurn, finishLearningEpisode, policies } from '../dist/learning.js';
+import { chooseFixedPolicy } from '../dist/fixed-learning.js';
 import { pretrained } from '../dist/pretrained.js';
 import { readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -21,14 +22,16 @@ const profiles=[
  {id:'EA',name:'Estado-maior agressivo',strategy:'tactical',stance:'aggressive'},
  {id:'ED',name:'Estado-maior defensivo',strategy:'tactical',stance:'defensive'},
  {id:'AP',name:'Aprendiz simples · memória inicial vazia',kind:'bandit'},
+ {id:'FX',name:'Aprendiz fixo · modelo próprio de cada lado',kind:'fixed'},
  {id:'VE',name:'Veterana · tabela distribuída + aprendizado na partida',kind:'trained'},
 ];
 const ownHP=(g,side)=>g.units.reduce((n,u)=>n+(u.side===side?u.hp:-u.hp),0);
 function controller(profile,seed){return{profile,rng:seededRandom(seed),memory:{q:{},visits:{}},table:profile.kind==='trained'?structuredClone(pretrained):null,context:{},policy:null};}
 // Same 20% exploration, random-sort tie break and update as app.ts. For FEB,
-// HP and score rewards are mirrored; the shipped browser only assigns AI to DE.
+// HP and score rewards are mirrored; the browser supports AI on either side.
 function banditUpdate(c,reward,terminal=false){if(!c.policy)return;const m=c.memory,prev=Number(m.q[c.policy])||0;m.q[c.policy]=prev+.2*(reward+(terminal?0:.85*Math.max(0,...Object.values(m.q).filter(Number.isFinite)))-prev);m.visits[c.policy]=(m.visits[c.policy]||0)+1;}
 function choose(c,g,side){if(!c.profile.kind)return c.profile;
+ if(c.profile.kind==='fixed')return chooseFixedPolicy(g,side);
  if(c.profile.kind==='trained')return beginLearningTurn(c.table,c.context,g,side,c.rng,.08);
  const m=c.memory;c.policy=c.rng()<.2?policies[Math.floor(c.rng()*policies.length)]:[...policies].sort((a,b)=>(Number(m.q[b])||0)-(Number(m.q[a])||0)||c.rng()-.5)[0];
  const[strategy,stance]=c.policy.split('/');return{strategy,stance};}
@@ -60,7 +63,7 @@ const cells=[];for(const br of profiles)for(const de of profiles){const games=Ar
  console.log(`${br.id} × ${de.id}: FEB ${wins}/${count}`);
 }
 const hashes={};for(const f of['engine.ts','ai.ts','learning.ts','app.ts','troops.ts','scenario.ts','pretrained.ts','geography-data.ts'])hashes[f]=createHash('sha256').update(await readFile(f)).digest('hex');
-const report={rules,createdAt:new Date().toISOString(),gameVersion:JSON.parse(await readFile('version.json','utf8')).version,sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),sourceHashes:hashes,generator:'Mulberry32',countPerPair:count,totalGames:cells.length*count,seeds:[firstSeed,firstSeed+count-1],policyRandomness:'Separate deterministic stream per controller and side; combat RNG shared stream per match.',memory:'Independent per side, reset before each match. AP starts empty, VE starts from distributed pretrained table, epsilon 0.08. Both update within match. No training is carried across cells or matches; browser user memory unavailable.',profiles,cells};
+const report={rules,createdAt:new Date().toISOString(),gameVersion:JSON.parse(await readFile('version.json','utf8')).version,sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),sourceHashes:hashes,generator:'Mulberry32',countPerPair:count,totalGames:cells.length*count,seeds:[firstSeed,firstSeed+count-1],policyRandomness:'Separate deterministic stream per controller and side; combat RNG shared stream per match.',memory:'Independent per side, reset before each match. AP starts empty, VE starts from distributed pretrained table, epsilon 0.08. Both update within match. FX uses independently trained side-specific frozen models with zero exploration and no updates. No training is carried across cells or matches; browser user memory unavailable.',profiles,cells};
 const folder=await saveRun(runName,{'dados-brutos.json':report,'analise.md':`# Matriz de IAs\n\n${report.totalGames} partidas, ${count} por dupla. Execute node scripts/report-round-robin.mjs para a análise detalhada.\n`},{expectedSources:initialSources,provenance:{sourceCommit:report.sourceCommit,seeds:report.seeds,count:report.totalGames}});
 console.log(`Resultados salvos em ${folder}`);
 console.log(`Concluído: ${report.totalGames} partidas; invariantes do simulador verificadas para os seis perfis fixos.`);

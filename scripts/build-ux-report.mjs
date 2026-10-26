@@ -1,4 +1,4 @@
-import{readFile,writeFile}from'node:fs/promises';
+import{readFile,writeFile,mkdir,copyFile}from'node:fs/promises';
 const escape=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const inline=s=>escape(s).replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|paletas-ux\.svg)\)/g,'<a href="$2">$1</a>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/`([^`]+)`/g,'<code>$1</code>');
 const lines=(await readFile('docs/PALETAS_UX.md','utf8')).split('\n');let html='',list=false,table=false,firstRow=false,code=false;
@@ -9,3 +9,7 @@ for(const line of lines){if(line.startsWith('```')){close();html+=code?'</pre>':
 }close();
 await writeFile('docs/paletas-ux.html',`<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Paletas e acessibilidade — Monte Castelo Vibed</title><style>body{margin:0;background:white;color:#20262d;font:16px/1.65 system-ui,sans-serif}main{max-width:1100px;margin:auto;padding:24px}a{color:#124e76}h1,h2,h3{line-height:1.25;margin-top:1.5em}img{max-width:100%;height:auto}.table{overflow:auto}table{border-collapse:collapse;font-size:14px;min-width:600px}th,td{padding:10px;border:1px solid #ccd2d6;text-align:left}th{background:#f4f0e5}code{background:#f1f4f5;padding:1px 4px}pre{white-space:pre-wrap}nav{display:flex;gap:20px;flex-wrap:wrap}</style><main><nav><a href="./paletas-ux.svg">Abrir comparação visual</a><a href="./PALETAS_UX.md" download>Baixar análise em Markdown</a><a href="../">Jogar</a></nav><img src="./paletas-ux.svg" alt="Três paletas propostas: azul e carvão, petróleo e carvão, violeta e carvão">${html}</main></html>`);
 console.log('Análise de UX em HTML gerada.');
+
+// Serve the same public paths from both native Pages and the workflow artifact.
+await mkdir('ux',{recursive:true});
+for(const file of ['paletas-ux.svg','paletas-ux.html','PALETAS_UX.md'])await copyFile('docs/'+file,'ux/'+file);

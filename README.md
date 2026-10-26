@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.18 · 25/10/2026, 19:05:06 (Brasília)**
+**Versão 0.1.19 · 25/10/2026, 23:11:38 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -24,7 +24,7 @@ Português é o idioma padrão; **English (US)** é opcional e persistente, incl
 
 **Encerrar turno** fica no mapa em barra fixa. Estrelas vermelhas centrais marcam objetivos; bordas tracejadas marrons/laranja indicam risco de fogo defensivo no percurso. Novas partidas permitem mover e disparar em qualquer ordem com um ataque normal por turno. A eliminação da última peça adversária encerra a partida imediatamente.
 
-Modos: humano FEB × computador alemão; computador FEB × humano alemão; dois humanos no mesmo aparelho; dois humanos à distância. Popup Homenagem a Pedro Henrique de Figueiredo Bonorino, tenente do **6º RI**, com emblemas da FEB e Regimento Ipiranga. O brasão atual é identificado como atual, sem afirmar seu uso em1945.
+Modos: humano FEB × computador alemão; computador FEB × humano alemão; dois humanos no mesmo aparelho; dois humanos à distância. Popup Homenagem a Pedro Henrique de Figueiredo Bonorino, tenente do **6º RI**, com sua fotografia restaurada digitalmente e emblemas da FEB e Regimento Ipiranga. O brasão atual é identificado como atual, sem afirmar seu uso em1945.
 
 [**Ver as três paletas**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.svg) · [**Abrir a análise de UX**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.html). A recomendação é azul/carvão; propostas ainda não aplicadas.
 
@@ -50,7 +50,7 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 
 - **Encerrar turno** na barra do mapa; Nova partida no topo e no painel lateral.
 - Interface clara, com fundo branco, responsiva para celular e computador. FEB em azul, defesa alemã em carvão; terreno em papel e terra. Títulos sem serifa Barlow Condensed, fonte embutida offline sob licença OFL.
-- Narrativa histórica em popup ao iniciar cada operação e reaberta pelo botão **Missão**, sem reiniciar. Logo original do jogo inspirado na cobra fumando da FEB, criado com assistência de IA; não é um distintivo oficial.
+- Narrativa histórica em popup ao iniciar cada operação e reaberta pelo botão **Missão**, sem reiniciar. Distintivo da FEB com procedência e crédito registrados, também presente na homenagem.
 - Tabuleiro de 9 × 9 hexágonos; peças quadradas com símbolos de infantaria e artilharia.
 - Seleção direta: toque na peça e veja destinos azuis e barras vermelhas nos inimigos atacáveis ao mesmo tempo. Toque no destino para mover ou no alvo para atacar, sem botões de modo.
 - Duplo toque/clique amplia a peça e mostra seus atributos. Cada peça mostra movimento restante (M), ataque (A), defesa (D), resistência atual e selo de dano acumulado, atualizados após cada ação.
@@ -64,7 +64,8 @@ O [GUIA_DO_JOGO.md](GUIA_DO_JOGO.md) é o guia de implementação, regras e regi
 - Regras com exemplo de peça e legenda de bolinhas, símbolos militares, A/D/M, dano e marca de ação; contexto histórico, fontes e diário de combate na interface.
 - Popup **Autoria & licença**, incluindo logo oficial do LUDES, copyright e texto integral da CC BY-NC-SA 4.0 para consulta offline. O logo foi obtido no [endereço oficial informado pelo autor](https://ludes.cos.ufrj.br/wp-content/uploads/2016/07/ludes_azul.png).
 - IA de maior ataque, IA de menor defesa e IA tática que avalia cobertura, ameaças, apoio e objetivos; posturas agressiva e defensiva.
-- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 17.109 atualizações e 96 situações aprendidas, alternando autojogo e adversários das seis políticas fixas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Experimentos válidos por versão](docs/simulacoes/README.md).
+- **Aprendiz fixo · por lado**: dois modelos independentes, treinados em 2.400 partidas cada, com 400 contra cada política adversária. Pesos congelados, exploração zero durante as partidas e nenhum acesso às memórias pessoais. [Parâmetros, método e limites](docs/IA_POR_LADO.md).
+- IA especial **Veterana**: treinada em 2.000 partidas de autojogo, com 17.109 atualizações e 96 situações aprendidas, alternando autojogo e adversários das seis políticas fixas. Aprende por fase da partida, vantagem de forças, pontos e ocupação; continua aprendendo no navegador. Esse treinamento distribuído é anterior às regras atuais e não demonstra desempenho nesta versão; a avaliação atual está nos relatórios abaixo. A experiência pode ser exportada/importada e a persistência está isolada em `persistence.ts`, preparada para adaptação a app. [Experimentos válidos por versão](docs/simulacoes/README.md).
 - IA aprendiz: Q-learning simples sobre seis combinações de estratégia/postura, exploração de 20% e experiência mantida em `localStorage` entre partidas. Não treina uma rede neural nem aprende movimentos individuais.
 - Vitória antecipada brasileira exige **8 pontos acumulados e ocupação do cume no fechamento do turno alemão**; no último fechamento, basta assegurar o cume, com vitória custosa se faltar pontuação. Os objetivos dão no máximo **4 por rodada**: 2 + 1 + 1; duas rodadas de ocupação completa dão 8. Apoio não captura. Defesa vence por prazo de 10 rodadas ou perda de toda a infantaria de manobra brasileira. Tempo e perdas determinam o grau da vitória.
 - Reconstrução meteorológica ERA5 incorporada offline, com temperatura e nuvens aproximadas por hora, tabela e distinção entre modelo e relatos históricos.
@@ -79,6 +80,10 @@ A escala principal é batalhão para a FEB e grupo de fogos para artilharia; apo
 A altura permite tiro defensivo antes do avanço/assalto, com limite de 1 dano e consumo da próxima ação. Apoio indireto suprime a reação. Vantagem de 90 m amplia o tiro direto em um hexágono; defesa elevada usa limiar de 30 m. A IA usa apoio antes de manobrar. Essas regras são simétricas.
 
 O [registro de mapas oficiais](docs/MAPAS_OFICIAIS.md) distingue fontes efetivamente lidas e catálogos. Fisher, p. 431, relata retirada alemã e pequena retaguarda final. O jogo ainda abstrai essa retirada; não afirma que quatro batalhões completos defenderam o cume. Os mapas integrais da memória de Mascarenhas permanecem pendentes de consulta.
+
+<!-- simulation:0.1.19/avaliacao-ias-fixas:start -->
+**Avaliação dos aprendizes fixos — v0.1.19:** 1.300 partidas fora do treino. FEB venceu 575/600 (95,8%) contra o portfólio de seis políticas; Alemanha venceu 84/600 (14,0%) em seu próprio portfólio. São adversários e lados diferentes. No confronto direto entre os dois modelos, FEB venceu 99/100, Alemanha 1/100. **O cenário atual não está equilibrado em 50/50**; a maior parte das vitórias brasileiras ocorre por eliminação, mostrando a necessidade de rever a defesa e a dinâmica de combate antes de alegar realismo de resultados. Nenhum fato histórico foi alterado para produzir essas taxas. [Análise e intervalos](docs/simulacoes/0.1.19/avaliacao-ias-fixas/analise.md) · [dados brutos](docs/simulacoes/0.1.19/avaliacao-ias-fixas/dados-brutos.json) · [treinamento e modelos](docs/simulacoes/0.1.19/treinamento-ias-fixas/analise.md).
+<!-- simulation:0.1.19/avaliacao-ias-fixas:end -->
 
 ## Simulações e análises por versão
 

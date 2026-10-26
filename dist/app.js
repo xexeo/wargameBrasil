@@ -1,5 +1,8 @@
 import { t, translateData, language, setLanguage, applyStaticTranslations, initializeStaticTranslations, localizedDate, translateRenderedMessage } from "./i18n.js";
 import { tributeAssets } from "./tribute-assets.js";
+import { tributePhoto } from "./tribute-photo.js";
+import { chooseFixedPolicy } from "./fixed-learning.js";
+import { fixedModels } from "./fixed-models.js";
 import { historicalLosses } from "./historical-casualties.js";
 import { officialMap } from "./official-map.js";
 import { troopProfiles, troopProfile, troopLevels } from "./troops.js";
@@ -143,12 +146,12 @@ function loadSession() {
             return false;
         game = value.game;
         localSide = value.localSide;
-        if (value.aiProgress && ["br", "de"].includes(value.aiProgress.side) && Array.isArray(value.aiProgress.completed) && value.aiProgress.completed.every(id => typeof id === "string") && ["strong", "weak", "tactical"].includes(value.aiProgress.chosen) && ["aggressive", "defensive"].includes(value.aiProgress.stance) && ["strong", "weak", "tactical", "learning", "trained"].includes(value.aiProgress.mode) && Number.isFinite(value.aiProgress.before) && Number.isFinite(value.aiProgress.oldScore))
+        if (value.aiProgress && ["br", "de"].includes(value.aiProgress.side) && Array.isArray(value.aiProgress.completed) && value.aiProgress.completed.every(id => typeof id === "string") && ["strong", "weak", "tactical"].includes(value.aiProgress.chosen) && ["aggressive", "defensive"].includes(value.aiProgress.stance) && ["strong", "weak", "tactical", "learning", "trained", "trained-fixed"].includes(value.aiProgress.mode) && Number.isFinite(value.aiProgress.before) && Number.isFinite(value.aiProgress.oldScore))
             aiProgress = value.aiProgress;
         policy = typeof value.policy === "string" ? value.policy : null;
         episode = Array.isArray(value.episode) ? value.episode.filter(x => typeof x === "string") : [];
         $("gameMode").value = value.mode;
-        if (["strong", "weak", "tactical", "learning", "trained"].includes(value.ai))
+        if (["strong", "weak", "tactical", "learning", "trained", "trained-fixed"].includes(value.ai))
             $("ai").value = value.ai;
         if (["aggressive", "defensive"].includes(value.stance))
             $("stance").value = value.stance;
@@ -281,7 +284,7 @@ function render() {
             !!game.winner;
     $("yourSide").textContent = $("gameMode").value === "local" ? t("app.045", sideName(game.turn)) : t("app.046", sideName(humanSide()));
     $("ai").disabled = busy || !computerSide();
-    $("stance").disabled = busy || !computerSide();
+    $("stance").disabled = busy || !computerSide() || $("ai").value === "trained-fixed";
     $("phase").textContent = game.winner
         ? t($("gameMode").value === "local" ? "phase.localWinner" : game.winner === humanSide() ? "phase.playerWinner" : "phase.playerDefeat", sideName(game.winner), operationResult(game).title)
         : busy ? t("app.050", sideName(game.turn)) : !myTurn() ? ($("gameMode").value === "remote" ? t("app.051") : t("app.052")) : $("gameMode").value === "local" ? t("app.053", sideName(game.turn)) : t("app.054");
@@ -297,7 +300,9 @@ function render() {
         ? t("app.057", esc(troopProfile(u.id)?.echelon ?? t("term.Agrupamento")), esc(troopProfile(u.id)?.formation ?? ''), u.side === "br" ? t("app.058") : t("app.059"), { infantry: t("term.Infantaria"), armor: t("app.060"), artillery: t("term.Artilharia") }[u.type], u.atk, u.def, u.hp, u.mp, maximumMovement(u), unitLevel(u), troopLevels[unitLevel(u)], Math.round(altitude(u.q, u.r)), elevation(u.q, u.r), fortification(u.q, u.r), attackRange(u), u.heightRange && !u.indirect ? t("app.061") : '', ["hill", "forest"].includes(terrain(u.q, u.r)) ? "+1" : "0", u.fired ? (u.mp > 0 ? t("app.062") : t("app.063")) : u.mp === 0 ? t("app.064") : (game.rules?.freeFireOrder ? t("app.065") : t("app.066")), 3 - u.hp, u.atk - (3 - u.hp) * 0.5, u.reorganizing ? t("app.067") : '', u.suppressed ? t("app.068") : '', u.reactionSpent ? t("app.069") : '', canCaptureObjective(u) ? t("app.070") : t("app.071"), u.maxMp === undefined ? t("app.072") : '', u.id === 'b4' ? sampaioSupport() : '')
         : t("app.073", $("gameMode").value === "local" ? (game.turn === "br" ? t("term.azul") : t("app.074")) : humanSide() === "br" ? t("term.azul") : t("app.075"));
     $("learningStatus").textContent =
-        t("app.076", trained.episodes, Object.keys(trained.q).length, memory.games, policy ? " · " + policy.replace(/^br:/, "").replace("/", " / ") : "");
+        $("ai").value === "trained-fixed"
+            ? t("fixed.status", sideName(computerSide() ?? "de"), fixedModels[computerSide() ?? "de"].episodes)
+            : t("app.076", trained.episodes, Object.keys(trained.q).length, memory.games, policy ? " · " + policy.replace(/^br:/, "").replace("/", " / ") : "");
     if (game.winner && !rewarded) {
         rewarded = true;
         if (trainedUsed) {
@@ -416,6 +421,11 @@ async function computerTurn() {
             chosen = learned.strategy;
             stance = learned.stance;
             saveTrained();
+        }
+        if (mode === "trained-fixed") {
+            const fixed = chooseFixedPolicy(game, side);
+            chosen = fixed.strategy;
+            stance = fixed.stance;
         }
         aiProgress = { side, completed: [], chosen, stance, mode, before: hpBalance(side), oldScore: game.score };
     }
@@ -574,7 +584,7 @@ else if (!game.winner)
     narrative();
 $("credits").onclick = () => show(() => t("app.103", gameLogo, ludesLogo, release.version, localizedDate(release.builtAt), esc(language === "en-US" ? englishLicense() : licenseText)));
 $("memory").onclick = () => {
-    show(() => t("app.104", trained.episodes, trained.updates, Object.keys(trained.q).length, pretrained.episodes));
+    show(() => t("app.104", trained.episodes, trained.updates, Object.keys(trained.q).length, pretrained.episodes) + fixedModelSummary());
     $("exportMemory").onclick = () => {
         const blob = new Blob([JSON.stringify(trained, null, 2)], {
             type: "application/json",
@@ -731,7 +741,13 @@ $("language").onchange = () => {
     render();
     refreshDialog();
 };
-$("tribute").onclick = () => show(() => t("tribute.dialog", tributeAssets.regiment.src, translateData(tributeAssets.regiment.label), tributeAssets.regiment.sourceUrl, translateData(tributeAssets.regiment.credit), tributeAssets.feb.src, translateData(tributeAssets.feb.label), tributeAssets.feb.sourceUrl, translateData(tributeAssets.feb.credit)));
+$("tribute").onclick = () => show(() => t("tribute.dialog", tributeAssets.regiment.src, translateData(tributeAssets.regiment.label), tributeAssets.regiment.sourceUrl, translateData(tributeAssets.regiment.credit), tributeAssets.feb.src, translateData(tributeAssets.feb.label), tributeAssets.feb.sourceUrl, translateData(tributeAssets.feb.credit), tributePhoto.src));
+function fixedModelSummary() {
+    return t("fixed.dialog", ...["br", "de"].map(side => {
+        const model = fixedModels[side], p = model.parameters;
+        return t("fixed.model", sideName(side), model.episodes, model.updates, Object.keys(model.q).length, model.seeds[0], model.seeds[1], p.alpha, p.gamma, p.epsilonTraining, p.epsilonInference);
+    }));
+}
 updateVersionLabels();
 function englishLicense() {
     const begin = licenseText.indexOf("Attribution-NonCommercial-ShareAlike 4.0 International");

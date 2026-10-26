@@ -29,7 +29,7 @@ test('all English popups, static controls, accessibility labels, and troop inspe
   if(id==='tribute'){
    await expect(page.locator('#modalBody')).toContainText('6th Infantry Regiment');
    await expect(page.locator('#modalBody')).toContainText('Current emblem');
-   expect(await page.locator('#modalBody img').evaluateAll(imgs=>imgs.length===2&&imgs.every(img=>img.complete&&img.naturalWidth>0))).toBeTruthy();
+   expect(await page.locator('#modalBody img').evaluateAll(imgs=>imgs.length===3&&imgs.every(img=>img.complete&&img.naturalWidth>0))).toBeTruthy();
   }
   if(id==='credits'){await page.locator('#modalBody summary').click();await noPortuguese(page.locator('.license-text'));}
   await page.locator('#close').click();

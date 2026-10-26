@@ -2,7 +2,7 @@
 
 Consulta e downloads: 25/10/2026. O usuário confirmou a correção da unidade do homenageado para **6º Regimento de Infantaria**, Regimento Ipiranga. A homenagem usa o distintivo da FEB e o emblema atual da unidade sucessora do 6º RI.
 
-As imagens foram baixadas com verificação TLS normal e preservadas sem edição, redesenho, recorte ou geração por IA. `tribute-assets.ts` incorpora os bytes originais como data URLs para funcionamento offline. Os JSON em `assets/tribute/` preservam metadados de origem, URLs, tamanho e SHA-256.
+Os emblemas foram baixados com verificação TLS normal e preservadas sem edição, redesenho, recorte ou geração por IA. `tribute-assets.ts` incorpora os bytes originais como data URLs para funcionamento offline. Os JSON em `assets/tribute/` preservam metadados de origem, URLs, tamanho e SHA-256.
 
 ## Distintivo da FEB
 
@@ -37,7 +37,7 @@ A descrição inclui ramos de café e fumo e o laço militar com o dístico **6�
 
 ## Licenças separadas
 
-A licença geral do jogo **não relicencia** estas imagens. O distintivo da FEB conserva a indicação de domínio público do Commons. O distintivo do Regimento Ipiranga é uma reprodução institucional cuja página de origem **não declara licença de reprodução**; os metadados e o crédito registram essa condição sem inventar permissão ou uma licença livre. Não há imagem gerada ou redesenhada neste conjunto.
+A licença geral do jogo **não relicencia** estas imagens. O distintivo da FEB conserva a indicação de domínio público do Commons. O distintivo do Regimento Ipiranga é uma reprodução institucional cuja página de origem **não declara licença de reprodução**; os metadados e o crédito registram essa condição sem inventar permissão ou uma licença livre. Não há emblema gerado ou redesenhado neste conjunto. A fotografia abaixo recebeu tratamento digital, identificado na legenda.
 
 ## Identificação do homenageado: correção confirmada
 
@@ -56,3 +56,9 @@ O [Museu Virtual da FEB tem o registro “PEDRO H. FIGUEIREDO BONORINO”](https
 | Com fotografia | Não |
 
 A identificação fornecida pelo usuário e os campos de unidade do registro institucional agora são coerentes. Não inferir companhia, batalhão, condecorações, participação pessoal em Monte Castelo ou morte em combate a partir desse cadastro.
+
+## Fotografia de Pedro Bonorino
+
+O usuário forneceu a fotografia nesta conversa e pediu sua restauração e inclusão na homenagem. A autoria original não foi informada. O arquivo restaurado é `assets/tribute/pedro-bonorino-restaurada.png`, incorporado por `tribute-photo.ts` para consulta offline. O arquivo `assets/tribute/pedro-bonorino-fonte.json` registra procedência, tratamento e hash SHA-256.
+
+O tratamento foi feito com a ferramenta de edição de imagens imagegen: recorte da moldura e do carpete, correção de perspectiva e redução de reflexos, mantendo o aspecto sépia. A fotografia restaurada é uma apresentação comemorativa, não evidência para identificação de detalhes do uniforme. A legenda informa a restauração com auxílio de IA. A licença CC geral do jogo não é atribuída à fotografia original.

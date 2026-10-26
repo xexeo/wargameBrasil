@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "version": "0.1.19",
+  "sources": {
+    "engine.ts": "1201756e1d6e8b52ad73a9dce22aa4fca12b3624266d4bd4c7d7d25804dec8f0",
+    "ai.ts": "1ec2463651b8640d99047138cc28757a2a4ebc4e2dcc7efabfd6039afe9904ac",
+    "simulator.ts": "16944b42e4111d9275272b93cf3b5fb4bd16efabffe213af4921e04e36861a63",
+    "learning.ts": "8fe126a09065c7634e0a931b20637409c629c7752ad35f275c4df447fa391c8d",
+    "geography.ts": "570ac8e2c6448062afb834469a2c895d8cf86859d83beb0243c0add48476078f",
+    "geography-data.ts": "b385433cfb4f54b22b19c06b339458214e971218b6be858f0cdb7b599fbfc7c4",
+    "troops.ts": "a450f0b805c246ab0a5a777d4697a0f463b7997c8379ae73ab60b9db7bf155e8",
+    "scenario.ts": "83d8464385d5c80f3fc197ab775415b54a376e2fd1d383b85176f67e2f7924c6",
+    "pretrained.ts": "3e6d7b9c9c0293440e68b8d3fceb7b781a78640cbfaf711ea295fe15c5d64869",
+    "app.ts": "d49a5bd7b876c2627a233a82b15067604f398a8ef1f14d11a4e90b70885f7164",
+    "scripts/round-robin.mjs": "dcc70c6939542ee77757c93c0720b6c9dcfeaff720d061220da12c877ccac0b1",
+    "scripts/autoplay.mjs": "7d66732fee2e7e04de71695276501d99b440f8bd9f9f64e8ea24337538555775",
+    "scripts/train.mjs": "a0f2ab2e726d93d37d7c1528245387021e6882969e555e79541f45ef6c279fe7",
+    "scripts/evaluate-trained.mjs": "4a2808328a47c8eccbba47f5167d394224eefdc7c667b9c831235eae527e7eb3",
+    "scripts/calibrate-artillery.mjs": "dc09ff9f40062a27613d4c692aeb6ebc599c076f0457101b59a8c8d8a501b533",
+    "scripts/simulation-statistics.mjs": "8bba49df47a31c37538959214355e3c96d369716a31006a54143ce17899be1f2",
+    "scripts/study-battalion-rules.mjs": "b81f6b36b6261f9923ab9e4022f8a9efc63a581d1b0cadabc4fb649063094e2a",
+    "fixed-learning.ts": "b087ae4841f58fc16bfb5b2a1b8cf770a6806947a3e8da7d05193bd401ff41df",
+    "fixed-training.ts": "ab08392c240e110cbda98860e0d6a2c022ba0a6201b26ac1ac13b4a45d5d2c8f",
+    "fixed-models.ts": "0836524a2f22152f6756b8e9d5d0bd9c7d04a7eba353443719def7e040987288",
+    "scripts/train-fixed.mjs": "fdcaa5a7158ee069c4ae40d961b38c77511aab199535f696dec85bd37b022987",
+    "scripts/evaluate-fixed.mjs": "355058e07978851fe2f839a512603e789a853d8c728d2994bde23a6fde949691"
+  },
+  "runs": {
+    "treinamento-ias-fixas": {
+      "training": true,
+      "episodesPerSide": 2400,
+      "seeds": {
+        "br": [
+          900001,
+          902400
+        ],
+        "de": [
+          910001,
+          912400
+        ]
+      },
+      "files": [
+        "resultados.json",
+        "dados-brutos.json",
+        "modelos.json",
+        "analise.md"
+      ]
+    },
+    "avaliacao-ias-fixas": {
+      "heldOut": true,
+      "totalGames": 1300,
+      "seeds": {
+        "portfolio": [
+          [
+            1900001,
+            1900100
+          ],
+          [
+            1901001,
+            1901100
+          ],
+          [
+            1902001,
+            1902100
+          ],
+          [
+            1903001,
+            1903100
+          ],
+          [
+            1904001,
+            1904100
+          ],
+          [
+            1905001,
+            1905100
+          ],
+          [
+            1910001,
+            1910100
+          ],
+          [
+            1911001,
+            1911100
+          ],
+          [
+            1912001,
+            1912100
+          ],
+          [
+            1913001,
+            1913100
+          ],
+          [
+            1914001,
+            1914100
+          ],
+          [
+            1915001,
+            1915100
+          ]
+        ],
+        "headToHead": [
+          1950001,
+          1950100
+        ]
+      },
+      "files": [
+        "dados-brutos.json",
+        "resultados.json",
+        "analise.md"
+      ]
+    },
+    "matriz-ias": {
+      "sourceCommit": "b883141b9a966c6f4648b81ffc03598fbaa865fd",
+      "seeds": [
+        200001,
+        200010
+      ],
+      "count": 810,
+      "files": [
+        "dados-brutos.json",
+        "analise.md"
+      ]
+    }
+  }
+}

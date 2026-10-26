@@ -1,0 +1,371 @@
+{
+  "protocol": "Held-out seeds outside both training intervals; deterministic greedy inference, no exploration, no updates. Each side faces all six fixed opposing policies; separate fixed-vs-fixed games.",
+  "config": {
+    "episodesPerSide": 2400,
+    "firstSeed": {
+      "br": 900001,
+      "de": 910001
+    },
+    "evaluationFirstSeed": 1900001,
+    "evaluationGamesPerOpponent": 100,
+    "evaluationHeadToHeadGames": 100,
+    "parameters": {
+      "alpha": 0.18,
+      "gamma": 0.9,
+      "epsilonTraining": 0.2,
+      "epsilonInference": 0,
+      "hpReward": 0.6,
+      "scoreReward": 0.7,
+      "controlReward": 0.4,
+      "terminalReward": 12
+    }
+  },
+  "models": {
+    "br": {
+      "schema": 1,
+      "side": "br",
+      "label": "FEB · aprendiz fixo",
+      "episodes": 2400,
+      "updates": 13330,
+      "generator": "Mulberry32",
+      "seeds": [
+        900001,
+        902400
+      ],
+      "parameters": {
+        "alpha": 0.18,
+        "gamma": 0.9,
+        "epsilonTraining": 0.2,
+        "epsilonInference": 0,
+        "hpReward": 0.6,
+        "scoreReward": 0.7,
+        "controlReward": 0.4,
+        "terminalReward": 12
+      },
+      "policyKeys": [
+        "strong/aggressive",
+        "strong/defensive",
+        "weak/aggressive",
+        "weak/defensive",
+        "tactical/aggressive",
+        "tactical/defensive"
+      ],
+      "opponents": [
+        "strong/aggressive",
+        "strong/defensive",
+        "weak/aggressive",
+        "weak/defensive",
+        "tactical/aggressive",
+        "tactical/defensive"
+      ],
+      "fallbackPolicy": "tactical/aggressive",
+      "tieBreak": "first-policy",
+      "states": 45
+    },
+    "de": {
+      "schema": 1,
+      "side": "de",
+      "label": "Alemanha · aprendiz fixo",
+      "episodes": 2400,
+      "updates": 11595,
+      "generator": "Mulberry32",
+      "seeds": [
+        910001,
+        912400
+      ],
+      "parameters": {
+        "alpha": 0.18,
+        "gamma": 0.9,
+        "epsilonTraining": 0.2,
+        "epsilonInference": 0,
+        "hpReward": 0.6,
+        "scoreReward": 0.7,
+        "controlReward": 0.4,
+        "terminalReward": 12
+      },
+      "policyKeys": [
+        "strong/aggressive",
+        "strong/defensive",
+        "weak/aggressive",
+        "weak/defensive",
+        "tactical/aggressive",
+        "tactical/defensive"
+      ],
+      "opponents": [
+        "strong/aggressive",
+        "strong/defensive",
+        "weak/aggressive",
+        "weak/defensive",
+        "tactical/aggressive",
+        "tactical/defensive"
+      ],
+      "fallbackPolicy": "tactical/defensive",
+      "tieBreak": "first-policy",
+      "states": 54
+    }
+  },
+  "overall": {
+    "br": {
+      "side": "br",
+      "count": 600,
+      "wins": 575,
+      "rate": 0.9583333333333334,
+      "interval95": [
+        0.9392144251607042,
+        0.9716204692884363
+      ],
+      "meanRound": 5.48,
+      "meanScore": 0.78
+    },
+    "de": {
+      "side": "de",
+      "count": 600,
+      "wins": 84,
+      "rate": 0.14,
+      "interval95": [
+        0.11451940785111017,
+        0.17006118414520152
+      ],
+      "meanRound": 6.155,
+      "meanScore": 1.325
+    }
+  },
+  "cells": [
+    {
+      "side": "br",
+      "opponent": "strong/aggressive",
+      "seeds": [
+        1900001,
+        1900100
+      ],
+      "count": 100,
+      "wins": 95,
+      "rate": 0.95,
+      "interval95": [
+        0.8882480347279118,
+        0.9784566385436864
+      ],
+      "meanRound": 4.66,
+      "meanScore": 0.1
+    },
+    {
+      "side": "br",
+      "opponent": "strong/defensive",
+      "seeds": [
+        1901001,
+        1901100
+      ],
+      "count": 100,
+      "wins": 100,
+      "rate": 1,
+      "interval95": [
+        0.9630051925239981,
+        0.9999999999999999
+      ],
+      "meanRound": 6.47,
+      "meanScore": 0.96
+    },
+    {
+      "side": "br",
+      "opponent": "weak/aggressive",
+      "seeds": [
+        1902001,
+        1902100
+      ],
+      "count": 100,
+      "wins": 99,
+      "rate": 0.99,
+      "interval95": [
+        0.9455124752390653,
+        0.9982326134344526
+      ],
+      "meanRound": 4.75,
+      "meanScore": 0.1
+    },
+    {
+      "side": "br",
+      "opponent": "weak/defensive",
+      "seeds": [
+        1903001,
+        1903100
+      ],
+      "count": 100,
+      "wins": 98,
+      "rate": 0.98,
+      "interval95": [
+        0.9299868370580063,
+        0.9944981477650318
+      ],
+      "meanRound": 6.16,
+      "meanScore": 1.51
+    },
+    {
+      "side": "br",
+      "opponent": "tactical/aggressive",
+      "seeds": [
+        1904001,
+        1904100
+      ],
+      "count": 100,
+      "wins": 84,
+      "rate": 0.84,
+      "interval95": [
+        0.7557955544110557,
+        0.8990479765052628
+      ],
+      "meanRound": 4.95,
+      "meanScore": 0.88
+    },
+    {
+      "side": "br",
+      "opponent": "tactical/defensive",
+      "seeds": [
+        1905001,
+        1905100
+      ],
+      "count": 100,
+      "wins": 99,
+      "rate": 0.99,
+      "interval95": [
+        0.9455124752390653,
+        0.9982326134344526
+      ],
+      "meanRound": 5.89,
+      "meanScore": 1.13
+    },
+    {
+      "side": "de",
+      "opponent": "strong/aggressive",
+      "seeds": [
+        1910001,
+        1910100
+      ],
+      "count": 100,
+      "wins": 0,
+      "rate": 0,
+      "interval95": [
+        0,
+        0.03699480747600191
+      ],
+      "meanRound": 5.76,
+      "meanScore": 1
+    },
+    {
+      "side": "de",
+      "opponent": "strong/defensive",
+      "seeds": [
+        1911001,
+        1911100
+      ],
+      "count": 100,
+      "wins": 13,
+      "rate": 0.13,
+      "interval95": [
+        0.07757093858414264,
+        0.20980521894809878
+      ],
+      "meanRound": 6.59,
+      "meanScore": 1.35
+    },
+    {
+      "side": "de",
+      "opponent": "weak/aggressive",
+      "seeds": [
+        1912001,
+        1912100
+      ],
+      "count": 100,
+      "wins": 14,
+      "rate": 0.14,
+      "interval95": [
+        0.08526265754464905,
+        0.22137360383807236
+      ],
+      "meanRound": 5.63,
+      "meanScore": 0.62
+    },
+    {
+      "side": "de",
+      "opponent": "weak/defensive",
+      "seeds": [
+        1913001,
+        1913100
+      ],
+      "count": 100,
+      "wins": 40,
+      "rate": 0.4,
+      "interval95": [
+        0.3093997461136028,
+        0.4979992153815976
+      ],
+      "meanRound": 7.39,
+      "meanScore": 1.14
+    },
+    {
+      "side": "de",
+      "opponent": "tactical/aggressive",
+      "seeds": [
+        1914001,
+        1914100
+      ],
+      "count": 100,
+      "wins": 7,
+      "rate": 0.07,
+      "interval95": [
+        0.034318824364064096,
+        0.13749671006529757
+      ],
+      "meanRound": 5.53,
+      "meanScore": 2.1
+    },
+    {
+      "side": "de",
+      "opponent": "tactical/defensive",
+      "seeds": [
+        1915001,
+        1915100
+      ],
+      "count": 100,
+      "wins": 10,
+      "rate": 0.1,
+      "interval95": [
+        0.05522854161313613,
+        0.1743673043676654
+      ],
+      "meanRound": 6.03,
+      "meanScore": 1.74
+    }
+  ],
+  "headToHead": {
+    "seeds": [
+      1950001,
+      1950100
+    ],
+    "br": {
+      "side": "br",
+      "count": 100,
+      "wins": 99,
+      "rate": 0.99,
+      "interval95": [
+        0.9455124752390653,
+        0.9982326134344526
+      ],
+      "meanRound": 5.55,
+      "meanScore": 0.55
+    },
+    "de": {
+      "side": "de",
+      "count": 100,
+      "wins": 1,
+      "rate": 0.01,
+      "interval95": [
+        0.0017673865655472645,
+        0.0544875247609346
+      ],
+      "meanRound": 5.55,
+      "meanScore": 0.55
+    }
+  },
+  "totalGames": 1300,
+  "note": "Side win rates reflect scenario asymmetry and this opponent portfolio. They do not establish the strongest AI or improvement over another learner."
+}
