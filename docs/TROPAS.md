@@ -18,9 +18,9 @@ Decisão de projeto registrada antes da implementação desta revisão, em 25/10
 
 Esses níveis são **classificações de jogo**, não avaliações numéricas encontradas em relatórios de 1945. Não somam bônus ocultos a A/D. O papel e o escalão explicam os atributos visíveis; T3 não vence automaticamente T2.
 
-## Perfis iniciais propostos
+## Perfis vigentes — 0.9.0
 
-Os valores abaixo são o ponto de partida da calibração, não um compromisso de mantê-los se o autojogo mostrar desequilíbrio. `troops.ts` é a fonte editável; registrar alterações ao final da validação.
+Os valores abaixo são parâmetros da versão publicada, não medições históricas. `troops.ts` é a fonte editável; registrar alterações ao final da validação.
 
 | Peça | Escalão representado | T | A | D | PM | Alcance | Ocupa objetivo |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -33,7 +33,7 @@ Os valores abaixo são o ponto de partida da calibração, não um compromisso d
 | Granadeiros — setor A | destacamento de cenário, 232ª DI | 2 | 3 | 3 | 2 | 1 | sim |
 | Granadeiros — setor B | destacamento de cenário, 232ª DI | 2 | 3 | 3 | 2 | 1 | sim |
 | Reserva — 232ª DI | destacamento reduzido de cenário | 1 | 2 | 2 | 2 | 1 | sim |
-| Fogos — Art.Rgt.232 | grupo de artilharia alocado | 3 | 4 | 1 | 1 | 5 | não |
+| Fogos — Art.Rgt.232 | grupo de artilharia alocado | 3 | 4 | 1 | 1 | 6 | não |
 
 Os 3 PV continuam representando coesão/capacidade restante de cada peça, não efetivos iguais de pessoas. A menor defesa torna apoio e artilharia vulneráveis no combate próximo. PM mede liberdade de manobra na situação tática, não uma velocidade de marcha nacional ou individual.
 
@@ -42,9 +42,9 @@ Os 3 PV continuam representando coesão/capacidade restante de cada peça, não 
 - Infantaria ocupa os objetivos; apoio e artilharia precisam colaborar com a manobra e não geram pontos sozinhos.
 - Se a FEB perder todas as suas peças capazes de ocupar objetivos antes de vencer, a missão fracassa, mesmo que reste uma bateria.
 - O apoio agregado usa alcance 2 e fogo indireto como simplificação de suas armas coletivas; não é uma afirmação de que toda metralhadora dispara indiretamente.
-- Artilharia conserva alcance abstrato 5 e tiro indireto. Isso não representa o alcance balístico real de obuses de 105/155 mm numa escala de 180 m por hexágono; resume disponibilidade de apoio na área do jogo.
+- Artilharia usa alcance abstrato 5 (FEB) e 6 (Alemanha), com tiro indireto. A alocação assimétrica representa disponibilidade de fogos defensivos no cenário. Isso não representa o alcance balístico real de obuses de 105/155 mm numa escala de 180 m por hexágono; resume disponibilidade de apoio na área do jogo.
 - IA deve usar apoio à distância e deixar a tomada de posições para infantaria, em ambos os lados.
-- Para atender à revisão dos controles, selecionar a peça mostrará simultaneamente destinos azuis e uma barra vermelha nos inimigos atacáveis. Sem botões Mover/Atacar.
+- Selecionar a peça mostra simultaneamente destinos azuis e uma barra vermelha nos inimigos atacáveis. Sem botões Mover/Atacar.
 - Partidas salvas de versões anteriores mantêm seus atributos; perfis completos novos são usados ao iniciar outra partida. O aprendizado não será apagado.
 
 ## Fontes efetivamente consultadas
@@ -67,3 +67,7 @@ Alcance dos dois grupos: 5 hexágonos (disponibilidade abstrata, não limite bal
 ## Estudo posterior de escala (não implementado)
 
 O [estudo de companhia versus batalhão](ESCALA_DAS_PECAS.md) acrescenta a estrutura institucional publicada pelo Museu Virtual da FEB e tabelas americanas de 1944. Propõe experimentar nove companhias brasileiras e quatro destacamentos alemães de cenário, com apoios fora do mapa: treze contadores. A composição alemã e a hipótese de seis companhias brasileiras iniciais/três em reserva não são quantidades históricas confirmadas. O modelo implementado continua sendo o descrito acima.
+
+## Revisão final da defesa
+
+[Estudo e fontes da 0.9](DEFESA_E_EQUILIBRIO_0_9.md): mantidos A/D, identidades e alcance 1 da infantaria. Proteção preparada passa a 2, subida a 2 PM por nível e fogos alemães a 6. A proteção pertence ao hexágono e beneficia qualquer ocupante. Fisher p.428 foi consultado diretamente; a referência não depende apenas das sínteses secundárias.

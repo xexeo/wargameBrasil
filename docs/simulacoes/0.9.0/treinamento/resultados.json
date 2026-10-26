@@ -1,0 +1,17 @@
+{
+  "protocol": "Mixed opponents: alternating learner side, six fixed strategy/stance policies; every seventh game self-play.",
+  "generator": "Mulberry32",
+  "episodes": 2000,
+  "updates": 17152,
+  "states": 126,
+  "seeds": [
+    50001,
+    52000
+  ],
+  "trainingWins": {
+    "br": 975,
+    "de": 1025
+  },
+  "seconds": 19.148428302,
+  "note": "Resultados durante exploração; não equivalem a avaliação independente."
+}

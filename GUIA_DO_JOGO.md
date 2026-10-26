@@ -1,313 +1,113 @@
-# Monte Castelo Vibed — guia de regras e registro de decisões
+# Monte Castelo Vibed — guia de regras e decisões
 
-Versão 0.1 · 25/10/2026 · referência para implementação, testes e revisão.
+Referência vigente: **0.9.0 · 26/10/2026**. Substitui as descrições conflitantes acumuladas nos protótipos 0.1.X. O histórico do Git preserva as versões anteriores. Toda mudança de regra deve atualizar motor, testes, regras da interface e este guia.
 
-Este documento foi solicitado quando o primeiro protótipo já estava implementado. Registra seu estado real e orienta as próximas mudanças; não implica que os recursos abaixo já existiam antes dessa solicitação. Toda alteração relevante de regra deve atualizar este guia, os testes correspondentes, o popup de regras e o README.
+## Plataforma e identidade
 
-## 1. Objetivo do projeto
+HTML e TypeScript, somente no navegador, sem backend. `template.html` é o fonte; `index.html` e `jogo.html` são gerados, idênticos e autocontidos. Funcionam offline. Português é o padrão; inglês americano opcional, persistente e independente da partida. Meta de duração humana: 5–10 minutos, ainda sem medição com uma amostra de jogadores.
 
-Criar um wargame de navegador, em HTML e TypeScript, humano contra computador, sobre a conquista de Monte Castelo pela FEB em 21/02/1945. Inspiração em wargames tradicionais da Avalon Hill, com regras simples e nível de abstração solicitado pelo autor a partir de *Guerra dos Sete Dias*, da coleção *Todos os Jogos*. Não reproduzir regras, mapas ou componentes desses jogos.
+Copyright © 2026 Geraldo Xexéo. Criações originais sob CC BY-NC-SA 4.0; dados, imagens, fontes e marcas institucionais conservam seus avisos próprios em LICENSE e nos documentos de procedência. A homenagem identifica Pedro Henrique de Figueiredo Bonorino, tenente do **6º RI**, usa a fotografia enviada pelo autor e o distintivo da FEB. Não usa o emblema regimental atual. O logo do jogo é uma criação inspirada na cobra fumando, distinto da insígnia oficial.
 
-Meta de duração: 5–10 minutos, ainda a confirmar por testes com jogadores. Cada campanha dura no máximo dez rodadas. Não há backend de jogo, conta ou serviço de IA.
+## História, mapa e tempo
 
-## 2. Plataforma e identidade
+O cenário aborda o ataque final de 21/02/1945, com antecedentes na narrativa inicial e no popup História. Importância da conquista e hipótese de resistência alemã ficam no epílogo final. As sínteses apresentam chegada ao cume às 17h30; a reportagem brasileira baseada em Joel Silveira usa outros marcos até 17h50. Não há precisão cronológica única demonstrada pelos documentos originais consultados.
 
-- Nome: **Monte Castelo Vibed**.
-- Jogável em navegador de computador e celular; o arquivo `jogo.html` incorpora os recursos necessários e pode ser aberto diretamente.
-- Código-fonte em TypeScript; saída compilada em JavaScript. `template.html` é o fonte HTML; `index.html` e `jogo.html` são gerados e autocontidos. Publicar a mesma versão completa evita mistura de recursos entre atualizações.
-- Fundo branco, texto escuro, mapa com cores claras de vegetação e terra.
-- Logo original inspirado na cobra fumando da FEB; não usar como referência o símbolo de aviação “Senta a Pua”. Não apresentar o logo do jogo como distintivo oficial.
-- Popup de autoria: Geraldo Xexéo, assistência de IA, logo oficial do LUDES, copyright e licença CC BY-NC-SA 4.0 completa, inclusive offline. Marcas institucionais não são relicenciadas.
-- Repositório: trabalhar apenas na branch `main`, sem branches adicionais ou worktrees, até nova orientação do autor.
+O relógio comprime 06h–18h em **dez rodadas de 72 minutos**. A rodada 10 começa às 16h48 e concede +1 ao ataque da artilharia FEB, inspirada na concentração de fogo da tarde. A série regional ERA5 é informativa, não medição no cume nem regra automática de lama/neve. [Tempo e limites](docs/TEMPO_21_FEVEREIRO_1945.md).
 
-## 3. Escopo histórico
+Tabuleiro axial **9 × 9**, seis vizinhos por hexágono, cerca de 180 m entre centros. Cume ancorado no ponto OSM de cota 977 m; amostra DEM próxima de 980 m. Altitudes Copernicus atuais: N1 <780 m; N2 780–849 m; N3 850–919 m; N4 ≥920 m. Curvas a cada 50 m são interpoladas. Vias, construções e matas OSM são modernas, não uma restituição de 1945. Posições militares são esquemáticas; objetivos secundários não recebem nomes históricos não comprovados. [Geografia](docs/GEOGRAFIA.md), [mapas oficiais](docs/MAPAS_OFICIAIS.md).
 
-O cenário representa o ataque final, não toda a campanha de novembro de 1944 a fevereiro de 1945. Deve destacar a relação entre relevo, observação, progressão da infantaria e apoio de artilharia.
+## Tropas e símbolos
 
-As fontes secundárias consultadas situam o ataque principal às 06:00 ou ao amanhecer, a concentração de artilharia entre 16:00 e 17:00 e a chegada ao cume às 17:30. Os turnos são uma compressão para o jogo, não uma cronologia exata.
+Cinco peças por lado. FEB: três batalhões do 1º RI Sampaio, apoio agregado e grupo de fogos. Alemanha: três destacamentos defensivos, uma reserva reduzida e fogos alocados da 232ª DI, **Heer**. Não há SS ou tropa de elite inventada. Não se conhecem os escalões e posições alemães locais com precisão. [Perfis completos](docs/TROPAS.md).
 
-O caso dos observatórios na crista de Riva pertence à operação aliada no setor de Belvedere: os americanos escalaram as escarpas de surpresa na noite de 18–19/02, tomaram os postos e resistiram aos contra-ataques. Não transformar Riva em um objetivo brasileiro de Monte Castelo nem confundir os dois locais. A cronologia de Torraccia requer cuidado devido a divergências nas sínteses consultadas.
-
-**Boletim instrumental e topografia precisa ainda pendentes.** A reconstrução regional ERA5 foi adicionada com fontes e limites em docs/TEMPO_21_FEVEREIRO_1945.md. Não apresentar valores modelados como medições no cume. Não copiar automaticamente o tempo ruim dos ataques de novembro/dezembro para fevereiro. Detalhes e fontes em [docs/HISTORIA.md](docs/HISTORIA.md).
-
-## 4. Mapa
-
-Implementado:
-
-- Grade axial de 9 × 9 hexágonos, com seis vizinhos por hexágono.
-- Peças quadradas, cada uma ocupando um hexágono.
-- Base geográfica atual ancorada no cume OSM de Monte Castello (44,2206238°N / 10,9537700°E), aproximadamente 180 m entre centros de hexágonos. DEM Copernicus GLO-90 em cada centro; feições OSM atuais. Ainda não é um mapa militar restituído de 1945.
-- Campo aberto, mata, estrada e objetivos elevados.
-- Quatro faixas de altitude DEM: N1 <780 m, N2 780–849 m, N3 850–919 m, N4 ≥920 m. Curvas a cada 50 m interpoladas entre amostras, não curvas de levantamento de precisão. Os níveis continuam simplificando o custo e a defesa.
-- Monte Castelo vale 2 pontos por rodada de ocupação brasileira; cada secundário vale 1. Os secundários não têm nomes próprios: são referências de hexágono sem localização histórica confirmada. O total máximo é 4 por rodada, acumulável até a meta de 8.
-
-Nenhuma peça atravessa ou termina movimento num hexágono ocupado, inclusive por aliado. Não há empilhamento, zonas de controle, suprimentos, reforços ou retirada obrigatória nesta versão.
-
-## 5. Unidades e informações dinâmicas
-
-Cada lado começa com cinco peças; valores e quantidade são abstrações, não efetivos documentados.
-
-| Atributo | Significado |
+| Marca | Significado |
 | --- | --- |
-| A | Ataque nominal |
-| D | Defesa nominal |
-| M | Movimento restante no turno |
-| PV | Resistência atual; todas começam com 3 |
-| Selo vermelho | Dano acumulado: 3 − PV |
-| Símbolo de retângulo com X | Infantaria |
-| Símbolo de ponto no retângulo | Artilharia |
+| FEB / DE | lado brasileiro / alemão, também distinguido por cor de peça e de texto |
+| 3/3 e bolinhas | coesão atual/inicial; cada bolinha vale 1 PV, todas começam com 3 |
+| Selo vermelho −1/−2, acima da peça | dano acumulado, separado do ID/escalão |
+| Retângulo com X | infantaria, incluindo apoio de sua arma de origem |
+| Retângulo com ponto | artilharia; ponto não é dano nem coesão |
+| A / D / M | ataque nominal / defesa nominal / movimento restante |
+| II / AP / DEST | batalhão ou grupo / apoio agregado / destacamento de cenário |
+| T1 / T2 / T3 | reduzido / operacional / especializado em fogos; não soma bônus oculto |
+| Traço diagonal | ataque normal já usado |
+| S | reação suprimida |
+| Indicadores de reorganização/reação | ações seguintes comprometidas, conforme inspeção |
+| Estrela vermelha no centro | objetivo; Monte Castelo vale 2, cada secundário 1 |
+| Halo e contornos de movimento | seleção e destinos legais |
+| Barra/contorno de ataque | inimigo que pode receber ataque da seleção |
+| Borda tracejada de destino | risco de reação no percurso, não bloqueio ou dano garantido |
+| Abrigos/trincheiras | posição preparada esquemática |
+| Árvores, morros, vias, N e curvas | terreno e relevo; números em metros são aproximados |
 
-As peças brasileiras são azuis; as alemãs, carvão, ambas com identificação textual. O mapa usa papel e terra para separar terreno e contadores. Títulos usam Barlow Condensed sem serifa, e números dos contadores usam Arial/sans em negrito. Os nomes Franklin, Uzeda e Sizeno contextualizam a infantaria brasileira; não equivalem a uma ordem de batalha exata.
+Duplo clique/toque abre os atributos **atuais**, potência após dano, cobertura, fortificação, alcance e estado. Infantaria Sampaio: A3/D3/M3/alcance 1. Apoio: A3/D2/M2/alcance 2 indireto. FEB fogos: A5/D1/M1/alcance 5. Granadeiros: A3/D3/M2/alcance 1. Reserva: A2/D2/M2/alcance 1. Fogos alemães: A4/D1/M1/**alcance 6**. Alcances de apoio/artilharia representam disponibilidade tática, não alcance balístico literal.
 
-O popup de regras deve conter uma peça de exemplo e explicar cada marca: bolinhas douradas = PV; ponto branco central = artilharia; retângulo com X = infantaria; selo vermelho = dano; traço diagonal = ataque já usado; A/D/M = ataque, defesa e movimento restante; FEB/DE = lado.
+## Turnos, movimento e terreno
 
-No painel de seleção: ataque, defesa, movimento, resistência, altitude, cobertura, alcance, potência atual e estado de ação. No duplo toque/clique: peça ampliada e seus atributos atuais.
+Brasil age primeiro; Alemanha depois. Humanos e computadores obedecem ao mesmo motor. O humano escolhe uma peça e toca no destino ou inimigo: não precisa escolher modo de ação. Pode **mover, atirar e continuar movendo**, em qualquer ordem, com um ataque normal e o mesmo orçamento de PM. Encerrar turno fica na barra do mapa. Não há empilhamento ou passagem através de peças, mesmo aliadas.
 
-Estados: pronta para agir, sem movimento mas ainda apta a atacar, ou ação concluída por já ter atacado. Resistência reduzida penaliza o ataque; não reduz movimento máximo nem defesa nominal nesta versão.
+| Condição | Custo de entrada / efeito | Defesa |
+| --- | --- | --- |
+| Campo ou estrada | 1 PM | sem cobertura própria |
+| Mata | 2 PM | +1 cobertura |
+| Morro | 1 PM, mais eventual subida | +1 cobertura |
+| Subir uma faixa N | **+2 PM por faixa**, além do terreno | conforme posição final |
+| Descer | somente custo do destino | conforme posição final |
+| Fortificação | custo normal do terreno | **+2 cobertura**, em vez da natural se maior |
+| Defensor ≥30 m acima | sem custo separado | +1 adicional |
+| Tiro direto ≥90 m acima do alvo | +1 hexágono de alcance, com linha de visão | não muda defesa |
+| Tiro indireto | dispensa linha de visão direta; não ganha alcance por altura | cobertura continua valendo |
+| Hexágono ocupado | bloqueado | — |
 
-## 6. Sequência de rodada
+As coberturas naturais e preparadas **não somam**: usa-se a maior, depois se soma a vantagem de altura. Os abrigos estão em **hex 6–2 (Monte Castelo)** e **hex 4–4**, coordenadas de tela contadas a partir de 1; no motor são (5,1) e (3,3). Protegem qualquer lado que os ocupe, não aumentam D nominal da unidade.
 
-1. Brasileiro move e ataca com suas peças, na ordem que desejar.
-2. “Encerrar turno” transfere o comando ao computador.
-3. Cada peça alemã calcula um destino legal e pode atacar uma vez.
-4. Ao fim do turno alemão, computar os pontos brasileiros de ocupação.
-5. Verificar vitória; se a partida continuar, iniciar a rodada seguinte e renovar movimento e direito de ataque brasileiros.
+Um passo de mata com subida custa 4 PM, acima dos 3 PM máximos de um batalhão: procure outro caminho. Não se acumulam PM entre turnos. Planejamento de IA e previsão descartam passos impossíveis para a mobilidade da peça. A projeção continua otimista: ignora bloqueios de peças e fogo futuro. Não há penalidade meteorológica adicional automática. A subida mais custosa representa esforço tático abstrato; não mapeia lama local como fato.
 
-O movimento e o direito de ataque de cada lado são renovados no começo do seu turno. A inteligência alemã age localmente; a animação por unidade serve para tornar suas ações compreensíveis.
+## Ataque, reação e retirada
 
-## 7. Movimento
-
-- Batalhões brasileiros têm 3 PM; destacamentos alemães e apoio, 2; grupos de artilharia, 1. Cada perfil em troops.ts define o máximo.
-- Campo aberto ou estrada: 1 PM para entrar.
-- Mata: 2 PM para entrar.
-- Somar 1 PM por nível de altitude ganho ao entrar no próximo hexágono.
-- Descer não gera custo adicional nem devolve pontos.
-- Um objetivo em elevação não cobra custo extra separado da subida, exceto se também for mata.
-- O caminho usa o menor custo legal, podendo contornar obstáculos; não exige cliques em todos os hexágonos intermediários.
-- O jogador pode mover em etapas enquanto houver PM.
-- Atacar zera os PM restantes. Uma peça sem PM ainda pode atacar se não atacou neste turno.
-
-O código admite um tipo de apoio blindado com 4 PM, mas nenhuma peça desse tipo está no cenário inicial. Não apresentar blindados como presentes neste protótipo histórico.
-
-## 8. Ataque e observação
-
-- Selecionar a própria peça e depois um inimigo válido.
-- Infantaria: alcance de 1 hexágono. Artilharia: alcance de 5 hexágonos, com tiro indireto.
-- Apenas um ataque por peça por turno.
-- É permitido mover e depois atacar; não é permitido mover depois de atacar.
-- Infantaria usa linha de visão direta. Artilharia pode bombardear alvos conhecidos, inclusive fortificações, a até 5 hexágonos, sem bloqueio por terreno intermediário; a proteção do defensor continua valendo. Simplificação de fogo previamente planejado num mapa sem névoa de guerra.
-- O raio direto interpola a altitude DEM dos centros com altura de observação de 2 m; terreno e copa de mata (15 m como parâmetro de jogo) bloqueiam se ultrapassarem esse raio. Hexágonos adjacentes sempre têm linha de visão.
-- Peças intermediárias não bloqueiam a visão. Não há avistamento compartilhado, observadores de artilharia individualizados, névoa de guerra ou efeito de luminosidade nesta versão.
-
-## 9. Combate
-
-Calcular:
+Tiro direto usa linha de visão com altitudes dos centros, observação a 2 m e copa de mata de 15 m como parâmetros de jogo; adjacentes têm visão. Peças intermediárias não bloqueiam. Indireto assume alvos conhecidos: não há névoa de guerra ou observador separado.
 
 ```text
-potência = A + d6 − D − cobertura − vantagem de altura − penalidade por dano + barragem
+potência = A + d6 − D − maior cobertura − vantagem de altura
+           − 0,5 × PV perdidos pelo atacante + barragem
 ```
 
-- `d6`: sorteio uniforme de 1 a 6.
-- Cobertura: +1 à defesa em mata, objetivo elevado ou fortificação; usar o maior bônus, sem acumular coberturas. Monte Castelo e um objetivo secundário recebem abrigos/trincheiras esquemáticos de nível 1, não localizações verificadas de bunkers.
-- Vantagem de altura: mais +1 à defesa quando o defensor está pelo menos 30 m acima do atacante.
-- Penalidade por dano: 0,5 por PV perdido pelo atacante.
-- Barragem: +1 somente para artilharia brasileira na rodada 10.
+Resultado ≥5 causa 2 danos; ≥1 causa 1; ≤0 falha. Falha adjacente pode provocar 1 dano de contra-ataque se o defensor não estiver suprimido nem tiver reagido. Perda do último PV remove a peça; isso representa neutralização, não todos os soldados mortos.
 
-| Resultado | Efeito |
-| --- | --- |
-| Potência ≥ 5 | Defensor perde 2 PV |
-| Potência ≥ 1 e < 5 | Defensor perde 1 PV |
-| Potência < 1 | Nenhum dano no defensor |
-| Potência ≤ 0 e distância 1 | Atacante perde 1 PV por contra-ataque |
+Ao mover por rota exposta, um defensor de tiro direto ≥30 m acima pode reagir primeiro. Há no máximo uma reação por movimento completo e uma do alvo antes de um assalto. Reação causa no máximo 1 dano e compromete movimento e ataque do próximo turno da peça que reagiu. **É automática para humanos e computadores de ambos os lados**; não há botão especial de contra-ataque. Ataques normais seguem as mesmas regras para os dois lados, exceto perfis e barragem FEB descritos.
 
-O contra-ataque de um ataque mal sucedido adjacente só ocorre se o defensor não estiver suprimido e não tiver reagido. Na nova missão, consome sua próxima ação, sem duplicar um tiro defensivo anterior. No intervalo fracionário entre 0 e 1, pode haver falha sem contra-ataque. Peças com PV ≤ 0 são removidas imediatamente. Não há dano por área, munição ou fogo amigo.
+Acerto de tiro indireto suprime a reação até o início do turno do defensor; não retira seu tiro normal. Infantaria que sobrevive caindo de 2/3 para 1 PV tenta recuar a um vizinho livre mais distante do atacante. Se não houver, fica. Não recupera PV e compromete a próxima ativação para reorganizar. Perda fatal não permite fuga.
 
-Registrar dado, dano e eventual contra-ataque no diário. Mostrar a resistência e o selo de dano atualizados nas peças.
+## Vitória e resultado
 
-## 10. Pontos e vitória
+Ao terminar cada turno alemão, infantaria brasileira de manobra ocupante recebe pontos: cume 2, dois secundários 1 cada. Máximo **4 por rodada**, acumulados até a meta de **8**, sem perda de pontos ao sair. Apoio e artilharia não asseguram objetivos.
 
-- Ao fim do turno alemão, apenas infantaria de manobra brasileira sobre objetivos pontua: cume 2, cada secundário 1. Apoio e artilharia não ocupam para pontuação.
-- **4 é o máximo por rodada; 8 é a meta acumulada.** Dois fechamentos de rodada com todos os objetivos dão 4 + 4 = 8. Os pontos ganhos não são subtraídos ao perder uma posição.
-- Para vencer antes do prazo, FEB precisa acumular8 pontos e assegurar Monte Castelo com infantaria no fechamento do turno alemão. No fechamento da rodada10, o cume basta; sem8 pontos, é vitória custosa, com eficiência máxima44. Eliminar a defesa ou controlar somente os secundários não substitui o cume.
-- Defesa vence se toda a infantaria de manobra brasileira sair de combate ou o cume não for assegurado no fechamento final. Partidas antigas sem a flag de conquista no prazo ainda exigem a pontuação completa.
-- Grau da vitória: eficiência = máximo de zero e arredondamento de `100 − 3 × (rodada final − 1) − 8 × peças brasileiras perdidas − 1,5 × coesão perdida`. Decisiva ≥70, tática ≥45, custosa ≥20, pírrica abaixo de 20. Isso não é contagem de mortos reais.
-- Partidas antigas sem configuração de missão preservam as regras de sua versão; a interface lê a meta do estado salvo.
+- Cume +8 pontos: vitória brasileira antecipada.
+- Cume assegurado no fechamento da rodada 10: vitória brasileira mesmo sem a meta; nesse caso é custosa, eficiência limitada a 44.
+- Eliminar todas as peças adversárias: vitória imediata de qualquer lado, sem exigir pontos ou ocupação.
+- Perder toda a infantaria brasileira de manobra: derrota da missão, mesmo restando fogos.
+- Demais casos ao prazo: vitória defensiva.
 
-### Subida sob fogo
+O resultado informa a ocupação **no encerramento**, sem inferir que o cume nunca foi alcançado. Grau considera tempo, peças e coesão perdidas; vencedor não muda com o grau. Mostra perdas de jogo e recuos, sem comparação numérica com baixas humanas históricas não confirmadas. O último efeito termina antes de abrir o epílogo.
 
-Uma unidade de tiro direto pelo menos 30 m acima pode reagir primeiro ao avanço exposto ou ao assalto contra ela, respeitando alcance e linha de visão. Uma reação por movimento completo e uma por unidade entre seus turnos; consome o próximo turno de movimento e ataque. O tiro de oportunidade causa no máximo 1 dano. Não se soma novo contra-ataque de falha do assalto após a reação. Regra simétrica para ambos os lados.
+## IAs e persistência
 
-Acerto indireto suprime reação até o início do turno do alvo; não tira o ataque normal. Apoio deve preceder a manobra. Tiro direto ganha +1 hexágono com pelo menos 90 m de vantagem real de altitude e linha de visão. Indireto não ganha alcance com altura. Os grupos de ambos os lados têm alcance 5; isso representa disponibilidade de apoio, não limite balístico dos obuses.
+Caçador prioriza maior ataque e proximidade; Oportunista menor defesa e proximidade. Postura agressiva aproxima; defensiva valoriza proteção. Estado-maior usa missão, custo real de rota, ameaças e apoio. A defesa tática guarda o cume nas duas posturas, intercepta infantaria e faz contrabateria quando não há ameaça imediata ao cume. Busca curta, sem servidor.
 
-## 11. Horário e clima
+Aprendiz simples e Veterana aprendem políticas online e conservam experiência no armazenamento local. Veterana recebe pré-treino reproduzível. **Aprendiz fixo** usa uma tabela independente por lado, 2.400 partidas cada, pesos congelados, exploração zero no jogo. Aprende seleção de seis políticas, não caminhos individuais. [Método e limites](docs/IA_POR_LADO.md). Limpar dados do navegador apaga experiência local; falha de armazenamento não impede jogar.
 
-Dez rodadas de 72 minutos, com início às 06:00 e término às 18:00. O horário mostrado no turno é seu início; a décima rodada começa às 16:48. O apoio de artilharia dessa rodada é inspirado na concentração histórica das 16:00–17:00, com duração e efeito simplificados.
+Modos: humano FEB × computador alemão; computador FEB × humano alemão; humanos locais; humanos remotos por arquivo/link enviado pelo WhatsApp. Não há sincronização em tempo real. Partida e progresso do turno computacional têm pontos de retomada. Aparência e idioma ficam separados das memórias de IA.
 
-Estado atual: a série ERA5 regional de 21/02 está incorporada em weather.ts, com estimativas horárias, popup de método e fonte arquivada. É reanálise de resolução ~25 km, não observação no cume. O jogo seleciona a hora inteira anterior ao início da rodada e identifica o dado como ERA5 regional. Não há penalidade mecânica automática de frio, chuva, neve ou lama. Nuvens não equivalem a nevoeiro; a hora não altera automaticamente a visibilidade. Dados de profundidade da neve são nulos e não devem ser interpretados como zero. Mudanças futuras de regra climática exigem decisão explícita e novos testes.
+## Aparência, som e acessibilidade
 
-## 12. Inteligências artificiais
+Fundo branco, três presets A/B/C; A azul/carvão recomendado. **47 cores**, fontes, dimensões, linhas e opacidades configuráveis em Aparência, com importação/exportação e restauração. Letras/símbolos FEB e DE têm tokens separados. Nomes, formas e símbolos complementam a cor. Terreno de inverno é opção visual, não regra. Menu compacto no desktop e hambúrguer no celular.
 
-### Escolha de alvo
+Zoom contínuo, Mapa inteiro, Visão tática e duplo toque. Todos os popups terminam com **Fechar / Close**. Animações opcionais: balas em rajada, granadas de morteiro com aletas e obuses com cinta de forçamento. Trajetórias e rajadas variam sem consumir dados do combate; não há seta de ataque. Desativar/reduzir movimento mantém impacto estático e anúncio. Som sintetizado original é independente, desligado inicialmente, com volume. Não são gravações históricas. [Sons](docs/SONS.md), [paletas](docs/PALETAS_UX.md).
 
-- **Caçador:** maior ataque inimigo primeiro; desempate pela menor distância.
-- **Oportunista:** menor defesa inimiga primeiro; desempate pela menor distância.
-- **Estado-maior:** considera resistência, defesa, distância, ameaças, apoio de aliados e ocupação dos objetivos.
+## Versão, validação e limites
 
-Os modos básicos priorizam o atributo e usam proximidade como desempate. Confirmar por teste de jogo se essa interpretação produz a experiência pretendida pelo autor.
+Trabalho publicado na **main**, escala batalhão. A proposta companhia permanece separada em `experimento/escala-companhia`. A pedido do autor, esta entrega passa de 0.1.23 para **0.9.0**; commits seguintes usam 0.9.X. Hook `.githooks/pre-commit` atualiza versão/data/hora de Brasília e executa testes; não ignorar.
 
-### Postura de movimento
+Motor, IA e treinamento funcionam sem interface. Dados e análises em [simulacoes](docs/simulacoes/README.md), com sementes, protocolos e hashes; mudanças incompatíveis removem os arquivos atuais, mantendo o histórico no Git. Resultados de treino não são avaliação independente. Equilíbrio de portfólio não prova 50/50 de cada política nem dificuldade humana.
 
-- **Agressiva:** maior incentivo a reduzir distância e conseguir ataque.
-- **Defensiva:** valoriza cobertura e manutenção de elevações, sem impedir ataques possíveis.
-
-O cálculo enumera destinos alcançáveis dentro dos PM, compara sua utilidade e escolhe um destino; em seguida escolhe um alvo legal. Estado-maior é uma heurística local, não busca minimax profunda. Meta: menos de 10 segundos de cálculo por turno em aparelhos razoáveis; medir antes de prometer desempenho em todo dispositivo.
-
-### Aprendiz persistente
-
-- Q-learning simples num único estado abstrato, com seis ações: três estratégias × duas posturas.
-- Escolhe uma combinação por turno alemão.
-- Exploração: 20%; caso contrário, favorece o maior valor aprendido.
-- Taxa de aprendizado: 0,2; desconto: 0,85.
-- Recompensa favorece danos brasileiros e penaliza perdas alemãs e pontos brasileiros; vitória alemã rende +8, derrota −8.
-- A experiência é persistida em `localStorage`, chave `monte-castelo-learning-v1`, sem reinicialização automática entre partidas.
-- Não aprende cada movimento individual, não usa rede neural nem depende de serviço remoto. Não há garantia de evolução monotônica ou de vencer o jogador.
-- A partida atual é restaurada por ponto de controle completo; a experiência é mantida quando o navegador permite armazenamento. Limpar seus dados apaga o aprendizado.
-
-### IA especial Veterana
-
-Implementada em `learning.ts`, independente da interface. Q-learning tabular sobre seis políticas; o estado distingue lado, fase, vantagem em PV, faixa de pontos, objetivos ocupados e presença no cume. Taxa 0,18, desconto 0,9, exploração de 8% no navegador. Recompensa usa diferença de forças, pontos e controle, com +12/−12 ao final. Treinamento inicial: 2.000 partidas, sementes 50001–52000, exploração decrescendo de 30% a 10%. Tabela incorporada em `pretrained.ts`; aprendizado local salvo com esquema versionado, exportável/importável. `persistence.ts` é o adaptador substituível por armazenamento de app. Esse recurso amplia o Aprendiz simples, que continua disponível separadamente.
-
-A avaliação deve usar sementes distintas e registrar quando a experiência online está ativa. Treinamento não garante taxa específica de vitória ou melhora em toda partida.
-
-## 13. Controles e comunicação
-
-- Popup de narrativa no começo de cada operação; botão Missão reabre a narrativa sem reiniciar.
-- Um toque/clique seleciona e mostra simultaneamente destinos azuis e barras vermelhas nos alvos. Tocar no destino move; tocar no inimigo marcado ataca. Não há botões de modo.
-- Destaque de hexágonos alcançáveis e inimigos ao alcance.
-- Duplo toque/clique amplia peça; seleção por Enter/Espaço também é aceita nas peças.
-- Zoom contínuo por slider, pinça e Ctrl/Command + roda do mouse; botões +/− são atalhos adicionais.
-- **Mapa inteiro:** enquadrar todos os hexágonos na área de mapa.
-- **Visão tática:** aproximar para leitura das peças, permitindo rolagem do mapa.
-- Popup de regras e história disponível durante a partida; popup separado de autoria e licença.
-- Botão Nova partida no topo, ao lado de Encerrar turno, e também no painel lateral. Reiniciar não apaga o aprendizado.
-- Diário comunica combate, rodada, pontuação e barragem. Tela de fim explica o resultado e permite reiniciar.
-
-### Partidas remotas e retomada
-
-Humano × humano funciona por fotografias de turnos compartilhadas por link no WhatsApp, quando hospedado, ou arquivo JSON offline. Quem recebe assume o lado que deve jogar. Quem enviou fica impedido de agir pelo lado oposto enquanto aguarda. Não há backend, salas ao vivo, identidade verificada ou sincronização automática; o estado mais recente deve ser trocado pelos jogadores. Importar um estado valida esquema, posições e limites de atributos.
-
-A sessão local guarda modo, lado, peças, pontos, rodada, preferências e contexto de aprendizado. Não salvar um turno parcialmente processado da IA. Ao recarregar, oferecer retomada do último ponto completo.
-
-## 14. Critérios de aceitação
-
-- Compilar TypeScript sem erros e gerar um `jogo.html` executável sem backend.
-- Exercitar movimento, bloqueio por ocupação, subida, cobertura, linha de visão, ataque, contra-ataque, eliminação, pontos e encerramento.
-- Simular campanhas completas com todas as combinações de IA/postura sem movimentos ilegais.
-- Testar em tamanhos de computador e celular: abertura, seleção, movimento, ataque, turno inimigo, regras, créditos, ampliação e zoom.
-- Confirmar persistência do aprendizado depois de recarregar a página.
-- Confirmar imagens e licença no arquivo standalone, sem requisições externas para jogar.
-- Conferir o README e este guia antes de cada entrega. Distinguir claramente testes aprovados de fidelidade histórica ainda não verificada.
-
-## 15. Versionamento e continuidade
-
-A partir da solicitação do autor, todo novo commit deve avançar `0.1.X` e exibir versão, data e hora de Brasília no jogo e no README. O hook `.githooks/pre-commit` automatiza isso; não ignorá-lo. Commits anteriores à solicitação não são reescritos. Manter apenas a branch `main`.
-
-Continuar autonomamente por etapas concretas e verificáveis. Registrar decisões alteráveis pelo autor e limitações; não tratar hipótese histórica como fato ou prometer trabalho indefinido após o encerramento da tarefa.
-
-## 16. Autojogo obrigatório e arquitetura
-
-O núcleo `engine.ts` não depende de navegador; `ai.ts` decide usando esse núcleo; `simulator.ts` executa partidas completas com sementes reproduzíveis. A interface `app.ts` usa o mesmo motor. Antes de considerar uma versão pronta, rodar autojogo e comparar os resultados com o problema histórico, sem inventar equivalência entre estatísticas do jogo e a batalha real.
-
-Buscar aproximadamente 50% de vitórias para cada lado usando a mesma IA, postura e regras em ambos. Reportar quantidade de partidas, sementes, taxa e incerteza. Não ajustar resultados durante uma partida, não impor alternância de vitórias e não afirmar equilíbrio contra humanos com base apenas em autojogo. Decisões de balanceamento podem ser revistas pelo autor.
-
-Os resultados compatíveis e seus dados ficam em [docs/simulacoes](docs/simulacoes/README.md). Resultados de regras anteriores foram removidos da árvore atual; consultar o histórico do Git para recuperar decisões.
-
-## 17. Revisão de jogabilidade — tiro indireto
-
-A versão inicial exigia linha de visão direta para artilharia. O autojogo e a observação do autor mostraram que a dobra do terreno bloqueava o tiro contra posições que a artilharia deveria apoiar. Decisão revisável: alcance 3 e tiro indireto contra alvos conhecidos; manter cobertura/fortificação. Reexecutar treino, testes e torneios após essa mudança, sem misturar taxas de vitória com as do modelo anterior.
-
-## 18. Revisão geográfica
-
-Base moderna Copernicus DEM/OSM incorporada para tornar o relevo, os caminhos e as localidades menos inventados. Fontes arquivadas, método e limites em docs/GEOGRAFIA.md. A imagem histórica de Casini fica no popup Mapa & fontes. Não confundir feições modernas com 1945, nem pontos de cenário com posições militares verificadas. Reexecutar treino e balanceamento depois da mudança de terreno. Dados OSM mantêm ODbL separadamente do código CC BY-NC-SA.
-
-## 19. Revisão do gerador reproduzível
-
-O LCG inicial correlacionava o primeiro dado entre sementes consecutivas. Substituído por Mulberry32 e adicionado teste de distribuição das primeiras faces entre sementes. Resultados antigos são registros legados, não validação da versão atual. A regra de combate real do navegador continua usando seu gerador uniforme; não há alteração de dados para favorecer qualquer lado.
-
-Na comparação da base geográfica, os atributos originais ficaram mais próximos de 50% que os três ajustes candidatos. Mantidos os atributos originais; escolha revisável pelo autor. Documentar amostras de referência e validação separadamente.
-
-## 20. Registro de decisões
-
-| Data | Decisão | Estado |
-| --- | --- | --- |
-| 25/10/2026 | Nome Monte Castelo Vibed; HTML e TypeScript só no navegador | Implementado |
-| 25/10/2026 | Mapa hexagonal, peças quadradas e símbolos militares | Implementado |
-| 25/10/2026 | Partida curta, humano × computador, três estratégias e aprendiz persistente | Implementado; balanceamento pendente |
-| 25/10/2026 | Movimento, defesa e observação dependem de terreno e altitude | Implementado |
-| 25/10/2026 | Fundo branco, narrativa, dois enquadramentos e zoom contínuo | Implementado |
-| 25/10/2026 | Copyright, CC BY-NC-SA 4.0 e logo LUDES no popup | Implementado |
-| 25/10/2026 | Emblema inspirado na cobra fumando, substituindo inspiração inicial em Senta a Pua | Implementado |
-| 25/10/2026 | Informações dinâmicas de movimento, dano e estado | Implementado |
-| 25/10/2026 | Documentar regras antes de continuar sua evolução | Este guia criado após o protótipo inicial |
-| 25/10/2026 | Pesquisar clima diário e cartografia original | Pendente; não inventar dados |
-
-## Revisão 0.1.9
-
-Perfis e escala em [docs/TROPAS.md](docs/TROPAS.md); fontes militares em [docs/MAPAS_OFICIAIS.md](docs/MAPAS_OFICIAIS.md). Tabuleiro alongado para 81 hexágonos com amostras DEM reais. Sem nomes fictícios nos secundários. Nova vitória exige cume, tempo e perdas graduam o resultado. Relatórios antigos de equilíbrio não avaliam estas regras; consultar os novos relatórios summit no README.
-
-
-## Persistência dos experimentos
-
-Guardar análises e dados por versão em docs/simulacoes/<versão>/<execução>. Manifesto contém hashes de regras, geografia, IA e protocolo. Build e commit removem diretórios incompatíveis e referências numéricas marcadas no README. Versionamento/CSS/documentação não invalidam; O aprendizado simples foi extraído para simple-learning.ts, compartilhado com o simulador e incluído nos hashes; app.ts fica restrito à interface e à coordenação dos controles. Mudanças exclusivamente visuais não invalidam simulações sem interface. Nunca rotular um resumo agregado como dados individuais. Novas execuções guardam uma linha por partida, sementes, parâmetros e resumo; os experimentos antigos declaram quando esses dados não existiam.
-
-## Revisão atual dos batalhões
-
-Implementadas projeção de missão, risco no percurso e orientação da IA por papel/objetivo. Ver [REVISAO_BATALHOES.md](docs/REVISAO_BATALHOES.md). Explicar motivo do resultado mesmo quando a defesa foi eliminada; não afirmar que manteve o cume se a FEB o ocupa. Novas partidas ativam retirada por perdas e aceitam o cume no fechamento final para vitória custosa sem a meta de pontos. Partidas anteriores preservam suas flags/regras. Treino distribuído alterna os lados aprendizes contra seis políticas fixas, com autojogo a cada sétima partida; isso não é avaliação independente. Novas simulações são rejeitadas se o programa mudar durante sua execução.
-
-## Regra adotada após comparar candidatos
-
-A combinação de retirada e cume suficiente no fechamento final foi validada com sementes separadas e adotada para novas partidas. Retirada por tiro não cura e cobra a próxima ativação; sem saída livre não há recuo, e golpe fatal remove a peça. Cume mais8 pontos antecipa vitória. No último fechamento, cume ocupado por infantaria dá vitória; sem8 pontos, eficiência fica limitada a44 e o grau é custoso. A versão antiga continua exigindo8 pontos se a flag de conquista no prazo estiver ausente/falsa. Instrução da missão vem do motor para manter texto e regra iguais.
-
-## Ordem de ação, modos e fim imediato
-
-Novas partidas têm freeFireOrder: movimento e um ataque em qualquer ordem, sem PM cobrados pelo disparo. Reação/reorganização ainda comprometem ações. Flag ausente/falsa preserva ordem anterior. Neutralização completa de um lado encerra imediatamente por eliminação, identificada como tal sem afirmar ocupação do cume. Há modos computador FEB e humanos locais, além dos anteriores. O comando de encerrar turno fica na barra fixa do mapa. Estrelas vermelhas centrais são objetivos, tracejado indica exposição, não bloqueio. O apoio agregado é histórico na composição de armas, mas o contador/alcance são abstrações explicitadas no popup. PT padrão, EN-US opcional; estado da partida e memória não dependem do idioma.
-
-## Aprendizes fixos separados por lado — v0.1.19
-
-A opção Aprendiz fixo escolhe a política do turno consultando exclusivamente a tabela do lado controlado pelo computador: FEB ou Alemanha. Cada tabela é treinada em 2.400 partidas contra as seis combinações fixas de estratégia e postura, em 400 partidas por adversário. Durante o jogo publicado não há exploração, atualização de pesos nem uso da experiência pessoal do navegador. Os dados de combate continuam aleatórios. Alpha 0,18, gamma 0,9 e exploração de treino 0,20 são constantes; exploração de inferência é zero. Detalhes em [IA_POR_LADO.md](docs/IA_POR_LADO.md).
-
-A Veterana e a Aprendiz simples mantêm seu aprendizado online e são opções distintas. Alterar o idioma ou escolher o modelo fixo não apaga suas memórias. Regras e fatos históricos permanecem comuns a todas as IAs.
-
-A homenagem passa a mostrar a fotografia fornecida pelo usuário, restaurada com auxílio de IA e identificada como tal. Os emblemas conservam suas fontes e condições próprias.
-
-## Sinalização de combate e fotografia — v0.1.20
-
-Os disparos passam a emitir eventos transitórios, com origem e impacto registrados antes de retirada ou eliminação. A interface mostra traço, pequena explosão e mensagem de ataque, fogo defensivo ou contra-ataque, distinguindo dano de ausência de perda. O fogo durante avanço identifica o hexágono intermediário atingido. A apresentação não muda resultados, aleatoriedade, regras ou estado compartilhado. Os efeitos respeitam a preferência de redução de movimento.
-
-A fotografia da homenagem é substituída pelo JPEG `1000165051.jpg`, enviado depois pelo usuário, sem tratamento adicional. A legenda é atualizada para não atribuir a esta imagem a restauração por IA aplicada à imagem anterior.
-
-Por solicitação do autor, a comparação histórica de baixas humanas deixa de aparecer no resultado final, já que não há dados confirmados adequados ao dia da batalha. A pesquisa permanece na documentação. O relatório final conserva apenas perdas da partida em peças, coesão e recuos. O popup de unidade exibe seu dano e estado atuais ao ser aberto.
-
-## Próxima entrega consolidada
-
-[Plano com pedidos, decisões revisáveis e verificação](docs/PLANO_PROXIMA_VERSAO.md): personalização completa da aparência e narrativa histórica ampliada com fontes brasileiras e pesquisa em acervos, preservando as correções e as regras da0.1.20.
-
-## Aparência, narrativa e encerramento — v0.1.21
-
-Popup Aparência com três presetsA/B/C e valores visuais independentes, persistência e validação. Tokens compartilhados por CSS/SVG centralizam cores, fontes, tamanhos, espessuras e opacidades. Animações opcionais diferenciam infantaria, apoio e artilharia; desativá-las mantém a indicação estática de impacto e o anúncio. Não alteram combate ou aprendizado.
-
-A legenda explica todos os símbolos atuais, e o marcador de dano passa para uma camada acima das peças, fora do escalão/ID. Todos os popups incluem botão Fechar/Close ao fim do texto. A narrativa antes/durante o ataque usa fontes brasileiras; o impacto e as hipóteses posteriores aparecem somente no resultado final, de acordo com o vencedor.
-
-A descrição de eliminação consulta a posição final do cume, distinguindo infantaria, apoio e ausência de peça. Não confunde ausência final com nunca ter ocupado a posição, nem exige o fechamento de rodada anterior para descrever uma infantaria já presente. A condição de vitória é preservada.
-
-Mapa inteiro passa a ajustar a largura e a altura proporcionalmente ao SVG, sem faixa vazia; a página pode ser rolada. Zoom livre, pinça e visão tática são preservados. Fontes e limites históricos permanecem em PESQUISA_ACERVOS_NARRATIVA.md. O plano consolidado está entregue, com pendências documentais explicitadas e o equilíbrio50/50 ainda não alcançado.
-
-Sons de combate opcionais, desligados inicialmente, com volume e preferência persistente. São sintetizados localmente; não gravações de armas históricas. O gerador de ruído é independente do RNG de combate. A tabela das regras resume movimento, cobertura, subida/descida, vantagem de altura e tiro indireto, sem mudar os valores do motor.
-
-## Homenagem — v0.1.22
-
-Removidos o distintivo atual do Regimento Ipiranga e sua legenda, por orientação do autor. A homenagem conserva a fotografia de Pedro Bonorino, a referência ao6ºRI e o distintivo da FEB.
-
-## Navegação — v0.1.23
-
-Menu compacto no computador, hambúrguer em telas até1000px; botões com área de toque mínima44px e idioma sempre acessível. Abre por teclado/toque e fecha ao escolher uma opção, tocar fora ou usar Escape, sem alterar partida ou aprendizado.
+[Defesa e equilíbrio 0.9](docs/DEFESA_E_EQUILIBRIO_0_9.md) registra fontes, decisões e medições. Permanecem limites: posições e efetivos locais, mapas integrais de Mascarenhas, boletim meteorológico contemporâneo e duração humana medida. Não alterar fatos, relevo ou identidades para calibrar uma taxa.

@@ -50,5 +50,5 @@ test('avanço resolve reação no caminho uma vez e uma baixa interrompe a rota'
 test('grupo FEB consegue apoiar aproximação inicial com alcance abstrato cinco',()=>{
  const s=createGame(),gun=s.units.find(u=>u.id==='b5'),target=s.units.find(u=>u.id==='g2');
  assert.equal(gun.range,5);assert.equal(canAttack(gun,target),true);
- assert.equal(s.units.find(u=>u.id==='g5').range,5);
+ assert.equal(s.units.find(u=>u.id==='g5').range,6);
 });

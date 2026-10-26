@@ -83,10 +83,10 @@ export const clock = (round: number) => {
   const minutes = 360 + (Math.min(round, 11) - 1) * 72;
   return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
 };
-export function movementCost(from: Cell, to: Cell): number {
+export function movementCost(from: Cell, to: Cell, ascentStepCost=1): number {
   return (
     (terrain(to.q, to.r) === "forest" ? 2 : 1) +
-    Math.max(0, elevation(to.q, to.r) - elevation(from.q, from.r))
+    ascentStepCost * Math.max(0, elevation(to.q, to.r) - elevation(from.q, from.r))
   );
 }
 export const cost = (q, r) =>
@@ -114,11 +114,11 @@ export function lineOfSight(a: Cell, b: Cell): boolean {
   }
   return true;
 }
-export function defenseBonus(a: Cell, b: Cell): number {
+export function defenseBonus(a: Cell, b: Cell, fortificationStrength=1): number {
   return (
     Math.max(
       ["hill", "forest"].includes(terrain(b.q, b.r)) ? 1 : 0,
-      fortification(b.q, b.r),
+      fortification(b.q, b.r)*fortificationStrength,
     ) + (hasHeightAdvantage(b,a) ? 1 : 0)
   );
 }
@@ -136,7 +136,7 @@ export function createGame(rules:ScenarioRules=defaultRules):Game {
 }
 function movementSearch(s:Game,u:Unit){
  const costs=new Map([[key(u.q,u.r),0]]),previous=new Map<string,string>(),pending:[[number,number,number]]|number[][]=[[u.q,u.r,0]];
- while(pending.length){pending.sort((a,b)=>a[2]-b[2]);const[q,r,spent]=pending.shift()!;if(spent!==costs.get(key(q,r)))continue;for(const[nq,nr]of neighbors(q,r)){const next=spent+movementCost({q,r},{q:nq,r:nr}),k=key(nq,nr);if(next>u.mp||s.units.some(v=>v.id!==u.id&&v.q===nq&&v.r===nr))continue;if(next<(costs.get(k)??Infinity)){costs.set(k,next);previous.set(k,key(q,r));pending.push([nq,nr,next]);}}}
+ while(pending.length){pending.sort((a,b)=>a[2]-b[2]);const[q,r,spent]=pending.shift()!;if(spent!==costs.get(key(q,r)))continue;for(const[nq,nr]of neighbors(q,r)){const next=spent+movementCost({q,r},{q:nq,r:nr},s.rules?.ascentStepCost??1),k=key(nq,nr);if(next>u.mp||s.units.some(v=>v.id!==u.id&&v.q===nq&&v.r===nr))continue;if(next<(costs.get(k)??Infinity)){costs.set(k,next);previous.set(k,key(q,r));pending.push([nq,nr,next]);}}}
  return{costs,previous};
 }
 export function reachable(s:Game,u:Unit){const{costs}=movementSearch(s,u);costs.delete(key(u.q,u.r));return costs;}
@@ -171,7 +171,7 @@ function reportCombat(observer:CombatObserver,event:CombatEvent){try{observer(Ob
 export interface AttackResult {die:number;damage:number;counter:number;interrupted?:boolean}
 function resolveCombat(s:Game,u:Unit,v:Unit,rng:()=>number,reaction=false,onCombat?:CombatObserver):AttackResult{
  const from=onCombat?{id:u.id,name:u.name,side:u.side,q:u.q,r:u.r}:undefined,to=onCombat?{id:v.id,name:v.name,side:v.side,q:v.q,r:v.r}:undefined;
- const cover=defenseBonus(u,v),barrage=u.side==='br'&&u.type==='artillery'&&s.round===10?1:0;
+ const cover=defenseBonus(u,v,s.rules?.fortificationStrength??1),barrage=u.side==='br'&&u.type==='artillery'&&s.round===10?1:0;
  const die=1+Math.floor(rng()*6),power=u.atk+barrage+(u.hp-3)*.5+die-v.def-cover;
  const previousHP=v.hp,hit=power>=5?2:power>=1?1:0,damage=reaction?Math.min(1,hit):hit;v.hp-=damage;
  if(reaction){u.reactionSpent=true;u.fired=true;u.mp=0;}else{u.fired=true;if(!s.rules?.freeFireOrder)u.mp=0;}
@@ -192,7 +192,7 @@ export function opportunityFire(s:Game,targetId:string,rng=Math.random,onCombat?
 export function advance(s:Game,id:string,q:number,r:number,rng=Math.random,onCombat?:CombatObserver):boolean{
  const u=s.units.find(v=>v.id===id);if(!u||u.side!==s.turn||s.winner)return false;const route=movementRoute(s,u,q,r);if(!route.length)return false;
  let reacted=false;
- for(const cell of route){u.mp-=movementCost(u,cell);u.q=cell.q;u.r=cell.r;if(!reacted)reacted=opportunityFire(s,id,rng,onCombat);if(s.winner||!s.units.some(v=>v.id===id)||u.q!==cell.q||u.r!==cell.r)break;}
+ for(const cell of route){u.mp-=movementCost(u,cell,s.rules?.ascentStepCost??1);u.q=cell.q;u.r=cell.r;if(!reacted)reacted=opportunityFire(s,id,rng,onCombat);if(s.winner||!s.units.some(v=>v.id===id)||u.q!==cell.q||u.r!==cell.r)break;}
  return true;
 }
 export function attack(s:Game,id:string,target:string,rng=Math.random,onCombat?:CombatObserver):AttackResult|null{
@@ -223,21 +223,21 @@ export function endTurn(s:Game){
 export function victoryAssessment(s:Game){const rounds=s.finishedRound??Math.min(s.round,roundLimit(s)),remaining=s.units.filter(u=>u.side==='br'),lostUnits=5-remaining.length,lostCohesion=15-remaining.reduce((n,u)=>n+u.hp,0),efficiency=Math.min(s.winner==='br'&&s.victoryReason!=='elimination'&&s.rules?.summitAtDeadlineWins&&s.score<targetScore(s)?44:100,Math.max(0,Math.round(100-(rounds-1)*3-lostUnits*8-lostCohesion*1.5)));return{rounds,lostUnits,lostCohesion,efficiency,grade:s.winner!=='br'?'Defesa bem-sucedida':efficiency>=70?'Vitória decisiva':efficiency>=45?'Vitória tática':efficiency>=20?'Vitória custosa':'Vitória pírrica'};}
 
 export function expectedReactionRisk(s:Game,u:Unit):number{
- let risk=0;for(const v of s.units){if(v.side===u.side||!canReact(s,v,u))continue;let damage=0,kills=0;for(let die=1;die<=6;die++){const power=v.atk+(v.hp-3)*.5+die-u.def-defenseBonus(v,u),hit=power>=1?1:0;damage+=hit;if(hit>=u.hp)kills++;}risk=Math.max(risk,damage/6*4+kills/6*10);}return risk;
+ let risk=0;for(const v of s.units){if(v.side===u.side||!canReact(s,v,u))continue;let damage=0,kills=0;for(let die=1;die<=6;die++){const power=v.atk+(v.hp-3)*.5+die-u.def-defenseBonus(v,u,s.rules?.fortificationStrength??1),hit=power>=1?1:0;damage+=hit;if(hit>=u.hp)kills++;}risk=Math.max(risk,damage/6*4+kills/6*10);}return risk;
 }
 
 // Optimistic travel costs: terrain only, without occupied hexes or enemy fire.
-export function travelCostsTo(target:Cell):Map<string,number>{
+export function travelCostsTo(target:Cell,ascentStepCost=1,maxStep=Infinity):Map<string,number>{
  const costs=new Map<string,number>([[key(target.q,target.r),0]]),pending:Cell[]=[target];
  while(pending.length){pending.sort((a,b)=>costs.get(key(a.q,a.r))!-costs.get(key(b.q,b.r))!);const cell=pending.shift()!,base=costs.get(key(cell.q,cell.r))!;
-  for(const[q,r]of neighbors(cell.q,cell.r)){const step=movementCost({q,r},cell),n=base+step,k=key(q,r);if(n<(costs.get(k)??Infinity)){costs.set(k,n);pending.push({q,r});}}
+  for(const[q,r]of neighbors(cell.q,cell.r)){const step=movementCost({q,r},cell,ascentStepCost);if(step>maxStep)continue;const n=base+step,k=key(q,r);if(n<(costs.get(k)??Infinity)){costs.set(k,n);pending.push({q,r});}}
  }return costs;
 }
 export const objectiveIncome=(s:Game):number=>objectives.reduce((n,o)=>n+(s.units.some(u=>u.side==='br'&&canCaptureObjective(u)&&u.q===o.q&&u.r===o.r)?o.points:0),0);
 export function missionForecast(s:Game){
- const remaining=s.winner?0:Math.max(0,roundLimit(s)-s.round+1),missing=Math.max(0,targetScore(s)-s.score),income=objectiveIncome(s),costs=travelCostsTo(objectives[0]);
- const arrivals=s.units.filter(u=>u.side==='br'&&canCaptureObjective(u)).map(u=>{const cost=costs.get(key(u.q,u.r))??Infinity,available=s.turn==='br'&&!u.fired?u.mp:0;return s.round+Math.ceil(Math.max(0,cost-available)/maximumMovement(u));});
- const earliest=arrivals.length?Math.min(...arrivals):null;
+ const remaining=s.winner?0:Math.max(0,roundLimit(s)-s.round+1),missing=Math.max(0,targetScore(s)-s.score),income=objectiveIncome(s);
+ const arrivals=s.units.filter(u=>u.side==='br'&&canCaptureObjective(u)).map(u=>{const cost=travelCostsTo(objectives[0],s.rules?.ascentStepCost??1,maximumMovement(u)).get(key(u.q,u.r))??Infinity,available=s.turn==='br'&&(!u.fired||s.rules?.freeFireOrder)?u.mp:0;return s.round+Math.ceil(Math.max(0,cost-available)/maximumMovement(u));});
+ const earliest=arrivals.length&&Number.isFinite(Math.min(...arrivals))?Math.min(...arrivals):null;
  return{remaining,missing,income,roundsAtCurrentIncome:missing===0?0:income?Math.ceil(missing/income):null,lastSummitOnlyRound:roundLimit(s)-Math.ceil(missing/objectives[0].points)+1,earliestSummitRound:earliest,pointsPossible:missing<=remaining*objectivePointsPerRound(),summit:summitOccupied(s)};
 }
 export interface RouteExposure {q:number;r:number;defenders:string[]}

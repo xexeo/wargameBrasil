@@ -37,9 +37,9 @@ export const clock = (round) => {
     const minutes = 360 + (Math.min(round, 11) - 1) * 72;
     return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
 };
-export function movementCost(from, to) {
+export function movementCost(from, to, ascentStepCost = 1) {
     return ((terrain(to.q, to.r) === "forest" ? 2 : 1) +
-        Math.max(0, elevation(to.q, to.r) - elevation(from.q, from.r)));
+        ascentStepCost * Math.max(0, elevation(to.q, to.r) - elevation(from.q, from.r)));
 }
 export const cost = (q, r) => ["hill", "forest"].includes(terrain(q, r)) ? 2 : 1;
 export function lineOfSight(a, b) {
@@ -62,8 +62,8 @@ export function lineOfSight(a, b) {
     }
     return true;
 }
-export function defenseBonus(a, b) {
-    return (Math.max(["hill", "forest"].includes(terrain(b.q, b.r)) ? 1 : 0, fortification(b.q, b.r)) + (hasHeightAdvantage(b, a) ? 1 : 0));
+export function defenseBonus(a, b, fortificationStrength = 1) {
+    return (Math.max(["hill", "forest"].includes(terrain(b.q, b.r)) ? 1 : 0, fortification(b.q, b.r) * fortificationStrength) + (hasHeightAdvantage(b, a) ? 1 : 0));
 }
 export const maximumMovement = (u) => u.maxMp ?? (u.type === 'armor' ? 4 : 3);
 export const canCaptureObjective = (u) => u.canCapture ?? true;
@@ -84,7 +84,7 @@ function movementSearch(s, u) {
         if (spent !== costs.get(key(q, r)))
             continue;
         for (const [nq, nr] of neighbors(q, r)) {
-            const next = spent + movementCost({ q, r }, { q: nq, r: nr }), k = key(nq, nr);
+            const next = spent + movementCost({ q, r }, { q: nq, r: nr }, s.rules?.ascentStepCost ?? 1), k = key(nq, nr);
             if (next > u.mp || s.units.some(v => v.id !== u.id && v.q === nq && v.r === nr))
                 continue;
             if (next < (costs.get(k) ?? Infinity)) {
@@ -131,7 +131,7 @@ function reportCombat(observer, event) { try {
 catch { /* Presentation observers must never change combat resolution. */ } }
 function resolveCombat(s, u, v, rng, reaction = false, onCombat) {
     const from = onCombat ? { id: u.id, name: u.name, side: u.side, q: u.q, r: u.r } : undefined, to = onCombat ? { id: v.id, name: v.name, side: v.side, q: v.q, r: v.r } : undefined;
-    const cover = defenseBonus(u, v), barrage = u.side === 'br' && u.type === 'artillery' && s.round === 10 ? 1 : 0;
+    const cover = defenseBonus(u, v, s.rules?.fortificationStrength ?? 1), barrage = u.side === 'br' && u.type === 'artillery' && s.round === 10 ? 1 : 0;
     const die = 1 + Math.floor(rng() * 6), power = u.atk + barrage + (u.hp - 3) * .5 + die - v.def - cover;
     const previousHP = v.hp, hit = power >= 5 ? 2 : power >= 1 ? 1 : 0, damage = reaction ? Math.min(1, hit) : hit;
     v.hp -= damage;
@@ -204,7 +204,7 @@ export function advance(s, id, q, r, rng = Math.random, onCombat) {
         return false;
     let reacted = false;
     for (const cell of route) {
-        u.mp -= movementCost(u, cell);
+        u.mp -= movementCost(u, cell, s.rules?.ascentStepCost ?? 1);
         u.q = cell.q;
         u.r = cell.r;
         if (!reacted)
@@ -301,7 +301,7 @@ export function expectedReactionRisk(s, u) {
             continue;
         let damage = 0, kills = 0;
         for (let die = 1; die <= 6; die++) {
-            const power = v.atk + (v.hp - 3) * .5 + die - u.def - defenseBonus(v, u), hit = power >= 1 ? 1 : 0;
+            const power = v.atk + (v.hp - 3) * .5 + die - u.def - defenseBonus(v, u, s.rules?.fortificationStrength ?? 1), hit = power >= 1 ? 1 : 0;
             damage += hit;
             if (hit >= u.hp)
                 kills++;
@@ -311,13 +311,16 @@ export function expectedReactionRisk(s, u) {
     return risk;
 }
 // Optimistic travel costs: terrain only, without occupied hexes or enemy fire.
-export function travelCostsTo(target) {
+export function travelCostsTo(target, ascentStepCost = 1, maxStep = Infinity) {
     const costs = new Map([[key(target.q, target.r), 0]]), pending = [target];
     while (pending.length) {
         pending.sort((a, b) => costs.get(key(a.q, a.r)) - costs.get(key(b.q, b.r)));
         const cell = pending.shift(), base = costs.get(key(cell.q, cell.r));
         for (const [q, r] of neighbors(cell.q, cell.r)) {
-            const step = movementCost({ q, r }, cell), n = base + step, k = key(q, r);
+            const step = movementCost({ q, r }, cell, ascentStepCost);
+            if (step > maxStep)
+                continue;
+            const n = base + step, k = key(q, r);
             if (n < (costs.get(k) ?? Infinity)) {
                 costs.set(k, n);
                 pending.push({ q, r });
@@ -328,9 +331,9 @@ export function travelCostsTo(target) {
 }
 export const objectiveIncome = (s) => objectives.reduce((n, o) => n + (s.units.some(u => u.side === 'br' && canCaptureObjective(u) && u.q === o.q && u.r === o.r) ? o.points : 0), 0);
 export function missionForecast(s) {
-    const remaining = s.winner ? 0 : Math.max(0, roundLimit(s) - s.round + 1), missing = Math.max(0, targetScore(s) - s.score), income = objectiveIncome(s), costs = travelCostsTo(objectives[0]);
-    const arrivals = s.units.filter(u => u.side === 'br' && canCaptureObjective(u)).map(u => { const cost = costs.get(key(u.q, u.r)) ?? Infinity, available = s.turn === 'br' && !u.fired ? u.mp : 0; return s.round + Math.ceil(Math.max(0, cost - available) / maximumMovement(u)); });
-    const earliest = arrivals.length ? Math.min(...arrivals) : null;
+    const remaining = s.winner ? 0 : Math.max(0, roundLimit(s) - s.round + 1), missing = Math.max(0, targetScore(s) - s.score), income = objectiveIncome(s);
+    const arrivals = s.units.filter(u => u.side === 'br' && canCaptureObjective(u)).map(u => { const cost = travelCostsTo(objectives[0], s.rules?.ascentStepCost ?? 1, maximumMovement(u)).get(key(u.q, u.r)) ?? Infinity, available = s.turn === 'br' && (!u.fired || s.rules?.freeFireOrder) ? u.mp : 0; return s.round + Math.ceil(Math.max(0, cost - available) / maximumMovement(u)); });
+    const earliest = arrivals.length && Number.isFinite(Math.min(...arrivals)) ? Math.min(...arrivals) : null;
     return { remaining, missing, income, roundsAtCurrentIncome: missing === 0 ? 0 : income ? Math.ceil(missing / income) : null, lastSummitOnlyRound: roundLimit(s) - Math.ceil(missing / objectives[0].points) + 1, earliestSummitRound: earliest, pointsPossible: missing <= remaining * objectivePointsPerRound(), summit: summitOccupied(s) };
 }
 export function movementExposure(s, u, q, r) {

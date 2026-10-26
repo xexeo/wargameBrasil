@@ -1,16 +1,16 @@
 {
   "schema": 1,
-  "version": "0.1.20",
+  "version": "0.9.0",
   "sources": {
-    "engine.ts": "42d20b05fe9ddb682f479e9b270e90d48962c6b5bbf1641a677a014de63a141e",
-    "ai.ts": "61c53902ed2d27c6113e4e5629cfb4ef563002fd6aabc7c6c2efe26cffe12d7a",
+    "engine.ts": "13d9beeb3a1166f808eb175435861f9a1d4b9d9b5ee183f5c6a59de6cfc8c96a",
+    "ai.ts": "7634624a86ab96bd2793311b785c3008e6964ced61b0a21058fa005e2268e97d",
     "simulator.ts": "16944b42e4111d9275272b93cf3b5fb4bd16efabffe213af4921e04e36861a63",
     "learning.ts": "8fe126a09065c7634e0a931b20637409c629c7752ad35f275c4df447fa391c8d",
     "geography.ts": "570ac8e2c6448062afb834469a2c895d8cf86859d83beb0243c0add48476078f",
     "geography-data.ts": "b385433cfb4f54b22b19c06b339458214e971218b6be858f0cdb7b599fbfc7c4",
-    "troops.ts": "a450f0b805c246ab0a5a777d4697a0f463b7997c8379ae73ab60b9db7bf155e8",
-    "scenario.ts": "83d8464385d5c80f3fc197ab775415b54a376e2fd1d383b85176f67e2f7924c6",
-    "pretrained.ts": "3e6d7b9c9c0293440e68b8d3fceb7b781a78640cbfaf711ea295fe15c5d64869",
+    "troops.ts": "7b271638aacdd23e5f48877f866d3423962ce059601230ad0a6719a0a1ad959a",
+    "scenario.ts": "fa0968da22201f9d2b070f932cf9477da4273bd5b0775449610a444cad5ecaec",
+    "pretrained.ts": "5845da15706131c6efe53dfd29f248be679e4e60613d3393f155ab6ff8a5c54b",
     "simple-learning.ts": "861679d12c2bbe1c608032597f16bd0b99772bfd78ad5514243f4eda5a7af98f",
     "scripts/round-robin.mjs": "a47b9c5f501c29a2e30ec31157a7fbbd79e64566aa1a77484b0375550a970694",
     "scripts/autoplay.mjs": "7d66732fee2e7e04de71695276501d99b440f8bd9f9f64e8ea24337538555775",
@@ -21,7 +21,7 @@
     "scripts/study-battalion-rules.mjs": "b81f6b36b6261f9923ab9e4022f8a9efc63a581d1b0cadabc4fb649063094e2a",
     "fixed-learning.ts": "b087ae4841f58fc16bfb5b2a1b8cf770a6806947a3e8da7d05193bd401ff41df",
     "fixed-training.ts": "ab08392c240e110cbda98860e0d6a2c022ba0a6201b26ac1ac13b4a45d5d2c8f",
-    "fixed-models.ts": "0836524a2f22152f6756b8e9d5d0bd9c7d04a7eba353443719def7e040987288",
+    "fixed-models.ts": "70c8ef27878d1a98a46930d3dbd3ce1907e5b230fd5c019d64fd38486d999370",
     "scripts/train-fixed.mjs": "fdcaa5a7158ee069c4ae40d961b38c77511aab199535f696dec85bd37b022987",
     "scripts/evaluate-fixed.mjs": "355058e07978851fe2f839a512603e789a853d8c728d2994bde23a6fde949691"
   },
@@ -43,6 +43,20 @@
         "resultados.json",
         "dados-brutos.json",
         "modelos.json",
+        "analise.md"
+      ]
+    },
+    "treinamento": {
+      "count": 2000,
+      "seeds": [
+        50001,
+        52000
+      ],
+      "training": true,
+      "files": [
+        "resultados.json",
+        "dados-brutos.json",
+        "tabela-aprendida.json",
         "analise.md"
       ]
     },
@@ -112,7 +126,7 @@
       ]
     },
     "matriz-ias": {
-      "sourceCommit": "b4bf706c929d8d81f19e8b91f94d65f36586466f",
+      "sourceCommit": "74ca2084a94fef925215279c8d37b7486d8ca57a",
       "seeds": [
         200001,
         200010
@@ -120,6 +134,15 @@
       "count": 810,
       "files": [
         "dados-brutos.json",
+        "analise.md"
+      ]
+    },
+    "estudo-final-defesa": {
+      "countPerPair": 50,
+      "seedStart": 2600001,
+      "files": [
+        "dados-brutos.json",
+        "protocolo.mjs",
         "analise.md"
       ]
     }

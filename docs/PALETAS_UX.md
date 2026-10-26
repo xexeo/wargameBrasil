@@ -4,11 +4,11 @@ Análise de 25/10/2026. **Recomendação: opção A, azul e carvão com relevo e
 
 As três propostas foram implementadas como presets do popup Aparência na v0.1.21; o usuário pode ajustar cada cor separadamente. A [comparação visual](paletas-ux.svg) mostra as três opções em fundo branco. As amostras são propostas, não capturas da aplicação.
 
-## O que funciona e o que precisa melhorar
+## Auditoria inicial — antes da implementação dos presets
 
 Foram lidos `app.ts`, `template.html` e as regras finais de `style.css`. O começo da folha ainda contém cores escuras antigas, mas regras posteriores definem a apresentação clara atual. No mapa, a altitude tem quatro preenchimentos, curvas de nível e rótulos. As peças já mostram FEB/DE e símbolos militares; isso é uma boa base para identificação sem depender só da cor. A estrela vermelha central distingue objetivos, enquanto alvos de ataque recebem barra e contorno vermelhos.
 
-| Elemento atual | Contraste calculado | Avaliação |
+| Elemento no protótipo auditado | Contraste calculado | Avaliação |
 |---|---:|---|
 | Branco sobre FEB `#226BA4` | 5,66:1 | Boa combinação para texto pequeno; o tamanho real ainda precisa ser legível. |
 | Branco sobre DE `#30363D` | 12,20:1 | Boa legibilidade. Preservar a identidade escura. |
@@ -18,7 +18,7 @@ Foram lidos `app.ts`, `template.html` e as regras finais de `style.css`. O come�
 | Vermelho de ataque `#D12E3D` sobre N1–N4 | 4,38 / 3,51 / 2,55 / 1,67:1 | Precisa de cor mais escura e separação do fundo/peça. |
 | Vermelho de objetivo `#C92F37`, antes da opacidade | 4,63 / 3,71 / 2,69 / 1,77:1 | Usar preenchimento opaco; a estrela atual tem opacidade 0,82 e contraste ainda menor contra o terreno. |
 
-N1–N4 atuais: `#F4EFDF`, `#E9D6A7`, `#D1B48C`, `#BD8B4F`. Os valores dos contornos são das cores sólidas declaradas, antes de filtros, suavização de borda e sobreposição de camadas; a regra de movimento aplica também brilho. Não são medidas de pixels da tela. Para a altitude, a transparência `88` foi composta sobre cada preenchimento antes do cálculo.
+N1–N4 do protótipo auditado: `#F4EFDF`, `#E9D6A7`, `#D1B48C`, `#BD8B4F`. Os valores dos contornos são das cores sólidas declaradas, antes de filtros, suavização de borda e sobreposição de camadas; a regra de movimento aplica também brilho. Não são medidas de pixels da tela. Para a altitude, a transparência `88` foi composta sobre cada preenchimento antes do cálculo.
 
 O maior ganho vem de hierarquia: fundo discreto; relevo ordenado por luminosidade; peças e textos firmes; sinais de ação distintos por forma. Não é necessário aumentar a saturação do mapa inteiro. A estrela indica um lugar permanente e a barra indica uma ação possível: mesmo quando ambas são vermelhas, suas formas e seus rótulos devem impedir ambiguidade.
 
@@ -33,7 +33,8 @@ Todas mantêm alemães em carvão, página branca e estrela vermelha. As cores s
 | Texto secundário na página branca | `#52606A` | `#52606A` | `#52606A` |
 | Peça FEB | `#2166A3` | `#007B78` | `#64489A` |
 | Peça DE | `#252B31` | `#252B31` | `#252B31` |
-| Texto e símbolos dentro das peças | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` |
+| Texto/símbolos FEB | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` |
+| Texto/símbolos DE, revisão0.1.22 | `#FFE3A1` | `#FFE3A1` | `#FFE3A1` |
 | Terreno N1 · vale | `#F4F0E5` | `#F4F3EB` | `#F4EFE8` |
 | Terreno N2 · encosta | `#DED3BB` | `#DEDDD0` | `#E0D2C1` |
 | Terreno N3 · crista | `#C6B08D` | `#C5C3AF` | `#C7B39C` |
@@ -126,3 +127,7 @@ Materiais do terreno devem aparecer principalmente por **símbolo e textura**, e
 A iluminação pode ser ligeiramente mais fria/difusa ao amanhecer e neutra durante a abertura do tempo, mantendo o tabuleiro claro. Evitar filtro global, fundo preto, sombras que escondam peças ou mudar a cor das tropas conforme a hora. Aparência não deve sugerir que um bônus/penalidade foi ativado se as regras continuam iguais.
 
 **Decisão recomendada:** terreno terroso e pedregoso dessaturado, vegetação de inverno e relevo claro; neve e lama localizadas ficam pendentes de fontes. O botão Terreno de inverno no popup aplica essa variação visual opcional; não altera as regras ou a geografia nem afirma uma reconstrução histórica fina. A opção A original continua disponível para comparação na imagem acima.
+
+## Conferência da 0.9.0
+
+Os três presets continuam disponíveis. Há47 controles de cor, incluindo tintas separadas FEB/DE; cores brancas das amostras alemãs originais do SVG são registro da proposta inicial. Na aplicação, a tinta DE padrão é creme #FFE3A1. O contraste depende também das alterações pessoais; os presets não garantem acessibilidade de toda combinação livre. Curvas, N/metros, rótulos e formas complementam a cor. A tabela inicial acima descreve o protótipo anterior aos presets, não defeitos ainda atribuídos à versão atual.

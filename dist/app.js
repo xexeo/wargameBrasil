@@ -271,6 +271,7 @@ function render() {
     $("round").textContent = `${game.finishedRound ?? Math.min(game.round, roundLimit(game))} / ${roundLimit(game)}`;
     $('missionTitle').textContent = game.rules?.requireSummit ? t("app.033") : t("app.034");
     $('missionDetail').textContent = t("app.035", game.rules?.requireSummit ? t("app.036") : '', missionInstruction(game), objectivePointsPerRound());
+    document.querySelector('#heightMovement')?.replaceChildren(t("ui.160", game.rules?.ascentStepCost ?? 1));
     const forecast = missionForecast(game);
     $('missionForecast').textContent = game.winner ? translateData(operationResult(game).detail) : t("app.037", forecast.missing, forecast.income, forecast.remaining, forecast.missing === 0 ? t("app.038") : forecast.income ? t("app.039", forecast.roundsAtCurrentIncome) : t("app.040"), !forecast.pointsPossible ? t("app.041") : forecast.missing ? t("app.042", forecast.lastSummitOnlyRound) : '', game.rules?.summitAtDeadlineWins ? t("app.043") : '', forecast.earliestSummitRound !== null && !forecast.summit ? t("app.044", forecast.earliestSummitRound) : '');
     $('missionForecast').classList.toggle('urgent', !game.winner && (!forecast.pointsPossible || (forecast.roundsAtCurrentIncome !== null && forecast.roundsAtCurrentIncome > forecast.remaining) || game.round >= 8));
@@ -295,7 +296,7 @@ function render() {
         .join("");
     $("unitName").textContent = u ? translateData(u.name) : t("app.056");
     $("unitInfo").innerHTML = u
-        ? t("app.057", esc(troopProfile(u.id)?.echelon ?? t("term.Agrupamento")), esc(troopProfile(u.id)?.formation ?? ''), u.side === "br" ? t("app.058") : t("app.059"), { infantry: t("term.Infantaria"), armor: t("app.060"), artillery: t("term.Artilharia") }[u.type], u.atk, u.def, u.hp, u.mp, maximumMovement(u), unitLevel(u), troopLevels[unitLevel(u)], Math.round(altitude(u.q, u.r)), elevation(u.q, u.r), fortification(u.q, u.r), attackRange(u), u.heightRange && !u.indirect ? t("app.061") : '', ["hill", "forest"].includes(terrain(u.q, u.r)) ? "+1" : "0", u.fired ? (u.mp > 0 ? t("app.062") : t("app.063")) : u.mp === 0 ? t("app.064") : (game.rules?.freeFireOrder ? t("app.065") : t("app.066")), 3 - u.hp, u.atk - (3 - u.hp) * 0.5, u.reorganizing ? t("app.067") : '', u.suppressed ? t("app.068") : '', u.reactionSpent ? t("app.069") : '', canCaptureObjective(u) ? t("app.070") : t("app.071"), u.maxMp === undefined ? t("app.072") : '', u.id === 'b4' ? sampaioSupport() : '')
+        ? t("app.057", esc(troopProfile(u.id)?.echelon ?? t("term.Agrupamento")), esc(troopProfile(u.id)?.formation ?? ''), u.side === "br" ? t("app.058") : t("app.059"), { infantry: t("term.Infantaria"), armor: t("app.060"), artillery: t("term.Artilharia") }[u.type], u.atk, u.def, u.hp, u.mp, maximumMovement(u), unitLevel(u), troopLevels[unitLevel(u)], Math.round(altitude(u.q, u.r)), elevation(u.q, u.r), fortification(u.q, u.r) * (game.rules?.fortificationStrength ?? 1), attackRange(u), u.heightRange && !u.indirect ? t("app.061") : '', ["hill", "forest"].includes(terrain(u.q, u.r)) ? "+1" : "0", u.fired ? (u.mp > 0 ? t("app.062") : t("app.063")) : u.mp === 0 ? t("app.064") : (game.rules?.freeFireOrder ? t("app.065") : t("app.066")), 3 - u.hp, u.atk - (3 - u.hp) * 0.5, u.reorganizing ? t("app.067") : '', u.suppressed ? t("app.068") : '', u.reactionSpent ? t("app.069") : '', canCaptureObjective(u) ? t("app.070") : t("app.071"), u.maxMp === undefined ? t("app.072") : '', u.id === 'b4' ? sampaioSupport() : '')
         : t("app.073", $("gameMode").value === "local" ? (game.turn === "br" ? t("term.azul") : t("app.074")) : humanSide() === "br" ? t("term.azul") : t("app.075"));
     $("learningStatus").textContent =
         $("ai").value === "trained-fixed"
@@ -315,7 +316,9 @@ function render() {
                 t("app.077", memory.games);
         }
         const assessment = victoryAssessment(game), outcome = operationResult(game);
-        show(() => t("app.078", esc(outcome.title), esc(outcome.detail), assessment.rounds, roundLimit(game), game.score, assessment.lostUnits, assessment.lostCohesion, assessment.efficiency, gameLossComparison(), victoryEpilogue(language, game.winner), sideName(game.winner), game.rules?.summitAtDeadlineWins ? t("victory.paths", targetScore(game), roundLimit(game)) : t("victory.legacy", missionInstruction(game))));
+        const finishedGame = game;
+        combatEffects.whenIdle(() => { if (game !== finishedGame)
+            return; show(() => t("app.078", esc(outcome.title), esc(outcome.detail), assessment.rounds, roundLimit(game), game.score, assessment.lostUnits, assessment.lostCohesion, assessment.efficiency, gameLossComparison(), victoryEpilogue(language, game.winner), sideName(game.winner), game.rules?.summitAtDeadlineWins ? t("victory.paths", targetScore(game), roundLimit(game)) : t("victory.legacy", missionInstruction(game)))); });
     }
     saveSession();
 }
@@ -563,7 +566,7 @@ $("viewport").addEventListener("touchmove", (e) => {
 $("viewport").addEventListener("touchend", () => (pinch = null));
 $("close").onclick = () => $("modal").close();
 $("modal").addEventListener("close", () => { void computerTurn(); });
-$("rules").onclick = () => show(() => completeSymbolLegend() + t("app.085", commandDescription(), roundLimit(game), game.rules?.rangeHeightThreshold ?? 90, game.rules?.freeFireOrder ? t("app.086") : t("app.087"), objectivePointsPerRound(), missionInstruction(game), roundLimit(game), game.rules?.retreatOnLoss ? t("app.088") : t("app.089"), game.rules?.freeFireOrder ? t("app.090") : t("app.091"), terrainRulesTable(), t("rules.automatic")));
+$("rules").onclick = () => show(() => completeSymbolLegend() + t("app.085", commandDescription(), roundLimit(game), game.rules?.rangeHeightThreshold ?? 90, game.rules?.freeFireOrder ? t("app.086") : t("app.087"), objectivePointsPerRound(), missionInstruction(game), roundLimit(game), game.rules?.retreatOnLoss ? t("app.088") : t("app.089"), game.rules?.freeFireOrder ? t("app.090") : t("app.091"), terrainRulesTable(), t("rules.automatic"), game.rules?.ascentStepCost ?? 1, game.rules?.fortificationStrength ?? 1));
 function narrative() {
     show(() => t("app.092", gameLogo, commandDescription(), $("gameMode").value === "local" ? t("app.093") : humanSide() === "br" ? t("app.094") : t("app.095"), missionInstruction(game), openingContext(language)));
     $("begin").onclick = () => { $("modal").close(); void computerTurn(); };
@@ -886,7 +889,7 @@ $("close").onclick = dismissCurrentDialog;
 $("closeBottom").onclick = dismissCurrentDialog;
 $("modal").addEventListener("cancel", event => { event.preventDefault(); dismissCurrentDialog(); });
 $("history").onclick = () => show(() => historyContent(language));
-function terrainRulesTable() { return t("terrain.rulesTable", heightThreshold, game.rules?.rangeHeightThreshold ?? 90); }
+function terrainRulesTable() { return t("terrain.rulesTable", heightThreshold, game.rules?.rangeHeightThreshold ?? 90, game.rules?.ascentStepCost ?? 1, game.rules?.fortificationStrength ?? 1, 2 + (game.rules?.ascentStepCost ?? 1), 2 * (game.rules?.ascentStepCost ?? 1)); }
 function updateSoundUI() { const button = $("soundToggle"); button.textContent = t(uiSettings.soundEnabled ? "sound.on" : "sound.off"); button.setAttribute("aria-pressed", String(uiSettings.soundEnabled)); button.title = t("sound.tooltip"); if ($("uiSound"))
     $("uiSound").checked = uiSettings.soundEnabled; }
 function setSoundEnabled(enabled) { uiSettings.soundEnabled = enabled; uiSettings.preset = "custom"; if (enabled)

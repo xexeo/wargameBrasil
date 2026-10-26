@@ -1,20 +1,20 @@
 # Matriz de IAs — matriz-ias
 
-Versão executada 0.1.20; 810 partidas, 10 por dupla ordenada. Regras: retirada ligada; cume suficiente no prazo ligado. [Dados brutos, sementes e hashes](dados-brutos.json).
+Versão executada 0.9.0; 810 partidas, 10 por dupla ordenada. Regras: retirada ligada; cume suficiente no prazo ligado. [Dados brutos, sementes e hashes](dados-brutos.json).
 
 Linhas FEB; colunas Alemanha; células mostram vitórias FEB. Para Alemanha, subtrair de100%.
 
 | FEB ↓ / DE → | CA | CD | OA | OD | EA | ED | AP | FX | VE | Média FEB |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| CA | 80,0% | 100,0% | 80,0% | 100,0% | 100,0% | 100,0% | 90,0% | 100,0% | 100,0% | 94,4% |
-| CD | 70,0% | 50,0% | 100,0% | 90,0% | 80,0% | 80,0% | 100,0% | 70,0% | 90,0% | 81,1% |
-| OA | 50,0% | 100,0% | 70,0% | 100,0% | 90,0% | 100,0% | 90,0% | 100,0% | 80,0% | 86,7% |
-| OD | 80,0% | 40,0% | 80,0% | 80,0% | 80,0% | 80,0% | 90,0% | 60,0% | 70,0% | 73,3% |
-| EA | 100,0% | 100,0% | 100,0% | 100,0% | 80,0% | 80,0% | 100,0% | 80,0% | 100,0% | 93,3% |
-| ED | 100,0% | 100,0% | 90,0% | 100,0% | 60,0% | 70,0% | 80,0% | 70,0% | 100,0% | 85,6% |
-| AP | 80,0% | 100,0% | 80,0% | 100,0% | 60,0% | 100,0% | 100,0% | 100,0% | 60,0% | 86,7% |
-| FX | 80,0% | 100,0% | 100,0% | 100,0% | 80,0% | 100,0% | 100,0% | 90,0% | 80,0% | 92,2% |
-| VE | 80,0% | 100,0% | 100,0% | 100,0% | 80,0% | 100,0% | 100,0% | 100,0% | 90,0% | 94,4% |
+| CA | 100,0% | 20,0% | 100,0% | 50,0% | 0,0% | 90,0% | 80,0% | 40,0% | 50,0% | 58,9% |
+| CD | 60,0% | 10,0% | 50,0% | 10,0% | 0,0% | 10,0% | 20,0% | 0,0% | 10,0% | 18,9% |
+| OA | 80,0% | 50,0% | 90,0% | 30,0% | 0,0% | 70,0% | 50,0% | 30,0% | 40,0% | 48,9% |
+| OD | 40,0% | 0,0% | 0,0% | 0,0% | 0,0% | 10,0% | 10,0% | 10,0% | 0,0% | 7,8% |
+| EA | 60,0% | 60,0% | 60,0% | 70,0% | 50,0% | 80,0% | 70,0% | 60,0% | 50,0% | 62,2% |
+| ED | 50,0% | 60,0% | 50,0% | 70,0% | 50,0% | 90,0% | 70,0% | 60,0% | 40,0% | 60,0% |
+| AP | 80,0% | 20,0% | 80,0% | 30,0% | 30,0% | 60,0% | 30,0% | 40,0% | 20,0% | 43,3% |
+| FX | 50,0% | 60,0% | 50,0% | 60,0% | 50,0% | 80,0% | 70,0% | 50,0% | 40,0% | 56,7% |
+| VE | 90,0% | 10,0% | 80,0% | 40,0% | 60,0% | 70,0% | 50,0% | 30,0% | 30,0% | 51,1% |
 
 - **CA**: Caçador agressivo.
 - **CD**: Caçador defensivo.
@@ -28,23 +28,23 @@ Linhas FEB; colunas Alemanha; células mostram vitórias FEB. Para Alemanha, sub
 
 ## Resultados e duração
 
-709 vitórias FEB (87,5%), 101 alemãs. Média 5,71 rodadas e 1,20 pontos FEB. Minutos de jogo humano não foram medidos.
+367 vitórias FEB (45,3%), 443 alemãs. Média 7,76 rodadas e 1,23 pontos FEB. Minutos de jogo humano não foram medidos.
 
 | Perfil | Vitórias FEB | Vitórias alemãs |
 | --- | ---: | ---: |
-| CA | 85/90 | 18/90 |
-| CD | 73/90 | 11/90 |
-| OA | 78/90 | 10/90 |
-| OD | 66/90 | 3/90 |
-| EA | 84/90 | 19/90 |
-| ED | 77/90 | 9/90 |
-| AP | 78/90 | 5/90 |
-| FX | 83/90 | 13/90 |
-| VE | 85/90 | 13/90 |
+| CA | 53/90 | 29/90 |
+| CD | 17/90 | 61/90 |
+| OA | 44/90 | 34/90 |
+| OD | 7/90 | 54/90 |
+| EA | 56/90 | 66/90 |
+| ED | 54/90 | 34/90 |
+| AP | 39/90 | 45/90 |
+| FX | 51/90 | 58/90 |
+| VE | 46/90 | 62/90 |
 
-Derrotas FEB com toda a defesa fora de combate: **0** (0,0% do total). Derrotas FEB com infantaria no cume: **0**. Perdas médias de coesão: FEB 6,70/15; DE 14,49/15. PV e peças não são contagens de mortos.
+Derrotas FEB com toda a defesa fora de combate: **0** (0,0% do total). Derrotas FEB com infantaria no cume: **0**. Perdas médias de coesão: FEB 10,60/15; DE 11,77/15. PV e peças não são contagens de mortos.
 
-Motivos: elimination: 705; noManeuverInfantry: 70; deadline: 24; mission: 11.
+Motivos: elimination: 435; noManeuverInfantry: 170; deadline: 142; lateSummit: 19; mission: 44.
 
 ## Dominância observada
 
@@ -52,18 +52,20 @@ Uma política domina outra nesta matriz se não vence menos contra nenhum advers
 
 | Lado | Perfil | Domina na amostra | Supera em todos os confrontos |
 | --- | --- | --- | --- |
-| BR | CA | OA, OD | — |
-| BR | EA | CD, OD, ED | — |
-| BR | FX | OD | — |
-| BR | VE | CD, OD, AP, FX | — |
-| DE | CA | OD | — |
-| DE | CD | OD | — |
-| DE | EA | OD, ED | — |
-| DE | ED | OD | — |
-| DE | FX | OD, ED | — |
-| DE | VE | OD | — |
+| BR | CA | CD, OD | — |
+| BR | OA | CD, OD | — |
+| BR | EA | CD, OD, FX | OD |
+| BR | ED | OD, FX | OD |
+| BR | AP | CD, OD | CD, OD |
+| BR | FX | OD | OD |
+| BR | VE | CD, OD | OD |
+| DE | CD | ED, AP | — |
+| DE | OD | ED, AP | — |
+| DE | EA | CA, OA, ED | ED |
+| DE | FX | ED | — |
+| DE | VE | CA, OA, ED, AP | CA, AP |
 
-Melhor média atacante: CA, 85/90. Melhor média defensora: EA, 19/90. As médias usam mistura uniforme dos oponentes, não um jogador humano específico. O nome de uma IA não determina sua dificuldade.
+Melhor média atacante: EA, 56/90. Melhor média defensora: EA, 66/90. As médias usam mistura uniforme dos oponentes, não um jogador humano específico. O nome de uma IA não determina sua dificuldade.
 
 ## Método e limites
 

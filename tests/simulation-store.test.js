@@ -29,3 +29,7 @@ test('não arquiva resultados se o programa mudar durante a execução',async t=
  const{fingerprint}=await import('../scripts/simulation-store.mjs');const root=await project(t),initial=await fingerprint(root);await writeFile(join(root,'ai.ts'),'changed during run');
  await assert.rejects(saveRun('mixed-revision',{'analise.md':'stale','dados-brutos.json':[{seed:1}]},{project:root,expectedSources:initial}),/mudou durante/);await assert.rejects(access(join(root,'docs/simulacoes/0.1.9/mixed-revision')));
 });
+
+test('versão 0.9 sucede 0.1 mesmo quando o patch antigo é maior',async t=>{
+ const root=await project(t);await saveRun('matriz',{'analise.md':'old'},{project:root,version:'0.1.99'});const current=await saveRun('matriz',{'analise.md':'new'},{project:root,version:'0.9.0'});assert.equal(await latestRun('matriz',root),current);
+});

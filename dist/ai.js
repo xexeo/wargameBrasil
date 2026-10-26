@@ -1,4 +1,4 @@
-import { distance, objectives, terrain, reachable, canAttack, attackRange, move, canCaptureObjective, advance, attack, hasHeightAdvantage, effectiveAttackRange, expectedReactionRisk, travelCostsTo, key, roundLimit } from './engine.js';
+import { maximumMovement, distance, objectives, terrain, reachable, canAttack, attackRange, move, canCaptureObjective, advance, attack, hasHeightAdvantage, effectiveAttackRange, expectedReactionRisk, travelCostsTo, key, roundLimit } from './engine.js';
 export function chooseTarget(s, u, mode) {
     return s.units.filter(v => v.side !== u.side).sort((a, b) => {
         const da = distance(u, a), db = distance(u, b);
@@ -32,10 +32,10 @@ export function aiAction(s, id, mode = 'tactical', stance = 'defensive') {
     const enemies = s.units.filter(v => v.side !== u.side), enemy = chooseTarget(s, u, mode), support = !canCaptureObjective(u);
     if (!enemy && support)
         return null;
-    const goal = strategicGoal(s, u), travel = travelCostsTo(goal), mission = !!s.rules?.requireSummit;
+    const goal = strategicGoal(s, u), travel = travelCostsTo(goal, s.rules?.ascentStepCost ?? 1, maximumMovement(u)), mission = !!s.rules?.requireSummit;
     const onSummit = u.q === objectives[0].q && u.r === objectives[0].r;
     const guardDuty = u.side === 'de' && (stance === 'defensive' || s.round >= 7 || enemies.some(v => canCaptureObjective(v) && distance(v, objectives[0]) <= 2));
-    const hold = !support && onSummit && (u.side === 'br' || (mode === 'tactical' && guardDuty));
+    const hold = !support && onSummit && (u.side === 'br' || mode === 'tactical');
     const cells = [{ q: u.q, r: u.r, spent: 0 }, ...(hold ? [] : Array.from(reachable(s, u), ([k, spent]) => { const [q, r] = k.split(',').map(Number); return { q, r, spent }; }))];
     const urgency = mission && u.side === 'br' ? Math.max(0, (s.round - 4) / Math.max(1, roundLimit(s) - 3)) : 0;
     const evaluate = p => {
@@ -92,6 +92,8 @@ export function aiAction(s, id, mode = 'tactical', stance = 'defensive') {
 }
 export function selectAttackTarget(s, u, mode = 'tactical') {
     const targets = s.units.filter(v => canAttack(u, v));
+    if (mode === 'tactical' && u.side === 'de')
+        return chooseTarget({ ...s, units: [u, ...targets] }, u, mode);
     targets.sort((a, b) => mode === 'strong' ? b.atk - a.atk || distance(u, a) - distance(u, b) : mode === 'weak' ? a.def - b.def || distance(u, a) - distance(u, b) : (a.hp + a.def - a.atk * .5 - (canCaptureObjective(a) ? 1 : 0)) - (b.hp + b.def - b.atk * .5 - (canCaptureObjective(b) ? 1 : 0)));
     return targets[0];
 }

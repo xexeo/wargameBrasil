@@ -1151,3 +1151,7 @@ header{position:relative}.header-actions{display:flex;flex-wrap:wrap;justify-con
 @media(max-width:440px){.header-actions{max-width:138px}.header-actions>#language{width:138px}header{padding-left:12px;padding-right:12px}.game-logo{max-width:46px}}
 
 @media(max-width:1000px){#headerMenu{overflow-y:auto;overscroll-behavior:contain}}
+/* Ammunition silhouettes replace directional arrows; trails follow the round. */
+.combat-trace,.combat-trace-halo{animation:none;opacity:.24;stroke-linecap:round}.combat-trace-halo{stroke-width:5;opacity:.45}.combat-weapon-infantry .combat-trace,.combat-weapon-infantry .combat-trace-halo{display:none}.combat-weapon-mortar .combat-trace{stroke-width:2;opacity:.32}.combat-weapon-artillery .combat-trace{stroke-width:5;opacity:.17}.combat-bullet{stroke:none;fill:none}.ammo-body{fill:var(--ui-combatBurst);stroke:var(--ui-combatText);stroke-width:1.1;paint-order:stroke}.ammo-band{fill:none;stroke:var(--ui-combatText);stroke-width:1.6}.ammo-fins{fill:var(--ui-combatTrace);stroke:var(--ui-combatText);stroke-width:1}.ammo-streak{fill:none;stroke:var(--ui-combatTrace);stroke-width:1.7;opacity:.65;stroke-linecap:round}
+
+.bigpiece[data-side="br"]{color:var(--ui-brText)}.bigpiece[data-side="de"]{color:var(--ui-deText)}.bigpiece[data-side] small{color:inherit}

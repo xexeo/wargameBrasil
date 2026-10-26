@@ -27,7 +27,7 @@
       "side": "br",
       "label": "FEB · aprendiz fixo",
       "episodes": 2400,
-      "updates": 13330,
+      "updates": 19282,
       "generator": "Mulberry32",
       "seeds": [
         900001,
@@ -61,15 +61,15 @@
       ],
       "fallbackPolicy": "tactical/aggressive",
       "tieBreak": "first-policy",
-      "states": 45,
-      "trainingWins": 2227
+      "states": 62,
+      "trainingWins": 1382
     },
     "de": {
       "schema": 1,
       "side": "de",
       "label": "Alemanha · aprendiz fixo",
       "episodes": 2400,
-      "updates": 11595,
+      "updates": 17103,
       "generator": "Mulberry32",
       "seeds": [
         910001,
@@ -103,10 +103,10 @@
       ],
       "fallbackPolicy": "tactical/defensive",
       "tieBreak": "first-policy",
-      "states": 54,
-      "trainingWins": 326
+      "states": 72,
+      "trainingWins": 1317
     }
   },
-  "seconds": 62.018205871,
+  "seconds": 46.917115264,
   "note": "Exploration is active in training. Training win rates are not held-out evaluation or evidence of superiority."
 }

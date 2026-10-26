@@ -2,9 +2,9 @@
 
 Consulta: 25/10/2026. Escopo da comparação de fim de partida: **ataque final de 21/02/1945**, não a sucessão de ataques de novembro de 1944 a fevereiro de 1945, nem toda a campanha da FEB. Esta pesquisa não alterou as regras nem a topografia do cenário.
 
-## Resultado utilizável no jogo
+## Resultado da pesquisa — fora da interface atual
 
-Não foi localizado nesta consulta um demonstrativo operacional legível que separe, **para o dia 21 e para ambos os lados**, mortos, feridos, prisioneiros e retirados. A ausência de número confirmado deve aparecer como **“não confirmado”**, nunca zero. Contadores de peças/PV do jogo não são contagens de pessoas.
+Não foi localizado nesta consulta um demonstrativo operacional legível que separe, **para o dia 21 e para ambos os lados**, mortos, feridos, prisioneiros e retirados. Em pesquisa, ausência de número confirmado significa **“não confirmado”**, nunca zero. A comparação histórica foi removida da interface a pedido do autor; esta tabela não é um componente do resultado atual. Contadores de peças/PV do jogo não são contagens de pessoas.
 
 | Categoria em 21/02/1945 | FEB | Defesa alemã | Evidência e limite |
 | --- | --- | --- | --- |

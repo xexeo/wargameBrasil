@@ -2,7 +2,8 @@ import {readFile,writeFile,mkdir,readdir,rm} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
 import {createHash} from 'node:crypto';
 export const simulationSources=['engine.ts','ai.ts','simulator.ts','learning.ts','geography.ts','geography-data.ts','troops.ts','scenario.ts','pretrained.ts','simple-learning.ts','scripts/round-robin.mjs','scripts/autoplay.mjs','scripts/train.mjs','scripts/evaluate-trained.mjs','scripts/calibrate-artillery.mjs','scripts/simulation-statistics.mjs','scripts/study-battalion-rules.mjs','fixed-learning.ts','fixed-training.ts','fixed-models.ts','scripts/train-fixed.mjs','scripts/evaluate-fixed.mjs'];
-const versionPattern=/^0\.1\.\d+$/;
+const versionPattern=/^0\.(?:1|9)\.\d+$/;
+const newestFirst=(a,b)=>{const x=a.version.split(".").map(Number),y=b.version.split(".").map(Number);for(let i=0;i<3;i++)if(x[i]!==y[i])return y[i]-x[i];return 0;};
 export async function fingerprint(project=process.cwd()){
  const hashes={};for(const file of simulationSources)hashes[file]=createHash('sha256').update(await readFile(join(project,file))).digest('hex');return hashes;
 }
@@ -25,7 +26,7 @@ export async function saveRun(name,files,{version,project=process.cwd(),provenan
 }
 export async function latestRun(name,project=process.cwd()){
  const {valid}=await checkSimulations({project,prune:true});
- const found=valid.filter(v=>v.runs.includes(name)).sort((a,b)=>Number(b.version.split('.')[2])-Number(a.version.split('.')[2]))[0];
+ const found=valid.filter(v=>v.runs.includes(name)).sort(newestFirst)[0];
  if(!found)throw Error(`Não há simulação válida de ${name}. Execute o simulador novamente.`);
  return join(project,'docs/simulacoes',found.version,name);
 }
@@ -44,7 +45,7 @@ export async function checkSimulations({project=process.cwd(),prune=false}={}){
    const cleaned=text.replace(/<!-- simulation:([^:]+):start -->[\s\S]*?<!-- simulation:\1:end -->\n?/g,(block,id)=>active.has(id)?block:'');
    if(cleaned!==text)await writeFile(path,cleaned);
   }
-  const text='# Simulações válidas por versão\n\nCada pasta reúne análise, dados brutos por partida e manifesto com hashes do programa. O número identifica a versão executada; mudar apenas a versão não invalida resultados.\n\n'+(valid.length?valid.sort((a,b)=>Number(b.version.split('.')[2])-Number(a.version.split('.')[2])).map(v=>`- **${v.version}**: ${v.runs.map(n=>`[${n}](${v.version}/${n}/analise.md)`).join(' · ')} · [manifesto](${v.version}/manifesto.json)`).join('\n'):'Nenhuma simulação válida; execute novamente após mudanças nas regras ou IAs.')+'\n\n`npm run build` e o hook de commit verificam os hashes e removem as pastas incompatíveis, incluindo análises e dados brutos. Referências numéricas marcadas no README/guia também são removidas. O histórico do Git preserva os registros antigos. O aprendizado simples é compartilhado com o navegador em simple-learning.ts, incluído nos hashes. Mudanças exclusivamente na apresentação (app.ts, CSS, HTML), documentação ou metadados de versão não invalidam as simulações sem interface.\n';
+  const text='# Simulações válidas por versão\n\nCada pasta reúne análise, dados brutos por partida e manifesto com hashes do programa. O número identifica a versão executada; mudar apenas a versão não invalida resultados.\n\n'+(valid.length?valid.sort(newestFirst).map(v=>`- **${v.version}**: ${v.runs.map(n=>`[${n}](${v.version}/${n}/analise.md)`).join(' · ')} · [manifesto](${v.version}/manifesto.json)`).join('\n'):'Nenhuma simulação válida; execute novamente após mudanças nas regras ou IAs.')+'\n\n`npm run build` e o hook de commit verificam os hashes e removem as pastas incompatíveis, incluindo análises e dados brutos. Referências numéricas marcadas no README/guia também são removidas. O histórico do Git preserva os registros antigos. O aprendizado simples é compartilhado com o navegador em simple-learning.ts, incluído nos hashes. Mudanças exclusivamente na apresentação (app.ts, CSS, HTML), documentação ou metadados de versão não invalidam as simulações sem interface.\n';
   await writeFile(join(root,'README.md'),text);
  }
  return{valid,invalid};

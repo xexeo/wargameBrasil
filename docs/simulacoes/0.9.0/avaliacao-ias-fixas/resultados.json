@@ -26,7 +26,7 @@
       "side": "br",
       "label": "FEB · aprendiz fixo",
       "episodes": 2400,
-      "updates": 13330,
+      "updates": 19282,
       "generator": "Mulberry32",
       "seeds": [
         900001,
@@ -60,14 +60,14 @@
       ],
       "fallbackPolicy": "tactical/aggressive",
       "tieBreak": "first-policy",
-      "states": 45
+      "states": 62
     },
     "de": {
       "schema": 1,
       "side": "de",
       "label": "Alemanha · aprendiz fixo",
       "episodes": 2400,
-      "updates": 11595,
+      "updates": 17103,
       "generator": "Mulberry32",
       "seeds": [
         910001,
@@ -101,33 +101,33 @@
       ],
       "fallbackPolicy": "tactical/defensive",
       "tieBreak": "first-policy",
-      "states": 54
+      "states": 72
     }
   },
   "overall": {
     "br": {
       "side": "br",
       "count": 600,
-      "wins": 575,
-      "rate": 0.9583333333333334,
+      "wins": 276,
+      "rate": 0.46,
       "interval95": [
-        0.9392144251607042,
-        0.9716204692884363
+        0.4205006222063539,
+        0.5000083324599032
       ],
-      "meanRound": 5.48,
-      "meanScore": 0.78
+      "meanRound": 7.516666666666667,
+      "meanScore": 1.535
     },
     "de": {
       "side": "de",
       "count": 600,
-      "wins": 84,
-      "rate": 0.14,
+      "wins": 385,
+      "rate": 0.6416666666666667,
       "interval95": [
-        0.11451940785111017,
-        0.17006118414520152
+        0.6025081691575408,
+        0.6790226163994663
       ],
-      "meanRound": 6.155,
-      "meanScore": 1.325
+      "meanRound": 7.613333333333333,
+      "meanScore": 0.6933333333333334
     }
   },
   "cells": [
@@ -139,14 +139,14 @@
         1900100
       ],
       "count": 100,
-      "wins": 95,
-      "rate": 0.95,
+      "wins": 54,
+      "rate": 0.54,
       "interval95": [
-        0.8882480347279118,
-        0.9784566385436864
+        0.44264685393523856,
+        0.6343935614666815
       ],
-      "meanRound": 4.66,
-      "meanScore": 0.1
+      "meanRound": 7.07,
+      "meanScore": 0.82
     },
     {
       "side": "br",
@@ -156,14 +156,14 @@
         1901100
       ],
       "count": 100,
-      "wins": 100,
-      "rate": 1,
+      "wins": 42,
+      "rate": 0.42,
       "interval95": [
-        0.9630051925239981,
-        0.9999999999999999
+        0.327982249185113,
+        0.5179369200110473
       ],
-      "meanRound": 6.47,
-      "meanScore": 0.96
+      "meanRound": 6.97,
+      "meanScore": 1.46
     },
     {
       "side": "br",
@@ -173,14 +173,14 @@
         1902100
       ],
       "count": 100,
-      "wins": 99,
-      "rate": 0.99,
+      "wins": 52,
+      "rate": 0.52,
       "interval95": [
-        0.9455124752390653,
-        0.9982326134344526
+        0.4231640509017654,
+        0.6153561567991945
       ],
-      "meanRound": 4.75,
-      "meanScore": 0.1
+      "meanRound": 6.78,
+      "meanScore": 1.14
     },
     {
       "side": "br",
@@ -190,14 +190,14 @@
         1903100
       ],
       "count": 100,
-      "wins": 98,
-      "rate": 0.98,
+      "wins": 45,
+      "rate": 0.45,
       "interval95": [
-        0.9299868370580063,
-        0.9944981477650318
+        0.3561437510640346,
+        0.5475557296835656
       ],
-      "meanRound": 6.16,
-      "meanScore": 1.51
+      "meanRound": 8.59,
+      "meanScore": 2.68
     },
     {
       "side": "br",
@@ -207,14 +207,14 @@
         1904100
       ],
       "count": 100,
-      "wins": 84,
-      "rate": 0.84,
+      "wins": 25,
+      "rate": 0.25,
       "interval95": [
-        0.7557955544110557,
-        0.8990479765052628
+        0.1754509400372426,
+        0.3430464637007583
       ],
-      "meanRound": 4.95,
-      "meanScore": 0.88
+      "meanRound": 7.69,
+      "meanScore": 1.16
     },
     {
       "side": "br",
@@ -224,14 +224,14 @@
         1905100
       ],
       "count": 100,
-      "wins": 99,
-      "rate": 0.99,
+      "wins": 58,
+      "rate": 0.58,
       "interval95": [
-        0.9455124752390653,
-        0.9982326134344526
+        0.4820630799889527,
+        0.672017750814887
       ],
-      "meanRound": 5.89,
-      "meanScore": 1.13
+      "meanRound": 8,
+      "meanScore": 1.95
     },
     {
       "side": "de",
@@ -241,14 +241,14 @@
         1910100
       ],
       "count": 100,
-      "wins": 0,
-      "rate": 0,
+      "wins": 56,
+      "rate": 0.56,
       "interval95": [
-        0,
-        0.03699480747600191
+        0.4622792771125631,
+        0.6532813459903167
       ],
-      "meanRound": 5.76,
-      "meanScore": 1
+      "meanRound": 8.14,
+      "meanScore": 0.55
     },
     {
       "side": "de",
@@ -258,14 +258,14 @@
         1911100
       ],
       "count": 100,
-      "wins": 13,
-      "rate": 0.13,
+      "wins": 83,
+      "rate": 0.83,
       "interval95": [
-        0.07757093858414264,
-        0.20980521894809878
+        0.7445181876635703,
+        0.8910652394022684
       ],
-      "meanRound": 6.59,
-      "meanScore": 1.35
+      "meanRound": 7.5,
+      "meanScore": 0.03
     },
     {
       "side": "de",
@@ -275,14 +275,14 @@
         1912100
       ],
       "count": 100,
-      "wins": 14,
-      "rate": 0.14,
+      "wins": 64,
+      "rate": 0.64,
       "interval95": [
-        0.08526265754464905,
-        0.22137360383807236
+        0.542352199811621,
+        0.7272892540950986
       ],
-      "meanRound": 5.63,
-      "meanScore": 0.62
+      "meanRound": 8.42,
+      "meanScore": 0.18
     },
     {
       "side": "de",
@@ -292,14 +292,14 @@
         1913100
       ],
       "count": 100,
-      "wins": 40,
-      "rate": 0.4,
+      "wins": 95,
+      "rate": 0.95,
       "interval95": [
-        0.3093997461136028,
-        0.4979992153815976
+        0.8882480347279118,
+        0.9784566385436864
       ],
-      "meanRound": 7.39,
-      "meanScore": 1.14
+      "meanRound": 7.32,
+      "meanScore": 0.03
     },
     {
       "side": "de",
@@ -309,14 +309,14 @@
         1914100
       ],
       "count": 100,
-      "wins": 7,
-      "rate": 0.07,
+      "wins": 51,
+      "rate": 0.51,
       "interval95": [
-        0.034318824364064096,
-        0.13749671006529757
+        0.4134784047743415,
+        0.6057816990761385
       ],
-      "meanRound": 5.53,
-      "meanScore": 2.1
+      "meanRound": 7.25,
+      "meanScore": 1.8
     },
     {
       "side": "de",
@@ -326,14 +326,14 @@
         1915100
       ],
       "count": 100,
-      "wins": 10,
-      "rate": 0.1,
+      "wins": 36,
+      "rate": 0.36,
       "interval95": [
-        0.05522854161313613,
-        0.1743673043676654
+        0.2727107459049014,
+        0.45764780018837914
       ],
-      "meanRound": 6.03,
-      "meanScore": 1.74
+      "meanRound": 7.05,
+      "meanScore": 1.57
     }
   ],
   "headToHead": {
@@ -344,26 +344,26 @@
     "br": {
       "side": "br",
       "count": 100,
-      "wins": 99,
-      "rate": 0.99,
+      "wins": 33,
+      "rate": 0.33,
       "interval95": [
-        0.9455124752390653,
-        0.9982326134344526
+        0.24562983793895452,
+        0.4269483966028862
       ],
-      "meanRound": 5.55,
-      "meanScore": 0.55
+      "meanRound": 7.05,
+      "meanScore": 0.89
     },
     "de": {
       "side": "de",
       "count": 100,
-      "wins": 1,
-      "rate": 0.01,
+      "wins": 67,
+      "rate": 0.67,
       "interval95": [
-        0.0017673865655472645,
-        0.0544875247609346
+        0.5730516033971139,
+        0.7543701620610456
       ],
-      "meanRound": 5.55,
-      "meanScore": 0.55
+      "meanRound": 7.05,
+      "meanScore": 0.89
     }
   },
   "totalGames": 1300,

@@ -44,3 +44,7 @@ A avaliação utiliza sementes que não aparecem nos dois intervalos de treino: 
 O jogo é assimétrico: uma taxa brasileira não deve ser comparada diretamente a uma taxa alemã como medida de qualidade. O portfólio não inclui todas as estratégias humanas possíveis. Resultados de treino, com exploração, também não substituem a avaliação independente. Não se afirma que estes modelos sejam superiores à Veterana ou os mais fortes disponíveis sem uma comparação específica.
 
 Os hashes devem incluir o motor, IA, módulos fixos, modelos gerados e os dois scripts. O treinamento aceita como mudança esperada somente a substituição do próprio arquivo de modelos; qualquer outra mudança de código durante uma execução invalida o arquivamento. Atualizações das regras ou da IA exigem novo treino e nova avaliação antes de apresentar números como atuais.
+
+## Revalidação 0.9.0
+
+Os modelos distribuídos são novamente treinados após a revisão da subida, abrigos, alcance dos fogos alemães e planejamento de rotas. Não reaproveitar taxas da 0.1.20. O Estado-maior alemão mantém o cume nas duas posturas e aplica as prioridades de missão também à seleção do alvo de um disparo legal. [Resultados atuais, treino e avaliação](simulacoes/README.md).

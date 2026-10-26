@@ -6,8 +6,9 @@ let previous = "0.1.0";
 try {
   previous = JSON.parse(execFileSync("git", ["show", "HEAD:version.json"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] })).version;
 } catch {}
-if (!/^0\.1\.\d+$/.test(previous)) throw new Error("Versão anterior inválida.");
-const version = `0.1.${Number(previous.split(".")[2]) + 1}`;
+if (!/^0\.(?:1|9)\.\d+$/.test(previous)) throw new Error("Versão anterior inválida.");
+// Author requested the final release to move to the 0.9 series.
+const version = previous.startsWith("0.1.") ? "0.9.0" : `0.9.${Number(previous.split(".")[2]) + 1}`;
 const now = new Date();
 const metadata = {
   version,

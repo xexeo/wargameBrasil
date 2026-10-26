@@ -23,6 +23,7 @@ jobs:
         run: |
           mkdir -p public
           cp jogo.html public/index.html
+          cp jogo.html public/jogo.html
           cp LICENSE public/LICENSE
           mkdir -p public/ux
           cp docs/paletas-ux.svg docs/paletas-ux.html docs/PALETAS_UX.md docs/terreno-inverno.svg public/ux/
