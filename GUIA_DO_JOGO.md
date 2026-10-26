@@ -1,6 +1,6 @@
 # Monte Castelo Vibed — guia de regras e decisões
 
-Referência vigente: **0.9.3 · 26/10/2026**. Substitui as descrições conflitantes acumuladas nos protótipos 0.1.X. O histórico do Git preserva as versões anteriores. Toda mudança de regra deve atualizar motor, testes, regras da interface e este guia.
+Referência vigente: **0.9.4 · 26/10/2026**. Regras preservadas da 0.9.3; preparação da 1.0 registrada no [plano de trabalho](docs/PLANO_1_0.md). Substitui as descrições conflitantes acumuladas nos protótipos 0.1.X. O histórico do Git preserva as versões anteriores. Toda mudança de regra deve atualizar motor, testes, regras da interface e este guia.
 
 ## Plataforma e identidade
 
@@ -100,7 +100,7 @@ Ao terminar cada turno alemão, infantaria brasileira de manobra ocupante recebe
 - Perder toda a infantaria brasileira de manobra: derrota da missão, mesmo restando fogos.
 - Demais casos ao prazo: vitória defensiva.
 
-O resultado informa a ocupação **no encerramento**, sem inferir que o cume nunca foi alcançado. Grau considera tempo, peças e coesão perdidas; vencedor não muda com o grau. Mostra perdas de jogo e recuos, sem comparação numérica com baixas humanas históricas não confirmadas. O último efeito termina antes de abrir o epílogo.
+Se não restarem defensores alemães e a FEB vencer por neutralização, Monte Castelo é considerado assegurado: não há cobrança de deslocar uma peça ao cume ou completar pontos. Essa explicação não teletransporta unidades nem altera a pontuação acumulada. Nos demais resultados, informa-se a ocupação no encerramento. Grau considera tempo, peças e coesão perdidas; vencedor não muda com o grau. Mostra perdas de jogo e recuos, sem comparação numérica com baixas humanas históricas não confirmadas. O último efeito termina antes de abrir o epílogo.
 
 ## IAs e persistência
 

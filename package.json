@@ -16,12 +16,14 @@
     "evaluate:fixed": "npm run build && node scripts/evaluate-fixed.mjs",
     "train:scales": "npm run build && node scripts/cycle-scales.mjs && npm run build",
     "evaluate:scales": "npm run build && node scripts/evaluate-fixed.mjs && node scripts/evaluate-fixed.mjs --company",
-    "simulate:matrices": "npm run build && node scripts/round-robin.mjs 10 3600001 && node scripts/report-round-robin.mjs && node scripts/round-robin.mjs 10 3600001 --company && node scripts/report-round-robin.mjs matriz-ias-companhias"
+    "simulate:matrices": "npm run build && node scripts/round-robin.mjs 10 3600001 && node scripts/report-round-robin.mjs && node scripts/round-robin.mjs 10 3600001 --company && node scripts/report-round-robin.mjs matriz-ias-companhias",
+    "test:battalion": "npm run build && node --test tests/battalion-reference.test.js",
+    "diagnose:scales": "npm run build && node scripts/diagnose-scales.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
     "esbuild": "^0.28.2",
     "typescript": "^7.0.2"
   },
-  "version": "0.9.3"
+  "version": "0.9.4"
 }

@@ -77,7 +77,7 @@ test('English outcomes show only actual game losses without unsupported historic
   game.log=['Fogo defensivo · Granadeiros — Castelo → I/1º RI — Franklin: dado 4, 1 dano.','Granadeiros — Castelo: retirada por perdas para 5-2; próxima ação comprometida, sem recuperar PV.'];
   localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game,localSide:'br',mode:'local',ai:'tactical',stance:'defensive'}));
  });
- await page.reload();await expect(page.locator('#modalBody')).toContainText('Victory by neutralization');await expect(page.locator('#modalBody')).toContainText('At the end, no Brazilian counter is on the summit.');await expect(page.locator('#phase')).toContainText('FEB victory');await noPortuguese(page.locator('#modalBody'));
+ await page.reload();await expect(page.locator('#modalBody')).toContainText('Victory by neutralization');await expect(page.locator('#modalBody')).toContainText('Monte Castelo is secured by the FEB.');await expect(page.locator('#phase')).toContainText('FEB victory');await noPortuguese(page.locator('#modalBody'));
  await expect(page.locator('.historical-losses,.historical-context')).toHaveCount(0);
  await expect(page.locator('.loss-comparison')).toContainText('German');
  await page.locator('#close').click();await noPortuguese(page.locator('#log'));await expect(page.locator('#log')).toContainText('withdrawal after losses');

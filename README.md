@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.9.3 · 26/10/2026, 10:45:10 (Brasília)**
+**Versão 0.9.4 · 26/10/2026, 13:20:37 (Brasília)**
 <!-- release:end -->
 
 Wargame sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. HTML e TypeScript, somente no navegador, computador ou celular, sem conta ou servidor de jogo. Meta de duração humana: 5–10 minutos; ainda não medida com uma amostra de jogadores.
@@ -11,6 +11,16 @@ Wargame sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945.
 **[▶ Jogar online](https://xexeo.github.io/wargameBrasil/)** · **[Baixar jogo.html](https://xexeo.github.io/wargameBrasil/jogo.html)**
 
 Para jogar offline, salve `jogo.html` e abra no navegador. `index.html` contém a mesma versão autocontida, com fontes, imagens, estilos e código incorporados. A visualização de código do GitHub não executa HTML. O Pages publica a `main`; tanto o workflow quanto a publicação nativa pela raiz recebem os mesmos arquivos.
+
+## Caminho para a versão 1.0
+
+[Plano de trabalho, critérios de conclusão e registro das etapas](docs/PLANO_1_0.md). Batalhão permanece como referência estável; refinamentos de regras ficam restritos a companhia.
+
+<!-- simulation:0.9.4/diagnostico-escalas:start -->
+A 0.9.4 entrega proteção automática de 120 históricos completos de batalhão e um diagnóstico de 440 partidas das duas escalas, sem mudar regras ou treinar modelos. [Interpretação e próximos experimentos](docs/simulacoes/0.9.4/diagnostico-escalas/interpretacao.md).
+<!-- simulation:0.9.4/diagnostico-escalas:end -->
+
+Na 0.9.4, a vitória por neutralização da defesa reconhece **Monte Castelo assegurado**, sem exigir peça no cume nem pontuação adicional. O resultado também usa os totais de peças e coesão da escala escolhida.
 
 ## Revisão0.9.3 — companhia e legenda
 

@@ -1,0 +1,478 @@
+[
+  {
+    "scale": "battalion",
+    "profile": "strong/aggressive",
+    "n": 20,
+    "brWins": 18,
+    "elimination": 18,
+    "meanRound": 5.25,
+    "meanNormalShots": 17.15,
+    "meanDefensiveShots": 1.85,
+    "meanCounters": 0.35,
+    "maxFocus": 2,
+    "directAgainstSuppressed": 44,
+    "directShots": 157,
+    "occupancyBlocked": 0,
+    "eligibleMoves": 614,
+    "meanWithdrawals": 4.7,
+    "roles": {
+      "infantry": {
+        "shots": 157,
+        "hits": 139,
+        "cohesionLost": 168
+      },
+      "support": {
+        "shots": 76,
+        "hits": 75,
+        "cohesionLost": 98
+      },
+      "artillery": {
+        "shots": 110,
+        "hits": 108,
+        "cohesionLost": 146
+      }
+    }
+  },
+  {
+    "scale": "battalion",
+    "profile": "strong/defensive",
+    "n": 20,
+    "brWins": 1,
+    "elimination": 8,
+    "meanRound": 6.75,
+    "meanNormalShots": 18.7,
+    "meanDefensiveShots": 2.25,
+    "meanCounters": 0.4,
+    "maxFocus": 3,
+    "directAgainstSuppressed": 46,
+    "directShots": 136,
+    "occupancyBlocked": 0,
+    "eligibleMoves": 892,
+    "meanWithdrawals": 4.65,
+    "roles": {
+      "infantry": {
+        "shots": 136,
+        "hits": 104,
+        "cohesionLost": 113
+      },
+      "support": {
+        "shots": 74,
+        "hits": 70,
+        "cohesionLost": 90
+      },
+      "artillery": {
+        "shots": 164,
+        "hits": 142,
+        "cohesionLost": 178
+      }
+    }
+  },
+  {
+    "scale": "battalion",
+    "profile": "weak/aggressive",
+    "n": 20,
+    "brWins": 18,
+    "elimination": 20,
+    "meanRound": 6.75,
+    "meanNormalShots": 19.4,
+    "meanDefensiveShots": 2.8,
+    "meanCounters": 0.45,
+    "maxFocus": 3,
+    "directAgainstSuppressed": 43,
+    "directShots": 219,
+    "occupancyBlocked": 0,
+    "eligibleMoves": 681,
+    "meanWithdrawals": 4.75,
+    "roles": {
+      "infantry": {
+        "shots": 219,
+        "hits": 188,
+        "cohesionLost": 229
+      },
+      "support": {
+        "shots": 98,
+        "hits": 93,
+        "cohesionLost": 114
+      },
+      "artillery": {
+        "shots": 71,
+        "hits": 69,
+        "cohesionLost": 103
+      }
+    }
+  },
+  {
+    "scale": "battalion",
+    "profile": "weak/defensive",
+    "n": 20,
+    "brWins": 1,
+    "elimination": 18,
+    "meanRound": 7.25,
+    "meanNormalShots": 18.8,
+    "meanDefensiveShots": 2.95,
+    "meanCounters": 0.5,
+    "maxFocus": 4,
+    "directAgainstSuppressed": 31,
+    "directShots": 163,
+    "occupancyBlocked": 0,
+    "eligibleMoves": 998,
+    "meanWithdrawals": 3.95,
+    "roles": {
+      "infantry": {
+        "shots": 163,
+        "hits": 119,
+        "cohesionLost": 133
+      },
+      "support": {
+        "shots": 50,
+        "hits": 44,
+        "cohesionLost": 49
+      },
+      "artillery": {
+        "shots": 163,
+        "hits": 142,
+        "cohesionLost": 176
+      }
+    }
+  },
+  {
+    "scale": "battalion",
+    "profile": "tactical/aggressive",
+    "n": 20,
+    "brWins": 16,
+    "elimination": 16,
+    "meanRound": 6.35,
+    "meanNormalShots": 20.3,
+    "meanDefensiveShots": 1.65,
+    "meanCounters": 1,
+    "maxFocus": 3,
+    "directAgainstSuppressed": 60,
+    "directShots": 195,
+    "occupancyBlocked": 0,
+    "eligibleMoves": 719,
+    "meanWithdrawals": 4.65,
+    "roles": {
+      "infantry": {
+        "shots": 195,
+        "hits": 140,
+        "cohesionLost": 156
+      },
+      "support": {
+        "shots": 87,
+        "hits": 77,
+        "cohesionLost": 90
+      },
+      "artillery": {
+        "shots": 124,
+        "hits": 115,
+        "cohesionLost": 143
+      }
+    }
+  },
+  {
+    "scale": "battalion",
+    "profile": "tactical/defensive",
+    "n": 20,
+    "brWins": 16,
+    "elimination": 16,
+    "meanRound": 6.65,
+    "meanNormalShots": 21.25,
+    "meanDefensiveShots": 1.95,
+    "meanCounters": 1.05,
+    "maxFocus": 3,
+    "directAgainstSuppressed": 46,
+    "directShots": 210,
+    "occupancyBlocked": 0,
+    "eligibleMoves": 761,
+    "meanWithdrawals": 4.85,
+    "roles": {
+      "infantry": {
+        "shots": 210,
+        "hits": 147,
+        "cohesionLost": 159
+      },
+      "support": {
+        "shots": 94,
+        "hits": 75,
+        "cohesionLost": 92
+      },
+      "artillery": {
+        "shots": 121,
+        "hits": 109,
+        "cohesionLost": 142
+      }
+    }
+  },
+  {
+    "scale": "battalion",
+    "profile": "fixed",
+    "n": 100,
+    "brWins": 69,
+    "elimination": 94,
+    "meanRound": 5.92,
+    "meanNormalShots": 19.95,
+    "meanDefensiveShots": 3.11,
+    "meanCounters": 0.74,
+    "maxFocus": 4,
+    "directAgainstSuppressed": 254,
+    "directShots": 1000,
+    "occupancyBlocked": 0,
+    "eligibleMoves": 3351,
+    "meanWithdrawals": 4.65,
+    "roles": {
+      "infantry": {
+        "shots": 1000,
+        "hits": 745,
+        "cohesionLost": 836
+      },
+      "support": {
+        "shots": 345,
+        "hits": 306,
+        "cohesionLost": 381
+      },
+      "artillery": {
+        "shots": 650,
+        "hits": 596,
+        "cohesionLost": 772
+      }
+    }
+  },
+  {
+    "scale": "company",
+    "profile": "strong/aggressive",
+    "n": 20,
+    "brWins": 13,
+    "elimination": 15,
+    "meanRound": 9.15,
+    "meanNormalShots": 47.7,
+    "meanDefensiveShots": 14.1,
+    "meanCounters": 2.85,
+    "maxFocus": 3,
+    "directAgainstSuppressed": 93,
+    "directShots": 728,
+    "occupancyBlocked": 22,
+    "eligibleMoves": 1646,
+    "meanWithdrawals": 11.55,
+    "roles": {
+      "infantry": {
+        "shots": 728,
+        "hits": 523,
+        "cohesionLost": 523
+      },
+      "support": {
+        "shots": 63,
+        "hits": 53,
+        "cohesionLost": 53
+      },
+      "artillery": {
+        "shots": 163,
+        "hits": 154,
+        "cohesionLost": 154
+      }
+    }
+  },
+  {
+    "scale": "company",
+    "profile": "strong/defensive",
+    "n": 20,
+    "brWins": 11,
+    "elimination": 10,
+    "meanRound": 9.4,
+    "meanNormalShots": 43.2,
+    "meanDefensiveShots": 8.3,
+    "meanCounters": 4.2,
+    "maxFocus": 4,
+    "directAgainstSuppressed": 120,
+    "directShots": 615,
+    "occupancyBlocked": 41,
+    "eligibleMoves": 2231,
+    "meanWithdrawals": 9.45,
+    "roles": {
+      "infantry": {
+        "shots": 615,
+        "hits": 417,
+        "cohesionLost": 417
+      },
+      "support": {
+        "shots": 61,
+        "hits": 52,
+        "cohesionLost": 52
+      },
+      "artillery": {
+        "shots": 188,
+        "hits": 147,
+        "cohesionLost": 147
+      }
+    }
+  },
+  {
+    "scale": "company",
+    "profile": "weak/aggressive",
+    "n": 20,
+    "brWins": 7,
+    "elimination": 16,
+    "meanRound": 8.25,
+    "meanNormalShots": 47.9,
+    "meanDefensiveShots": 11.45,
+    "meanCounters": 2.7,
+    "maxFocus": 5,
+    "directAgainstSuppressed": 114,
+    "directShots": 652,
+    "occupancyBlocked": 20,
+    "eligibleMoves": 1609,
+    "meanWithdrawals": 13.35,
+    "roles": {
+      "infantry": {
+        "shots": 652,
+        "hits": 445,
+        "cohesionLost": 445
+      },
+      "support": {
+        "shots": 40,
+        "hits": 30,
+        "cohesionLost": 30
+      },
+      "artillery": {
+        "shots": 266,
+        "hits": 255,
+        "cohesionLost": 255
+      }
+    }
+  },
+  {
+    "scale": "company",
+    "profile": "weak/defensive",
+    "n": 20,
+    "brWins": 6,
+    "elimination": 6,
+    "meanRound": 9.7,
+    "meanNormalShots": 46.85,
+    "meanDefensiveShots": 11.65,
+    "meanCounters": 3.4,
+    "maxFocus": 4,
+    "directAgainstSuppressed": 113,
+    "directShots": 600,
+    "occupancyBlocked": 40,
+    "eligibleMoves": 2193,
+    "meanWithdrawals": 12.35,
+    "roles": {
+      "infantry": {
+        "shots": 600,
+        "hits": 393,
+        "cohesionLost": 393
+      },
+      "support": {
+        "shots": 40,
+        "hits": 27,
+        "cohesionLost": 27
+      },
+      "artillery": {
+        "shots": 297,
+        "hits": 261,
+        "cohesionLost": 261
+      }
+    }
+  },
+  {
+    "scale": "company",
+    "profile": "tactical/aggressive",
+    "n": 20,
+    "brWins": 16,
+    "elimination": 12,
+    "meanRound": 8.8,
+    "meanNormalShots": 50.6,
+    "meanDefensiveShots": 8.6,
+    "meanCounters": 3.75,
+    "maxFocus": 5,
+    "directAgainstSuppressed": 160,
+    "directShots": 726,
+    "occupancyBlocked": 21,
+    "eligibleMoves": 1831,
+    "meanWithdrawals": 12.1,
+    "roles": {
+      "infantry": {
+        "shots": 726,
+        "hits": 485,
+        "cohesionLost": 485
+      },
+      "support": {
+        "shots": 82,
+        "hits": 55,
+        "cohesionLost": 55
+      },
+      "artillery": {
+        "shots": 204,
+        "hits": 173,
+        "cohesionLost": 173
+      }
+    }
+  },
+  {
+    "scale": "company",
+    "profile": "tactical/defensive",
+    "n": 20,
+    "brWins": 13,
+    "elimination": 12,
+    "meanRound": 9.2,
+    "meanNormalShots": 54.2,
+    "meanDefensiveShots": 6.65,
+    "meanCounters": 4.5,
+    "maxFocus": 5,
+    "directAgainstSuppressed": 166,
+    "directShots": 762,
+    "occupancyBlocked": 22,
+    "eligibleMoves": 2045,
+    "meanWithdrawals": 10.6,
+    "roles": {
+      "infantry": {
+        "shots": 762,
+        "hits": 463,
+        "cohesionLost": 463
+      },
+      "support": {
+        "shots": 101,
+        "hits": 73,
+        "cohesionLost": 73
+      },
+      "artillery": {
+        "shots": 221,
+        "hits": 173,
+        "cohesionLost": 173
+      }
+    }
+  },
+  {
+    "scale": "company",
+    "profile": "fixed",
+    "n": 100,
+    "brWins": 67,
+    "elimination": 65,
+    "meanRound": 8.73,
+    "meanNormalShots": 50.71,
+    "meanDefensiveShots": 7.94,
+    "meanCounters": 2.78,
+    "maxFocus": 5,
+    "directAgainstSuppressed": 777,
+    "directShots": 3200,
+    "occupancyBlocked": 108,
+    "eligibleMoves": 9492,
+    "meanWithdrawals": 12.36,
+    "roles": {
+      "infantry": {
+        "shots": 3200,
+        "hits": 2184,
+        "cohesionLost": 2184
+      },
+      "support": {
+        "shots": 425,
+        "hits": 280,
+        "cohesionLost": 280
+      },
+      "artillery": {
+        "shots": 1446,
+        "hits": 1239,
+        "cohesionLost": 1239
+      }
+    }
+  }
+]

@@ -1,0 +1,1092 @@
+{
+  "schema": 1,
+  "baseline": "45293642c438f9078c607a57869b2291223401ff",
+  "generator": "SHA-256 of JSON-serialized complete MatchResult, including every recorded state and log",
+  "models": {
+    "fixed-models.ts": "220455f87efcfd067851450c2d4d43467be9a8c81227ce8d823fd311bf3f2591",
+    "pretrained.ts": "4d6f9640d5e0c233358ec4178307c7fe4a6ae6842481374a0acb894b6be6fe95"
+  },
+  "initialState": "270cf3bd12e6f589fe9841fb500fe67b8891932f39ae86b991500bb7f8917289",
+  "games": [
+    {
+      "seed": 4201,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "6d5d69f9356d99d7709d6c38de51918dda7b40f98c60bc69de8931f12953f040",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4202,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "7ffe206961a08824bbb02f1bbda7e9d46636034b6822e9eff1fdd75a7d20737b",
+      "winner": "br",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4203,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "62b7f60dc8d61d116e9d5fc55eceb66c83e18da1bc07625067722728e7b0dd03",
+      "winner": "br",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4204,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "fedff878dcffa2651d084c571753175519494e2e67665aa80b90c1442e63fa40",
+      "winner": "br",
+      "round": 8,
+      "score": 0
+    },
+    {
+      "seed": 4205,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "f826c76c305e928db187815c382cd348dce83088f03967569361f1286f693ea7",
+      "winner": "br",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4206,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "c28af2c48e3e6509fd3d70b6a4648ef08bbd6058e6a29310f4b9bac64898a224",
+      "winner": "br",
+      "round": 4,
+      "score": 0
+    },
+    {
+      "seed": 4207,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "e2e8c8bde85a89b9f22b42822cfc8cedef05e3998a12292c9761f6a81fbc6e21",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4208,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "87717a3762c26d95da78337f336d086382d8dc686d9ad440966bee4c974b10db",
+      "winner": "br",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4209,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "502eb61162c71df863aab311f4f36e9bf59b65eb9fad08d553bd457d9dbc13c7",
+      "winner": "br",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4210,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "e4d6ce98a253b4951074806b4f23b5590c4f023f08e05d53d5b2aa3f15785fcf",
+      "winner": "br",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4211,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "95c5d3353422bc0118ee23ba51795e0e76fd81edacf8a12e6f89c274ec1ee2f4",
+      "winner": "br",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4212,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "018e754f072c04d28593f4d75c0acb403c822ab7738c489d7d80e6e63866549a",
+      "winner": "br",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4213,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "abf80ce41eb219653abcf67b7ced17f1cbbbd72283d095b0054d711fe9866cb4",
+      "winner": "br",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4214,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "8dc856791204ba1d723dba6c11b078b9d5e96ff2ea93be1610fd9f902fc93eec",
+      "winner": "de",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4215,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "b021b78ac3f72d4edfff5f562aad375bce4659e6ce45364f1ecaaad45a32ee44",
+      "winner": "br",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4216,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "0d69e8199de28d092e43aaf3c826b4161e46dc72ca5e438383fc3a32aa60a54f",
+      "winner": "br",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4217,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "ea1c484023b0b827719237fcdbd2a92eaa787ac3abeadc46c11414ac091e76d9",
+      "winner": "br",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4218,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "9533dbe329b9a16a4125aa5fd5a8fffa558772d86581c87e82678041ca68a4ed",
+      "winner": "br",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4219,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "7a2060cf2932c3ef64b4c98b772bd1d0a61580248ee4002a9f74d5c5b74c87df",
+      "winner": "br",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4220,
+      "strategy": "strong",
+      "stance": "aggressive",
+      "digest": "19a20941617aa7ad410235f3e474946e493459a43dfc4ad264bbf2aa224ca0fa",
+      "winner": "br",
+      "round": 5,
+      "score": 1
+    },
+    {
+      "seed": 4201,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "d9a41b8c64d4247d592ea8ece799b70cf3f0ded5b4d0bcf19b2a503a7fb8047c",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4202,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "c84bc09a6ae59c352dfe3cccae7e8a66bdb5b06e06ac3cdf5c3a0a67be90e55f",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4203,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "8aa4b603ecfe9a9074be48965251ae4db9288887a5018eff559ca639e99bec66",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4204,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "419121a37625f94e7bc3a8c416c49f999708b4f11c5542a78881d278f4647539",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4205,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "a2bbb0499f9f8ca54ff6b73e9ed0e4f78dab7c2bf1c45e4aab57fb1a87ccb8bf",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4206,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "cf5046536cbdb0f9dd746f879b424d22e900da422e7146f39e10e84e991fe086",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4207,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "48a93bea8b00e2a093052be503b53169d0e87f91b8ec950634026dfcceec30b6",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4208,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "a45f777bf052bae28246e6fb18d5eab29cce26fc32fbe5594c787d7aa6df0799",
+      "winner": "de",
+      "round": 8,
+      "score": 0
+    },
+    {
+      "seed": 4209,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "6c640f75f4e8e5496fe9461054eb23ca195e5120e4fa8a12c74db49822f766c2",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4210,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "af7a2d29300daa11f3d16b4aed228294cbea880f59b48f884134a2a820917f52",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4211,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "6e30226e7cc62396b51eab252f7c78da3b65b1935198e7e1d7c4ce6e5c826cec",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4212,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "c86e12f858bd0f3c19929033badb6dd72cdf8dd72b14ed61ca5f84c3719a6004",
+      "winner": "br",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4213,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "97dcbc16d6efca5b53374f0b9999be5d5143b68c76b5a5d0bbce7ee4257b1e12",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4214,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "7bfa289bce518a045a1aa6db716cf7d3b575da01b6e9797decb0dbe73c24fc69",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4215,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "4e37c8128e3d6dcdb0eb173243fd47ece56d0c07c1504506a039398de19bf615",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4216,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "7d42f5385c90c6e1c7c1fcb42274f50c69d6a3bce167c0c2ab7da4f4bb55565a",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4217,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "bfd629d6a1e70752cfdf8be2dd91443885647783425421a220d02536536e1d0c",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4218,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "829eef15ba7a243dd09b0d95fe079d33edcb123bccf93f67b30775f119d95166",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4219,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "37821bcda7ce8fc3839e618b94396f499c059248a6204eb12b7d576074328bb3",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4220,
+      "strategy": "strong",
+      "stance": "defensive",
+      "digest": "5561eaeb3bcd83e26c76de5e9c4581f86dbe3cf2c2805286a799237b384d662c",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4201,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "131c6f972facbec32dffba25bfae17c5a17abfe80ecdbcce3e8d479958610f55",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4202,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "76b807d690342942af226a7f1e3b3795d839618935fbb1c91c60bc3ae2b6aa29",
+      "winner": "br",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4203,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "55860401e120fdc1f3a052937ba2424ce3c0fc7500e4e9272ab786d1b9c5a9fc",
+      "winner": "br",
+      "round": 6,
+      "score": 1
+    },
+    {
+      "seed": 4204,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "afee3cc4d1aa595e0f54291fd84a493b2aaf476094f23c30d8dd9f06a516741e",
+      "winner": "br",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4205,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "50c2be1588401b6738126994e9ca6c154f01e33e1af2a47d4d52b78908a0e670",
+      "winner": "br",
+      "round": 8,
+      "score": 0
+    },
+    {
+      "seed": 4206,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "fb50c83c01ff12083e9c9c7a4a4ac578bfdeb3a73af6f6d07c85fd8f566954d7",
+      "winner": "br",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4207,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "675855d15ad2d8bac251a195cd495cd2f797573f63340bc72f09493553e5ea8e",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4208,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "f78a0873fd6be1fde074ede260eadfff15c48a6babdc90fb3a7536858bf81ca2",
+      "winner": "br",
+      "round": 7,
+      "score": 2
+    },
+    {
+      "seed": 4209,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "f0f8343c1d2a1da1c2996c60cf211d0fcdb53903e78f6e1f0598a2b10f85bd66",
+      "winner": "br",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4210,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "c6208a2e0bf9b82a46db4855452ada9385f965401e6def07c099db3e81e2e398",
+      "winner": "br",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4211,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "8f49fd6002fcbe0ed8e9becd32eac763cb0874671f934d1d5b63c6761923bd3a",
+      "winner": "de",
+      "round": 10,
+      "score": 0
+    },
+    {
+      "seed": 4212,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "3be59d37f904147678fec4a05d9bc4ef15b5bd0213b5b401098c25dc55308243",
+      "winner": "br",
+      "round": 4,
+      "score": 0
+    },
+    {
+      "seed": 4213,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "9b608a259cba9928197abb0dc913bad2642ebbe31de671b7102a22f5cd056428",
+      "winner": "br",
+      "round": 8,
+      "score": 0
+    },
+    {
+      "seed": 4214,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "e3d065ec1adac8ded48f976c05d43908677a79f491afea537c07b6ad2892505d",
+      "winner": "br",
+      "round": 8,
+      "score": 1
+    },
+    {
+      "seed": 4215,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "253d3d06acd66c7b658f0d2d3341af5522d660f7fb4e2bd923889e83483a88ed",
+      "winner": "de",
+      "round": 8,
+      "score": 0
+    },
+    {
+      "seed": 4216,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "a2870c813c5d9514b5ab1cb5adf9442c92d03fc6f81cb68f374f4038148b473c",
+      "winner": "br",
+      "round": 6,
+      "score": 1
+    },
+    {
+      "seed": 4217,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "20370767d5499a3edb8f3364da28c2c0253b976e7afda8c9f238585be97c9745",
+      "winner": "br",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4218,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "1c4dbbc47b5fc14cfec1945c4dab8f4c4e1530281ad43357d2dfbedfb5656fd3",
+      "winner": "br",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4219,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "76cf4673a4209c1880f05e5b965183052237be2454f4107c53aac0525b706ac4",
+      "winner": "br",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4220,
+      "strategy": "weak",
+      "stance": "aggressive",
+      "digest": "76295398ae23edf43454d590bf8f1fcebedc735b1d8172e17ccab52fcc6a84bf",
+      "winner": "br",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4201,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "4763cd3a4df49a3aa45bb1d54fd951f68c5e2e0a5d0dd2b11836fb4c7f6b715a",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4202,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "45ffd48662be2c4b77106585d07ea362df74fb132892d5f52bdc8464c6501c8e",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4203,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "8f1c40cdf13b6b5d80b59e678aee069fb51b68c0aedf49f92b807956deb7a359",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4204,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "053cc00918ab67591773677c9bb71b419499440625f9c9991a3d900b6573caaf",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4205,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "c99359aa927d76948d609bce9b9165fc19f0b4dc0da5cce8ef4a7ac320f8e1f2",
+      "winner": "de",
+      "round": 10,
+      "score": 0
+    },
+    {
+      "seed": 4206,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "4c1cdc3884c678afc45f729b5b46c6b7db8bccbd4ce23d244a98493b230628ec",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4207,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "2f4b6cf4edd325626a6c107e0f012498801193b5aa39e392cebe3d969e1c96bd",
+      "winner": "de",
+      "round": 10,
+      "score": 1
+    },
+    {
+      "seed": 4208,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "5dbbf819ea3f3788d1d620a2943a1352b5c0e0114653ef0199aa996266eff4d3",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4209,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "93bfe533ccd03b654183a2cc11c792b4ffc14694fa7bbe9d94b1349de331059a",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4210,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "c5604da714b560c214ae16a1589d096ce3b1fbad21732d69bc852843ccc413e0",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4211,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "c15ef80ccaa806d8ab5f48569ff1bbc2355407f0a6ad0b4a3b526bf77e629adc",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4212,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "b02783fd7dba5f6a87b2e4aa2854c2d1a48a7a8792cb5dce23379fa7990772c1",
+      "winner": "de",
+      "round": 9,
+      "score": 0
+    },
+    {
+      "seed": 4213,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "be6538218cc5cebf61cec85d9f1e79149ab6f189a46e433197912d06967d7346",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4214,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "acebf5970c2a9c71d19b8faae46764f3726172f715aeff25cec49df6a318e8f2",
+      "winner": "de",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4215,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "7536cf8ecc262d9267e84cc031d5ec2348a5755c7b3884bbfb44a4fe2d024131",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4216,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "4e0535c47b682720e39755675fcd0cf169f33f2d26dc1d76f90d521a28b7f920",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4217,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "20f9500a04efab5ad0c69068b5904eaba010ac6e523e3473ad610e98bdb222f1",
+      "winner": "de",
+      "round": 9,
+      "score": 0
+    },
+    {
+      "seed": 4218,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "b2cfd1e5f0f96486670f9fef5b49b5dc677a23756b5419785b735593fb4a7458",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4219,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "83118afaf8409c19b0898e5567a176bbba1339dfbb76541e4bcb98be80c725cf",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4220,
+      "strategy": "weak",
+      "stance": "defensive",
+      "digest": "a65bb1a109baef65f22ca6d180f337b2ab25d559a00da8949d0d8e266898ab98",
+      "winner": "de",
+      "round": 10,
+      "score": 0
+    },
+    {
+      "seed": 4201,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "e69f904c7bcbe36de9d51d665d7a5a190bca88b4f32f25b15ab45250283c72ec",
+      "winner": "br",
+      "round": 8,
+      "score": 1
+    },
+    {
+      "seed": 4202,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "cd5821d945766a0a7c5cf4373573ea3a8cbece22e8d98c7e87cee6f3dae27f39",
+      "winner": "br",
+      "round": 8,
+      "score": 0
+    },
+    {
+      "seed": 4203,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "68902f7e5bf26427c842fa9c63f41e81ba59cc1fd1c186916ef242681c357569",
+      "winner": "de",
+      "round": 4,
+      "score": 0
+    },
+    {
+      "seed": 4204,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "f233714e60a734fe8b52fd0eebcc4cbdf39d50ab0542b02b2dc4d9fad15b03e8",
+      "winner": "br",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4205,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "fe35ec68eee181711d550e5da5ea560534f7c5837a3086797077512f62bcf739",
+      "winner": "br",
+      "round": 6,
+      "score": 1
+    },
+    {
+      "seed": 4206,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "1153a54e77b075a63c969d038c5523ce664600dd7086f81da6283499f4fb6c4a",
+      "winner": "br",
+      "round": 5,
+      "score": 2
+    },
+    {
+      "seed": 4207,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "409ac707faa61f9520e36c05cee67ad2f6bcd84fb5c6661eb6a633d5cbb75860",
+      "winner": "br",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4208,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "0e909cc41523b8f102b59d2515b1b83259d12f4b55f447ba26903c8056acf32b",
+      "winner": "de",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4209,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "a1bcc949d8338fc161119b34b587d5c0c4c1bf89ff0c04703073376c8b6062f0",
+      "winner": "br",
+      "round": 7,
+      "score": 3
+    },
+    {
+      "seed": 4210,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "8429b9a4aa7da207f457a2bae98536ffa8617b4bb895e42308e91c450bdce385",
+      "winner": "de",
+      "round": 10,
+      "score": 0
+    },
+    {
+      "seed": 4211,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "1ee981b925a36b969ee264bf6d3d3aa694552764ddad8e940b758707c78ae662",
+      "winner": "de",
+      "round": 4,
+      "score": 0
+    },
+    {
+      "seed": 4212,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "c0c4e149057205a7c370ca0426f47475223ab2ed80317ec7f13705a3edc65a83",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4213,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "9fcec5d2682482fc96514c10b0fe81cff69114011907e0b8f6aca2665bd5ef16",
+      "winner": "br",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4214,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "9d50f0452187362f53301e8173d48eb300f45ffa9b86c0d31450d7146d724870",
+      "winner": "de",
+      "round": 8,
+      "score": 0
+    },
+    {
+      "seed": 4215,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "4fcec5d4e9190b87ac8784c1c99d2f8043b4ac21bba4d0ea978e0b069da72431",
+      "winner": "de",
+      "round": 10,
+      "score": 0
+    },
+    {
+      "seed": 4216,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "1a477e697c4afaabc5c945323447aab897286053cf8fe2fb018cac031b427593",
+      "winner": "br",
+      "round": 5,
+      "score": 2
+    },
+    {
+      "seed": 4217,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "68edc4f0554ece3244f0120b1a2635934091cc17876f050e23624ae94b600d4b",
+      "winner": "br",
+      "round": 8,
+      "score": 0
+    },
+    {
+      "seed": 4218,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "e3d2fa0ccf1bf4585e6cbaa5b82add28c326a4d5a3b30bdc6d5d32cced32cc14",
+      "winner": "br",
+      "round": 8,
+      "score": 1
+    },
+    {
+      "seed": 4219,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "0c2707ca8e8038060707905f3d2cb0f2669207f0bd7ea5a6967682052a045505",
+      "winner": "br",
+      "round": 5,
+      "score": 2
+    },
+    {
+      "seed": 4220,
+      "strategy": "tactical",
+      "stance": "aggressive",
+      "digest": "39bafc81d6b2fbf4fb2ae45431562cf33bb428d1a4afe73201b055d84ed446be",
+      "winner": "br",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4201,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "e7fdddc77cd29016e2e6c29b41a98fcadb4c3ab0ad9fb9444d268dddb108c17f",
+      "winner": "br",
+      "round": 7,
+      "score": 2
+    },
+    {
+      "seed": 4202,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "a56dab7d90e1c2c3da25c80014fa36e9958f7c190737294049b6def62bfbcdb4",
+      "winner": "br",
+      "round": 6,
+      "score": 1
+    },
+    {
+      "seed": 4203,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "8cd221b62e8cf92e136516d5b57c82bf61a391694260a9ca5788f69267904130",
+      "winner": "de",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4204,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "444d6c9f0c1b50f74178cc82f5f9d2cb16af1d466d833837a2b082ef4ffdf982",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4205,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "a82b6f2883066cfa4b0058086ee86abcea545de49acc1f96fefc88d5aa323c1f",
+      "winner": "br",
+      "round": 6,
+      "score": 0
+    },
+    {
+      "seed": 4206,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "2f93a1a8c318716a188b97e57cf344f10804c4b9f7cc2b2bfdaa7d442e1b6a56",
+      "winner": "br",
+      "round": 5,
+      "score": 2
+    },
+    {
+      "seed": 4207,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "17b8c216345237c45c0dcee19d3c7f2dcf71f19975661e568b4c2d413e34f683",
+      "winner": "de",
+      "round": 7,
+      "score": 2
+    },
+    {
+      "seed": 4208,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "689a15a18f355d6ba5a4f400eec62e198613a41dbee417059d1b6ad9ab1a69f4",
+      "winner": "br",
+      "round": 10,
+      "score": 0
+    },
+    {
+      "seed": 4209,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "81c3f800fd59df0607aab9be8c4e611a4f569bcef003294ba9ce5ef6fe05daaf",
+      "winner": "de",
+      "round": 7,
+      "score": 0
+    },
+    {
+      "seed": 4210,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "896f19204d5ede5af0c3d87d4cbf9347782e77e00b03a16c88092e19edc78f5b",
+      "winner": "de",
+      "round": 4,
+      "score": 0
+    },
+    {
+      "seed": 4211,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "384379c13147fbead280bd3fe02f517398b2c68c60ed705fbb25f4a832f5be7c",
+      "winner": "de",
+      "round": 8,
+      "score": 0
+    },
+    {
+      "seed": 4212,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "aa9db1d0961c9aaf2b80ba189fc90bacd7565b117c01e54e7f16d2249d50266f",
+      "winner": "br",
+      "round": 5,
+      "score": 0
+    },
+    {
+      "seed": 4213,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "c109ffc13927c4e9fa46e9d897407c81e88da83b83214ea641cb5d47526afe7a",
+      "winner": "br",
+      "round": 9,
+      "score": 10
+    },
+    {
+      "seed": 4214,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "ec7291bc6d898262006efffde20fcf2689c53f0d4bc56513722d6b95caa343d7",
+      "winner": "de",
+      "round": 8,
+      "score": 2
+    },
+    {
+      "seed": 4215,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "c2ac544fb949c2475fd92290c7544e62c23f7416179ceff438d80e28229b4254",
+      "winner": "br",
+      "round": 9,
+      "score": 0
+    },
+    {
+      "seed": 4216,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "fde7261fc9a3363d8d45769f06fa553e169c1c43551cf86a437537d40a2df6a5",
+      "winner": "br",
+      "round": 5,
+      "score": 2
+    },
+    {
+      "seed": 4217,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "964faa852e9966b9166e2b5443de813b4958f22a02901449bdb30411a7a842ac",
+      "winner": "br",
+      "round": 8,
+      "score": 0
+    },
+    {
+      "seed": 4218,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "5abf816c58b93fe449c6ae10122c01b6ba34e35421f5769ea6552194583919b9",
+      "winner": "br",
+      "round": 7,
+      "score": 3
+    },
+    {
+      "seed": 4219,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "aaab24f254848b0f98526632a2b06292533fb72fdded4ce7668ac6728f3beeea",
+      "winner": "br",
+      "round": 5,
+      "score": 2
+    },
+    {
+      "seed": 4220,
+      "strategy": "tactical",
+      "stance": "defensive",
+      "digest": "e7f2c7fe90d3b61f1cfc99e756251526d0bb4ee2080430d474029cf071f0d71a",
+      "winner": "br",
+      "round": 6,
+      "score": 0
+    }
+  ]
+}

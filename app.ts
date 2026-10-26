@@ -416,7 +416,7 @@ function render() {
     const assessment=victoryAssessment(game),outcome=operationResult(game);
     const finishedGame=game;
     if(scaleOf(game)==='company')combatEffects.limitPending(2);
-    combatEffects.whenIdle(()=>{if(game!==finishedGame)return;show(() => t("app.078", esc(outcome.title), esc(outcome.detail), assessment.rounds, roundLimit(game), game.score, assessment.lostUnits, assessment.lostCohesion, assessment.efficiency, gameLossComparison(), victoryEpilogue(language,game.winner!), sideName(game.winner!), game.rules?.summitAtDeadlineWins?t("victory.paths",targetScore(game),roundLimit(game)):t("victory.legacy",missionInstruction(game))));});
+    combatEffects.whenIdle(()=>{if(game!==finishedGame)return;show(() => t("app.078", esc(outcome.title), esc(outcome.detail), assessment.rounds, roundLimit(game), game.score, assessment.lostUnits, assessment.lostCohesion, assessment.efficiency, gameLossComparison(), victoryEpilogue(language,game.winner!), sideName(game.winner!), game.rules?.summitAtDeadlineWins?t("victory.paths",targetScore(game),roundLimit(game)):t("victory.legacy",missionInstruction(game)),battleLosses(game).br.initialUnits,battleLosses(game).br.initialCohesion));});
   }
   saveSession();
 }
