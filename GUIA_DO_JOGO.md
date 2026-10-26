@@ -307,3 +307,7 @@ Sons de combate opcionais, desligados inicialmente, com volume e preferência pe
 ## Homenagem — v0.1.22
 
 Removidos o distintivo atual do Regimento Ipiranga e sua legenda, por orientação do autor. A homenagem conserva a fotografia de Pedro Bonorino, a referência ao6ºRI e o distintivo da FEB.
+
+## Navegação — v0.1.23
+
+Menu compacto no computador, hambúrguer em telas até1000px; botões com área de toque mínima44px e idioma sempre acessível. Abre por teclado/toque e fecha ao escolher uma opção, tocar fora ou usar Escape, sem alterar partida ou aprendizado.

@@ -1,3 +1,4 @@
+import {clickNavigation} from './navigation.js';
 import {test,expect} from '@playwright/test';
 async function setup(page,id,duration=650){
  await page.addInitScript(()=>{Math.random=()=>0;});await page.goto('/');await page.evaluate(async({id,duration})=>{
@@ -16,13 +17,13 @@ for(const[id,weapon]of[['b1','infantry'],['b4','mortar'],['b5','artillery']])tes
 
 test('animation off persists independently; shots still show a static impact and translated controls',async({page})=>{
  await setup(page,'b5');const before=await page.evaluate(()=>localStorage.getItem('monte-castelo-session-v1'));
- await page.locator('#appearance').click();await page.locator('.appearance-group summary').filter({hasText:'Efeitos de combate'}).click();
+ await clickNavigation(page,"appearance");await page.locator('.appearance-group summary').filter({hasText:'Efeitos de combate'}).click();
  await page.locator('#uiAnimations').uncheck();await page.locator('#ui-number-animationDuration').fill('900');
  expect(await page.evaluate(()=>localStorage.getItem('monte-castelo-session-v1'))).toBe(before);await page.locator('#closeBottom').click();
  await page.reload();await page.locator('#begin').click();await page.locator('[data-id="b5"]').click();await page.locator('[data-id="g3"]').click();
  const effect=page.locator('.combat-effect');await expect(effect).toHaveAttribute('data-animated','false');await expect(effect.locator('.combat-impact')).toHaveCSS('visibility','visible');await expect(effect.locator('.combat-burst')).toHaveCSS('animation-name','none');
  await expect(page.locator('#combatAnnouncement')).not.toHaveText('');await expect(effect).toHaveCSS('--combat-duration','900ms');
- await expect(effect).toHaveCount(0,{timeout:2500});await page.selectOption('#language','en-US');await page.locator('#appearance').click();await page.locator('.appearance-group summary').filter({hasText:'Combat effects'}).click();await expect(page.locator('#uiAnimations')).not.toBeChecked();await expect(page.locator('#appearanceSettings')).toContainText('Animate firing');await expect(page.locator('#appearanceSettings')).toContainText('no specific caliber');
+ await expect(effect).toHaveCount(0,{timeout:2500});await page.selectOption('#language','en-US');await clickNavigation(page,"appearance");await page.locator('.appearance-group summary').filter({hasText:'Combat effects'}).click();await expect(page.locator('#uiAnimations')).not.toBeChecked();await expect(page.locator('#appearanceSettings')).toContainText('Animate firing');await expect(page.locator('#appearanceSettings')).toContainText('no specific caliber');
 });
 
 test('reduced motion overrides enabled weapon animation and preserves the static result',async({page})=>{

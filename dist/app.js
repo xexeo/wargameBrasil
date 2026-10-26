@@ -897,4 +897,18 @@ $("soundToggle").onclick = () => setSoundEnabled(!uiSettings.soundEnabled);
 for (const name of ["pointerdown", "keydown"])
     document.addEventListener(name, () => { if (uiSettings.soundEnabled)
         void combatAudio.unlock(); }, { capture: true });
+// Accessible disclosure navigation, independent of game and dialog state.
+const headerMenu = $("headerMenu"), menuToggle = $("menuToggle");
+function closeHeaderMenu(restoreFocus = false) { headerMenu.dataset.open = "false"; headerMenu.style.maxHeight = ""; menuToggle.setAttribute("aria-expanded", "false"); if (restoreFocus)
+    menuToggle.focus(); }
+menuToggle.onclick = () => { const open = menuToggle.getAttribute("aria-expanded") !== "true"; headerMenu.dataset.open = String(open); menuToggle.setAttribute("aria-expanded", String(open)); if (open)
+    headerMenu.style.maxHeight = `${Math.max(100, innerHeight - headerMenu.getBoundingClientRect().top - 12)}px`; };
+headerMenu.addEventListener("click", event => { if (event.target.closest("button"))
+    closeHeaderMenu(); });
+document.addEventListener("pointerdown", event => { if (!headerMenu.contains(event.target) && !menuToggle.contains(event.target))
+    closeHeaderMenu(); });
+document.addEventListener("keydown", event => { if (event.key === "Escape" && menuToggle.getAttribute("aria-expanded") === "true") {
+    closeHeaderMenu(true);
+} });
+matchMedia("(max-width:1000px)").addEventListener("change", () => closeHeaderMenu());
 //# sourceMappingURL=app.js.map

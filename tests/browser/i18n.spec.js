@@ -1,3 +1,4 @@
+import {clickNavigation} from './navigation.js';
 import {test,expect} from '@playwright/test';
 const portuguese=/\b(você|rodada|rodadas|infantaria|defesa|ataque|movimento|alcance|forças|níveis|operação|partida|pontos|perdas|mortos|feridos|prisioneiros|retirados|não|nuvens|experiência|arquivo|comanda|homenagem)\b/i;
 async function english(page){
@@ -23,7 +24,7 @@ test('all English popups, static controls, accessibility labels, and troop inspe
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await english(page);
  await noPortuguese(page.locator('header'));await noPortuguese(page.locator('main'));
  for(const id of ['briefing','rules','history','credits','weatherInfo','mapSources','forces','memory','tribute']){
-  await page.locator('#'+id).click();await noPortuguese(page.locator('#modalBody'));
+  await clickNavigation(page,id);await noPortuguese(page.locator('#modalBody'));
   const attrs=await page.locator('#modalBody [aria-label],#modalBody [alt]').evaluateAll(nodes=>nodes.flatMap(n=>[n.getAttribute('aria-label')||'',n.getAttribute('alt')||'']).join('\n'));
   expect(attrs).not.toMatch(portuguese);
   if(id==='tribute'){

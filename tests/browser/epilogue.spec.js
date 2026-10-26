@@ -1,3 +1,4 @@
+import {clickNavigation} from './navigation.js';
 import {test,expect} from '@playwright/test';
 for(const winner of ['br','de'])test(`the ${winner} result has its own bilingual epilogue only at game end`,async({page})=>{
  await page.goto('/');await page.evaluate(async winner=>{
@@ -11,7 +12,7 @@ for(const winner of ['br','de'])test(`the ${winner} result has its own bilingual
  await expect(epilogue).toContainText(winner==='br'?'What the FEB victory meant':'A hypothetical outcome based on this game');
  expect(await epilogue.innerText()).not.toMatch(/\b(vitória|alemã|brasileiro|história|hipótese|resultado)\b/i);
  expect(await page.evaluate(()=>localStorage.getItem('monte-castelo-session-v1'))).toBe(session);
- await expect(page.locator('.historical-losses')).toHaveCount(0);await page.locator('#closeBottom').click();await page.locator('#history').click();
+ await expect(page.locator('.historical-losses')).toHaveCount(0);await page.locator('#closeBottom').click();await clickNavigation(page,"history");
  await expect(page.locator('.battle-history')).toBeVisible();await expect(page.locator('.victory-epilogue')).toHaveCount(0);
  await expect(page.locator('.battle-history')).not.toContainText('What the FEB victory meant');
 });

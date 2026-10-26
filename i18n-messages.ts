@@ -1123,5 +1123,9 @@ export const messages = {
   "rules.automatic": {
     "pt": "<b>Automático para humanos e computadores:</b> o contra-ataque acontece quando um ataque adjacente falha (resultado ≤0), o defensor sobrevive e não está suprimido nem já reagiu. O fogo defensivo de oportunidade também é automático para os dois lados quando suas condições de altura, alcance e linha de visão são atendidas. O ataque normal do jogador é comandado tocando na própria peça e depois no inimigo com barra de ataque. Os perfis das tropas determinam a mobilidade: os batalhões brasileiros têm 3 PM e os destacamentos alemães, 2 PM; apoio e artilharia têm os seus próprios valores.",
     "en": "<b>Automatic for humans and computers:</b> a counterattack occurs when an adjacent attack fails (result ≤0), the defender survives, and it is neither suppressed nor has already reacted. Opportunity defensive fire is also automatic for both sides when its elevation, range, and line-of-sight conditions are met. A player commands a normal attack by tapping their own counter and then an enemy with an attack bar. Troop profiles determine mobility: Brazilian battalions have 3 MP and German detachments have 2 MP; support and artillery have their own values."
+  },
+  "navigation.menu": {
+    "pt": "Menu do jogo",
+    "en": "Game menu"
   }
 } as const;

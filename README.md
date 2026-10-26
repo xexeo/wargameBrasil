@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.22 · 26/10/2026, 00:42:48 (Brasília)**
+**Versão 0.1.23 · 26/10/2026, 00:56:23 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -198,3 +198,5 @@ Consulte o arquivo [LICENSE](LICENSE).
 Dados OSM mantêm ODbL 1.0; Copernicus DEM e outros recursos de terceiros mantêm suas condições próprias. Marcas e logotipos institucionais não são relicenciados por este aviso. Consulte os avisos em LICENSE e docs/GEOGRAFIA.md.
 
 Na v0.1.22, textos e símbolos militares usam cores independentes por exército: FEB branca e Alemanha creme claro por padrão, ajustáveis em Aparência → Peças e estados.
+
+Na v0.1.23, as opções do cabeçalho formam um menu compacto no computador e um menu hambúrguer em telas estreitas. O idioma permanece visível; o menu fecha ao escolher uma opção, tocar fora ou pressionar Escape.

@@ -1,3 +1,4 @@
+import {clickNavigation} from './navigation.js';
 import { test, expect } from "@playwright/test";
 test("narrativa, mapa, movimento, zoom e turno do computador", async ({
   page,
@@ -28,7 +29,7 @@ test("narrativa, mapa, movimento, zoom e turno do computador", async ({
   await page.locator("#end").click();
   await expect(page.locator("#round")).toHaveText("2 / 10", { timeout: 10000 });
   await expect(page.locator("#end")).toBeEnabled();
-  await page.locator("#rules").click();
+  await clickNavigation(page,"rules");
   await expect(page.locator("#modalBody")).toContainText("altura");
   await expect(page.locator("#modalBody")).toContainText("Bolinhas de coesão");
   await expect(page.locator("#modalBody")).toContainText("Retângulo com X");
@@ -39,7 +40,7 @@ test("narrativa, mapa, movimento, zoom e turno do computador", async ({
   );
   await expect(page.locator("#modalBody")).toContainText("25 km");
   await page.locator("#close").click();
-  await page.locator("#briefing").click();
+  await clickNavigation(page,"briefing");
   await expect(page.locator("#modalBody")).toContainText("Sua missão");
   await expect(page.locator("#round")).toHaveText("2 / 10");
   await page.locator("#close").click();
@@ -76,7 +77,7 @@ test("aprendizado persiste ao recarregar e duplo toque amplia peça", async ({
 test("autoria mostra logo oficial e licença integral", async ({ page }) => {
   await page.goto("/");
   await page.locator("#begin").click();
-  await page.locator("#credits").click();
+  await clickNavigation(page,"credits");
   await expect(page.locator("#modalBody")).toContainText("Geraldo Xexéo");
   await expect(page.locator("#modalBody")).toContainText("CC BY-NC-SA 4.0");
   expect(
@@ -111,7 +112,7 @@ test("arquivo standalone funciona com todos os recursos embutidos", async ({
   expect(
     await page.locator("#gameLogo").evaluate((img) => img.naturalWidth > 0),
   ).toBeTruthy();
-  await page.locator("#credits").click();
+  await clickNavigation(page,"credits");
   expect(
     await page
       .locator('img[alt="Logo oficial do LUDES"]')
@@ -274,14 +275,14 @@ test('missão distingue meta acumulada de rendimento por rodada',async({page})=>
  await expect(page.locator('#score')).toHaveText('0 / 8');
  await expect(page.locator('#missionDetail')).toContainText('até 4 pontos por rodada');
  await expect(page.locator('#goals')).toContainText('+2/rodada');
- await page.locator('#rules').click();await expect(page.locator('#modalBody')).toContainText('4 pontos por rodada, não o limite do placar');
+ await clickNavigation(page,"rules");await expect(page.locator('#modalBody')).toContainText('4 pontos por rodada, não o limite do placar');
 });
 
 test('meta de partida salva aparece igual no placar, missão, narrativa e regras',async({page})=>{
  const{createGame}=await import('../../dist/engine.js');const game=createGame();game.rules.targetScore=6;
  await page.addInitScript(g=>localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'})),game);
  await page.goto('/');await page.locator('#begin').click();await expect(page.locator('#score')).toHaveText('0 / 6');await expect(page.locator('#missionDetail')).toContainText('Acumule 6 pontos');
- await page.locator('#briefing').click();await expect(page.locator('#modalBody')).toContainText('6 pontos');await page.locator('#close').click();await page.locator('#rules').click();await expect(page.locator('#modalBody')).toContainText('Acumule 6 pontos');
+ await clickNavigation(page,"briefing");await expect(page.locator('#modalBody')).toContainText('6 pontos');await page.locator('#close').click();await clickNavigation(page,"rules");await expect(page.locator('#modalBody')).toContainText('Acumule 6 pontos');
 });
 
 test('projeção da missão mostra pontos, ritmo e prazo sem mover a peça',async({page})=>{
