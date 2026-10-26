@@ -99,3 +99,30 @@ As relações foram calculadas com luminância relativa sRGB: linearização de 
 - [WCAG 2.2 · 1.4.11 Contraste não textual](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html): 3:1 contra cores adjacentes para partes visuais necessárias de componentes e objetos gráficos, observadas as exceções do critério. Não exige 3:1 entre todos os preenchimentos decorativos; se a cor codifica altura necessária, números, curvas e outras pistas devem tornar a informação acessível.
 
 Fontes oficiais consultadas em 25/10/2026. Esta é uma auditoria de cores por leitura do código e cálculo dos pares; não inclui teste de interação, validação de todos os estados ou pesquisa com jogadores.
+
+## Terreno de inverno e tempo em 21 de fevereiro de 1945
+
+Revisão em 25/10/2026, após pedido do autor. A avaliação considera a [pesquisa meteorológica já documentada](https://github.com/xexeo/wargameBrasil/blob/main/docs/TEMPO_21_FEVEREIRO_1945.md) e os limites da base geográfica moderna. A cor de um solo histórico específico não foi medida; os códigos abaixo são propostas de desenho, não cores extraídas de fotografias de 1945.
+
+### Evidências e implicações visuais
+
+A reanálise regional ERA5 indica −8,3 °C e 94% de nuvens às 06h, −4,8 °C e 47% às 09h, cerca de −0,5 °C e céu aberto ao meio-dia e −5,4 °C às 18h. Não modela precipitação ou neve nova no dia. A profundidade de neve não foi obtida: ausência de neve nova **não significa ausência de neve acumulada**. A célula tem aproximadamente 25 km e não resolve encostas. O nascer do sol calculado é 07h05; o início às 06h não deve receber uma aparência de pleno sol.
+
+| Superfície ou condição | Avaliação | Representação recomendada |
+| --- | --- | --- |
+| Campo de inverno | Bege/oliva dessaturado é mais coerente como linguagem visual que verde vivo. Não comprova a cobertura vegetal daquele hexágono. | Palha `#C4B58A` em pequenos traços, mantendo curvas e cotas legíveis. |
+| Terra exposta | O ocre atual fica muito dourado nas alturas e pode sugerir verão seco. Cor não deve converter altitude automaticamente em tipo de solo. | Terra fria `#9E8973`, com manchas discretas e caminhos diferenciados por traçado. |
+| Pedra | Textura e pequenas linhas ajudam mais que preencher todos os cumes de marrom. Não há mapeamento histórico de afloramentos. | Cinza quente `#A0A09A`, apenas como proposta gráfica; não colocar afloramentos por altitude sem evidência. |
+| Lama/solo úmido | Frio e ausência de chuva no dia não demonstram solo seco; tampouco confirmam lama em toda a encosta. Solo congelado não pode ser inferido apenas da temperatura do ar. | Marrom acinzentado `#76685D` como indicação localizada se a condição for documentada. Não aplicar ao mapa inteiro nem criar custo de movimento novo. |
+| Neve acumulada | Presença, espessura e distribuição não estão confirmadas para os hexágonos do cenário. | Se sustentada por fonte, manchas irregulares branco quebrado `#ECEFEB`, com sombra fria `#C6D0D4`. Não cobrir automaticamente todo o cume ou todo o mapa. |
+| Bosques | Evitar verde saturado que domina o tabuleiro. Não foi comprovada a composição de espécies em 1945. | Oliva cinza `#59614F` e ramos `#776B5B`; símbolos de floresta continuam esquemáticos, sem afirmar que toda a vegetação era perene ou desfolhada. |
+
+### Recomendação para o jogo
+
+Manter **FEB azul / Alemanha carvão** e o fundo branco, usando uma base de inverno mais neutra que a atual: N1 `#ECE6D8`, N2 `#D6CCB9`, N3 `#C2B6A3`, N4 `#AFA99E`. É uma variação proposta do terreno da opção A. A sequência de luminosidade continua mostrando altura; metros, N1–N4 e curvas de nível são indispensáveis.
+
+Materiais do terreno devem aparecer principalmente por **símbolo e textura**, em vez de disputar com a escala de altitude pelo preenchimento do hexágono. Neve, lama, rocha e altura não são a mesma informação. Uma mancha branca, por exemplo, não deve apagar a cota nem tornar o objetivo ilegível. Textos em `#20262D` e sinais em vermelho escuro `#981B2A` exigem nova conferência de contraste sobre as texturas finais.
+
+A iluminação pode ser ligeiramente mais fria/difusa ao amanhecer e neutra durante a abertura do tempo, mantendo o tabuleiro claro. Evitar filtro global, fundo preto, sombras que escondam peças ou mudar a cor das tropas conforme a hora. Aparência não deve sugerir que um bônus/penalidade foi ativado se as regras continuam iguais.
+
+**Decisão recomendada:** terreno terroso e pedregoso dessaturado, vegetação de inverno e relevo claro; neve e lama localizadas ficam pendentes de fontes. Esta avaliação não aplica uma nova paleta, não altera o mapa nem afirma uma reconstrução histórica fina. A opção A original continua disponível para comparação na imagem acima.

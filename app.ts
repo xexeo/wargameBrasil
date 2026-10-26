@@ -1,9 +1,10 @@
 import { t, translateData, language, setLanguage, applyStaticTranslations, initializeStaticTranslations, localizedDate, translateRenderedMessage } from "./i18n.js";
 import {tributeAssets} from "./tribute-assets.js";
+import {createCombatEffects} from "./combat-effects.js";
 import {tributePhoto} from "./tribute-photo.js";
 import {chooseFixedPolicy} from "./fixed-learning.js";
 import {fixedModels} from "./fixed-models.js";
-import {historicalLosses} from "./historical-casualties.js";
+import {chooseSimplePolicy,updateSimplePolicy} from "./simple-learning.js";
 import {officialMap} from "./official-map.js";
 import {troopProfiles,troopProfile,troopLevels} from "./troops.js";
 import { geography, altitude } from "./geography.js";
@@ -99,14 +100,6 @@ function saveTrained() {
     ? t("app.003")
     : t("app.004");
 }
-const policyKeys = [
-  "strong/aggressive",
-  "strong/defensive",
-  "weak/aggressive",
-  "weak/defensive",
-  "tactical/aggressive",
-  "tactical/defensive",
-];
 let memory: {
   games: number;
   q: Record<string, number>;
@@ -138,32 +131,18 @@ function persist() {
   }
 }
 function learn(reward, terminal = false) {
-  if (!policy) return;
-  const prev = Number(memory.q[policy]) || 0;
-  memory.q[policy] =
-    prev +
-    0.2 *
-      (reward +
-        (terminal
-          ? 0
-          : 0.85 *
-            Math.max(0, ...Object.entries(memory.q).filter(([key,value])=>key.startsWith("br:")===policy!.startsWith("br:")&&Number.isFinite(value)).map(([,value])=>value))) -
-        prev);
-  memory.visits[policy] = (Number(memory.visits[policy]) || 0) + 1;
-  episode.push(policy);
+  if (!updateSimplePolicy(memory,policy,reward,terminal)) return;
+  episode.push(policy!);
   persist();
 }
-function choosePolicy(side: Side) {
-  const keys=policyKeys.map(key=>side==="br"?`br:${key}`:key);
-  if (Math.random() < 0.2)
-    return keys[Math.floor(Math.random() * keys.length)];
-  return [...keys].sort(
-    (a, b) =>
-      (Number(memory.q[b]) || 0) - (Number(memory.q[a]) || 0) ||
-      Math.random() - 0.5,
-  )[0];
-}
+function choosePolicy(side: Side) { return chooseSimplePolicy(memory,side); }
 const center = (q, r) => ({ x: 65 + q * 64 + r * 32, y: 63 + r * 56 });
+const combatEffects=createCombatEffects($("map"),$("combatAnnouncement"),event=>{
+ const kind=t(`combat.${event.kind}`),result=event.damage?t("combat.damage",event.damage):t("combat.miss");
+ const label=`${kind} · ${result}`;
+ return {label,announcement:`${translateData(event.from.name)} → ${translateData(event.to.name)}: ${label}`};
+});
+let effectsGame=game;
 const hex = (q, r) => {
   const { x, y } = center(q, r);
   return Array.from({ length: 6 }, (_, i) => {
@@ -311,6 +290,7 @@ function contourGlyph(): string {
 }
 let activeDialog:(()=>string)|null=null;
 function render() {
+  if(effectsGame!==game){combatEffects.clear();effectsGame=game;}
   checkWinner(game);
   const weather = weatherAt(game.round);
   $("weatherInfo").textContent =
@@ -335,7 +315,7 @@ function render() {
   svg += contourGlyph();
   for (const o of objectives) {
     const { x, y } = center(o.q, o.r);
-    const star=Array.from({length:10},(_,i)=>{const angle=(i*36-90)*Math.PI/180,radius=i%2?14:33;return `${x+radius*Math.cos(angle)},${y+radius*Math.sin(angle)}`;}).join(" ");
+    const star=Array.from({length:10},(_,i)=>{const angle=(i*36-90)*Math.PI/180,radius=i%2?4.2:10;return `${x+radius*Math.cos(angle)},${y+radius*Math.sin(angle)}`;}).join(" ");
     svg += t("app.016", x, y, o.q, o.r, star, x, y - 39, o.name?o.name+' · ':'', o.points);
   }
   svg +=
@@ -351,6 +331,7 @@ function render() {
     svg += t("app.018", selected === v.id ? "selected" : "", target ? "target" : "", v.id, x, y, esc(v.name), v.side === "br" ? "FEB" : t("app.019"), v.hp, v.atk, v.def, esc(v.name), v.atk, v.def, v.hp, v.side === "br" ? "#226ba4" : "#30363d", target?'<rect class="attack-bar" x="-24" y="-30" width="48" height="4" rx="1" fill="#c92f37" pointer-events="none"/>':'', troopProfile(v.id)?.mark??'II', unitLevel(v), symbol(v), v.side === "br" ? "FEB" : "DE", v.hp, v.atk, v.def, v.mp, Array.from({ length: v.hp }, (_, i) => `<circle cx="${-7 + i * 7}" cy="10" r="2" fill="#eed788"/>`).join(""), v.hp < 3 ? `<g><circle cx="23" cy="-23" r="10" fill="#b34332" stroke="#fff"/><text x="23" y="-20" text-anchor="middle" style="font-size:10px">−${3 - v.hp}</text></g>` : "", v.suppressed?'<circle class="suppression-marker" cx="-23" cy="-23" r="6" fill="#e2a827" stroke="#fff"/><text x="-23" y="-20" text-anchor="middle" style="font-size:8px">S</text>':'', v.fired ? '<path d="M-22 -22L22 22" stroke="#e5d9bb" opacity=".4"/>' : "");
   }
   $("map").innerHTML = svg;
+  combatEffects.redraw();
   $("time").textContent = clock(game.winner&&game.finishedRound?game.finishedRound+1:game.round);
   const actionable =
     u && u.side === game.turn && myTurn() && !busy && !game.winner;
@@ -409,7 +390,7 @@ function render() {
         t("app.077", memory.games);
     }
     const assessment=victoryAssessment(game),outcome=operationResult(game);
-    show(() => t("app.078", esc(outcome.title), esc(outcome.detail), assessment.rounds, roundLimit(game), game.score, assessment.lostUnits, assessment.lostCohesion, assessment.efficiency, gameLossComparison(), historicalLossComparison(), sideName(game.winner!), game.rules?.summitAtDeadlineWins?t("victory.paths",targetScore(game),roundLimit(game)):t("victory.legacy",missionInstruction(game))));
+    show(() => t("app.078", esc(outcome.title), esc(outcome.detail), assessment.rounds, roundLimit(game), game.score, assessment.lostUnits, assessment.lostCohesion, assessment.efficiency, gameLossComparison(), "", sideName(game.winner!), game.rules?.summitAtDeadlineWins?t("victory.paths",targetScore(game),roundLimit(game)):t("victory.legacy",missionInstruction(game))));
   }
   saveSession();
 }
@@ -429,7 +410,12 @@ function refreshDialog(){
 }
 
 function inspect(u) {
-  show(() => t("app.079", esc(u.name), esc(troopProfile(u.id)?.echelon??t("term.Agrupamento")), unitLevel(u), troopLevels[unitLevel(u)], u.side, u.type === "infantry" ? "☒" : u.type === "armor" ? "▱" : "●", u.atk, u.def, u.mp, u.hp, 3 - u.hp, u.atk, u.def, u.hp, 3 - u.hp, attackRange(u), esc(troopProfile(u.id)?.description??t("app.080")), u.id==='b4'?sampaioSupport():'', canCaptureObjective(u)?t("app.081"):t("app.082"), maximumMovement(u)));
+  show(() => t("app.079", esc(u.name), esc(troopProfile(u.id)?.echelon??t("term.Agrupamento")), unitLevel(u), troopLevels[unitLevel(u)], u.side, u.type === "infantry" ? "☒" : u.type === "armor" ? "▱" : "●", u.atk, u.def, u.mp, u.hp, 3 - u.hp, u.atk, u.def, u.hp, 3 - u.hp, attackRange(u), esc(troopProfile(u.id)?.description??t("app.080")), u.id==='b4'?sampaioSupport():'', canCaptureObjective(u)?t("app.081"):t("app.082"), maximumMovement(u),unitCurrentState(u)));
+}
+function unitCurrentState(u){
+ const damage=3-u.hp,penalty=damage*.5,number=(n:number)=>new Intl.NumberFormat(language,{maximumFractionDigits:1}).format(n);
+ const yes=(flag:boolean)=>t(flag?"unit.yes":"unit.no");
+ return t("unit.current",u.hp,damage,u.mp,maximumMovement(u),number(u.atk-penalty),u.atk,number(penalty),u.def,yes(!!u.fired),yes(u.mp>0&&!u.reorganizing&&!game.winner&&u.side===game.turn),yes(!!u.suppressed),yes(!!u.reorganizing),yes(!!u.reactionSpent));
 }
 function selectUnit(id) {
   const now = Date.now(),
@@ -453,7 +439,7 @@ function selectUnit(id) {
         t("app.083");
       return;
     }
-    attack(game, actor.id, u.id);
+    attack(game, actor.id, u.id, Math.random, combatEffects.enqueue);
     render();
     return;
   }
@@ -469,7 +455,7 @@ $("map").addEventListener("click", (e) => {
   const cell = e.target.closest("[data-q]");
   if (cell && !busy && selected && myTurn()) {
     lastTap = { id: null, time: 0 };
-    advance(game, selected, +cell.dataset.q, +cell.dataset.r);
+    advance(game, selected, +cell.dataset.q, +cell.dataset.r, Math.random, combatEffects.enqueue);
     render();
   }
 });
@@ -511,7 +497,7 @@ async function computerTurn() {
     if(progress.completed.includes(id))continue;
     await pause();
     if(token!==generation)return;
-    takeAIAction(game,id,progress.chosen,progress.stance);
+    takeAIAction(game,id,progress.chosen,progress.stance,Math.random,combatEffects.enqueue);
     progress.completed.push(id);
     render();
     if(game.winner)break;
@@ -835,11 +821,6 @@ function gameLossComparison() {
   return t("app.131", losses.br.removedUnits, losses.br.initialUnits, losses.de.removedUnits, losses.de.initialUnits, losses.br.lostCohesion, losses.br.initialCohesion, losses.de.lostCohesion, losses.de.initialCohesion, losses.br.withdrawnUnits??t("app.132"), losses.de.withdrawnUnits??t("app.133"));
 }
 
-function historicalLossComparison() {
-  const data=historicalLosses,number=(value:number|null)=>value===null?t("app.134"):String(value);
-  const withdrawal=(side:typeof data.sides.br)=>side.withdrawn!==null?String(side.withdrawn):side.withdrawalRecorded===true?t("app.135"):t("app.136");
-  return t("app.137", esc(data.scope), number(data.sides.br.killed), number(data.sides.de.killed), number(data.sides.br.wounded), number(data.sides.de.wounded), number(data.sides.br.prisoners), number(data.sides.de.prisoners), withdrawal(data.sides.br), withdrawal(data.sides.de), esc(data.sides.br.note), esc(data.sides.de.note), data.context.map(item=>t("app.138", esc(item.label), item.total, item.killed, item.wounded, item.missing, esc(item.scopeNote))).join(''), data.sources.map(source=>`<a href="${esc(source.url)}" target="_blank" rel="noopener">${esc(source.label)}</a>`).join('<br>'));
-}
 
 $("language").value=language;
 $("language").onchange=()=>{

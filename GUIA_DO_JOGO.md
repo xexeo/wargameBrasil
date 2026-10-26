@@ -258,7 +258,7 @@ Perfis e escala em [docs/TROPAS.md](docs/TROPAS.md); fontes militares em [docs/M
 
 ## Persistência dos experimentos
 
-Guardar análises e dados por versão em docs/simulacoes/<versão>/<execução>. Manifesto contém hashes de regras, geografia, IA e protocolo. Build e commit removem diretórios incompatíveis e referências numéricas marcadas no README. Versionamento/CSS/documentação não invalidam; app.ts é incluído conservadoramente porque contém a Aprendiz. Nunca rotular um resumo agregado como dados individuais. Novas execuções guardam uma linha por partida, sementes, parâmetros e resumo; os experimentos antigos declaram quando esses dados não existiam.
+Guardar análises e dados por versão em docs/simulacoes/<versão>/<execução>. Manifesto contém hashes de regras, geografia, IA e protocolo. Build e commit removem diretórios incompatíveis e referências numéricas marcadas no README. Versionamento/CSS/documentação não invalidam; O aprendizado simples foi extraído para simple-learning.ts, compartilhado com o simulador e incluído nos hashes; app.ts fica restrito à interface e à coordenação dos controles. Mudanças exclusivamente visuais não invalidam simulações sem interface. Nunca rotular um resumo agregado como dados individuais. Novas execuções guardam uma linha por partida, sementes, parâmetros e resumo; os experimentos antigos declaram quando esses dados não existiam.
 
 ## Revisão atual dos batalhões
 
@@ -279,3 +279,11 @@ A opção Aprendiz fixo escolhe a política do turno consultando exclusivamente 
 A Veterana e a Aprendiz simples mantêm seu aprendizado online e são opções distintas. Alterar o idioma ou escolher o modelo fixo não apaga suas memórias. Regras e fatos históricos permanecem comuns a todas as IAs.
 
 A homenagem passa a mostrar a fotografia fornecida pelo usuário, restaurada com auxílio de IA e identificada como tal. Os emblemas conservam suas fontes e condições próprias.
+
+## Sinalização de combate e fotografia — v0.1.20
+
+Os disparos passam a emitir eventos transitórios, com origem e impacto registrados antes de retirada ou eliminação. A interface mostra traço, pequena explosão e mensagem de ataque, fogo defensivo ou contra-ataque, distinguindo dano de ausência de perda. O fogo durante avanço identifica o hexágono intermediário atingido. A apresentação não muda resultados, aleatoriedade, regras ou estado compartilhado. Os efeitos respeitam a preferência de redução de movimento.
+
+A fotografia da homenagem é substituída pelo JPEG `1000165051.jpg`, enviado depois pelo usuário, sem tratamento adicional. A legenda é atualizada para não atribuir a esta imagem a restauração por IA aplicada à imagem anterior.
+
+Por solicitação do autor, a comparação histórica de baixas humanas deixa de aparecer no resultado final, já que não há dados confirmados adequados ao dia da batalha. A pesquisa permanece na documentação. O relatório final conserva apenas perdas da partida em peças, coesão e recuos. O popup de unidade exibe seu dano e estado atuais ao ser aberto.

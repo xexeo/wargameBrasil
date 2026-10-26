@@ -1,4 +1,4 @@
-import {type Game,type Unit,distance,objectives,terrain,reachable,canAttack,attackRange,move,canCaptureObjective,advance,attack,hasHeightAdvantage,effectiveAttackRange,expectedReactionRisk,travelCostsTo,key,roundLimit} from './engine.js';
+import {type CombatObserver,type Game,type Unit,distance,objectives,terrain,reachable,canAttack,attackRange,move,canCaptureObjective,advance,attack,hasHeightAdvantage,effectiveAttackRange,expectedReactionRisk,travelCostsTo,key,roundLimit} from './engine.js';
 
 export function chooseTarget(s:Game,u:Unit,mode:string){
  return s.units.filter(v=>v.side!==u.side).sort((a,b)=>{
@@ -67,15 +67,15 @@ export function selectAttackTarget(s:Game,u:Unit,mode='tactical'):Unit|undefined
 }
 
 export function activationOrder(s:Game,side=s.turn):string[]{return s.units.filter(u=>u.side===side).sort((a,b)=>Number(canCaptureObjective(a))-Number(canCaptureObjective(b))||attackRange(b)-attackRange(a)||a.id.localeCompare(b.id)).map(u=>u.id);}
-export function takeAIAction(s:Game,id:string,mode='tactical',stance='defensive',rng=Math.random){
+export function takeAIAction(s:Game,id:string,mode='tactical',stance='defensive',rng=Math.random,onCombat?:CombatObserver){
  const source=s.units.find(u=>u.id===id);if(!source||s.winner||source.side!==s.turn)return null;
  const first=s.rules?.freeFireOrder?selectAttackTarget(s,source,mode):undefined;
  let shot:ReturnType<typeof attack>=null,uphill=first?hasHeightAdvantage(first,source):false;
- if(first)shot=attack(s,id,first.id,rng);
+ if(first)shot=attack(s,id,first.id,rng,onCombat);
  if(s.winner||!s.units.some(u=>u.id===id))return{moved:false,attack:shot,uphill};
  const plan=structuredClone(s),intent=aiAction(plan,id,mode,stance),destination=plan.units.find(u=>u.id===id)!;
- const moved=source.q!==destination.q||source.r!==destination.r;if(moved)advance(s,id,destination.q,destination.r,rng);
+ const moved=source.q!==destination.q||source.r!==destination.r;if(moved)advance(s,id,destination.q,destination.r,rng,onCombat);
  if(s.winner||!s.units.some(u=>u.id===id))return{moved,attack:shot,uphill};
- if(!first&&intent){const target=s.units.find(u=>u.id===intent.target);uphill=target?hasHeightAdvantage(target,source):false;shot=attack(s,intent.attacker,intent.target,rng);}
+ if(!first&&intent){const target=s.units.find(u=>u.id===intent.target);uphill=target?hasHeightAdvantage(target,source):false;shot=attack(s,intent.attacker,intent.target,rng,onCombat);}
  return{moved,attack:shot,uphill};
 }

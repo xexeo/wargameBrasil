@@ -20,6 +20,7 @@
     "persistence.ts",
     "app.ts",
     "fixed-learning.ts",
-    "fixed-training.ts"
+    "fixed-training.ts",
+    "simple-learning.ts"
   ]
 }

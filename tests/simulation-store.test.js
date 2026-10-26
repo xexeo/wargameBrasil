@@ -10,6 +10,7 @@ test('simulação guarda análise, dados e hashes por versão; metadados e CSS n
  const root=await project(t),dir=await saveRun('matriz',{'analise.md':'Analysis','dados-brutos.json':[{seed:1,winner:'br'}]},{project:root});
  assert.ok(dir.endsWith('/0.1.9/matriz'));assert.deepEqual(JSON.parse(await readFile(join(dir,'dados-brutos.json'),'utf8')),[{seed:1,winner:'br'}]);
  await writeFile(join(root,'version.json'),JSON.stringify({version:'0.1.10'}));await writeFile(join(root,'style.css'),'changed presentation');
+ await writeFile(join(root,'app.ts'),'changed unit inspection popup only');
  const state=await checkSimulations({project:root,prune:true});assert.equal(state.valid.length,1);assert.equal(state.invalid.length,0);assert.equal(await latestRun('matriz',root),dir);
 });
 

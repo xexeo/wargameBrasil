@@ -1,7 +1,7 @@
 # Monte Castelo Vibed
 
 <!-- release:start -->
-**Versão 0.1.19 · 25/10/2026, 23:11:38 (Brasília)**
+**Versão 0.1.20 · 25/10/2026, 23:32:13 (Brasília)**
 <!-- release:end -->
 
 Wargame tático sobre o ataque final da FEB a Monte Castelo, em 21 de fevereiro de 1945. Humano contra computador, regras simples inspiradas em wargames tradicionais, partidas projetadas para 5–10 minutos.
@@ -20,15 +20,17 @@ O código-fonte é **TypeScript**. O JavaScript compilado é o que roda no naveg
 
 ## Novidades da interface
 
+O duplo clique/toque mostra dano acumulado e estado atual da peça. Disparos recebem sinalização no mapa: trajetória, impacto e identificação de fogo defensivo, inclusive ao avançar. Os efeitos apenas mostram os eventos reais do motor; não alteram dados de combate ou regras.
+
 Português é o idioma padrão; **English (US)** é opcional e persistente, incluindo regras, narrativa, mensagens, histórico e acessibilidade. Trocar o idioma preserva partida e aprendizado.
 
 **Encerrar turno** fica no mapa em barra fixa. Estrelas vermelhas centrais marcam objetivos; bordas tracejadas marrons/laranja indicam risco de fogo defensivo no percurso. Novas partidas permitem mover e disparar em qualquer ordem com um ataque normal por turno. A eliminação da última peça adversária encerra a partida imediatamente.
 
-Modos: humano FEB × computador alemão; computador FEB × humano alemão; dois humanos no mesmo aparelho; dois humanos à distância. Popup Homenagem a Pedro Henrique de Figueiredo Bonorino, tenente do **6º RI**, com sua fotografia restaurada digitalmente e emblemas da FEB e Regimento Ipiranga. O brasão atual é identificado como atual, sem afirmar seu uso em1945.
+Modos: humano FEB × computador alemão; computador FEB × humano alemão; dois humanos no mesmo aparelho; dois humanos à distância. Popup Homenagem a Pedro Henrique de Figueiredo Bonorino, tenente do **6º RI**, com a nova fotografia fornecida pelo usuário, preservada sem tratamento adicional e emblemas da FEB e Regimento Ipiranga. O brasão atual é identificado como atual, sem afirmar seu uso em1945.
 
-[**Ver as três paletas**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.svg) · [**Abrir a análise de UX**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.html). A recomendação é azul/carvão; propostas ainda não aplicadas.
+[**Ver as três paletas**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.svg) · [**Abrir a análise de UX**](https://xexeo.github.io/wargameBrasil/ux/paletas-ux.html). A recomendação é azul/carvão; propostas ainda não aplicadas. A análise inclui terreno de inverno, iluminação do dia, neve, lama e pedra, distinguindo evidência de hipótese. [Ver estudo visual do terreno de inverno](https://xexeo.github.io/wargameBrasil/ux/terreno-inverno.svg).
 
-[Pesquisa de mortos, feridos, prisioneiros e retirada](docs/PESQUISA_MASCARENHAS_BAIXAS.md): comparação final separa coesão/peças das contagens humanas, desconhecido não é zero e totais de outros períodos não são atribuídos ao dia21. [Copyright do roteiro no Memorial](docs/IMAGEM_ROTEIRO_FEB.md): sem licença de reprodução localizada; apenas referência externa foi incluída.
+[Pesquisa de mortos, feridos, prisioneiros e retirada](docs/PESQUISA_MASCARENHAS_BAIXAS.md) preservada na documentação. A comparação histórica de baixas humanas foi removida do resultado final por falta de dados confirmados; a tela mostra somente perdas desta partida em peças, coesão e recuos. [Copyright do roteiro no Memorial](docs/IMAGEM_ROTEIRO_FEB.md): sem licença de reprodução localizada; apenas referência externa foi incluída.
 
 ## Revisão atual da escala de batalhão
 
@@ -81,9 +83,14 @@ A altura permite tiro defensivo antes do avanço/assalto, com limite de 1 dano e
 
 O [registro de mapas oficiais](docs/MAPAS_OFICIAIS.md) distingue fontes efetivamente lidas e catálogos. Fisher, p. 431, relata retirada alemã e pequena retaguarda final. O jogo ainda abstrai essa retirada; não afirma que quatro batalhões completos defenderam o cume. Os mapas integrais da memória de Mascarenhas permanecem pendentes de consulta.
 
-<!-- simulation:0.1.19/avaliacao-ias-fixas:start -->
-**Avaliação dos aprendizes fixos — v0.1.19:** 1.300 partidas fora do treino. FEB venceu 575/600 (95,8%) contra o portfólio de seis políticas; Alemanha venceu 84/600 (14,0%) em seu próprio portfólio. São adversários e lados diferentes. No confronto direto entre os dois modelos, FEB venceu 99/100, Alemanha 1/100. **O cenário atual não está equilibrado em 50/50**; a maior parte das vitórias brasileiras ocorre por eliminação, mostrando a necessidade de rever a defesa e a dinâmica de combate antes de alegar realismo de resultados. Nenhum fato histórico foi alterado para produzir essas taxas. [Análise e intervalos](docs/simulacoes/0.1.19/avaliacao-ias-fixas/analise.md) · [dados brutos](docs/simulacoes/0.1.19/avaliacao-ias-fixas/dados-brutos.json) · [treinamento e modelos](docs/simulacoes/0.1.19/treinamento-ias-fixas/analise.md).
-<!-- simulation:0.1.19/avaliacao-ias-fixas:end -->
+
+<!-- simulation:0.1.20/avaliacao-ias-fixas:start -->
+**Avaliação dos aprendizes fixos — v0.1.20:** 1.300 partidas fora do treino. FEB venceu 575/600 (95,8%) contra o portfólio de seis políticas; Alemanha venceu 84/600 (14,0%) em seu próprio portfólio. No confronto direto entre os dois modelos, FEB venceu 99/100, Alemanha 1/100. **O cenário atual não está equilibrado em 50/50.** Os efeitos visuais preservaram os resultados de todas as 4.800 partidas de treinamento. [Análise e intervalos](docs/simulacoes/0.1.20/avaliacao-ias-fixas/analise.md) · [dados brutos](docs/simulacoes/0.1.20/avaliacao-ias-fixas/dados-brutos.json) · [treino e modelos](docs/simulacoes/0.1.20/treinamento-ias-fixas/analise.md).
+<!-- simulation:0.1.20/avaliacao-ias-fixas:end -->
+
+<!-- simulation:0.1.20/matriz-ias:start -->
+A [matriz atual de nove perfis](docs/simulacoes/0.1.20/matriz-ias/analise.md) inclui 810 partidas (dez por dupla ordenada): 709 vitórias FEB (87,5%) e 101 alemãs, média de 5,71 rodadas. Houve 705 desfechos por eliminação; a predominância desse resultado exige revisão de estratégia e dinâmica de combate, sem alterar geografia ou fatos históricos para obter 50%. A duração humana em minutos não foi medida.
+<!-- simulation:0.1.20/matriz-ias:end -->
 
 ## Simulações e análises por versão
 
@@ -99,7 +106,7 @@ O prazo é o fechamento da rodada10 (18h do cenário). Cume mais8 pontos antecip
 
 ## Autojogo sem interface
 
-A arquitetura separa `geography.ts`/`geography-data.ts` (terreno e fontes geográficas), `engine.ts` (regras e estado), `ai.ts` (estratégias), `simulator.ts` (partidas e torneios sem DOM), `app.ts` (interface) e `scripts/autoplay.mjs` (CLI). O mesmo motor executa jogo visual e simulações. `learning.ts` treina e atualiza a IA sem DOM ou armazenamento; `persistence.ts` adapta armazenamento do navegador; `pretrained.ts` incorpora o treinamento inicial.
+A arquitetura separa `geography.ts`/`geography-data.ts` (terreno e fontes geográficas), `engine.ts` (regras e estado), `ai.ts` (estratégias), `simulator.ts` (partidas e torneios sem DOM), `app.ts` (interface) e `scripts/autoplay.mjs` (CLI). O mesmo motor executa jogo visual e simulações. `learning.ts`, `simple-learning.ts` e os módulos fixos treinam e atualizam as IAs sem DOM ou armazenamento; `persistence.ts` adapta armazenamento do navegador; `pretrained.ts` incorpora o treinamento inicial.
 
 ```sh
 npm run simulate -- --games 500 --seed 1 --name referencia
@@ -111,6 +118,9 @@ Todas as novas execuções salvam os resultados individuais e o resumo em `docs/
 ```sh
 npm run simulate:matrix
 npm run simulations:check
+# Dois aprendizes independentes, 2.400 partidas por lado:
+npm run train:fixed
+npm run evaluate:fixed
 ```
 
 ## Humano × humano e WhatsApp
@@ -124,9 +134,9 @@ Na versão offline, exporte o arquivo do turno e envie-o como documento; o desti
 - **Clima de 21/02/1945:** agora há uma reconstrução regional ERA5, com botão de tempo e popup de fontes no jogo. Ela sugere madrugada muito fria/nublada e abertura ao longo da manhã, sem precipitação modelada no dia. É reanálise de escala ~25 km, não medição local. Profundidade da neve está sem dados. Ainda falta boletim instrumental contemporâneo. [Pesquisa e limites](docs/TEMPO_21_FEVEREIRO_1945.md).
 - O mapa agora tem base geográfica atual, mas **ainda não é uma restituição de 1945**. Caminhos e matas OSM modernos, discretização dos hexágonos e fortificações de cenário têm limitações explícitas. [Método, fontes e licenças](docs/GEOGRAFIA.md).
 - Consulte [docs/HISTORIA.md](docs/HISTORIA.md) para distinguir fatos consultados, abstrações e pontos não confirmados.
-- A IA Veterana ainda não atinge equilíbrio: na avaliação separada de 300 partidas sobre a base geográfica, foram **33,7% FEB / 66,3% defesa alemã** com o mesmo algoritmo nos dois lados. Isso mede a tabela treinada, não equilíbrio garantido contra humanos. A calibração da Veterana continua como decisão revisável.
+- O equilíbrio entre os lados continua pendente. Os resultados válidos por versão distinguem o treinamento da avaliação independente; números anteriores às regras atuais não são usados como medição de desempenho atual.
 - A experiência da IA depende do armazenamento permitido pelo navegador. Limpar seus dados apaga o aprendizado; abrir arquivos locais pode ter comportamento de armazenamento diferente entre navegadores.
-- Partida e preferências são salvas localmente; ao reabrir, o jogo oferece retomada. Se a página for fechada durante o turno da IA, retoma o último ponto de controle completo, anterior ao processamento daquele turno.
+- Partida e preferências são salvas localmente; ao reabrir, o jogo oferece retomada. Se a página for fechada durante o turno da IA, retoma o último ponto de controle de peça concluída e continua sem repetir as peças já ativadas.
 
 ## Versões e commits
 
@@ -134,7 +144,7 @@ Cada novo commit incrementa a versão `0.1.X`. O hook versionado em `.githooks/p
 
 ## Desenvolvimento
 
-Use o checkout existente, na branch **`main`**. Por orientação do autor, não criar branches adicionais ou worktrees. Atualizar este README a cada mudança relevante de estado.
+A versão de batalhões continua na **`main`**. A alternativa de companhias está isolada na branch **`experimento/escala-companhia`**, autorizada pelo autor; não é a versão publicada. Atualizar este README a cada mudança relevante de estado.
 
 Requisitos de desenvolvimento: Node.js 22 ou superior e npm. Python 3 é usado apenas no servidor estático opcional de desenvolvimento; não é necessário para jogar `jogo.html`.
 

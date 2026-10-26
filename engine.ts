@@ -164,8 +164,13 @@ export function move(s: Game, id: string, q: number, r: number) {
   u.mp -= n;
   return true;
 }
+export interface CombatPosition {readonly id:string;readonly name:string;readonly side:Side;readonly q:number;readonly r:number}
+export interface CombatEvent {readonly kind:'attack'|'defensive-fire'|'counterattack';readonly from:CombatPosition;readonly to:CombatPosition;readonly damage:number;readonly remainingHP:number}
+export type CombatObserver=(event:CombatEvent)=>void;
+function reportCombat(observer:CombatObserver,event:CombatEvent){try{observer(Object.freeze({...event,from:Object.freeze(event.from),to:Object.freeze(event.to)}));}catch{/* Presentation observers must never change combat resolution. */}}
 export interface AttackResult {die:number;damage:number;counter:number;interrupted?:boolean}
-function resolveCombat(s:Game,u:Unit,v:Unit,rng:()=>number,reaction=false):AttackResult{
+function resolveCombat(s:Game,u:Unit,v:Unit,rng:()=>number,reaction=false,onCombat?:CombatObserver):AttackResult{
+ const from=onCombat?{id:u.id,name:u.name,side:u.side,q:u.q,r:u.r}:undefined,to=onCombat?{id:v.id,name:v.name,side:v.side,q:v.q,r:v.r}:undefined;
  const cover=defenseBonus(u,v),barrage=u.side==='br'&&u.type==='artillery'&&s.round===10?1:0;
  const die=1+Math.floor(rng()*6),power=u.atk+barrage+(u.hp-3)*.5+die-v.def-cover;
  const previousHP=v.hp,hit=power>=5?2:power>=1?1:0,damage=reaction?Math.min(1,hit):hit;v.hp-=damage;
@@ -174,26 +179,27 @@ function resolveCombat(s:Game,u:Unit,v:Unit,rng:()=>number,reaction=false):Attac
  if(!reaction&&!v.reactionSpent&&!v.suppressed&&v.hp>0&&distance(u,v)===1&&power<=0){u.hp--;counter=1;if(s.rules?.opportunityFire){v.reactionSpent=true;v.fired=true;v.mp=0;}}
  if(damage>0&&isIndirect(u))v.suppressed=true;
  s.log.unshift(`${reaction?'Fogo defensivo · ':''}${u.name} → ${v.name}: dado ${die}${barrage?' + barragem':''}, ${damage} dano${counter?', contra-ataque: 1 dano':''}${damage>0&&isIndirect(u)?' · reação suprimida':''}.`);
+ if(onCombat){reportCombat(onCombat,{kind:reaction?'defensive-fire':'attack',from:from!,to:to!,damage,remainingHP:v.hp});if(counter)reportCombat(onCombat,{kind:'counterattack',from:to!,to:from!,damage:counter,remainingHP:u.hp});}
  if(s.rules?.retreatOnLoss&&previousHP>1&&v.hp===1&&canCaptureObjective(v)){const candidates=neighbors(v.q,v.r).map(([q,r])=>({q,r})).filter(p=>distance(p,u)>distance(v,u)&&!s.units.some(w=>w.q===p.q&&w.r===p.r)).sort((a,b)=>distance(b,u)-distance(a,u)||altitude(a.q,a.r)-altitude(b.q,b.r)||a.r-b.r||a.q-b.q);if(candidates[0]){v.q=candidates[0].q;v.r=candidates[0].r;v.mp=0;v.fired=true;v.reactionSpent=true;v.suppressed=true;v.reorganizing=true;s.withdrawals??={br:0,de:0};s.withdrawals[v.side]++;s.log.unshift(`${v.name}: retirada por perdas para ${v.q+1}-${v.r+1}; próxima ação comprometida, sem recuperar PV.`);}}
  s.units=s.units.filter(v=>v.hp>0);checkWinner(s);return{die,damage,counter};
 }
 function canReact(s:Game,defender:Unit,target:Unit):boolean{return !!s.rules?.opportunityFire&&!defender.reactionSpent&&!defender.suppressed&&!defender.reorganizing&&!isIndirect(defender)&&hasHeightAdvantage(defender,target)&&canAttack({...defender,fired:false},target);}
-export function opportunityFire(s:Game,targetId:string,rng=Math.random):boolean{
+export function opportunityFire(s:Game,targetId:string,rng=Math.random,onCombat?:CombatObserver):boolean{
  if(s.winner)return false;const target=s.units.find(u=>u.id===targetId);if(!target)return false;
  const defender=s.units.filter(u=>u.side!==target.side&&canReact(s,u,target)).sort((a,b)=>b.atk-a.atk||distance(a,target)-distance(b,target)||a.id.localeCompare(b.id))[0];
- if(!defender)return false;resolveCombat(s,defender,target,rng,true);return true;
+ if(!defender)return false;resolveCombat(s,defender,target,rng,true,onCombat);return true;
 }
-export function advance(s:Game,id:string,q:number,r:number,rng=Math.random):boolean{
+export function advance(s:Game,id:string,q:number,r:number,rng=Math.random,onCombat?:CombatObserver):boolean{
  const u=s.units.find(v=>v.id===id);if(!u||u.side!==s.turn||s.winner)return false;const route=movementRoute(s,u,q,r);if(!route.length)return false;
  let reacted=false;
- for(const cell of route){u.mp-=movementCost(u,cell);u.q=cell.q;u.r=cell.r;if(!reacted)reacted=opportunityFire(s,id,rng);if(s.winner||!s.units.some(v=>v.id===id)||u.q!==cell.q||u.r!==cell.r)break;}
+ for(const cell of route){u.mp-=movementCost(u,cell);u.q=cell.q;u.r=cell.r;if(!reacted)reacted=opportunityFire(s,id,rng,onCombat);if(s.winner||!s.units.some(v=>v.id===id)||u.q!==cell.q||u.r!==cell.r)break;}
  return true;
 }
-export function attack(s:Game,id:string,target:string,rng=Math.random):AttackResult|null{
+export function attack(s:Game,id:string,target:string,rng=Math.random,onCombat?:CombatObserver):AttackResult|null{
  let u=s.units.find(v=>v.id===id),v=s.units.find(v=>v.id===target);if(!u||!v||s.winner||u.side!==s.turn||!canAttack(u,v))return null;
- if(!isIndirect(u)&&canReact(s,v,u)){resolveCombat(s,v,u,rng,true);u=s.units.find(v=>v.id===id);if(!u||s.winner)return{die:0,damage:0,counter:0,interrupted:true};v=s.units.find(v=>v.id===target)!;}
+ if(!isIndirect(u)&&canReact(s,v,u)){resolveCombat(s,v,u,rng,true,onCombat);u=s.units.find(v=>v.id===id);if(!u||s.winner)return{die:0,damage:0,counter:0,interrupted:true};v=s.units.find(v=>v.id===target)!;}
  if(!canAttack(u,v))return{die:0,damage:0,counter:0,interrupted:true};
- return resolveCombat(s,u,v,rng);
+ return resolveCombat(s,u,v,rng,false,onCombat);
 }
 export const summitOccupied=(s:Game):boolean=>s.units.some(u=>u.side==='br'&&canCaptureObjective(u)&&u.q===objectives[0].q&&u.r===objectives[0].r);
 export function checkWinner(s:Game,completedRound?:number){

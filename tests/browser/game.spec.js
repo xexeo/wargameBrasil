@@ -300,9 +300,9 @@ test('objetivos têm estrela vermelha central sob as peças e sem interceptar to
   await expect(page.locator('.objective-star')).toHaveCount(3);
   const stars=await page.locator('.objective-star').evaluateAll(nodes=>nodes.map(el=>{
     const [q,r]=el.dataset.objective.split(',').map(Number),points=el.getAttribute('points').split(' ').map(p=>p.split(',').map(Number));
-    return {x:points.reduce((n,p)=>n+p[0],0)/10,y:points.reduce((n,p)=>n+p[1],0)/10,expectedX:65+q*64+r*32,expectedY:63+r*56,fill:el.getAttribute('fill'),pointer:el.getAttribute('pointer-events'),beforeUnits:!!(el.compareDocumentPosition(document.querySelector('.unit'))&Node.DOCUMENT_POSITION_FOLLOWING)};
+    return {radius:Math.max(...points.map(([x,y])=>Math.hypot(x-(65+q*64+r*32),y-(63+r*56)))),x:points.reduce((n,p)=>n+p[0],0)/10,y:points.reduce((n,p)=>n+p[1],0)/10,expectedX:65+q*64+r*32,expectedY:63+r*56,fill:el.getAttribute('fill'),pointer:el.getAttribute('pointer-events'),beforeUnits:!!(el.compareDocumentPosition(document.querySelector('.unit'))&Node.DOCUMENT_POSITION_FOLLOWING)};
   }));
-  for(const star of stars){expect(star.x).toBeCloseTo(star.expectedX,5);expect(star.y).toBeCloseTo(star.expectedY,5);expect(star.fill).toBe('#c92f37');expect(star.pointer).toBe('none');expect(star.beforeUnits).toBeTruthy();}
+  for(const star of stars){expect(star.radius).toBeLessThanOrEqual(11);expect(star.radius).toBeGreaterThanOrEqual(9);expect(star.x).toBeCloseTo(star.expectedX,5);expect(star.y).toBeCloseTo(star.expectedY,5);expect(star.fill).toBe('#c92f37');expect(star.pointer).toBe('none');expect(star.beforeUnits).toBeTruthy();}
 });
 
 test('encerrar turno fica no mapa durante zoom e rolagem inclusive no celular',async({page})=>{
@@ -380,11 +380,12 @@ test('partida salva sem defensores encerra imediatamente e compara perdas dos do
 });
 
 
-test('popup final distingue baixas históricas não confirmadas e retirada alemã registrada',async({page})=>{
+test('popup final mantém perdas da partida e omite comparação histórica sem dados confirmados',async({page})=>{
   const {createGame}=await import('../../dist/engine.js');const game=createGame();game.units=game.units.filter(u=>u.side==='br');
   await page.addInitScript(g=>localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game:g,mode:'computer',localSide:'br',ai:'tactical',stance:'defensive'})),game);
   await page.goto('/');await expect(page.locator('#modalBody')).toContainText('FIM DA OPERAÇÃO');
-  const daily=page.locator('.historical-losses');await expect(daily).toContainText('Mortos');await expect(daily).toContainText('Feridos');await expect(daily).toContainText('Prisioneiros');await expect(daily).toContainText('Retirada registrada; total não confirmado');
-  const counts=await daily.locator('tbody td').allTextContents();expect(counts).toHaveLength(8);for(const count of counts)expect(count.toLowerCase()).toContain('não confirmado');
-  await page.locator('.historical-context summary').click();await expect(page.locator('.historical-context')).toContainText('414 baixas');await expect(page.locator('.historical-context')).toContainText('não é apresentado como baixas do ataque de 21/02');await expect(page.locator('.historical-context')).toContainText('Desaparecidos não são prisioneiros confirmados');await expect(page.locator('.historical-sources a')).toHaveCount(3);
+  await expect(page.locator('.historical-losses,.historical-context,.historical-sources')).toHaveCount(0);
+  await expect(page.locator('.loss-comparison')).toContainText('Alemanha');
+  await expect(page.locator('.loss-comparison')).toContainText('Coesão');
+  await expect(page.locator('#modalBody')).not.toContainText('414');
 });

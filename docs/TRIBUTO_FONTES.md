@@ -59,6 +59,6 @@ A identificação fornecida pelo usuário e os campos de unidade do registro ins
 
 ## Fotografia de Pedro Bonorino
 
-O usuário forneceu a fotografia nesta conversa e pediu sua restauração e inclusão na homenagem. A autoria original não foi informada. O arquivo restaurado é `assets/tribute/pedro-bonorino-restaurada.png`, incorporado por `tribute-photo.ts` para consulta offline. O arquivo `assets/tribute/pedro-bonorino-fonte.json` registra procedência, tratamento e hash SHA-256.
+O usuário forneceu uma nova fotografia (`1000165051.jpg`) e pediu sua utilização. A versão atual usa exatamente esse JPEG, sem novo tratamento, recorte ou geração. Ele substitui a fotografia restaurada com auxílio de IA que apareceu na v0.1.19. A autoria original não foi informada.
 
-O tratamento foi feito com a ferramenta de edição de imagens imagegen: recorte da moldura e do carpete, correção de perspectiva e redução de reflexos, mantendo o aspecto sépia. A fotografia restaurada é uma apresentação comemorativa, não evidência para identificação de detalhes do uniforme. A legenda informa a restauração com auxílio de IA. A licença CC geral do jogo não é atribuída à fotografia original.
+O arquivo é `assets/tribute/pedro-bonorino.jpg`, incorporado por `tribute-photo.ts` para consulta offline. `assets/tribute/pedro-bonorino-fonte.json` registra procedência, tamanho e SHA-256. A legenda é “Fotografia fornecida pelo autor da homenagem.” A licença CC geral do jogo não é atribuída à fotografia original.

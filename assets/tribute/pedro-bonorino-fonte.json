@@ -1,8 +1,9 @@
 {
   "person": "Pedro Henrique de Figueiredo Bonorino",
-  "source": "Fotografia fornecida pelo usuário nesta conversa para inclusão na homenagem. Autoria original não informada.",
-  "processing": "Restauração digital com imagegen: recorte do carpete e moldura, correção de perspectiva, redução de reflexos e iluminação mais uniforme, preservando o aspecto sépia. Não é uma fonte para detalhes uniformológicos.",
-  "generatedFile": "exec-d238b76d-899c-4303-a6d3-271306d02b44.png",
-  "sha256": "b9652f71a3fa7b92922408acb17fdaa27fd5ada2342bb315aac01e81e01397d1",
-  "license": "A autorização de inclusão decorre do pedido do usuário; não se atribui à fotografia a licença CC do código e conteúdo original do jogo."
+  "source": "Nova fotografia fornecida pelo usuário nesta conversa para inclusão na homenagem. Autoria original não informada.",
+  "originalFileName": "1000165051.jpg",
+  "processing": "Nenhum. JPEG fornecido pelo usuário, preservado byte a byte. Substitui a imagem restaurada da versão 0.1.19.",
+  "sha256": "a691a523b0b8373c42ac1b5f9538b88112ccb425439e544f28a23cb393829490",
+  "bytes": 120743,
+  "license": "Inclusão solicitada pelo usuário; a licença CC do jogo não é atribuída à fotografia original."
 }

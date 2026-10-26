@@ -68,7 +68,7 @@ test('English file errors and dialog controls survive language changes',async({p
  await expect(page.locator('#modalBody')).toContainText('The file does not contain valid JSON.');await noPortuguese(page.locator('#modalBody'));
 });
 
-test('English outcomes keep daily historical losses unknown and documentary totals separate',async({page})=>{
+test('English outcomes show only actual game losses without unsupported historical comparisons',async({page})=>{
  await english(page);
  await page.evaluate(async()=>{
   const {createGame}=await import('/dist/engine.js');const game=createGame();game.units=game.units.filter(u=>u.side==='br');
@@ -76,9 +76,8 @@ test('English outcomes keep daily historical losses unknown and documentary tota
   localStorage.setItem('monte-castelo-session-v1',JSON.stringify({schema:1,game,localSide:'br',mode:'local',ai:'tactical',stance:'defensive'}));
  });
  await page.reload();await expect(page.locator('#modalBody')).toContainText('Victory by neutralization');await expect(page.locator('#modalBody')).toContainText('The summit was not occupied');await expect(page.locator('#phase')).toContainText('FEB victory');await noPortuguese(page.locator('#modalBody'));
- await expect(page.locator('.historical-losses')).toContainText('Unconfirmed');
- await expect(page.locator('.historical-context')).toContainText('414 casualties');
- await expect(page.locator('.historical-context')).toContainText('not presented as casualties from the February 21 attack');
+ await expect(page.locator('.historical-losses,.historical-context')).toHaveCount(0);
+ await expect(page.locator('.loss-comparison')).toContainText('German');
  await page.locator('#close').click();await noPortuguese(page.locator('#log'));await expect(page.locator('#log')).toContainText('withdrawal after losses');
 });
 

@@ -36,7 +36,7 @@ for(const side of ['br','de'])test(`fixed learner commands ${side} with its own 
  expect(errors).toEqual([]);
 });
 
-test('fixed model metadata and restored tribute photograph are available in Portuguese and American English',async({page})=>{
+test('fixed model metadata and tribute photograph are available in Portuguese and American English',async({page})=>{
  await page.goto('/');await page.locator('#begin').click();
  await page.locator('#memory').click();
  await expect(page.locator('.fixed-models')).toContainText('Dois aprendizes fixos, um por lado');
@@ -45,9 +45,9 @@ test('fixed model metadata and restored tribute photograph are available in Port
  await expect(page.locator('.fixed-models')).toContainText('910001–912400');
  await expect(page.locator('#exportMemory')).toBeVisible();
  await page.locator('#close').click();await page.locator('#tribute').click();
- await expect(page.locator('.tribute-portrait')).toContainText('restaurada digitalmente com auxílio de IA');
+ await expect(page.locator('.tribute-portrait')).toContainText('Fotografia fornecida pelo autor da homenagem.');
  const portrait=page.locator('.tribute-portrait img');
- await expect(portrait).toHaveAttribute('src',/^data:image\/png;base64,/);
+ await expect(portrait).toHaveAttribute('src',/^data:image\/jpeg;base64,/);
  expect(await portrait.evaluate(img=>img.complete&&img.naturalWidth>300)).toBeTruthy();
  await page.locator('#close').click();await page.selectOption('#language','en-US');
  await expect(page.locator('#ai option[value="trained-fixed"]')).toHaveText('Fixed learner · per side');
@@ -56,6 +56,6 @@ test('fixed model metadata and restored tribute photograph are available in Port
  await expect(page.locator('.fixed-models')).toContainText('Weights remain frozen');
  await expect(page.locator('.fixed-models')).not.toContainText('partidas');
  await page.locator('#close').click();await page.locator('#tribute').click();
- await expect(page.locator('.tribute-portrait')).toContainText('digitally restored with AI assistance');
- await expect(page.locator('.tribute-portrait img')).toHaveAttribute('alt','Restored portrait of Pedro Henrique de Figueiredo Bonorino');
+ await expect(page.locator('.tribute-portrait')).toContainText('Photograph supplied by the tribute author.');
+ await expect(page.locator('.tribute-portrait img')).toHaveAttribute('alt','Portrait of Pedro Henrique de Figueiredo Bonorino');
 });

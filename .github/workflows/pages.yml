@@ -25,7 +25,7 @@ jobs:
           cp jogo.html public/index.html
           cp LICENSE public/LICENSE
           mkdir -p public/ux
-          cp docs/paletas-ux.svg docs/paletas-ux.html docs/PALETAS_UX.md public/ux/
+          cp docs/paletas-ux.svg docs/paletas-ux.html docs/PALETAS_UX.md docs/terreno-inverno.svg public/ux/
           touch public/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
